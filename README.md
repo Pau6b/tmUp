@@ -31,7 +31,7 @@ ThisIsAFunction()
 }
 ```
 
-_Function parameters should start with_ **i_** _if they are_ **input parameters**, **o_** _if they are output parameters or_ **io_** _if they are both input and output parameters and the type has to_ **ALWAYS** _be specified_
+_Function parameters should start with_ **i_** _if they are_ **input parameters**, **o_** _if they are_ **output parameters** _or_ **io_** _if they are_ **both input and output parameters** _and the type has to_ **ALWAYS** _be specified_
 
 ```
 ThisIsAFunction(i_input: String, o_output: String, io_inOut: String)
@@ -49,7 +49,7 @@ class ClassName
 }
 ```
 
-_Class member variables have to start with a_ **m_** and its type has to_ **ALWAYS**_ be specified_
+_Class member variables have to start with a_ **m_** _and its type has to_ **ALWAYS** _be specified_
 ```
 class ClassName
 {
