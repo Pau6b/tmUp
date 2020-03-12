@@ -25,8 +25,7 @@ var this_is_a_variable = 4;
 
 _Functions should be written in UpperCamelCase:_
 ```
-ThisIsAFunction()
-{
+ThisIsAFunction() {
 /* code */
 }
 ```
@@ -34,8 +33,9 @@ ThisIsAFunction()
 _Function parameters should start with_ **i_** _if they are_ **input parameters**, **o_** _if they are_ **output parameters** _or_ **io_** _if they are_ **both input and output parameters** _and the type has to_ **ALWAYS** _be specified_
 
 ```
-ThisIsAFunction(i_input: String, o_output: String, io_inOut: String)
-{
+
+
+ThisIsAFunction(i_input: String, o_output: String, io_inOut: String) {
 /* code */
 }
 ```
@@ -43,16 +43,14 @@ ThisIsAFunction(i_input: String, o_output: String, io_inOut: String)
 ## Classes
 _Classes should be written in UpperCamelCase_
 ```
-class ClassName
-{
+class ClassName {
 
 }
 ```
 
 _Class member variables have to start with a_ **m_** _and its type has to_ **ALWAYS** _be specified_
 ```
-class ClassName
-{
+class ClassName {
   var m_classMember : String;
   var m_classMember2: Photo;
 }
