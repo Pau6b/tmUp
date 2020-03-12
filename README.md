@@ -1,5 +1,6 @@
 # tmUp
-_ This is a multiplatform aplication to manage your sports team.
+
+This is a multiplatform aplication to manage your sports team.
 
 
 # Front end best practices
