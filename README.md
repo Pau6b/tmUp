@@ -5,6 +5,79 @@ _This is a multiplatform aplication to manage your sports team._
 
 # Front end best practices
 
+## HTML
+
+### Style
+_Style of HTML in SCSS stylsheet like this_
+```
+div{
+  padding: 0;
+}
+```
+
+_and_ **NOT** _like this:_
+```
+<div style="padding:0"></div>
+```
+
+### Code organitzation
+_Tags should be close correctly like this:_
+```
+<div></div>
+```
+
+_And_ **NOT** _like this:_
+```
+<div/>
+```
+
+_Any Tag inside another Tag will go in a new line with tabulation (line break + tabulation). Follow the_ **TREE** _structure._
+```
+<div>
+  <p>
+    Texto del parrafo
+  </p>
+</div>
+```
+
+### Comments
+
+**Comments should be** _writte in a single line if its possible. If comments are longs can be written in differents lines_.
+```
+<!-- Linea del comentario corto -->
+
+<!-- 
+  Linea del comentario largo 1
+  Linea del comentario largo 2
+-->
+```
+
+### Syntax
+_Name of tags and attribute in lower case_
+```
+<div id="texto"></div>
+```
+
+**NOT** _like this:_
+```
+<Div ID="texto"></Div>
+```
+
+_Signifiactive name of elements and name of type at the final of the name_
+```
+<button name="registroButton">Registrarse</button>
+```
+
+**ALWAYS** _use " to the values of the differents attributes instead of '_
+```
+<button value="reset">Reset</button> 
+```
+
+**NEVER** _use_ **space** _between '=' and the value of the attributes_
+```
+<p id="parrafoLargo">Parrafo largo que tiene mucho texto</p>
+```
+
 ## SCSS
 
 ### <u> Document Organization </u>
