@@ -1,7 +1,0 @@
-{
-  "name": "tmUp",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
