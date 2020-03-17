@@ -1,0 +1,33 @@
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+
+.introHeader {
+    margin: 0 auto;
+    padding: 2em 1em;
+    text-align: center;
+}
+
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
+
+.form {
+    margin: 0 auto;
+    padding:  0em 2em 0em 1em;
+}
+
+ion-avatar {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.centeredButton {
+    font-size: 13px;
+    text-decoration-line: underline;
+    text-align: center;
+    padding: 2em 0em 0em 1em;
+    cursor: pointer;
+}

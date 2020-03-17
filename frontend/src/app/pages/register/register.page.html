@@ -1,10 +1,42 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-menu swipeGesture="false"></ion-menu>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
+  <ion-menu swipeGesture="false"></ion-menu>
 </ion-header>
 
 <ion-content>
+  <form class="form">
+    <ion-list>
+      <div class="introHeader">
+        <h3>Registro con correo</h3>
+      </div>
 
+      <!-- Para poner un avatar
+      <div class="avatar">
+        <ion-avatar (click)="openGallery()">
+          <img src="{{ myphoto }}" value="../../../assets/icon/avatar.svg">
+        </ion-avatar>
+      </div>
+    -->
+
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input type="text" value="" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">E-mail</ion-label>
+        <ion-input type="email" value=""></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" value=""></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div class="centeredButton">
+      <ion-button type="submit" expand="block" routerLink="gettingstarted" routerDirection="root">Registrarme</ion-button>
+      <p routerLink="login">Ya estoy registrado</p>
+    </div>
+
+  </form>
 </ion-content>
