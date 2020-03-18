@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'gettingstarted',
     loadChildren: () => import('./pages/gettingstarted/gettingstarted.module').then( m => m.GettingstartedPageModule)
+  },
+  {
+    path: 'add-team',
+    loadChildren: () => import('./pages/add-team/add-team.module').then( m => m.AddTeamPageModule)
   }
 ];
 

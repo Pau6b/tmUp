@@ -1,33 +1,53 @@
 /* ------------------------------
+              GENERIC
+   ------------------------------ */
+
+/* ------------------------------
               HEADER
    ------------------------------ */
 
-.introHeader {
-    margin: 0 auto;
-    padding: 2em 1em;
-    text-align: center;
+ion-card-title {
+    color: white;
+    font-size: 20px;
 }
 
 /* ------------------------------
             MAIN CONTENT
    ------------------------------ */
 
-.form {
+.ion-padding {
+    background-color: rgba(0,0,0,0.7);
+    left: 50%;
     margin: 0 auto;
-    padding:  0em 2em 0em 1em;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
 }
 
-ion-avatar {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
+ion-item {
+    --background: rgba(0,0,0,0.3);
+    --color: white;
+    padding: 0.2em;
 }
 
-.centeredButton {
-    font-size: 13px;
-    text-decoration-line: underline;
+ion-label {
+    margin: 0em;
+}
+
+ion-input {
+    --color: white;
+}
+
+.footer {
+    padding: 1em 0em 0em;
     text-align: center;
-    padding: 2em 0em 0em 1em;
+}
+
+#toLogin {
+    color: white;
     cursor: pointer;
+    font-size: 13px;
+    text-align: center;
+    text-decoration-line: underline;
 }

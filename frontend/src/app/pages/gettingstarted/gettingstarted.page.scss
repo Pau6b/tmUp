@@ -1,5 +1,5 @@
 /* ------------------------------
-              HEADER
+              GENERIC
    ------------------------------ */
 
 ion-content {
@@ -18,13 +18,26 @@ ion-toolbar {
 }
 
 .introHeader {
+    color: white;
     margin: 0 auto;
-    padding: 4em 1em 2em 1em;
+    padding: 2em 1em 2em 1em;
 }
 
 /* ------------------------------
             MAIN CONTENT
    ------------------------------ */
+
+ion-card {
+    color: white;
+    background-color: rgba(0,0,0,0.6);
+    left: 50%;
+    margin: 0 auto;
+    max-width: 20em;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
 
 .infoStarting {
     margin: 0 auto;
@@ -32,7 +45,7 @@ ion-toolbar {
 }
 
 .continueButton {
-    padding: 0em 1em 0em 1em;
+    padding: 0em 1em 1em 1em;
 }
 
 /* ------------------------------
