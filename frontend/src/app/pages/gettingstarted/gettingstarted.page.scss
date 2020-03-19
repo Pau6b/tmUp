@@ -1,0 +1,53 @@
+/* ------------------------------
+              GENERIC
+   ------------------------------ */
+
+ion-content {
+    text-align: center;
+}
+
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+ion-header {
+    background: none;
+}
+
+ion-toolbar {
+    --border-style: none;
+}
+
+.introHeader {
+    color: white;
+    margin: 0 auto;
+    padding: 2em 1em 2em 1em;
+}
+
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
+
+ion-card {
+    color: white;
+    background-color: rgba(0,0,0,0.6);
+    left: 50%;
+    margin: 0 auto;
+    max-width: 20em;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.infoStarting {
+    margin: 0 auto;
+    padding: 0em 2em 2em;
+}
+
+.continueButton {
+    padding: 0em 1em 1em 1em;
+}
+
+/* ------------------------------
+              FOOTER
+   ------------------------------ */
