@@ -3,6 +3,41 @@
 
 /** Ionic CSS Variables **/
 :root {
+  .gradientBG {
+    --background: linear-gradient(
+        135deg,
+        #6f92f3 30%,
+        var(--ion-color-primary-contrast) 100%
+    );
+  }
+
+  .smallImg {
+    width: 30%;
+    height: 30%;
+  }
+
+  .mediumImg {
+    width: 50%;
+    height: 50%;
+  }
+
+  .largeImg {
+    width: 70%;
+    height: 70%;
+  }
+
+  .smallText{
+    font-size: x-small;
+  }
+
+  .mediumText {
+    font-size: medium;
+  }
+
+  .largeText {
+    font-size: large;
+  }
+
   /** primary **/
   --ion-color-primary: #343e8d;
   --ion-color-primary-rgb: 56, 128, 255;
