@@ -2,34 +2,38 @@
   <ion-menu swipeGesture="false"></ion-menu>
 </ion-header>
 
-<ion-content>
-  <ion-card class="ion-padding">
+<ion-content class="gradientBG">
+  <ion-card>
     <ion-card-header>
-      <ion-card-title>
-        Registro con correo
-      </ion-card-title>
+      <ion-item lines="none" class="titleRegister">
+        <ion-icon slot="start" src="../../../assets/icon/mail.svg"></ion-icon>
+        <ion-card-title>Registro con correo</ion-card-title>
+      </ion-item>
     </ion-card-header>
 
-    <form>
-      <ion-item lines="none">
-        <ion-label position="floating">Nombre</ion-label>
-        <ion-input type="text" name="name" [(ngModel)]="name"></ion-input>
-      </ion-item>
+    <ion-card-content>
+      <ion-list class="form">
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input type="text" name="name" [(ngModel)]="name"></ion-input>
+        </ion-item>
 
-      <ion-item lines="none">
-        <ion-label position="floating">E-mail</ion-label>
-        <ion-input type="email" name="email" [(ngModel)]="email"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">E-mail</ion-label>
+          <ion-input type="email" name="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
 
-      <ion-item lines="none">
-        <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" name="psw" [(ngModel)]="psw"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" name="psw" [(ngModel)]="psw"></ion-input>
+        </ion-item>
 
-      <div class="footer">
-        <ion-button expand="block" routerLink="gettingstarted" routerDirection="root">Registrarme</ion-button>
-      </div>
-      <p id="toLogin" routerLink="login" routerDirection="root">Ya tengo una cuenta</p>
-    </form>
+        <div class="cardFooter">
+          <ion-button expand="block" routerLink="gettingstarted" routerDirection="root">Registrarme</ion-button>
+          <ion-label class="smallText" routerLink="login" routerDirection="root">Ya tengo una cuenta</ion-label>
+        </div>
+        
+      </ion-list>
+    </ion-card-content>
   </ion-card>
 </ion-content>
