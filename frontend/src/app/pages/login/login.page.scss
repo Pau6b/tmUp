@@ -1,0 +1,55 @@
+ion-content {
+    --background: url("../../../assets/deportes.jpg") no-repeat center/cover fixed;
+}
+
+.smallImg {
+    width: 25%;
+    height: 25%;
+    margin: auto;
+}
+
+.smallText{
+    font-size: x-small;
+    color: white;
+    text-size-adjust: wr;
+}
+
+.buttonGoogle > ion-img{
+    margin-right: 1em;
+
+}
+
+.labelRegistro {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+}
+
+ion-card.card{
+    max-width: 700px;
+    align-content: center;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+ion-list{
+    background: transparent;
+}
+
+ion-item {
+    margin-bottom: 10px;
+    --background: rgba(0,0,0, 0.4);
+    border: medium none;
+}
+
+ion-label,
+ion-item > ion-label,
+ion-item > ion-input{
+    color: white;
+}
