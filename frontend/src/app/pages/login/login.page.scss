@@ -1,17 +1,26 @@
 ion-content {
-    --background: url("../../../assets/deportes.jpg") no-repeat center/cover fixed;
+    --background: linear-gradient(
+        135deg,
+        #6f92f3 30%,
+        var(--ion-color-primary-contrast) 100%
+    );
+
+    display: flexbox;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }
 
 .smallImg {
-    width: 25%;
-    height: 25%;
+    width: 30%;
+    height: 30%;
     margin: auto;
 }
 
 .smallText{
     font-size: x-small;
     color: white;
-    text-size-adjust: wr;
 }
 
 .buttonGoogle > ion-img{
@@ -23,14 +32,27 @@ ion-content {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    flex-wrap: nowrap;
     text-align: center;
 }
 
-ion-card.card{
+
+.botonAcceder {
+    color: white;
+    background-color: rgb(52, 62, 141);
+    border-radius: 5px;
+}
+
+.buttonGoogle{
+    color: #000000;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+ion-card{
     max-width: 700px;
     align-content: center;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 5px;
+    background: rgba(0, 0, 0, 0);
     box-shadow: none;
     display: flex;
     flex-direction: column;
@@ -43,9 +65,9 @@ ion-list{
 }
 
 ion-item {
-    margin-bottom: 10px;
-    --background: rgba(0,0,0, 0.4);
+    --background: rgba(0,0,0, 0);
     border: medium none;
+    padding-bottom: 0;
 }
 
 ion-label,
