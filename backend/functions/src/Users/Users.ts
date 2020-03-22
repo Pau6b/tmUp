@@ -7,12 +7,12 @@ const app = express();
 app.post('/create', (req, res) => {
     (async () => {
         try {
-            const jsonContent = JSON.parse(req.body);
-            await db.collection('users').doc('/' + jsonContent.id + '/')
+            //const jsonContent = JSON.parse(req.body);
+            await db.collection('users').doc('/' + req.body.id + '/')
             .create({
-                email: jsonContent.email,
-                userName: jsonContent.userName,
-                password: jsonContent.password
+                email: req.body.email,
+                userName: req.body.userName,
+                password: req.body.password
             });
 
             return res.status(200).send();
