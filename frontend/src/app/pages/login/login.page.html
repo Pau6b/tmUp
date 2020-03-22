@@ -18,10 +18,14 @@
           <ion-label position="floating">Contraseña</ion-label>
           <ion-input type="password"></ion-input>
         </ion-item>
-        
-        <ion-label class="smallText">Has olvidado la contraseña? Recuperala <a href="#">aquí</a></ion-label>
-        <ion-button  expand="block" color="primary">Acceder</ion-button>
+
+        <ion-label class="smallText positionLeft hidden">Usuario o contraseña incorrectos!</ion-label>
+        <ion-label class="smallText positionLeft">Has olvidado la contraseña? Recuperala <a href="#">aquí</a></ion-label>
+
+        <ion-button  expand="block" color="primary" routerLink="/team-list">Acceder</ion-button>
+
         <p>OR</p>
+
         <ion-button class="buttonGoogle" expand="block" color="white">
           <ion-img src="..\..\..\assets\icon-google.png"></ion-img>
           Entrar con Google

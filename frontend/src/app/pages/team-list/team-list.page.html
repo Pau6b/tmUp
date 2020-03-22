@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Team List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="addTeam" onClick="goToRegister()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button *ngFor="let team of teamList" (click)="goToHomePage(team)">
+        <!--<ion-icon [name] = "'logo-' + team.icon" [ngStyle] = "{ 'color': team.color}"></ion-icon> -->
+        <ion-label>{{team.nombre}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

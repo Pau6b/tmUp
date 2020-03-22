@@ -49,6 +49,16 @@ ion-content {
     border-radius: 5px;
 }
 
+.positionLeft {
+    display: flex;
+    margin-left: 1em;
+    align-self: left;
+}
+
+.hidden{
+    display: none;
+}
+
 ion-card{
     max-width: 700px;
     align-content: center;
