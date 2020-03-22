@@ -13,6 +13,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 
+import { Camera } from '@ionic-native/camera/ngx'
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -26,6 +28,7 @@ import { environment } from '../environments/environment';
     StatusBar,
     SplashScreen,
     AngularFireAuth,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

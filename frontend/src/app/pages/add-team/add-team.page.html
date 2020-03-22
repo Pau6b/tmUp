@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar >
     <ion-buttons>
       <ion-menu swipeGesture="false"></ion-menu>
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Añadir</ion-title>
+    <ion-title>Añadir equipo</ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <ion-segment value="create" [(ngModel)]="segmentModel">
@@ -21,6 +21,13 @@
 <ion-content>
     <div *ngIf="segmentModel === 'create'">
       <form>
+        <ion-list>
+          <ion-item class="avatarIcon" lines="none">
+          <ion-avatar (click)="cameraOptions()">
+            <img src="{{ myPhoto }}" onerror=" src='../../../assets/icon/avatar.svg'">
+          </ion-avatar>
+        </ion-item>
+
         <ion-item>
           <ion-label position="floating">Nombre Equipo</ion-label>
           <ion-input type="text"></ion-input>
@@ -29,46 +36,50 @@
         <ion-item>
           <ion-label>Deporte</ion-label>
           <ion-select interface="popover" >
-          <ion-select-option *ngFor="let s of sportsLists;" value="s" name="sport" [(ngModel)]="sport">{{ s }}</ion-select-option>
+          <ion-select-option *ngFor="let s of sportsLists;" [value]="s" name="sport" [(ngModel)]="sport">{{ s }}</ion-select-option>
           </ion-select>
         </ion-item>
         
         <ion-item>
           <ion-label>Categoria</ion-label>
           <ion-select interface="popover" >
-          <ion-select-option *ngFor="let c of categoriasLists;" value="c" name="categ" [(ngModel)]="categ">{{ c }}</ion-select-option>
+          <ion-select-option *ngFor="let c of categoriasLists;" [value]="c" name="categ" [(ngModel)]="categ">{{ c }}</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-item>
           <ion-label>Rol</ion-label>
           <ion-select interface="popover" >
-          <ion-select-option *ngFor="let r of rolesLists;" value="r" name="role" [(ngModel)]="role">{{ r }}</ion-select-option>
+            <ion-select-option *ngFor="let cr of createRoles;" [value]="cr" name="createrole" [(ngModel)]="role">{{ cr }}</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-button class="endButton" type="submit" expand="block">
           Crear
         </ion-button>
+        </ion-list>
       </form>
     </div>
+
     <div *ngIf="segmentModel === 'join'">
       <form>
-        <ion-item>
+        <ion-list>
+          <ion-item>
           <ion-label position="floating">Introduce el código</ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-input [(ngModel)]="teamCode" type="text"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label>Rol</ion-label>
           <ion-select interface="popover" >
-          <ion-select-option *ngFor="let r of rolesLists;" value="r" name="role" [(ngModel)]="role">{{ r }}</ion-select-option>
+            <ion-select-option *ngFor="let jr of joinRoles;" [value]="jr" name="joinrole" [(ngModel)]="role">{{ jr}}</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-button class="endButton" type="submit" expand="block">
           Unirse
         </ion-button>
+        </ion-list>
       </form>
     </div>
 </ion-content>

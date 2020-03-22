@@ -25,7 +25,7 @@ ion-card {
     margin: 0 auto;
     max-width: 700px;
     padding: 0;
-    padding-top: 15%;
+    padding-top: 8%;
     text-align: center;
 }
 
@@ -48,12 +48,27 @@ ion-card-title {
 
 ion-list {
     background: transparent;
+    text-align: center;
 }
 
 ion-item {
     --background: transparent;
     --color: white;
     padding: 0;
+}
+
+.avatarIcon {
+    display: flex;
+    justify-self: center;
+}
+
+ion-avatar {
+    cursor: pointer;
+    height: 100% !important;
+    margin: 0 auto;
+    max-width: 4em !important;
+    max-height: 4em !important;
+    width: 100% !important;
 }
 
 ion-input {
