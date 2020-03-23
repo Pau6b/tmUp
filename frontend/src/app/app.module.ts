@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Camera } from '@ionic-native/camera/ngx'
 
@@ -29,6 +30,7 @@ import { Camera } from '@ionic-native/camera/ngx'
     SplashScreen,
     AngularFireAuth,
     Camera,
+    AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
