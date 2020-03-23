@@ -14,12 +14,16 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+import { apiRestProvider } from '../providers/apiRest/apiRest';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
@@ -28,7 +32,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     SplashScreen,
     AngularFireAuth,
     AngularFirestore,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    apiRestProvider
   ],
   bootstrap: [AppComponent]
 })
