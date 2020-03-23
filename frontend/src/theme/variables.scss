@@ -38,6 +38,11 @@
     font-size: large;
   }
 
+  .errorMessage {
+    font-size: x-small;
+    color: var(--ion-color-danger)
+  }
+
   /** primary **/
   --ion-color-primary: #343e8d;
   --ion-color-primary-rgb: 56, 128, 255;
