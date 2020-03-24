@@ -8,11 +8,11 @@ app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            await db.collection('users').doc('/' + jsonContent.userName + '/')
+            await db.collection('teams').doc('/' + jsonContent.teamName + '/')
             .create({
-                email: jsonContent.email,
-                userName: jsonContent.userName,
-                password: jsonContent.password
+                teamName: jsonContent.teamName,
+                category: jsonContent.category,
+                sport: jsonContent.sport
             });
             return res.status(200).send();
         }
@@ -26,10 +26,10 @@ app.post('/create', (req, res) => {
 
 
 //Read => Get
-app.get('/:userName', (req, res) => {
+app.get('/:teamName', (req, res) => {
     (async () => {
         try {
-            const document = db.collection("users").doc(req.params.userName);
+            const document = db.collection("teams").doc(req.params.teamName);
             const user = await document.get();
             const response = user.data();
 
@@ -47,7 +47,7 @@ app.get('/:userName', (req, res) => {
 app.get('/', (req, res) => {
     (async () => {
         try {
-            const query = db.collection('users');
+            const query = db.collection('teams');
             const response: any = [];
 
             await query.get().then((querySnapshot: any) => {
@@ -56,9 +56,9 @@ app.get('/', (req, res) => {
                 for (const doc of docs) {
                     const selectedItem  = {
                         id: doc.data().id,
-                        email: doc.data().email,
-                        userName: doc.data().userName,
-                        memberships: doc.data().memberships
+                        teamName: doc.data().teamName,
+                        category: doc.data().category,
+                        sport: doc.data().sport
                     };
                     response.push(selectedItem);
                 }
@@ -77,17 +77,17 @@ app.get('/', (req, res) => {
 
 
 //Update => Put
-app.put('/:userName', (req, res) => {
+app.put('/:teamName', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
 
-            const document = db.collection('users').doc(req.params.userName);
+            const document = db.collection('teams').doc(req.params.teamName);
 
             await document.update({
-                email: jsonContent.email,
-                userName: jsonContent.userName,
-                password: jsonContent.password
+                teamName: jsonContent.teamName,
+                category: jsonContent.category,
+                sport: jsonContent.sport
             });
             
 
@@ -102,10 +102,10 @@ app.put('/:userName', (req, res) => {
 });
 
 //Delete => Delete
-app.delete('/:userName', (req, res) => {
+app.delete('/:teamName', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('users').doc(req.params.userName);
+            const document = db.collection('teams').doc(req.params.teamName);
 
             await document.delete();
             

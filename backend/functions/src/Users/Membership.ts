@@ -8,11 +8,16 @@ app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            await db.collection('users').doc('/' + jsonContent.userName + '/')
-            .create({
-                email: jsonContent.email,
+
+            const userCollection = await db.collection('users').doc(jsonContent.userName);
+            const teamCollection = await db.collection('teams').doc(jsonContent.teamName);
+            userCollection.collection('memberships').doc(jsonContent.teamName).create({
+                teamName: jsonContent.teamName,
+                role: jsonContent.role
+            });
+            teamCollection.collection('members').doc(jsonContent.userName).create({
                 userName: jsonContent.userName,
-                password: jsonContent.password
+                role: jsonContent.role
             });
             return res.status(200).send();
         }
@@ -24,12 +29,12 @@ app.post('/create', (req, res) => {
     })().then().catch();
 });
 
-
+/*
 //Read => Get
-app.get('/:userName', (req, res) => {
+app.get('/:id', (req, res) => {
     (async () => {
         try {
-            const document = db.collection("users").doc(req.params.userName);
+            const document = db.collection("users").doc(req.params.id);
             const user = await document.get();
             const response = user.data();
 
@@ -57,8 +62,7 @@ app.get('/', (req, res) => {
                     const selectedItem  = {
                         id: doc.data().id,
                         email: doc.data().email,
-                        userName: doc.data().userName,
-                        memberships: doc.data().memberships
+                        userName: doc.data().userName
                     };
                     response.push(selectedItem);
                 }
@@ -77,12 +81,12 @@ app.get('/', (req, res) => {
 
 
 //Update => Put
-app.put('/:userName', (req, res) => {
+app.put('/:id', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
 
-            const document = db.collection('users').doc(req.params.userName);
+            const document = db.collection('users').doc(req.params.id);
 
             await document.update({
                 email: jsonContent.email,
@@ -102,10 +106,10 @@ app.put('/:userName', (req, res) => {
 });
 
 //Delete => Delete
-app.delete('/:userName', (req, res) => {
+app.delete('/:id', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('users').doc(req.params.userName);
+            const document = db.collection('users').doc(req.params.id);
 
             await document.delete();
             
@@ -118,5 +122,5 @@ app.delete('/:userName', (req, res) => {
 
     })().then().catch();
 });
-
+*/
 module.exports = app;
