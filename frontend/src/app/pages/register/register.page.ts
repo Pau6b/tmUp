@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
 
 import { FormBuilder, Validators} from '@angular/forms'
+
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'app-register',
@@ -14,7 +16,7 @@ export class RegisterPage implements OnInit {
  
   //declarar formulario
   registerForm = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
+    userName: ['', [Validators.required, Validators.minLength(3)]],
     email: [
       '',
       [
@@ -22,13 +24,14 @@ export class RegisterPage implements OnInit {
         Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$')
       ]
     ],
-    psw: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(6)]]
   });
   
+  emailUsed: boolean = false;
   myPhoto: any;
 
   public errorMessages = {
-    name: [
+    userName: [
       { type: 'required', message: 'Nombre es necesario'},
       { type: 'minlength', message: 'Nombre debe tener más de 3 letras'}
     ],
@@ -36,37 +39,53 @@ export class RegisterPage implements OnInit {
       { type: 'required', message: 'Email es necesario' },
       { type: 'pattern', message: 'Email no válido' }
     ],
-    psw: [
+    password: [
       { type: 'required', message: 'Contraseña es necesaria' },
       { type: 'minlength', message: 'Contraseña debe tener más de 6 carácteres' }
     ]
   }
 
   constructor(
+    public navCtrl: NavController,
+    public menuCtrl: MenuController,
     public camera: Camera,
     public actionSheetCtrl: ActionSheetController,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public authService: AuthService
     ) { }
 
   ngOnInit() {
   }
 
+  //disable side menu for this page
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+  }
+
   //getters for form
-  get name() {
-    return this.registerForm.get("name");
+  get userName() {
+    return this.registerForm.get("userName");
   }
   get email() {
     return this.registerForm.get("email");
   }
-  get psw() {
-    return this.registerForm.get("psw");
+  get password() {
+    return this.registerForm.get("password");
   }
 
   //submit register form
   registerUser() {
-    console.log(this.registerForm.value);
+    this.authService.signUpUser(this.registerForm.get('email').value, this.registerForm.get('password').value)
+    .then(() => {
+      this.emailUsed = false;
+      this.navCtrl.navigateRoot('gettingstarted');
+    },
+    (error) => {
+      this.emailUsed = true;
+      console.log(error.message);
+    }
+    )
   }
-
 
   //Camera options
   async cameraOptions() {

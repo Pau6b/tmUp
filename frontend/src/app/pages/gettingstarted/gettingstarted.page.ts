@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-gettingstarted',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GettingstartedPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public menuCtrl: MenuController
+  ) { }
 
   ngOnInit() {
+  }
+
+  //disable side menu for this page
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
   }
 
 }

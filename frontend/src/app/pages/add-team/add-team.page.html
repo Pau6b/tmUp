@@ -1,7 +1,6 @@
 <ion-header>
   <ion-toolbar >
     <ion-buttons>
-      <ion-menu swipeGesture="false"></ion-menu>
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Añadir equipo</ion-title>
@@ -61,7 +60,7 @@
             <small class="errorMessage">{{ err.message }}</small>
           </ng-container>
         </div>
-
+        <!--
         <ion-item>
           <ion-label>Rol</ion-label>
           <ion-select interface="popover" formControlName="createRole">
@@ -73,6 +72,7 @@
             <small class="errorMessage">{{ err.message }}</small>
           </ng-container>
         </div>
+        -->
 
         <ion-button [disabled]="!createTeamForm.valid" class="endButton" type="submit" expand="block" routerLink="team-list" routerDirection="root">
           Crear
@@ -85,23 +85,23 @@
       <form [formGroup]="joinTeamForm" (ngSubmit)="joinTeam()">
         <ion-list>
           <ion-item>
-            <ion-label position="floating">Introduce el código</ion-label>
-            <ion-input type="text" formControlName="teamCode"></ion-input>
+            <ion-label position="floating">Introduce el ID de equipo</ion-label>
+            <ion-input type="text" formControlName="teamID"></ion-input>
           </ion-item>
-          <div *ngFor="let err of errorMessages.teamCode">
-            <ng-container *ngIf="teamCode.hasError(err.type) && teamCode.touched">
+          <div *ngFor="let err of errorMessages.teamID">
+            <ng-container *ngIf="teamID.hasError(err.type) && teamID.touched">
               <small class="errorMessage">{{ err.message }}</small>
             </ng-container>
           </div>
 
           <ion-item>
             <ion-label>Rol</ion-label>
-            <ion-select interface="popover" formControlName="joinRole">
-              <ion-select-option *ngFor="let jr of joinRoles;" [value]="jr" >{{ jr }}</ion-select-option>
+            <ion-select interface="popover" formControlName="role">
+              <ion-select-option *ngFor="let jr of roles;" [value]="jr" >{{ jr }}</ion-select-option>
             </ion-select>
           </ion-item>
-          <div *ngFor="let err of errorMessages.joinRole">
-            <ng-container *ngIf="joinRole.hasError(err.type) && joinRole.touched">
+          <div *ngFor="let err of errorMessages.role">
+            <ng-container *ngIf="role.hasError(err.type) && role.touched">
               <small class="errorMessage">{{ err.message }}</small>
             </ng-container>
           </div>

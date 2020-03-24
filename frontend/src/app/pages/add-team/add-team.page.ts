@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, MenuController } from '@ionic/angular';
 
 import { FormBuilder, Validators} from '@angular/forms'
 
@@ -16,8 +16,7 @@ export class AddTeamPage implements OnInit {
 
   sportsLists = ['Futbol', 'Basquet']
   categoriasLists = ['Categoria1']
-  createRoles = ['Entrenador']
-  joinRoles = ['Fisioterapeuta', 'Jugador']
+  roles = ['Fisioterapeuta', 'Jugador']
 
   segmentModel = "create";
 
@@ -25,14 +24,13 @@ export class AddTeamPage implements OnInit {
   createTeamForm = this.formBuilder.group({
     teamName: ['', [Validators.required]],
     sport: ['', [Validators.required]],
-    categ: ['', [Validators.required]],
-    createRole: ['', [Validators.required]]
+    categ: ['', [Validators.required]]
   });
 
   //join team form
   joinTeamForm = this.formBuilder.group({
-    teamCode: ['', [Validators.required]],
-    joinRole: ['', [Validators.required]]
+    teamID: ['', [Validators.required]],
+    role: ['', [Validators.required]]
   });
 
 
@@ -47,24 +45,27 @@ export class AddTeamPage implements OnInit {
     categ: [
       { type: 'required', message: 'Categoria es necesaria' }
     ],
-    createRole: [
+    role: [
       { type: 'required', message: 'Rol es necesario'}
     ],
-    joinRole: [
-      { type: 'required', message: 'Rol es necesario'}
-    ],
-    teamCode: [
-      { type: 'required', message: 'Código de equipo es necesario'}
+    teamID: [
+      { type: 'required', message: 'Código de equipo es  necesario'}
     ]
   }
 
   constructor(
+    public menuCtrl: MenuController,
     private camera: Camera, 
     public actionSheetCtrl: ActionSheetController,
     public formBuilder: FormBuilder
     ) { }
 
   ngOnInit() {
+  }
+
+  //disable side menu for this page
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
   }
 
   //getters
@@ -77,14 +78,11 @@ export class AddTeamPage implements OnInit {
   get categ() {
     return this.createTeamForm.get("categ")
   }
-  get createRole() {
-    return this.createTeamForm.get("createRole")
+  get role() {
+    return this.createTeamForm.get("role")
   }
-  get joinRole() {
-    return this.joinTeamForm.get("joinRole")
-  }
-  get teamCode() {
-    return this.joinTeamForm.get("teamCode")
+  get teamID() {
+    return this.joinTeamForm.get("teamID")
   }
 
   //calling api rest to create team

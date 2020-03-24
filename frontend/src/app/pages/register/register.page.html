@@ -1,5 +1,4 @@
 <ion-header>
-  <ion-menu swipeGesture="false"></ion-menu>
 </ion-header>
 
 <ion-content class="gradientBG">
@@ -20,10 +19,10 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">Nombre</ion-label>
-          <ion-input type="text" formControlName="name"></ion-input>
+          <ion-input type="text" formControlName="userName"></ion-input>
         </ion-item>
-        <div *ngFor="let err of errorMessages.name">
-          <ng-container *ngIf="name.hasError(err.type) && name.touched">
+        <div *ngFor="let err of errorMessages.userName">
+          <ng-container *ngIf="userName.hasError(err.type) && userName.touched">
             <small class="errorMessage">{{ err.message }}</small>
           </ng-container>
         </div>
@@ -32,24 +31,29 @@
           <ion-label position="floating">E-mail</ion-label>
           <ion-input type="email" formControlName="email"></ion-input>
         </ion-item>
-        <div class="errors" *ngFor="let err of errorMessages.email">
+        <div *ngFor="let err of errorMessages.email">
           <ng-container *ngIf="email.hasError(err.type) && email.touched">
             <small class="errorMessage">{{ err.message }}</small>
+          </ng-container>
+        </div>
+        <div *ngIf="emailUsed">
+          <ng-container>
+            <small class="errorMessage">Email ya está asociado a otra cuenta</small>
           </ng-container>
         </div>
 
         <ion-item>
           <ion-label position="floating">Password</ion-label>
-          <ion-input type="password" formControlName="psw"></ion-input>
+          <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
-        <div *ngFor="let err of errorMessages.psw">
-          <ng-container *ngIf="psw.hasError(err.type) && psw.touched">
+        <div *ngFor="let err of errorMessages.password">
+          <ng-container *ngIf="password.hasError(err.type) && password.touched">
             <small class="errorMessage">{{ err.message }}</small>
           </ng-container>
         </div>
 
         <div class="cardFooter">
-          <ion-button [disabled]="!registerForm.valid" type="submit" expand="block" routerLink="gettingstarted" routerDirection="root">Registrarme</ion-button>
+          <ion-button [disabled]="!registerForm.valid" type="submit" expand="block">Registrarme</ion-button>
           <ion-label class="smallText" routerLink="login" routerDirection="root">Ya tengo una cuenta</ion-label>
         </div>
         
