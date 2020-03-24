@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Team List</ion-title>
     <ion-buttons slot="end">
-      <ion-button id="addTeam" onClick="goToRegister()">
+      <ion-button routerLink="../add-team">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,9 +12,10 @@
 <ion-content>
   <ion-list>
     <ion-item button *ngFor="let team of teamList" (click)="goToHomePage(team)">
-        <!--<ion-icon [name] = "'logo-' + team.icon" [ngStyle] = "{ 'color': team.color}"></ion-icon> -->
+        <ion-avatar slot="start">
+          <ion-img src="../../../assets/sports/{{ team.sport }}.png"></ion-img>
+        </ion-avatar>
         <ion-label>{{team.teamName}}</ion-label>
-        <ion-img src="../../../assets/sports/{{ team.sport }}.png"></ion-img>
     </ion-item>
   </ion-list>
 </ion-content>
