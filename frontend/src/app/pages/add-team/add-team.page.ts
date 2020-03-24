@@ -3,33 +3,101 @@ import { Component, OnInit } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
 import { ActionSheetController } from '@ionic/angular';
 
+import { FormBuilder, Validators} from '@angular/forms'
+
 @Component({
   selector: 'app-add-team',
   templateUrl: './add-team.page.html',
   styleUrls: ['./add-team.page.scss'],
 })
 export class AddTeamPage implements OnInit {
-
-  teamName: String;
-  sport: String;
-  categ: String;
-  role: String;
+  
   myPhoto: any;
 
-  teamCode: String;
-
   sportsLists = ['Futbol', 'Basquet']
-  categoriasLists = []
+  categoriasLists = ['Categoria1']
   createRoles = ['Entrenador']
   joinRoles = ['Fisioterapeuta', 'Jugador']
 
   segmentModel = "create";
 
-  constructor(private camera: Camera, public actionSheetCtrl: ActionSheetController) { }
+  //create team form
+  createTeamForm = this.formBuilder.group({
+    teamName: ['', [Validators.required]],
+    sport: ['', [Validators.required]],
+    categ: ['', [Validators.required]],
+    createRole: ['', [Validators.required]]
+  });
+
+  //join team form
+  joinTeamForm = this.formBuilder.group({
+    teamCode: ['', [Validators.required]],
+    joinRole: ['', [Validators.required]]
+  });
+
+
+  public errorMessages = {
+    teamName: [
+      { type: 'required', message: 'Nombre equipo es necesario'},
+      { type: 'minlength', message: 'Nombre debe tener más de 3 letras'}
+    ],
+    sport: [
+      { type:'required', message: 'Deporte es necesario' }
+    ],
+    categ: [
+      { type: 'required', message: 'Categoria es necesaria' }
+    ],
+    createRole: [
+      { type: 'required', message: 'Rol es necesario'}
+    ],
+    joinRole: [
+      { type: 'required', message: 'Rol es necesario'}
+    ],
+    teamCode: [
+      { type: 'required', message: 'Código de equipo es necesario'}
+    ]
+  }
+
+  constructor(
+    private camera: Camera, 
+    public actionSheetCtrl: ActionSheetController,
+    public formBuilder: FormBuilder
+    ) { }
 
   ngOnInit() {
   }
 
+  //getters
+  get teamName() {
+    return this.createTeamForm.get("teamName")
+  }
+  get sport() {
+    return this.createTeamForm.get("sport")
+  }
+  get categ() {
+    return this.createTeamForm.get("categ")
+  }
+  get createRole() {
+    return this.createTeamForm.get("createRole")
+  }
+  get joinRole() {
+    return this.joinTeamForm.get("joinRole")
+  }
+  get teamCode() {
+    return this.joinTeamForm.get("teamCode")
+  }
+
+  //calling api rest to create team
+  createTeam() {
+    console.log(this.createTeamForm.value);
+  }
+
+  //calling api rest to join team
+  joinTeam() {
+    console.log(this.joinTeamForm.value);
+  }
+
+  //camera options
   async cameraOptions() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Choose image from',

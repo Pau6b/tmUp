@@ -2,12 +2,30 @@
               HEADER
    ------------------------------ */
 
+ion-header, ion-title, ion-toolbar{
+    --background: var(--ion-color-primary);
+    text-align: center;
+    color: white;
+}
+
+ion-segment {
+	--color: white;
+}
+
+ion-segment-button {
+	--color-checked: black;
+}
+
 /* ------------------------------
         MAIN CONTENT
 	------------------------------ */
 
 form {
 	padding: 1em 1em 1em 0.5em;
+}
+
+ion-list {
+	text-align: center;
 }
 
 .avatarIcon {

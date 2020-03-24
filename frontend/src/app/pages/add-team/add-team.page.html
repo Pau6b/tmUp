@@ -20,7 +20,7 @@
 
 <ion-content>
     <div *ngIf="segmentModel === 'create'">
-      <form>
+      <form [formGroup]="createTeamForm" (ngSubmit)="createTeam()">
         <ion-list>
           <ion-item class="avatarIcon" lines="none">
           <ion-avatar (click)="cameraOptions()">
@@ -30,31 +30,51 @@
 
         <ion-item>
           <ion-label position="floating">Nombre Equipo</ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-input type="text" formControlName="teamName"></ion-input>
         </ion-item>
+        <div *ngFor="let err of errorMessages.teamName">
+          <ng-container *ngIf="teamName.hasError(err.type) && teamName.touched">
+            <small class="errorMessage">{{ err.message }}</small>
+          </ng-container>
+        </div>
         
         <ion-item>
           <ion-label>Deporte</ion-label>
-          <ion-select interface="popover" >
-          <ion-select-option *ngFor="let s of sportsLists;" [value]="s" name="sport" [(ngModel)]="sport">{{ s }}</ion-select-option>
+          <ion-select interface="popover" formControlName="sport">
+          <ion-select-option *ngFor="let s of sportsLists;" [value]="s">{{ s }}</ion-select-option>
           </ion-select>
         </ion-item>
+        <div *ngFor="let err of errorMessages.sport">
+          <ng-container *ngIf="sport.hasError(err.type) && sport.touched">
+            <small class="errorMessage">{{ err.message }}</small>
+          </ng-container>
+        </div>
         
         <ion-item>
           <ion-label>Categoria</ion-label>
-          <ion-select interface="popover" >
-          <ion-select-option *ngFor="let c of categoriasLists;" [value]="c" name="categ" [(ngModel)]="categ">{{ c }}</ion-select-option>
+          <ion-select interface="popover" formControlName="categ">
+          <ion-select-option *ngFor="let c of categoriasLists;" [value]="c">{{ c }}</ion-select-option>
           </ion-select>
         </ion-item>
+        <div *ngFor="let err of errorMessages.categ">
+          <ng-container *ngIf="categ.hasError(err.type) && categ.touched">
+            <small class="errorMessage">{{ err.message }}</small>
+          </ng-container>
+        </div>
 
         <ion-item>
           <ion-label>Rol</ion-label>
-          <ion-select interface="popover" >
-            <ion-select-option *ngFor="let cr of createRoles;" [value]="cr" name="createrole" [(ngModel)]="role">{{ cr }}</ion-select-option>
+          <ion-select interface="popover" formControlName="createRole">
+            <ion-select-option *ngFor="let cr of createRoles;" [value]="cr">{{ cr }}</ion-select-option>
           </ion-select>
         </ion-item>
+        <div *ngFor="let err of errorMessages.createRole">
+          <ng-container *ngIf="createRole.hasError(err.type) && createRole.touched">
+            <small class="errorMessage">{{ err.message }}</small>
+          </ng-container>
+        </div>
 
-        <ion-button class="endButton" type="submit" expand="block">
+        <ion-button [disabled]="!createTeamForm.valid" class="endButton" type="submit" expand="block" routerLink="team-list" routerDirection="root">
           Crear
         </ion-button>
         </ion-list>
@@ -62,23 +82,33 @@
     </div>
 
     <div *ngIf="segmentModel === 'join'">
-      <form>
+      <form [formGroup]="joinTeamForm" (ngSubmit)="joinTeam()">
         <ion-list>
           <ion-item>
-          <ion-label position="floating">Introduce el código</ion-label>
-          <ion-input [(ngModel)]="teamCode" type="text"></ion-input>
-        </ion-item>
+            <ion-label position="floating">Introduce el código</ion-label>
+            <ion-input type="text" formControlName="teamCode"></ion-input>
+          </ion-item>
+          <div *ngFor="let err of errorMessages.teamCode">
+            <ng-container *ngIf="teamCode.hasError(err.type) && teamCode.touched">
+              <small class="errorMessage">{{ err.message }}</small>
+            </ng-container>
+          </div>
 
-        <ion-item>
-          <ion-label>Rol</ion-label>
-          <ion-select interface="popover" >
-            <ion-select-option *ngFor="let jr of joinRoles;" [value]="jr" name="joinrole" [(ngModel)]="role">{{ jr}}</ion-select-option>
-          </ion-select>
-        </ion-item>
+          <ion-item>
+            <ion-label>Rol</ion-label>
+            <ion-select interface="popover" formControlName="joinRole">
+              <ion-select-option *ngFor="let jr of joinRoles;" [value]="jr" >{{ jr }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div *ngFor="let err of errorMessages.joinRole">
+            <ng-container *ngIf="joinRole.hasError(err.type) && joinRole.touched">
+              <small class="errorMessage">{{ err.message }}</small>
+            </ng-container>
+          </div>
 
-        <ion-button class="endButton" type="submit" expand="block">
-          Unirse
-        </ion-button>
+          <ion-button [disabled]="!joinTeamForm.valid" class="endButton" type="submit" expand="block" routerLink="team-list" routerDirection="root">
+            Unirse
+          </ion-button>
         </ion-list>
       </form>
     </div>
