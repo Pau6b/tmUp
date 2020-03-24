@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore'
-
-interface Team{
-  deporte: string;
-  nombre: string;
-}
-
+import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-team-list',
@@ -14,16 +8,18 @@ interface Team{
 })
 export class TeamListPage implements OnInit {
 
-  teamCollection: AngularFirestoreCollection<Team>;
-  teamList = [];
+  teamList
 
-  constructor(private angFir: AngularFirestore ) { }
+  constructor(public proveedor:apiRestProvider) { }
 
 
-  ngOnInit() {
-    this.teamCollection = this.angFir.collection('equipos');
-    console.log(this.teamCollection);
-    this.teamList = Array.of(this.teamCollection);
+  ngOnInit() { 
+    
+    this.proveedor.getTeams()
+    .subscribe(
+      (data) => { this.teamList = data;},
+      (error) => {console.log(error);}
+    );
 
   }
 

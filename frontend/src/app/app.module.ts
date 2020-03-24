@@ -15,6 +15,8 @@ import { environment } from '../environments/environment';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Camera } from '@ionic-native/camera/ngx'
+import { apiRestProvider } from '../providers/apiRest/apiRest';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +24,7 @@ import { Camera } from '@ionic-native/camera/ngx'
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
@@ -31,7 +34,8 @@ import { Camera } from '@ionic-native/camera/ngx'
     AngularFireAuth,
     Camera,
     AngularFirestore,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    apiRestProvider
   ],
   bootstrap: [AppComponent]
 })
