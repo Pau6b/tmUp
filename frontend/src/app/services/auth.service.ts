@@ -7,14 +7,30 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class AuthService {
 
-  token: string;
+  currentUser;
 
   constructor(
     public afAuth: AngularFireAuth
   ) { }
 
-  public signUpUser(email: string, password: string): Promise<any> {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+  signUpUser(email: string, password: string): Promise<any> {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+    .then((user) => {
+      //assign user created to the currentUser
+    });
   }
+
+  /* logout function
+  logOut() {
+    this.afAuth.auth.signOut()
+    .then(function() {
+      console.log('Signed out!');
+    })
+    .catch(function(error) {
+      //handle error
+      console.log(error.message);
+    });
+  }
+  */
 
 }
