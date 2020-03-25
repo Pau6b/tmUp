@@ -51,30 +51,17 @@
         
         <ion-item>
           <ion-label>Categoria</ion-label>
-          <ion-select interface="popover" formControlName="categ">
+          <ion-select interface="popover" formControlName="category">
           <ion-select-option *ngFor="let c of categoriasLists;" [value]="c">{{ c }}</ion-select-option>
           </ion-select>
         </ion-item>
-        <div *ngFor="let err of errorMessages.categ">
-          <ng-container *ngIf="categ.hasError(err.type) && categ.touched">
+        <div *ngFor="let err of errorMessages.category">
+          <ng-container *ngIf="category.hasError(err.type) && category.touched">
             <small class="errorMessage">{{ err.message }}</small>
           </ng-container>
         </div>
-        <!--
-        <ion-item>
-          <ion-label>Rol</ion-label>
-          <ion-select interface="popover" formControlName="createRole">
-            <ion-select-option *ngFor="let cr of createRoles;" [value]="cr">{{ cr }}</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <div *ngFor="let err of errorMessages.createRole">
-          <ng-container *ngIf="createRole.hasError(err.type) && createRole.touched">
-            <small class="errorMessage">{{ err.message }}</small>
-          </ng-container>
-        </div>
-        -->
 
-        <ion-button [disabled]="!createTeamForm.valid" class="endButton" type="submit" expand="block" routerLink="team-list" routerDirection="root">
+        <ion-button [disabled]="!createTeamForm.valid" class="endButton" type="submit" expand="block">
           Crear
         </ion-button>
         </ion-list>

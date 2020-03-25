@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
-import { ActionSheetController, MenuController } from '@ionic/angular';
+import { ActionSheetController, MenuController, NavController } from '@ionic/angular';
 
 import { FormBuilder, Validators} from '@angular/forms'
+
+import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 
 @Component({
   selector: 'app-add-team',
@@ -23,8 +25,8 @@ export class AddTeamPage implements OnInit {
   //create team form
   createTeamForm = this.formBuilder.group({
     teamName: ['', [Validators.required]],
-    sport: ['', [Validators.required]],
-    categ: ['', [Validators.required]]
+    category: ['', [Validators.required]],
+    sport: ['', [Validators.required]]
   });
 
   //join team form
@@ -42,7 +44,7 @@ export class AddTeamPage implements OnInit {
     sport: [
       { type:'required', message: 'Deporte es necesario' }
     ],
-    categ: [
+    category: [
       { type: 'required', message: 'Categoria es necesaria' }
     ],
     role: [
@@ -54,10 +56,12 @@ export class AddTeamPage implements OnInit {
   }
 
   constructor(
+    public navCtrl: NavController,
     public menuCtrl: MenuController,
     private camera: Camera, 
     public actionSheetCtrl: ActionSheetController,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public api: apiRestProvider
     ) { }
 
   ngOnInit() {
@@ -75,8 +79,8 @@ export class AddTeamPage implements OnInit {
   get sport() {
     return this.createTeamForm.get("sport")
   }
-  get categ() {
-    return this.createTeamForm.get("categ")
+  get category() {
+    return this.createTeamForm.get("category")
   }
   get role() {
     return this.createTeamForm.get("role")
@@ -88,6 +92,16 @@ export class AddTeamPage implements OnInit {
   //calling api rest to create team
   createTeam() {
     console.log(this.createTeamForm.value);
+    this.api.createTeam(this.createTeamForm.value)
+    .then( () => {
+      //team created
+      console.log('team created succesfully.');
+      this.navCtrl.navigateRoot("team-list");
+    },
+    (error) => {
+      //handle error
+      console.log(error.message);
+    });
   }
 
   //calling api rest to join team

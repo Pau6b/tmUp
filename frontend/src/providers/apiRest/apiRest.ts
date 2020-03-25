@@ -12,4 +12,14 @@ export class apiRestProvider {
     getTeams(){
         return this.http.get(this.url+'teams');
     }
+
+    createTeam(teamData) {
+        console.log(JSON.stringify(teamData));
+        return new Promise(resolve => {
+            this.http.post(this.url+'teams/create', JSON.stringify(teamData))
+            .subscribe(data => {
+                resolve(data);
+            })
+        })
+    }
 }
