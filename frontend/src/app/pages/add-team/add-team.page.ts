@@ -16,8 +16,7 @@ export class AddTeamPage implements OnInit {
   
   myPhoto: any;
 
-  sportsLists = ['Futbol', 'Basquet']
-  categoriasLists = ['Categoria1']
+  sportsLists = ['Football', 'Basketball', 'Handball','Baseball']
   roles = ['Fisioterapeuta', 'Jugador']
 
   segmentModel = "create";
@@ -25,7 +24,6 @@ export class AddTeamPage implements OnInit {
   //create team form
   createTeamForm = this.formBuilder.group({
     teamName: ['', [Validators.required]],
-    category: ['', [Validators.required]],
     sport: ['', [Validators.required]]
   });
 
@@ -43,9 +41,6 @@ export class AddTeamPage implements OnInit {
     ],
     sport: [
       { type:'required', message: 'Deporte es necesario' }
-    ],
-    category: [
-      { type: 'required', message: 'Categoria es necesaria' }
     ],
     role: [
       { type: 'required', message: 'Rol es necesario'}
@@ -78,9 +73,6 @@ export class AddTeamPage implements OnInit {
   }
   get sport() {
     return this.createTeamForm.get("sport")
-  }
-  get category() {
-    return this.createTeamForm.get("category")
   }
   get role() {
     return this.createTeamForm.get("role")
