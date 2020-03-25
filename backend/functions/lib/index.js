@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
-//import * as expressSession from 'express-session';
+const expressSession = require("express-session");
 const bodyParser = require("body-parser");
 const serviceAccount = require("../permissions.json");
 /*end-of-imports*/
@@ -16,11 +16,11 @@ admin.initializeApp({
     databaseURL: "https://tmup-908e4.firebaseio.com"
 });
 app.use(cors({ origin: true }));
-/*app.use( expressSession({
-  secret: 'ssshhhhh',
-  saveUninitialized: true,
-  resave: true
-}));*/
+app.use(expressSession({
+    secret: 'ssshhhhh',
+    saveUninitialized: true,
+    resave: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 /*end-of-configuration */
@@ -48,11 +48,21 @@ const membershipHandler = require('./Users/Membership');
 app.use('/membership', membershipHandler);
 /* --- end of routes --- */
 exports.app = functions.https.onRequest(app);
-/*
+const db = admin.firestore();
 exports.onUserCreate = functions.auth.user().onCreate((user) => {
-
+    (async () => {
+        try {
+            await db.collection('users').doc('/' + user + '/')
+                .create({
+                email: user,
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    })().then().catch();
 });
-
+/*
 exports.onUserDelete = functions.auth.user().onDelete((user) => {
 
 });

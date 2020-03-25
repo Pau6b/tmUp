@@ -12,7 +12,6 @@ app.post('/create', (req, res) => {
             .create({
                 email: jsonContent.email,
                 userName: jsonContent.userName,
-                password: jsonContent.password
             });
             return res.status(200).send();
         }
@@ -54,6 +53,7 @@ app.get('/', (req, res) => {
                 const docs = querySnapshot.docs;
 
                 for (const doc of docs) {
+                    
                     const selectedItem  = {
                         id: doc.data().id,
                         email: doc.data().email,
@@ -87,7 +87,6 @@ app.put('/:userName', (req, res) => {
             await document.update({
                 email: jsonContent.email,
                 userName: jsonContent.userName,
-                password: jsonContent.password
             });
             
 
