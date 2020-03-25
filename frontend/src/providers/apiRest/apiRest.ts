@@ -9,7 +9,7 @@ export class apiRestProvider {
         console.log('Hello, Soy el proveedor de la API Rest');
     }
 
-    getTeams(user: String){
-        return this.http.get(this.url+'users/'+user+'/teams');
+    getTeams(){
+        return this.http.get(this.url+'teams');
     }
 }
