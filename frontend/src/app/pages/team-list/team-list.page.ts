@@ -8,7 +8,7 @@ import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 })
 export class TeamListPage implements OnInit {
 
-  teamList
+  teamList;
 
   constructor(public proveedor:apiRestProvider) { }
 

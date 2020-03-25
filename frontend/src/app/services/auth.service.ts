@@ -37,4 +37,8 @@ export class AuthService {
   }
   */
 
+  signIn(email: string, password: string): Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
 }
