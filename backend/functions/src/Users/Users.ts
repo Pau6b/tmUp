@@ -8,7 +8,7 @@ app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            await db.collection('users').doc('/' + jsonContent.userName + '/')
+            await db.collection('users').doc('/' + jsonContent.email + '/')
             .create({
                 email: jsonContent.email,
                 userName: jsonContent.userName,
@@ -31,6 +31,36 @@ app.get('/:userName', (req, res) => {
             const document = db.collection("users").doc(req.params.userName);
             const user = await document.get();
             const response = user.data();
+
+            return res.status(200).send(response);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
+app.get('/:userName/teams', (req, res) => {
+    (async () => {
+        try {
+            const query = db.collection('users/'+req.params.userName+'/memberships');
+            const response: any = [];
+
+            await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                    
+                    const selectedItem  = {
+                        teamName: doc.data().teamName,
+                        sport: doc.data().sport
+                    };
+                    response.push(selectedItem);
+                }
+                return response;
+            })
 
             return res.status(200).send(response);
         }

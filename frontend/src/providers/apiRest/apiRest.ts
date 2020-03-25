@@ -22,4 +22,13 @@ export class apiRestProvider {
             })
         })
     }
+
+    createMembership(data: JSON) {
+        return new Promise(resolve => {
+            this.http.post(this.url+'membership/create', data)
+            .subscribe(data => {
+                resolve(data);
+            });
+        })
+    }
 }

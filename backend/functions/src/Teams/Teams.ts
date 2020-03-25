@@ -8,13 +8,14 @@ app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            await db.collection('teams').doc('/' + jsonContent.teamName + '/')
-            .create({
+            let id: any;
+            await db.collection('teams').add({
                 teamName: jsonContent.teamName,
-                category: jsonContent.category,
                 sport: jsonContent.sport
+            }).then((ref:any) => {
+                id= ref.id;
             });
-            return res.status(200).send();
+            return res.status(200).send(id);
         }
         catch(error){
             console.log(error);
@@ -57,7 +58,6 @@ app.get('/', (req, res) => {
                     const selectedItem  = {
                         id: doc.data().id,
                         teamName: doc.data().teamName,
-                        category: doc.data().category,
                         sport: doc.data().sport
                     };
                     response.push(selectedItem);
@@ -86,7 +86,6 @@ app.put('/:teamName', (req, res) => {
 
             await document.update({
                 teamName: jsonContent.teamName,
-                category: jsonContent.category,
                 sport: jsonContent.sport
             });
             

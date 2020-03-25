@@ -94,7 +94,7 @@ export class AddTeamPage implements OnInit {
     console.log(this.createTeamForm.value);
     this.api.createTeam(this.createTeamForm.value)
     .then( () => {
-      //team created
+      //team created      
       console.log('team created succesfully.');
       this.navCtrl.navigateRoot("team-list");
     },

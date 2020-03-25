@@ -9,17 +9,17 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
 
-            const userCollection = await db.collection('users').doc(jsonContent.userName);
-            const teamCollection = await db.collection('teams').doc(jsonContent.teamName);
-            userCollection.collection('memberships').doc(jsonContent.teamName).create({
-                teamName: jsonContent.teamName,
-                role: jsonContent.role
-            });
-            teamCollection.collection('members').doc(jsonContent.userName).create({
-                userName: jsonContent.userName,
-                role: jsonContent.role
-            });
-            return res.status(200).send();
+            const userCollection = await db.collection('users').doc(jsonContent.email);
+            const teamCollection = await db.collection('teams').doc(jsonContent.teamId);
+                userCollection.collection('memberships').doc(jsonContent.teamId).create({
+                    teamId: jsonContent.teamId,
+                    role: jsonContent.role
+                });
+                teamCollection.collection('members').doc(jsonContent.email).create({
+                    user: jsonContent.email,
+                    role: jsonContent.role
+                });
+                return res.status(200).send();
         }
         catch(error){
             console.log(error);

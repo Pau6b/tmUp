@@ -63,9 +63,9 @@ const db = admin.firestore();
 exports.onUserCreate = functions.auth.user().onCreate((user) => {
   (async () => {
     try {
-        await db.collection('users').doc('/' + user + '/')
+        await db.collection('users').doc('/' + user.email + '/')
         .create({
-            email: user,
+            email: user.email,
         });
     }
     catch(error){

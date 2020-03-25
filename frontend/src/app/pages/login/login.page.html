@@ -11,18 +11,18 @@
       <ion-list class=".list">
         <ion-item>
           <ion-label position="floating">Usuario</ion-label>
-          <ion-input type="email"></ion-input>
+          <ion-input type="email" [(ngModel)]="email"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password"></ion-input>
+          <ion-input type="password" [(ngModel)]="password"></ion-input>
         </ion-item>
 
         <ion-label class="smallText positionLeft hidden">Usuario o contraseña incorrectos!</ion-label>
         <ion-label class="smallText positionLeft">Has olvidado la contraseña? Recuperala <a href="#">aquí</a></ion-label>
 
-        <ion-button  expand="block" color="primary" routerLink="/team-list">Acceder</ion-button>
+        <ion-button  expand="block" color="primary" (click)="logIn()">Acceder</ion-button>
 
         <p>OR</p>
 
