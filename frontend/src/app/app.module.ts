@@ -12,6 +12,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
+import { AngularFirestore } from '@angular/fire/firestore';
+
+import { Camera } from '@ionic-native/camera/ngx'
+import { apiRestProvider } from '../providers/apiRest/apiRest';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +24,7 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
@@ -26,7 +32,10 @@ import { environment } from '../environments/environment';
     StatusBar,
     SplashScreen,
     AngularFireAuth,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    Camera,
+    AngularFirestore,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    apiRestProvider
   ],
   bootstrap: [AppComponent]
 })

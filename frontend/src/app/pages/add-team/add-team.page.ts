@@ -1,57 +1,67 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
-import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
+import { ActionSheetController, MenuController, NavController } from '@ionic/angular';
 
 import { FormBuilder, Validators} from '@angular/forms'
 
-import { AuthService } from '../../services/auth.service'
+import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  selector: 'app-add-team',
+  templateUrl: './add-team.page.html',
+  styleUrls: ['./add-team.page.scss'],
 })
-export class RegisterPage implements OnInit {
- 
-  //declarar formulario
-  registerForm = this.formBuilder.group({
-    userName: ['', [Validators.required, Validators.minLength(3)]],
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$')
-      ]
-    ],
-    password: ['', [Validators.required, Validators.minLength(6)]]
-  });
+export class AddTeamPage implements OnInit {
   
-  emailUsed: boolean = false;
   myPhoto: any;
 
+  sportsLists = ['Futbol', 'Basquet']
+  categoriasLists = ['Categoria1']
+  roles = ['Fisioterapeuta', 'Jugador']
+
+  segmentModel = "create";
+
+  //create team form
+  createTeamForm = this.formBuilder.group({
+    teamName: ['', [Validators.required]],
+    category: ['', [Validators.required]],
+    sport: ['', [Validators.required]]
+  });
+
+  //join team form
+  joinTeamForm = this.formBuilder.group({
+    teamID: ['', [Validators.required]],
+    role: ['', [Validators.required]]
+  });
+
+
   public errorMessages = {
-    userName: [
-      { type: 'required', message: 'Nombre es necesario'},
+    teamName: [
+      { type: 'required', message: 'Nombre equipo es necesario'},
       { type: 'minlength', message: 'Nombre debe tener más de 3 letras'}
     ],
-    email: [
-      { type: 'required', message: 'Email es necesario' },
-      { type: 'pattern', message: 'Email no válido' }
+    sport: [
+      { type:'required', message: 'Deporte es necesario' }
     ],
-    password: [
-      { type: 'required', message: 'Contraseña es necesaria' },
-      { type: 'minlength', message: 'Contraseña debe tener más de 6 carácteres' }
+    category: [
+      { type: 'required', message: 'Categoria es necesaria' }
+    ],
+    role: [
+      { type: 'required', message: 'Rol es necesario'}
+    ],
+    teamID: [
+      { type: 'required', message: 'Código de equipo es  necesario'}
     ]
   }
 
   constructor(
     public navCtrl: NavController,
     public menuCtrl: MenuController,
-    public camera: Camera,
+    private camera: Camera, 
     public actionSheetCtrl: ActionSheetController,
     public formBuilder: FormBuilder,
-    public authService: AuthService
+    public api: apiRestProvider
     ) { }
 
   ngOnInit() {
@@ -62,32 +72,44 @@ export class RegisterPage implements OnInit {
     this.menuCtrl.enable(false);
   }
 
-  //getters for form
-  get userName() {
-    return this.registerForm.get("userName");
+  //getters
+  get teamName() {
+    return this.createTeamForm.get("teamName")
   }
-  get email() {
-    return this.registerForm.get("email");
+  get sport() {
+    return this.createTeamForm.get("sport")
   }
-  get password() {
-    return this.registerForm.get("password");
+  get category() {
+    return this.createTeamForm.get("category")
+  }
+  get role() {
+    return this.createTeamForm.get("role")
+  }
+  get teamID() {
+    return this.joinTeamForm.get("teamID")
   }
 
-  //submit register form
-  registerUser() {
-    this.authService.signUpUser(this.registerForm.get('email').value, this.registerForm.get('password').value)
-    .then(() => {
-      this.emailUsed = false;
-      this.navCtrl.navigateRoot('gettingstarted');
+  //calling api rest to create team
+  createTeam() {
+    console.log(this.createTeamForm.value);
+    this.api.createTeam(this.createTeamForm.value)
+    .then( () => {
+      //team created
+      console.log('team created succesfully.');
+      this.navCtrl.navigateRoot("team-list");
     },
     (error) => {
-      this.emailUsed = true;
+      //handle error
       console.log(error.message);
-    }
-    )
+    });
   }
 
-  //Camera options
+  //calling api rest to join team
+  joinTeam() {
+    console.log(this.joinTeamForm.value);
+  }
+
+  //camera options
   async cameraOptions() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Choose image from',

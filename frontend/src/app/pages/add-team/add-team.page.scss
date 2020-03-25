@@ -1,0 +1,50 @@
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+
+ion-header, ion-title, ion-toolbar{
+    --background: var(--ion-color-primary);
+    text-align: center;
+    color: white;
+}
+
+ion-segment {
+	--color: white;
+}
+
+ion-segment-button {
+	--color-checked: black;
+}
+
+/* ------------------------------
+        MAIN CONTENT
+	------------------------------ */
+
+form {
+	padding: 1em 1em 1em 0.5em;
+}
+
+ion-list {
+	text-align: center;
+}
+
+.avatarIcon {
+	display: flex;
+	justify-self: center;
+}
+
+ion-avatar {
+	cursor: pointer;
+	height: 100% !important;
+	margin: 0 auto;
+	max-width: 4em !important;
+	max-height: 4em !important;
+	width: 100% !important;
+}
+
+.endButton {
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: 5%;
+}

@@ -1,10 +1,41 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-menu swipeGesture="false"></ion-menu>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="background">
+  <ion-card class="card scroll-content">
+    <ion-card-header>
+      <ion-img class="smallImg" src="../../../assets/icon/logotmUp.png"></ion-img>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list class=".list">
+        <ion-item>
+          <ion-label position="floating">Usuario</ion-label>
+          <ion-input type="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input type="password"></ion-input>
+        </ion-item>
+
+        <ion-label class="smallText positionLeft hidden">Usuario o contraseña incorrectos!</ion-label>
+        <ion-label class="smallText positionLeft">Has olvidado la contraseña? Recuperala <a href="#">aquí</a></ion-label>
+
+        <ion-button  expand="block" color="primary" routerLink="/team-list">Acceder</ion-button>
+
+        <p>OR</p>
+
+        <ion-button class="buttonGoogle" expand="block" color="white">
+          <ion-img src="../../../assets/icon-google.png"></ion-img>
+          Entrar con Google
+        </ion-button>
+      </ion-list>
+      
+      <p class="labelRegistro smallText">Si aun no tienes cuenta, <a href="register">Registrate aquí</a></p>
+    </ion-card-content>
+  </ion-card>
+
+
 
 </ion-content>

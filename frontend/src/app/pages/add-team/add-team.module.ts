@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RegisterPageRoutingModule } from './register-routing.module';
+import { AddTeamPageRoutingModule } from './add-team-routing.module';
 
-import { RegisterPage } from './register.page';
+import { AddTeamPage } from './add-team.page';
+
 import { ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
@@ -15,8 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms'
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    RegisterPageRoutingModule
+    AddTeamPageRoutingModule
   ],
-  declarations: [RegisterPage]
+  declarations: [AddTeamPage]
 })
-export class RegisterPageModule {}
+export class AddTeamPageModule {}
