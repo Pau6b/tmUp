@@ -93,6 +93,7 @@ export class AddTeamPage implements OnInit {
     (error) => {
       //handle error
       console.log(error.message);
+      this.navCtrl.navigateRoot("team-list");
     });
   }
 
