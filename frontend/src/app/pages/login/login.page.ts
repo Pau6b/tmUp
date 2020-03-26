@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { NavController } from '@ionic/angular';
+import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
+import { FormBuilder, Validators} from '@angular/forms'
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,21 +10,49 @@ import { NavController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  email: string;
-  password: string;
 
-  constructor(public authService: AuthService, public navCtrl: NavController) { }
+  logInForm = this.formBuilder.group({
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$')
+      ]
+    ],
+    password: ['', [Validators.required]]
+  });
+
+  logInError = false;
+
+  constructor(
+    public navCtrl: NavController,
+    public menuCtrl: MenuController,
+    public formBuilder: FormBuilder,
+    public authService: AuthService
+  ) { }
 
   ngOnInit() {
   }
 
-  logIn() {
-    this.authService.signIn(this.email, this.password).then(() => {
-      this.navCtrl.navigateRoot('team-list');
-      console.log('he navegado');
-    }).catch((error) => {
-      console.log(error);
-    });
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
   }
 
+  get email() {
+    return this.logInForm.get("email");
+  }
+  get password() {
+    return this.logInForm.get("password");
+  }
+
+  logIn() {
+    this.authService.signIn(this.logInForm.get('email').value, this.logInForm.get('password').value)
+    .then(() => {
+      this.navCtrl.navigateRoot('team-list');
+    })
+    .catch((error:firebase.FirebaseError) => {
+      this.logInError=true;
+    });
+    
+  }
 }
