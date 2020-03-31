@@ -4,122 +4,67 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
-const app = express();
+const expressSession = require("express-session");
+const bodyParser = require("body-parser");
+const serviceAccount = require("../permissions.json");
 /*end-of-imports*/
 /*configuration*/
+const app = express();
 const admin = require("firebase-admin");
-const serviceAccount = require("../permissions.json");
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://tmup-908e4.firebaseio.com"
 });
-const db = admin.firestore();
 app.use(cors({ origin: true }));
+app.use(expressSession({
+    secret: 'ssshhhhh',
+    saveUninitialized: true,
+    resave: true
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 /*end-of-configuration */
 //Per correr el development server => npm run serve dins de la carpeta de functions
-//Routes
-app.get('/hello-world', (req, res) => {
-    return res.status(200).send('Hello world');
-});
-//Create => Post
-app.post('/users/create', (req, res) => {
-    (async () => {
-        try {
-            const jsonContent = JSON.parse(req.body);
-            await db.collection('users').doc('/' + jsonContent.id + '/')
-                .create({
-                email: jsonContent.email,
-                userName: jsonContent.userName,
-                password: jsonContent.password
-            });
-            return res.status(200).send();
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(500).send(error);
-        }
-    })().then().catch();
-});
-//Read => Get
-app.get('/users/:id', (req, res) => {
-    (async () => {
-        try {
-            const document = db.collection("users").doc(req.params.id);
-            const user = await document.get();
-            const response = user.data();
-            return res.status(200).send(response);
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(500).send(error);
-        }
-    })().then().catch();
-});
-//Read => Get
+/* --- before all requests --- */
 /*
-app.get('/users', (req, res) => {
-    (async () => {
-        try {
-            let query = db.collection('users');
-            let response: any = [];
-
-            await query.get().then(querySnapshot => {
-                let docs = querySnapshot.docs;
-
-                for (let doc of docs) {
-                    const selectedItem  = {
-                        id: doc.data().id,
-                        email: doc.data().email,
-                        userName: doc.data().userName,
-                        password: doc.data().password
-                    };
-                    response.push(selectedItem);
-                }
-                return response;
-            })
-
-            return res.status(200).send(response);
-        }
-        catch(error){
-            console.log(error);
-            return res.status(500).send(error)
-        }
-
-    })();
+app.use((req, res, next) => {
+  const token = req.headers.token;
+  admin.auth.verifyIdToken(token)
+  .then((payload : any) => {
+    next(payload);
+  })
+  .catch((error: any) =>{
+    res.status(401).send("Unauthorized");
+  } );
 });
 */
-//Update => Put
-app.put('/users/:id', (req, res) => {
-    (async () => {
-        try {
-            const jsonContent = JSON.parse(req.body);
-            const document = db.collection('users').doc(req.params.id);
-            await document.update({
-                email: jsonContent.email,
-                userName: jsonContent.userName,
-                password: jsonContent.password
-            });
-            return res.status(200).send();
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(500).send(error);
-        }
-    })().then().catch();
-});
-//Delete => Delete
-app.delete('/users/:id', (req, res) => {
-    (async () => {
-        try {
-            const document = db.collection('users').doc(req.params.id);
-            await document.delete();
-            return res.status(200).send();
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(500).send(error);
-        }
-    })().then().catch();
-});
+/* --- end of before all requests --- */
+/* --- begin of routes --- */
+const usersHandler = require('./Users/Users');
+app.use('/users', usersHandler);
+const teamsHandler = require('./Teams/Teams');
+app.use('/teams', teamsHandler);
+const membershipHandler = require('./Users/Membership');
+app.use('/membership', membershipHandler);
+/* --- end of routes --- */
 exports.app = functions.https.onRequest(app);
+const db = admin.firestore();
+exports.onUserCreate = functions.auth.user().onCreate((user) => {
+    (async () => {
+        try {
+            await db.collection('users').doc('/' + user.email + '/')
+                .create({
+                email: user.email,
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    })().then().catch();
+});
+/*
+exports.onUserDelete = functions.auth.user().onDelete((user) => {
+
+});
+*/ 
 //# sourceMappingURL=index.js.map

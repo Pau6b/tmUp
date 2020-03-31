@@ -1,0 +1,87 @@
+/* ------------------------------
+              GENERIC
+   ------------------------------ */
+
+ion-content {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+}
+
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
+
+ion-card {
+    background: transparent;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 700px;
+    padding: 0;
+    padding-top: 8%;
+    text-align: center;
+}
+
+.titleRegister {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 0;
+}
+
+ion-card-title {
+    color: white;
+    font-size: 1em;
+}
+
+.form {
+    margin: 0;
+    padding: 0em 1.5em;
+}
+
+ion-list {
+    background: transparent;
+    text-align: center;
+}
+
+ion-item {
+    --background: transparent;
+    --color: white;
+    padding: 0;
+}
+
+.avatarIcon {
+    display: flex;
+    justify-self: center;
+}
+
+ion-avatar {
+    cursor: pointer;
+    height: 100% !important;
+    margin: 0 auto;
+    max-width: 4em !important;
+    max-height: 4em !important;
+    width: 100% !important;
+}
+
+ion-input {
+    --color: white;
+    padding-bottom: 0;
+}
+
+.cardFooter {
+    padding: 1em 0em 0em;
+}
+
+.smallText {
+    color: var(--ion-color-primary);
+    cursor: pointer;
+    text-decoration-line: underline;
+}

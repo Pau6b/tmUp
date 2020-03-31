@@ -1,0 +1,86 @@
+ion-content {
+    --background: linear-gradient(
+        135deg,
+        #6f92f3 30%,
+        var(--ion-color-primary-contrast) 100%
+    );
+
+    display: flexbox;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.smallImg {
+    width: 30%;
+    height: 30%;
+    margin: auto;
+}
+
+.smallText{
+    font-size: x-small;
+    color: white;
+}
+
+.buttonGoogle > ion-img{
+    margin-right: 1em;
+
+}
+
+.labelRegistro {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    text-align: center;
+}
+
+.botonAcceder {
+    color: white;
+    background-color: rgb(52, 62, 141);
+    border-radius: 5px;
+}
+
+.buttonGoogle{
+    color: #000000;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.positionLeft {
+    display: flex;
+    margin-left: 1em;
+    align-self: left;
+}
+
+.hidden{
+    display: none;
+}
+
+ion-card{
+    max-width: 700px;
+    align-content: center;
+    background: rgba(0, 0, 0, 0);
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+ion-list{
+    background: transparent;
+}
+
+ion-item {
+    --background: rgba(0,0,0, 0);
+    border: medium none;
+    padding-bottom: 0;
+}
+
+ion-label,
+ion-item > ion-label,
+ion-item > ion-input{
+    color: white;
+}

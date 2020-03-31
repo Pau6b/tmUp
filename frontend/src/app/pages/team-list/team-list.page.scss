@@ -1,0 +1,13 @@
+ion-header, ion-title, ion-toolbar{
+    --background: var(--ion-color-primary);
+    text-align: center;
+    color: white;
+}
+
+ion-content {
+    --background: linear-gradient(
+        135deg,
+        #6f92f3 30%,
+        var(--ion-color-primary-contrast) 100%
+    );
+}
