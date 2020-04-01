@@ -18,6 +18,8 @@ import { Camera } from '@ionic-native/camera/ngx'
 import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { HttpClientModule } from '@angular/common/http';
 
+import { NgCalendarModule  } from 'ionic2-calendar';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -26,7 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
     IonicModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    NgCalendarModule
   ],
   providers: [
     StatusBar,
