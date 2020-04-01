@@ -182,18 +182,6 @@ ThisIsAFunction(i_input: String, o_output: String, io_inOut: String) {
 }
 ```
 
-## Classes
-_Classes should be written in UpperCamelCase_
-```
-class ClassName {
+## CRUDS
+_Each crud has to be in a separate file, referenced in index or other cruds_
 
-}
-```
-
-_Class member variables have to start with a_ **m_** _and its type has to_ **ALWAYS** _be specified_
-```
-class ClassName {
-  var m_classMember : String;
-  var m_classMember2: Photo;
-}
-```
