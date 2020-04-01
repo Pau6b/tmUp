@@ -2,6 +2,7 @@
 import * as functions from 'firebase-functions';
 import * as express from 'express';
 import * as cors from 'cors';
+
 import * as expressSession from 'express-session';
 import * as bodyParser from 'body-parser';
 const serviceAccount = require("../permissions.json");
