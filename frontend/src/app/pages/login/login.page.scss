@@ -1,76 +1,33 @@
 ion-content {
-    --background: linear-gradient(
-        135deg,
-        #6f92f3 30%,
-        var(--ion-color-primary-contrast) 100%
-    );
-
-    display: flexbox;
-    align-content: center;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-}
-
-.smallImg {
-    width: 30%;
-    height: 30%;
-    margin: auto;
-}
-
-.smallText{
-    font-size: x-small;
-    color: white;
-}
-
-.buttonGoogle > ion-img{
-    margin-right: 1em;
-
-}
-
-.labelRegistro {
+    align-items: center;
     display: flex;
-    flex-direction: row;
+    height: 100%;
     justify-content: center;
-    flex-wrap: nowrap;
-    text-align: center;
 }
 
-.botonAcceder {
-    color: white;
-    background-color: rgb(52, 62, 141);
-    border-radius: 5px;
-}
+/* ------------------------------
+              HEADER
+   ------------------------------ */
 
-.buttonGoogle{
-    color: #000000;
-    background-color: #ffffff;
-    border-radius: 5px;
-}
-
-.positionLeft {
-    display: flex;
-    margin-left: 1em;
-    align-self: left;
-}
-
-.hidden{
-    display: none;
-}
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
 
 ion-card{
-    max-width: 700px;
-    align-content: center;
-    background: rgba(0, 0, 0, 0);
+    background: transparent;
     box-shadow: none;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    margin: 0 auto;
+    max-width: 700px;
+    padding: 0;
+    padding-top: 8%;
     text-align: center;
 }
 
 ion-list{
     background: transparent;
+    margin: 0em 2em;
 }
 
 ion-item {
@@ -80,7 +37,63 @@ ion-item {
 }
 
 ion-label,
+p,
 ion-item > ion-label,
 ion-item > ion-input{
     color: white;
+}
+
+/* ------------------------------
+              CLASSES
+   ------------------------------ */
+
+.botonAcceder {
+    background-color: rgb(52, 62, 141);
+    border-radius: 5px;
+    color: white;
+}
+
+.buttonGoogle{
+    background-color: #ffffff;
+    border-radius: 5px;
+    color: #000000;
+}
+
+.buttonGoogle > ion-img{
+    margin-right: 1em;
+
+}
+
+ion-label.positionLeft{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.formList {
+    margin: 0em 2em;
+}
+
+.labelRegistro {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.positionLeft {
+    align-self: left;
+    display: flex;
+    margin-left: 1em;
+}
+
+.smallImg {
+    height: 30%;
+    margin: auto;
+    width: 30%;
+}
+
+.smallText{
+    color: white;
+    font-size: 2vh;
 }
