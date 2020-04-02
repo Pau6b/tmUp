@@ -47,8 +47,20 @@ const usersHandler = require('./Users/Users');
 app.use('/users', usersHandler);
 const teamsHandler = require('./Teams/Teams');
 app.use('/teams', teamsHandler);
+const eventsHandler = require('./Teams/Events/Events');
+app.use('/teams/events', eventsHandler);
+const photosHandler = require('./Teams/Events/Photos/Photos');
+app.use('/teams/events/photos', photosHandler);
+const rivalAnalysisHandler = require('./Teams/Events/RivalAnalysis/RivalAnalysis');
+app.use('/teams/events/rivalAnalysis', rivalAnalysisHandler);
+const normativesHandler = require('./Teams/Normatives/Normatives');
+app.use('/teams/normatives', normativesHandler);
+const tacticsHandler = require('./Teams/Tactics/Tactics');
+app.use('/teams/tactics', tacticsHandler);
 const membershipsHandler = require('./Memberships/Memberships');
 app.use('/memberships', membershipsHandler);
+const finesHandler = require('./Memberships/Fines/Fines');
+app.use('/memberships/fines', finesHandler);
 app.use(cors({ origin: true }));
 app.use(expressSession({
     secret: 'ssshhhhh',
