@@ -16,13 +16,13 @@
   <div class="ion-padding">
     <ion-toolbar class="headerCalendar">
       <ion-buttons slot="start">
-        <ion-button>
+        <ion-button (click)="previousMonth()">
           <ion-icon name="chevron-back"></ion-icon>
         </ion-button>
       </ion-buttons>
       <ion-title>{{currentMonth}}</ion-title>
       <ion-buttons slot="end">
-        <ion-button>
+        <ion-button (click)="nextMonth()">
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -30,8 +30,10 @@
     <calendar class="calendar" [eventSource]="eventSource"
         [calendarMode]="calendar.mode"
         [currentDate]="calendar.currentDate"
+        [startingDayMonth] = "calendar.startingDay"
+        [markDisabled]="markDisabled"
         (onCurrentDateChanged)="onCurrentDateChanged($event)"
-        (onRangeChanged)="reloadSource(startTime, endTime)"
+        (onRangeChanged)="onRangeChanged(startTime, endTime)"
         (onEventSelected)="onEventSelected($event)"
         (onTitleChanged)="onViewTitleChanged($event)"
         (onTimeSelected)="onTimeSelected($event)"

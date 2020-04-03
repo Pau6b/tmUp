@@ -11,19 +11,28 @@ export class CalendarPage implements OnInit {
 
   calendar = {
     mode: 'month',
-    currentDate: new Date()
+    currentDate: new Date(),
+    startingDay: "1"
   };
 
   selectedDate = new Date();
   currentMonth = new Date().getMonth();
+  startTime = new Date().toISOString;
+  endTime = new Date().toISOString;
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  markDisabled = (date: Date) => {
+    var current = new Date();
+    current.setDate(current.getDate() - 1);
+    return date < current;
+  };
+
   onViewTitleChanged(title) {
-    console.log(title);
+    //console.log(title);
     this.currentMonth = title;
   }
 
@@ -44,5 +53,15 @@ export class CalendarPage implements OnInit {
   onRangeChanged(ev) {
     console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
   }
+
+  nextMonth(){
+    var mySwiper = document.querySelector('.swiper-container')['swiper'];
+    mySwiper.slideNext();
+    }
+    
+    previousMonth(){
+    var mySwiper = document.querySelector('.swiper-container')['swiper'];
+    mySwiper.slidePrev();
+    }
 
 }
