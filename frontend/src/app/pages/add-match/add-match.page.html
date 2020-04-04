@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Nuevo evento</ion-title>
     <ion-buttons slot="end">
-      <ion-button>Añadir</ion-button>
+      <ion-button [disabled]="!createMatchForm.valid" routerLink="calendar" routerDirection="root">Añadir</ion-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
@@ -25,11 +25,11 @@
     <form [formGroup]="createMatchForm">
       <ion-list>
         <ion-item>
-          <ion-input type="text" placeholder="Equipo rival"></ion-input>
+          <ion-input type="text" placeholder="Equipo rival" formControlName="rivalTeam"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="text" placeholder="Localización"></ion-input>
+          <ion-input type="text" placeholder="Localización" formControlName="location"></ion-input>
         </ion-item>
 
         <ion-item>

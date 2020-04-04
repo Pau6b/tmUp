@@ -17,8 +17,6 @@ export class CalendarPage implements OnInit {
 
   selectedDate = new Date();
   currentMonth = new Date().getMonth();
-  startTime = new Date().toISOString;
-  endTime = new Date().toISOString;
 
   constructor() { }
 

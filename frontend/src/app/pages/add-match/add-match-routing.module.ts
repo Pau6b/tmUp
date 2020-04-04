@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: AddMatchPage
+  },
+  {
+    path: 'calendar',
+    loadChildren: () => import('../calendar/calendar.module').then( m => m.CalendarPageModule)
   }
 ];
 

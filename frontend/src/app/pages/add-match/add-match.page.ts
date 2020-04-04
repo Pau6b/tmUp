@@ -19,6 +19,8 @@ export class AddMatchPage implements OnInit {
   //create match form group
   createMatchForm = this.formBuilder.group({
     action: ['match'],
+    rivalTeam: ['', [Validators.required]],
+    location: ['', [Validators.required]],
     startsMatch: [this.startdate.toISOString()],
     endsMatch: [this.endTime.toISOString()]
   });
@@ -27,8 +29,7 @@ export class AddMatchPage implements OnInit {
     public navCtrl: NavController,
     public formBuilder: FormBuilder,
     public api: apiRestProvider
-  ) { 
-   }
+  ) {  }
 
   ngOnInit() {
   }
