@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { AddMatchPageRoutingModule } from './add-match-routing.module';
 
+import { ReactiveFormsModule } from '@angular/forms'
+
 import { AddMatchPage } from './add-match.page';
 
 @NgModule({
@@ -13,6 +15,7 @@ import { AddMatchPage } from './add-match.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     AddMatchPageRoutingModule
   ],
   declarations: [AddMatchPage]

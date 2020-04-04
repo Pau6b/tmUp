@@ -1,9 +1,47 @@
 <ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nuevo evento</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>Añadir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
   <ion-toolbar>
-    <ion-title>addMatch</ion-title>
+    <ion-segment value="match" [(ngModel)]="segmentModel">
+      <ion-segment-button value="match">
+        <ion-label>Partido</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="training">
+        <ion-label>Entrenamiento</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div *ngIf="segmentModel === 'match'">
+    <form [formGroup]="createMatchForm">
+      <ion-list>
+        <ion-item>
+          <ion-input type="text" placeholder="Equipo rival"></ion-input>
+        </ion-item>
 
+        <ion-item>
+          <ion-input type="text" placeholder="Localización"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Empieza</ion-label>
+          <ion-datetime displayFormat="D MMM H:mm"formControlName="startsMatch"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Acaba</ion-label>
+          <ion-datetime displayFormat="H:mm" formControlName="endsMatch"></ion-datetime>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
 </ion-content>
