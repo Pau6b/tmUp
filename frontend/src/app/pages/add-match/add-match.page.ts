@@ -18,11 +18,12 @@ export class AddMatchPage implements OnInit {
 
   //create match form group
   createMatchForm = this.formBuilder.group({
-    action: ['match'],
+    type: ['match'],
     rivalTeam: ['', [Validators.required]],
     location: ['', [Validators.required]],
     startsMatch: [this.startdate.toISOString()],
-    endsMatch: [this.endTime.toISOString()]
+    endsMatch: [this.endTime.toISOString()],
+    allDay: false
   });
 
   constructor(

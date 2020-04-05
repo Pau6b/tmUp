@@ -30,14 +30,14 @@
 
     <ng-template #template let-view="view" let-row="row" let-col="col">
       <div *ngIf="view.dates[row*7+col].events == ''">{{view.dates[row*7+col].label}}</div>
-    <div *ngFor="let obj of view.dates[row*7+col].events">
-      <div *ngIf="obj.type === 'match'">
-        <div [ngStyle]="matchStyle">{{view.dates[row*7+col].label}}</div>
+      <div *ngFor="let obj of view.dates[row*7+col].events">
+        <div *ngIf="obj.type === 'match'">
+          <div [ngStyle]="matchStyle">{{view.dates[row*7+col].label}}</div>
+        </div>
+        <div *ngIf="obj.type === 'training'">
+          <div [ngStyle]="trainingStyle">{{view.dates[row*7+col].label}}</div>
+        </div>
       </div>
-      <div *ngIf="obj.type === 'training'">
-        <div [ngStyle]="trainingStyle">{{view.dates[row*7+col].label}}</div>
-      </div>
-    </div>
     </ng-template>
 
     <calendar class="calendar" 

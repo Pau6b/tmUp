@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Router, NavigationExtras } from '@angular/router';
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.page.html',
@@ -20,17 +22,25 @@ export class CalendarPage implements OnInit {
   eventSource = [
     /* testing
     {
+      type: 'match',
       title: 'match #1',
+      location: {
+        lat: '-34.9011',
+        lng: '-56.1645'
+      },
       startTime: new Date("2020-04-24T10:00:00"),
       endTime: new Date("2020-04-24T11:00:00"),
-      type: 'match',
       allDay: false
     },
     {
+      type: 'training',
       title: 'training #1',
+      location: {
+        lat: '-34.9011',
+        lng: '-56.1645'
+      },
       startTime: new Date("2020-04-20T10:00:00"),
       endTime: new Date("2020-04-20T11:00:00"),
-      type: 'training',
       allDay: false
     }
     */
@@ -45,7 +55,9 @@ export class CalendarPage implements OnInit {
     backgroundColor: 'var(--ion-color-warning)'
   }
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -63,6 +75,12 @@ export class CalendarPage implements OnInit {
 
   onEventSelected(event) {
     console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        ev: event
+      }
+    };
+    this.router.navigate(['/event'], navigationExtras);
   }
 
   onTimeSelected(ev) {

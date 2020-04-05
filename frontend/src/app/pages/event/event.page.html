@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ event.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <!--Meter el mapa marcando la localización-->
+      <ion-label>{{ event.location }}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>{{ event.startTime | date: 'dd MMM yyyy H:mm'}}</ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>{{ event.endTime | date: 'H:mm' }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

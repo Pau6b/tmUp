@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'add-match',
     loadChildren: () => import('../add-match/add-match.module').then( m => m.AddMatchPageModule)
+  },
+  {
+    path: 'event',
+    loadChildren: () => import('../event/event.module').then( m => m.EventPageModule)
   }
 ];
 
