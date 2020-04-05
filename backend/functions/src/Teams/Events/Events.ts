@@ -10,8 +10,10 @@ app.post('/create', (req, res) => {
             const jsonContent = JSON.parse(req.body);
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: jsonContent.type,
-                date: jsonContent.date
-            });
+                date: jsonContent.date,
+                hour: jsonContent.hour,
+                rival: jsonContent.rival
+            })
             return res.status(200).send();
         }
         catch(error){
@@ -23,54 +25,60 @@ app.post('/create', (req, res) => {
 });
 
 //Read Events of a day => GET
-app.get('/:teamId:date', (req, res) => {
+app.get('/byday/:teamId/:date', (req, res) => {
     (async () => {
-        try { 
+        try {
             //const jsonContent = JSON.parse(req.body);
-            const query = db.collection('teams').doc(req.params.teamId).collection('events');
+            const query = db.collection('teams').doc(req.params.teamId).collection("events");
             const response: any = [];
 
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
 
                 for (const doc of docs) {
-                    //let day = doc.data().date;
                     const selectedData  = {
                         date: doc.data().date,
+                        type: doc.data().type,
+                        hour: doc.data().hour,
+                        rival: doc.data().rival
                     };
-                    if (selectedData.date.equals(req.params.date)) {
+                    console.log(selectedData);
+                    if (selectedData.date == req.params.date) {
                         response.push(selectedData); 
                     } 
-                }                 
-                return response;             
-            })              
-        return res.status(200).send(response);         
-        }         
-        catch(error){             
-            console.log(error);             
-            return res.status(500).send(error)          
-        }     
-    })().then().catch(); 
+                    //response.push(selectedData);
+                }
+                console.log(response);
+                return response;
+            })
+            return res.status(200).send(response);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+    })().then().catch();
 });
 
+
 //Read Events of a month => GET
-app.get('/:teamId:month', (req, res) => {
+app.get('/bymonth/:teamId/:month', (req, res) => {
     (async () => {
         try { 
             //const jsonContent = JSON.parse(req.body);
             const query = db.collection('teams').doc(req.params.teamId).collection('events');
             const response: any = [];
-
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
+                console.log(req.params.month);
 
                 for (const doc of docs) {
                     const selectedData  = {
                         date: doc.data().date,
+                        type: doc.data().type
                     };
-                    const newDate = selectedData.date.split('/');
-                    const month = newDate[1];
-                    if (month.equals(req.params.month)) {
+                    const newDate = selectedData.date.split('-');
+                    if (Buffer.from(newDate[1]).equals(Buffer.from(req.params.month))) {
                         response.push(selectedData); 
                     } 
                 }                 
