@@ -11,10 +11,15 @@ app.post('/create', (req, res) => {
             let id: any;
             await db.collection('teams').add({
                 teamName: jsonContent.teamName,
-                sport: jsonContent.sport
+                sport: jsonContent.sport,
             }).then((ref:any) => {
                 id= ref.id;
-            });
+            })
+            await db.collection('memberships').add({
+                teamId: id,
+                userId: jsonContent.userId,
+                type: "staff",
+            })
             return res.status(200).send(id);
         }
         catch(error){
@@ -101,13 +106,26 @@ app.put('/:teamName', (req, res) => {
 });
 
 //Delete => Delete
+/*
 app.delete('/:teamName', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('teams').doc(req.params.teamName);
+            const documentTeam = db.collection('teams').doc(req.params.teamName);
 
-            await document.delete();
-            
+            await documentTeam.delete();
+
+            const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamName);
+            const response: any = [];
+
+            await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                     doc.delete();
+                }
+                return response;
+            })
+          
             return res.status(200).send();
         }
         catch(error){
@@ -117,5 +135,5 @@ app.delete('/:teamName', (req, res) => {
 
     })().then().catch();
 });
-
+*/
 module.exports = app;
