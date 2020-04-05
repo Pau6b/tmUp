@@ -45,7 +45,6 @@ app.post('/create', (req, res) => {
                 userId: jsonContent.userId,
                 type: "staff"
             })
-
             return res.status(200).send(id);
         }
         catch(error){
@@ -157,10 +156,10 @@ app.put('/:teamId', (req, res) => {
 });
 
 //Delete => Delete
+/*
 app.delete('/:teamName', (req, res) => {
     (async () => {
         try {
-
             let teamExists: boolean = true;
             const team = db.collection('teams').doc(req.params.teamName).get().then((doc: any) => {
                 if(!doc.exists) {
@@ -171,7 +170,18 @@ app.delete('/:teamName', (req, res) => {
                 return res.status(400).send("teamId is incorrect");
             }
             await team.delete();
-            
+
+            const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamName);
+            const response: any = [];
+
+            await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                     doc.delete();
+                }
+                return response;
+            })
             return res.status(200).send();
         }
         catch(error){
@@ -181,5 +191,5 @@ app.delete('/:teamName', (req, res) => {
 
     })().then().catch();
 });
-
+*/
 module.exports = app;

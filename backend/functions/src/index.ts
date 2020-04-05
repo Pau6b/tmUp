@@ -57,7 +57,7 @@ const teamsHandler = require('./Teams/Teams');
 app.use('/teams', teamsHandler);
 
 const eventsHandler = require('./Teams/Events/Events');
-app.use('/teams/events', eventsHandler);
+app.use('/:teamId/events', eventsHandler);
 
 const photosHandler = require('./Teams/Events/Photos/Photos');
 app.use('/teams/events/photos', photosHandler);
