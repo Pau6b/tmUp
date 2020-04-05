@@ -3,23 +3,49 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
 
-//Create => Post
+//----------------------CREATE-----------------------------------
+
 app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-
-            const userCollection = await db.collection('users').doc(jsonContent.email);
-            const teamCollection = await db.collection('teams').doc(jsonContent.teamId);
-                userCollection.collection('memberships').doc(jsonContent.teamId).create({
+            let equipo = true;
+            let usuario = true;
+            let miembro = true;
+            const team = db.collection('teams').doc(jsonContent.teamId);
+            await team.get().then((t:any) => {
+                if (!t.exists) equipo=false;
+            })
+            const user = db.collection('users').doc(jsonContent.userId);
+            await user.get().then((u:any) => {
+                if (!u.exists) usuario=false;
+            })
+            const membership = db.collection('memberships').where('userId', '==', jsonContent.userId).where('teamId', '==', jsonContent.teamId);
+            await membership.get().then((snapshot:any) => {
+                if (snapshot.empty) miembro = false;
+            })
+            if (miembro) {
+                return res.status(200).send("este usuario ya es miembro de este equipo");
+            }
+            else if (!equipo && !usuario) {
+                return res.status(200).send("no existe nada");
+            }
+            else if (!equipo) {
+                return res.status(200).send("no existe equipo");
+            }
+            else if (!usuario) {
+                return res.status(200).send("no existe usuario");
+            }
+            else {
+                console.log(miembro);
+                await db.collection('memberships').add({
                     teamId: jsonContent.teamId,
-                    role: jsonContent.role
-                });
-                teamCollection.collection('members').doc(jsonContent.email).create({
-                    user: jsonContent.email,
-                    role: jsonContent.role
+                    type: jsonContent.type,
+                    userId: jsonContent.userId,
                 });
                 return res.status(200).send();
+            }  
+                
         }
         catch(error){
             console.log(error);
@@ -29,14 +55,26 @@ app.post('/create', (req, res) => {
     })().then().catch();
 });
 
-/*
-//Read => Get
-app.get('/:id', (req, res) => {
+//------------------------READ--------------------------------------
+app.get('/getByTeam/:teamId', (req, res) => {
     (async () => {
         try {
-            const document = db.collection("users").doc(req.params.id);
-            const user = await document.get();
-            const response = user.data();
+
+            const query = db.collection('memberships').where('teamId','==',req.params.teamId);
+            const response: any = [];
+
+            await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                    const selectedItem  = {
+                        type: doc.data().type,
+                        userId: doc.data().userId
+                    };
+                    response.push(selectedItem);
+                }
+                return response;
+            })
 
             return res.status(200).send(response);
         }
@@ -48,11 +86,10 @@ app.get('/:id', (req, res) => {
     })().then().catch();
 });
 
-//ReadAll => Get
-app.get('/', (req, res) => {
+app.get('/getByUser/:userId', (req, res) => {
     (async () => {
         try {
-            const query = db.collection('users');
+            const query = db.collection('memberships').where('userId','==',req.params.userId);
             const response: any = [];
 
             await query.get().then((querySnapshot: any) => {
@@ -60,9 +97,9 @@ app.get('/', (req, res) => {
 
                 for (const doc of docs) {
                     const selectedItem  = {
-                        id: doc.data().id,
-                        email: doc.data().email,
-                        userName: doc.data().userName
+                        teamId: doc.data().teamId,
+                        type: doc.data().type,
+
                     };
                     response.push(selectedItem);
                 }
@@ -80,7 +117,7 @@ app.get('/', (req, res) => {
 });
 
 
-//Update => Put
+/*
 app.put('/:id', (req, res) => {
     (async () => {
         try {
@@ -89,38 +126,59 @@ app.put('/:id', (req, res) => {
             const document = db.collection('users').doc(req.params.id);
 
             await document.update({
-                email: jsonContent.email,
-                userName: jsonContent.userName,
-                password: jsonContent.password
-            });
+                email: jsonContent.email,
             
 
-            return res.status(200).send();
-        }
-        catch(error){
-            console.log(error);
-            return res.status(500).send(error) 
-        }
-
-    })().then().catch();
-});
-
-//Delete => Delete
-app.delete('/:id', (req, res) => {
-    (async () => {
-        try {
-            const document = db.collection('users').doc(req.params.id);
-
-            await document.delete();
-            
-            return res.status(200).send();
-        }
-        catch(error){
-            console.log(error);
+            return res.status(200).send();db.collection('membership')
             return res.status(500).send(error) 
         }
 
     })().then().catch();
 });
 */
+//Delete => Delete
+app.delete('/delete', (req, res) => {
+    (async () => {
+        try {
+            const jsonContent = JSON.parse(req.body);
+            const comprobarRoles = db.collection('memberships').where('teamId', '==', jsonContent.teamId);
+            let staffEnEquipo = 0;
+            let miembros = 0;
+            let esStaff = false;
+            let id;
+            await comprobarRoles.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                    ++miembros;
+                    if(doc.data().type == 'staff') ++staffEnEquipo;
+                    if (doc.data().userId == jsonContent.userId) {
+                        console.log("entro");
+                        console.log(doc.id);
+                        id = doc.id;
+                        if (doc.data().type == "staff") esStaff = true;
+                    }
+                    
+                }
+            })
+            
+
+            if (miembros > 1 && staffEnEquipo == 1 && esStaff) return res.status(200).send("eres el ultimo entrenador que queda");
+            else {
+                console.log(id);
+                await db.collection('memberships').doc(id).delete();
+                if (miembros == 1) console.log("tendremos que borrar el equipo");
+                return res.status(200).send();
+                    
+            }
+       
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
 module.exports = app;
