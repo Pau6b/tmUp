@@ -18,14 +18,32 @@ export class CalendarPage implements OnInit {
   endTime = new Date();
 
   eventSource = [
+    /* testing
     {
-      title: 'birthday',
+      title: 'match #1',
       startTime: new Date("2020-04-24T10:00:00"),
       endTime: new Date("2020-04-24T11:00:00"),
       type: 'match',
       allDay: false
+    },
+    {
+      title: 'training #1',
+      startTime: new Date("2020-04-20T10:00:00"),
+      endTime: new Date("2020-04-20T11:00:00"),
+      type: 'training',
+      allDay: false
     }
+    */
   ];
+
+  //style definition for different events
+  matchStyle = {
+    backgroundColor: 'var(--ion-color-danger)'
+  }
+
+  trainingStyle = {
+    backgroundColor: 'var(--ion-color-warning)'
+  }
 
   constructor() { }
 

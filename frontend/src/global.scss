@@ -27,25 +27,19 @@
 
 //styling calendar
 .monthview-selected {
-    background-color: var(--ion-color-primary-tint) !important;
-    color: white !important;
+  background-color: var(--ion-color-primary-tint) !important;
+  color: white !important;
 }
  
 .table {
-    font-size: small;
+  font-size: small;
 }
 
-.calendar-day {
-  border-radius: 6px;
-  padding: 3px 5px;
+.monthview-primary-with-event, .monthview-secondary-with-event {
+  background-color: transparent !important;
+}
 
-  &.training {
-    background-color: orange;
-    color: white;
-  }
-
-  &.match {
-    background-color: brown;
-    color: white;
-  }
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td,
+.table > tbody > tr > td, .table > tfoot > tr > td {
+  padding: 0 !important;
 }
