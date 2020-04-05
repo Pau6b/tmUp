@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AddMatchPageRoutingModule } from './add-match-routing.module';
+import { AddEventPageRoutingModule } from './add-event-routing.module';
 
 import { ReactiveFormsModule } from '@angular/forms'
 
-import { AddMatchPage } from './add-match.page';
+import { AddEventPage } from './add-event.page';
 
 @NgModule({
   imports: [
@@ -16,8 +16,8 @@ import { AddMatchPage } from './add-match.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    AddMatchPageRoutingModule
+    AddEventPageRoutingModule
   ],
-  declarations: [AddMatchPage]
+  declarations: [AddEventPage]
 })
-export class AddMatchPageModule {}
+export class AddEventPageModule {}

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { AddMatchPage } from './add-match.page';
+import { AddEventPage } from './add-event.page';
 
-describe('AddMatchPage', () => {
-  let component: AddMatchPage;
-  let fixture: ComponentFixture<AddMatchPage>;
+describe('AddEventPage', () => {
+  let component: AddEventPage;
+  let fixture: ComponentFixture<AddEventPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddMatchPage ],
+      declarations: [ AddEventPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AddMatchPage);
+    fixture = TestBed.createComponent(AddEventPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

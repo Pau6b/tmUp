@@ -26,7 +26,8 @@ const routes: Routes = [
   {
     path: 'add-team',
     loadChildren: () => import('./pages/add-team/add-team.module').then( m => m.AddTeamPageModule)
-  },  {
+  },
+  {
     path: 'team-list',
     loadChildren: () => import('./pages/team-list/team-list.module').then( m => m.TeamListPageModule)
   },
@@ -59,9 +60,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/normative/normative.module').then( m => m.NormativePageModule)
   },
   {
-    path: 'add-match',
-    loadChildren: () => import('./pages/add-match/add-match.module').then( m => m.AddMatchPageModule)
+    path: 'event',
+    loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule)
+  },
+  {
+    path: 'add-event',
+    loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
   }
+
 
 ];
 

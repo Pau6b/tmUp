@@ -62,6 +62,16 @@ export class CalendarPage implements OnInit {
   ngOnInit() {
   }
 
+  addEvent() {
+    //to pass the selectedDate to AddEvent Page
+    let navigationExtras: NavigationExtras = {
+      state: {
+        selectedDay: this.selectedDate
+      }
+    };
+    this.router.navigate(['/add-event'], navigationExtras);
+  }
+
   markDisabled = (date: Date) => {
     var current = new Date();
     current.setDate(current.getDate() - 1);
