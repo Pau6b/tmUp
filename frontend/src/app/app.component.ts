@@ -50,11 +50,6 @@ export class AppComponent implements OnInit {
       title: 'Fisioterapeuta',
       url: '',
       icon: 'medkit'
-    },
-    {
-      title: 'Calendario',
-      url: 'calendar',
-      icon: 'calendar'
     }
   ];
 

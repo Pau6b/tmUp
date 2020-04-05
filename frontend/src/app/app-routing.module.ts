@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'settings',
     pathMatch: 'full'
   },
   {
@@ -26,7 +26,8 @@ const routes: Routes = [
   {
     path: 'add-team',
     loadChildren: () => import('./pages/add-team/add-team.module').then( m => m.AddTeamPageModule)
-  },  {
+  },
+  {
     path: 'team-list',
     loadChildren: () => import('./pages/team-list/team-list.module').then( m => m.TeamListPageModule)
   },
