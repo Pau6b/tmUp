@@ -6,9 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./calendar.page.scss'],
 })
 export class CalendarPage implements OnInit {
-
-  eventSource = [];
-
   calendar = {
     mode: 'month',
     currentDate: new Date(),
@@ -17,6 +14,18 @@ export class CalendarPage implements OnInit {
 
   selectedDate = new Date();
   currentMonth = new Date().getMonth();
+  startTime = new Date();
+  endTime = new Date();
+
+  eventSource = [
+    {
+      title: 'birthday',
+      startTime: new Date("2020-04-24T10:00:00"),
+      endTime: new Date("2020-04-24T11:00:00"),
+      type: 'match',
+      allDay: false
+    }
+  ];
 
   constructor() { }
 
@@ -52,14 +61,15 @@ export class CalendarPage implements OnInit {
     console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
   }
 
+  //arrows to previous/next functions
   nextMonth(){
     var mySwiper = document.querySelector('.swiper-container')['swiper'];
     mySwiper.slideNext();
-    }
-    
-    previousMonth(){
+  }
+  
+  previousMonth(){
     var mySwiper = document.querySelector('.swiper-container')['swiper'];
     mySwiper.slidePrev();
-    }
+  }
 
 }

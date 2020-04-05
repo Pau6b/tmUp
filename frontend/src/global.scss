@@ -24,3 +24,28 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+//styling calendar
+.monthview-selected {
+    background-color: var(--ion-color-primary-tint) !important;
+    color: white !important;
+}
+ 
+.table {
+    font-size: small;
+}
+
+.calendar-day {
+  border-radius: 6px;
+  padding: 3px 5px;
+
+  &.training {
+    background-color: orange;
+    color: white;
+  }
+
+  &.match {
+    background-color: brown;
+    color: white;
+  }
+}

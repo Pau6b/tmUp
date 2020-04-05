@@ -27,17 +27,24 @@
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
-    <calendar class="calendar" [eventSource]="eventSource"
-        [calendarMode]="calendar.mode"
-        [currentDate]="calendar.currentDate"
-        [startingDayMonth] = "calendar.startingDay"
-        [markDisabled]="markDisabled"
-        (onCurrentDateChanged)="onCurrentDateChanged($event)"
-        (onRangeChanged)="onRangeChanged(startTime, endTime)"
-        (onEventSelected)="onEventSelected($event)"
-        (onTitleChanged)="onViewTitleChanged($event)"
-        (onTimeSelected)="onTimeSelected($event)"
-        step="30">
+
+    <ng-template #template let-view="view" let-row="row" let-col="col">
+      {{view.dates[row*7+col].label}}
+    </ng-template>
+
+    <calendar class="calendar" 
+      [monthviewDisplayEventTemplate]="template"
+      [eventSource]="eventSource"
+      [calendarMode]="calendar.mode"
+      [currentDate]="calendar.currentDate"
+      [startingDayMonth] = "calendar.startingDay"
+      [markDisabled]="markDisabled"
+      (onCurrentDateChanged)="onCurrentDateChanged($event)"
+      (onRangeChanged)="onRangeChanged(startTime, endTime)"
+      (onEventSelected)="onEventSelected($event)"
+      (onTitleChanged)="onViewTitleChanged($event)"
+      (onTimeSelected)="onTimeSelected($event)"
+      step="30">
         
     </calendar>
   </div>
