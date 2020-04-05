@@ -124,21 +124,9 @@ app.put('/:teamId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            
-
+        
             if (!jsonContent.hasOwnProperty("teamName")) {
                 return res.status(400).send("No teamName specified.");
-            }
-
-            let teamExists : boolean = true;
-            await db.collection('teams').doc(req.params.teamId).get().then((doc:any) => {
-                if(!doc.exists){
-                    teamExists = false;
-                }
-            });
-
-            if (!teamExists) {
-                return res.status(400).send("Team with teamid : [" + req.params.teamId + "] does not exist");
             }
 
             await db.collection('teams').doc(req.params.teamId).update({

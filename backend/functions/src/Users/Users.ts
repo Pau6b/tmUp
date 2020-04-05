@@ -25,14 +25,25 @@ app.post('/create', (req, res) => {
 
 
 //Read => Get
-app.get('/:userName', (req, res) => {
+app.get('/:userEmail', (req, res) => {
     (async () => {
         try {
-            const document = db.collection("users").doc(req.params.userName);
-            const user = await document.get();
-            const response = user.data();
+            const document = db.collection("users").doc(req.params.userEmail);
+            let userExists: boolean = true;
+            const userData = await document.get().then((doc: any) => {
+                if (!doc.exists) {
+                    userExists = false;
+                }
+                else {
+                    return doc.data();
+                }
+            });
 
-            return res.status(200).send(response);
+            if (!userExists) {
+                return res.status(400).send("The user with email: [" + req.params.userEmail + "] does not exist");
+            }
+
+            return res.status(200).send(userData);
         }
         catch(error){
             console.log(error);
@@ -42,27 +53,42 @@ app.get('/:userName', (req, res) => {
     })().then().catch();
 });
 
-app.get('/:userName/teams', (req, res) => {
+app.get('/:userEmail/teams', (req, res) => {
     (async () => {
         try {
-            const query = db.collection('users/'+req.params.userName+'/memberships');
-            const response: any = [];
 
-            await query.get().then((querySnapshot: any) => {
-                const docs = querySnapshot.docs;
+            let userRef = db.collection('users').doc(req.params.userEmail);
 
-                for (const doc of docs) {
-                    
-                    const selectedItem  = {
-                        teamName: doc.data().teamName,
-                        sport: doc.data().sport
-                    };
-                    response.push(selectedItem);
+            let userExists : boolean = true;
+            await userRef.get().then((doc:any) => {
+                if (!doc.exists) {
+                    userExists = false;
                 }
-                return response;
             })
 
-            return res.status(200).send(response);
+            if (!userExists) {
+                return res.status(400).send("The user with email: [" + req.params.userEmail + "] does not exist");
+            }
+
+            //User exists, get team ids
+            const query = db.collection('memberships').where("userId", "==", req.params.userEmail );
+            let teamIds: string[] = [];
+            
+            await query.get().then((querySnapshot: any) => {
+                querySnapshot.forEach((element:any) => {
+                    teamIds.push(element.data().teamId);
+                });
+            });
+            
+            //get team names
+            let response: Set<string> = new Set();
+            for (const id of teamIds) {
+                const teamQuery = db.collection('teams').doc(id);
+                await teamQuery.get().then((teamDoc:any) => {
+                        response.add(teamDoc.data().teamName);
+                   });
+            }
+            return res.status(200).send(Array.from(response));
         }
         catch(error){
             console.log(error);
@@ -107,17 +133,20 @@ app.get('/', (req, res) => {
 
 
 //Update => Put
-app.put('/:userName', (req, res) => {
+app.put('/:userEmail', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
 
-            const document = db.collection('users').doc(req.params.userName);
+            if (!jsonContent.hasOwnProperty("userName")) {
+                return res.status(400).send("You must indicate the new user name");
+            }
+
+            const document = db.collection('users').doc(req.params.userEmail);
 
             await document.update({
-                email: jsonContent.email,
-                userName: jsonContent.userName,
-            });
+                userName: jsonContent.userName
+            }).then();
             
 
             return res.status(200).send();
@@ -131,10 +160,10 @@ app.put('/:userName', (req, res) => {
 });
 
 //Delete => Delete
-app.delete('/:userName', (req, res) => {
+app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('users').doc(req.params.userName);
+            const document = db.collection('users').doc(req.params.userEmail);
 
             await document.delete();
             
