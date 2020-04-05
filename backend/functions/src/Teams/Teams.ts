@@ -3,6 +3,7 @@ const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
 
+
 //Create => Post
 app.post('/create', (req, res) => {
     (async () => {
@@ -56,7 +57,7 @@ app.get('/', (req, res) => {
 
                 for (const doc of docs) {
                     const selectedItem  = {
-                        id: doc.data().id,
+                        teamId: doc.data().teamId,
                         teamName: doc.data().teamName,
                         sport: doc.data().sport
                     };
