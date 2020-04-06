@@ -73,7 +73,7 @@ export class LoginPage implements OnInit {
     let params;
     if (this.platform.is('android')) {
       params = {
-        'webClientId': '124018728460-sv8cqhnnmnf0jeqbnd0apqbnu6egkhug.apps.googleusercontent.com',
+        'webClientId': '489608967542-8quc1uc92o0io6f8j1jgmtnban91r3f8.apps.googleusercontent.com',
         'offline': true
       }
     }
@@ -98,6 +98,7 @@ export class LoginPage implements OnInit {
         this.router.navigate(["/profile"]);
         this.loading.dismiss();
       })
+
 
   }
   onLoginError(err) {
