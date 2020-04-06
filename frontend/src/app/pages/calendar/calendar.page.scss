@@ -10,3 +10,31 @@
             MAIN CONTENT
    ------------------------------ */
 
+.colorKey {
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+}
+
+.itemKey {
+  border-radius: 0.3em;
+  color: white;
+  display: flex;
+  margin: 0.2em !important;
+  padding: 0.1em 0.5em !important;
+}
+
+#trainingKey  {
+  background-color: var(--ion-color-warning);
+}
+
+#matchKey  {
+  background-color: var(--ion-color-danger);
+}
+
+.eventDetail {
+  //cursor: pointer;
+  font-size: small !important;
+}

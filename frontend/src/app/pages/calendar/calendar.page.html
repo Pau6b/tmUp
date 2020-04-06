@@ -28,7 +28,7 @@
       </ion-buttons>
     </ion-toolbar>
 
-    <ng-template #template let-view="view" let-row="row" let-col="col">
+    <ng-template #monthViewTemplate let-view="view" let-row="row" let-col="col">
       <div *ngIf="view.dates[row*7+col].events == ''">{{view.dates[row*7+col].label}}</div>
       <div *ngFor="let obj of view.dates[row*7+col].events">
         <div *ngIf="obj.type === 'match'">
@@ -40,19 +40,52 @@
       </div>
     </ng-template>
 
+    <!-- custom event detail -->
+    <ng-template #eventListTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
+      <div class="colorKey"> 
+        <span class="itemKey" id="trainingKey">entreno</span>
+        <span class="itemKey" id="matchKey">partido</span>
+      </div>
+      <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
+        <ion-item *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
+          <div *ngIf="event.type ===  'training'">
+            <div>{{event.title}}</div>
+            <div class="eventDetail">
+              {{event.startTime|date: 'HH:mm'}}
+              -
+              {{event.endTime|date: 'HH:mm'}}
+            </div>
+          </div>
+          <div *ngIf="event.type ===  'match'">
+            <div>{{event.title}}</div>
+            <div class="eventDetail">
+              {{event.startTime|date: 'HH:mm'}}
+              -
+              {{event.endTime|date: 'HH:mm'}}
+            </div>
+            <div>map?</div>
+          </div>
+        </ion-item>
+        <ion-item *ngIf="selectedDate?.events.length==0">
+          <div class="no-events-label">{{noEventsLabel}}</div>
+        </ion-item>
+      </ion-list>
+    </ng-template>
+
     <calendar class="calendar" 
-      [monthviewDisplayEventTemplate]="template"
-      [eventSource]="eventSource"
-      [calendarMode]="calendar.mode"
-      [currentDate]="calendar.currentDate"
-      [startingDayMonth] = "calendar.startingDay"
-      [markDisabled]="markDisabled"
-      (onCurrentDateChanged)="onCurrentDateChanged($event)"
-      (onRangeChanged)="onRangeChanged(startTime, endTime)"
-      (onEventSelected)="onEventSelected($event)"
-      (onTitleChanged)="onViewTitleChanged($event)"
-      (onTimeSelected)="onTimeSelected($event)"
-      step="30">
+    [monthviewDisplayEventTemplate]="monthViewTemplate"
+    [monthviewEventDetailTemplate]="eventListTemplate"
+    [eventSource]="eventSource"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    [startingDayMonth] = "calendar.startingDay"
+    [markDisabled]="markDisabled"
+    (onCurrentDateChanged)="onCurrentDateChanged($event)"
+    (onRangeChanged)="onRangeChanged(startTime, endTime)"
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"
+    step="30">
         
     </calendar>
   </div>
