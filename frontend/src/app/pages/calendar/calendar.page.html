@@ -47,24 +47,13 @@
         <span class="itemKey" id="matchKey">partido</span>
       </div>
       <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
-        <ion-item *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
-          <div *ngIf="event.type ===  'training'">
-            <div>{{event.title}}</div>
-            <div class="eventDetail">
-              {{event.startTime|date: 'HH:mm'}}
-              -
-              {{event.endTime|date: 'HH:mm'}}
-            </div>
-          </div>
-          <div *ngIf="event.type ===  'match'">
-            <div>{{event.title}}</div>
-            <div class="eventDetail">
-              {{event.startTime|date: 'HH:mm'}}
-              -
-              {{event.endTime|date: 'HH:mm'}}
-            </div>
-            <div>map?</div>
-          </div>
+        <ion-item class="eventItem" *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
+          <span *ngIf="!event.allDay" class="eventTime">
+            {{event.startTime|date: 'HH:mm'}}
+            -
+            {{event.endTime|date: 'HH:mm'}}
+          </span>
+          <span class="event-detail">  |  {{event.title}}</span>
         </ion-item>
         <ion-item *ngIf="selectedDate?.events.length==0">
           <div class="no-events-label">{{noEventsLabel}}</div>

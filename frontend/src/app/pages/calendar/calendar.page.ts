@@ -25,8 +25,8 @@ export class CalendarPage implements OnInit {
       type: 'match',
       title: 'match #1',
       location: {
-        lat: '-34.9011',
-        lng: '-56.1645'
+        lat: -34.9011,
+        lng: -56.1645
       },
       startTime: new Date("2020-04-24T10:00:00"),
       endTime: new Date("2020-04-24T11:00:00"),
@@ -36,8 +36,8 @@ export class CalendarPage implements OnInit {
       type: 'training',
       title: 'training #1',
       location: {
-        lat: '-34.9011',
-        lng: '-56.1645'
+        lat: -34.9011,
+        lng: -56.1645
       },
       startTime: new Date("2020-04-20T10:00:00"),
       endTime: new Date("2020-04-20T11:00:00"),
@@ -79,7 +79,6 @@ export class CalendarPage implements OnInit {
   };
 
   onViewTitleChanged(title) {
-    //console.log(title);
     this.currentMonth = title;
   }
 
