@@ -17,6 +17,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Camera } from '@ionic-native/camera/ngx'
 import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { HttpClientModule } from '@angular/common/http';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
@@ -38,7 +39,8 @@ import { NgCalendarModule  } from 'ionic2-calendar';
     Camera,
     AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    apiRestProvider
+    apiRestProvider,
+    GooglePlus
   ],
   bootstrap: [AppComponent]
 })
