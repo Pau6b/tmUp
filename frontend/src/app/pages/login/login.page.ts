@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
 import { AuthService } from 'src/app/services/auth.service';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Platform } from '@ionic/angular';
+import * as firebase from 'firebase';
+import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +16,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginPage implements OnInit {
 
+  loading: any;
 
   logInForm = this.formBuilder.group({
     email: [
@@ -28,7 +35,12 @@ export class LoginPage implements OnInit {
     public navCtrl: NavController,
     public menuCtrl: MenuController,
     public formBuilder: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    private google: GooglePlus,
+    private platform: Platform,
+    public loadingController: LoadingController,
+    private router: Router, 
+    private fireAuth: AngularFireAuth
   ) { }
 
   ngOnInit() {
@@ -55,4 +67,42 @@ export class LoginPage implements OnInit {
     });
     
   }
+
+
+  loginGoogle() {
+    let params;
+    if (this.platform.is('android')) {
+      params = {
+        'webClientId': '124018728460-sv8cqhnnmnf0jeqbnd0apqbnu6egkhug.apps.googleusercontent.com',
+        'offline': true
+      }
+    }
+    else {
+      params = {}
+    }
+    this.google.login(params)
+      .then((response) => {
+        const { idToken, accessToken } = response
+        this.onLoginSuccess(idToken, accessToken);
+      }).catch((error) => {
+        console.log(error)
+        alert('error:' + JSON.stringify(error))
+      });
+  }
+  onLoginSuccess(accessToken, accessSecret) {
+    const credential = accessSecret ? firebase.auth.GoogleAuthProvider
+        .credential(accessToken, accessSecret) : firebase.auth.GoogleAuthProvider
+            .credential(accessToken);
+    this.fireAuth.auth.signInWithCredential(credential)
+      .then((response) => {
+        this.router.navigate(["/profile"]);
+        this.loading.dismiss();
+      })
+
+  }
+  onLoginError(err) {
+    console.log(err);
+  }
+
+
 }
