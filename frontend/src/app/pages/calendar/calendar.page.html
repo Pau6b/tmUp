@@ -35,9 +35,9 @@
       <div *ngIf="view.dates[row*7+col].events.length">
         <div class="dayBox">
           <div class="dayBoxContent">
-            <div>{{view.dates[row*7+col].label}}</div>
             <span *ngIf="eventExists(view.dates[row*7+col].events, 'training')" class="eventDot" id="training"></span>
             <span *ngIf="eventExists(view.dates[row*7+col].events, 'match')" class="eventDot" id="match"></span>
+            <span><br>{{view.dates[row*7+col].label}}</span>
           </div>
         </div>
       </div>

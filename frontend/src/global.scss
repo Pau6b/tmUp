@@ -47,21 +47,17 @@
 
 .monthview-selected {
   background-color: var(--ion-color-primary-tint) !important;
-  border-radius: 50% !important;
+  border-radius: 0.5em !important;
   color: white !important;
-  height: 1em !important;
-  width: 1em !important;
 }
 
 .monthview-current {
-  border-radius: 50% !important;
-  height: 1em !important;
-  width: 1em !important;
+  border-radius: 0.5em !important;
 }
 
 //to get the circle
 .monthview-datetable td {
-  padding: 0 !important;
+  padding: 0.3em 0 !important;
 }
 
 .dayBox, .noEvent {
@@ -69,7 +65,7 @@
 }
 
 .noEvent {
-  margin: 0 auto 35% auto;
+  margin: 40% auto 0 auto;
 }
 
 .noEvent:before {
@@ -83,4 +79,8 @@
   position: absolute;
   right:0;
   top:0;
+}
+
+span {
+  margin-top: 0;
 }
