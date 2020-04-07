@@ -20,6 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,6 +40,8 @@ import { NgCalendarModule  } from 'ionic2-calendar';
     AngularFireAuth,
     Camera,
     AngularFirestore,
+    Geolocation,
+    InAppBrowser,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider,
     GooglePlus

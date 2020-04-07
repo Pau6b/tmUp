@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router'
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 import { LoadingController } from '@ionic/angular';
 declare var google;
 
@@ -13,11 +16,14 @@ declare var google;
 export class EventPage implements OnInit {
 
   event: any;
+  currentLoc: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private geolocation: Geolocation,
+    private iab: InAppBrowser
   ) { 
     this.route.queryParams.subscribe(params => {
       this.event = this.router.getCurrentNavigation().extras.state.ev;
@@ -26,6 +32,16 @@ export class EventPage implements OnInit {
 
   ngOnInit() { 
     this.loadMap();
+  }
+
+  async GoogleDirections() {
+    let currentLoc = await this.geolocation.getCurrentPosition();
+    let currentLatLng = {
+      currLat: currentLoc.coords.latitude,
+      currLng: currentLoc.coords.longitude
+    };
+    this.iab.create('https://www.google.com/maps/dir/?api=1&origin='+currentLatLng.currLat+
+      ','+currentLatLng.currLng+'&destination='+this.event.location.lat+','+this.event.location.lng);
   }
 
   async loadMap() {
