@@ -23,7 +23,7 @@ export class CalendarPage implements OnInit {
     /* testing
     {
       type: 'match',
-      title: 'match #1',
+      title: 'match #2',
       location: {
         lat: -34.9011,
         lng: -56.1645
@@ -42,17 +42,28 @@ export class CalendarPage implements OnInit {
       startTime: new Date("2020-04-20T10:00:00"),
       endTime: new Date("2020-04-20T11:00:00"),
       allDay: false
+    },
+    {
+      type: 'match',
+      title: 'match #1',
+      location: {
+        lat: -34.9011,
+        lng: -56.1645
+      },
+      startTime: new Date("2020-04-20T18:00:00"),
+      endTime: new Date("2020-04-20T19:00:00"),
+      allDay: false
     }
     */
   ];
 
-  //style definition for different events
-  matchStyle = {
-    backgroundColor: 'var(--ion-color-danger)'
-  }
-
-  trainingStyle = {
-    backgroundColor: 'var(--ion-color-warning)'
+  //to know which type of events are
+  eventExists(events, type) {
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      if (type === 'training' && event.type === 'training') return true;
+      else if (type === 'match' && event.type === 'match') return true;
+    }
   }
 
   constructor(

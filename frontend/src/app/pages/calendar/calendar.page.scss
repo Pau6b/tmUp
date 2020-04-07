@@ -11,27 +11,43 @@
    ------------------------------ */
 
 .colorKey {
-  align-content: center;
+  align-items: center;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
+  margin: 0.5em auto;
   text-align: center;
 }
 
+.dotKey {
+  border-radius: 50%;
+  display: inline-block;
+  height: 12px;
+  margin: 0px 2px !important;
+  width: 12px;
+}
+
 .itemKey {
-  border-radius: 0.3em;
-  color: white;
   display: flex;
-  margin: 0.2em !important;
-  padding: 0.1em 0.5em !important;
+  margin: 0.2em 0.3em !important;
+  padding: 0.1em 0.2em !important;
 }
 
-#trainingKey  {
-  background-color: var(--ion-color-warning);
+.eventDot {
+  border-radius: 50%;
+  display: inline-block;
+  height: 5px;
+  margin: 0px 2px !important;
+  padding: 0;
+  width: 5px;
 }
 
-#matchKey  {
-  background-color: var(--ion-color-danger);
+#training {
+  background: var(--ion-color-warning);
+}
+
+#match {
+  background: var(--ion-color-danger);
 }
 
 .eventItem {
@@ -42,3 +58,4 @@
   font-size: small !important;
   padding: 0.2em;
 }
+

@@ -29,13 +29,16 @@
     </ion-toolbar>
 
     <ng-template #monthViewTemplate let-view="view" let-row="row" let-col="col">
-      <div *ngIf="view.dates[row*7+col].events == ''">{{view.dates[row*7+col].label}}</div>
-      <div *ngFor="let obj of view.dates[row*7+col].events">
-        <div *ngIf="obj.type === 'match'">
-          <div [ngStyle]="matchStyle">{{view.dates[row*7+col].label}}</div>
-        </div>
-        <div *ngIf="obj.type === 'training'">
-          <div [ngStyle]="trainingStyle">{{view.dates[row*7+col].label}}</div>
+      <div class="dayBox">
+        <div *ngIf="!view.dates[row*7+col].events.length" class="noEvent" >{{view.dates[row*7+col].label}}</div>
+      </div>
+      <div *ngIf="view.dates[row*7+col].events.length">
+        <div class="dayBox">
+          <div class="dayBoxContent">
+            <div>{{view.dates[row*7+col].label}}</div>
+            <span *ngIf="eventExists(view.dates[row*7+col].events, 'training')" class="eventDot" id="training"></span>
+            <span *ngIf="eventExists(view.dates[row*7+col].events, 'match')" class="eventDot" id="match"></span>
+          </div>
         </div>
       </div>
     </ng-template>
@@ -43,8 +46,10 @@
     <!-- custom event detail -->
     <ng-template #eventListTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
       <div class="colorKey"> 
-        <span class="itemKey" id="trainingKey">entreno</span>
-        <span class="itemKey" id="matchKey">partido</span>
+        <span class="dotKey" id="training"></span>
+        <span class="itemKey">entreno</span>
+        <span class="dotKey" id="match"></span>
+        <span class="itemKey">partido</span>
       </div>
       <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
         <ion-item class="eventItem" *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
