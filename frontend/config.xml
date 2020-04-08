@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="tmup-908e4" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>MyApp</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -99,4 +99,8 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <plugin name="cordova-plugin-googleplus" source="npm">
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.489608967542-jl99l1p7jub7k7uo6of0ngtdmn34lqct" />
+        <variable name="WEB_APPLICATION_CLIENT_ID" value="489608967542-8quc1uc92o0io6f8j1jgmtnban91r3f8.apps.googleusercontent.com" />
+    </plugin>
 </widget>
