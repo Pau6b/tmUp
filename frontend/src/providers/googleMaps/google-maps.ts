@@ -36,12 +36,10 @@ export class googleMaps {
             this.enableMap();
             resolve(true);
           });
-          window['mapInit'] = () => {
-            this.initMap().then(() => {
-              resolve(true);
-            });
-            this.enableMap();
-          }
+          this.initMap().then(() => {
+            resolve(true);
+          });
+          this.enableMap();
         } 
       } else {
         if(this.connectivityService.isOnline()){

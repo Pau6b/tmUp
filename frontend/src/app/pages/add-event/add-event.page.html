@@ -28,8 +28,8 @@
           <ion-input type="text" placeholder="Equipo rival" formControlName="rivalTeam"></ion-input>
         </ion-item>
 
-        <ion-item (click)="launchLocationPage()">
-          <ion-input type="search" placeholder="Localización" formControlName="location"></ion-input>
+        <ion-item (click)="launchLocationPage()" formGroupName="location">
+          <ion-input type="search" placeholder="Localización" formControlName="name"></ion-input>
         </ion-item>
 
         <ion-item>

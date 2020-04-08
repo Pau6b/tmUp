@@ -65,7 +65,7 @@ export class LocationSelectPage implements OnInit {
 
   searchPlace() {
     this.saveDisabled = true;
-    if(this.query.length > 0 && !this.searchDisabled) {
+    if(this.query.length > 0) {
       let config = {
         types: ['geocode'],
         input: this.query
