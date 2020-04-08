@@ -13,13 +13,14 @@ app.post('/create', (req, res) => {
                 teamName: jsonContent.teamName,
                 sport: jsonContent.sport,
             }).then((ref:any) => {
-                id= ref.id;
-            })
-            await db.collection('memberships').add({
-                teamId: id,
-                userId: jsonContent.userId,
-                type: "staff",
-            })
+                    id= ref.id;
+                    db.collection('memberships').add({
+                        teamId: id,
+                        userId: jsonContent.userId,
+                        type: "staff",
+                    })
+                })
+            
             return res.status(200).send(id);
         }
         catch(error){
