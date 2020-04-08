@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +10,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class AuthService {
 
   currentUser;
+  error: any;
 
   constructor(
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    public toastCtrl: ToastController,
+    private router: Router, 
   ) { }
 
   signUpUser(email: string, password: string): Promise<any> {
@@ -24,7 +29,29 @@ export class AuthService {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
-  /* logout function
+  async showToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Se ha enviado un mensaje a tu correo electrónico.',
+      duration: 10000,
+      position: "bottom",
+    });
+    await toast.present();
+  }
+
+  recover(email: string) {
+    this.afAuth.auth.sendPasswordResetEmail(email)
+      .then(data => {
+        this.showToast();
+        this.router.navigateByUrl('/profile');
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(` failed ${err}`);
+        this.error = err.message;
+      });
+  }
+
+   //logout function
   logOut() {
     this.afAuth.auth.signOut()
     .then(function() {
@@ -35,6 +62,6 @@ export class AuthService {
       console.log(error.message);
     });
   }
-  */
+  
 
 }

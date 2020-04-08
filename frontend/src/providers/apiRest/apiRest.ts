@@ -31,4 +31,12 @@ export class apiRestProvider {
             });
         })
     }
+
+    getProfileInfo() {
+        return this.http.get(this.url+'users');
+    }
+
+    updateProfileInfo(name, email, password) {
+
+    }
 }

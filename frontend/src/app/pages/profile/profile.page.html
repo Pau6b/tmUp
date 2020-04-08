@@ -8,18 +8,46 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item>
-      Imatge
-    </ion-item>
-    <ion-item>
-      Nom
-    </ion-item>
-    <ion-item>
-      Email
-    </ion-item>
-    <ion-item>
-      Mes coses (opcio canviarcontrasenya? equips dels que forma part? estadistiques personals?)
-    </ion-item>
-  </ion-list>
+  <ion-card>
+    <form [formGroup]="updateForm" (ngSubmit)="updateProfileUser()">
+      <ion-list class="form">
+        <ion-avatar class="avatarIcon">
+          <img src="{{ myPhoto }}" onerror=" src = '../../../assets/icon/avatar.svg'">
+        </ion-avatar>
+        <ion-item  lines="none" class="ion-text-center">
+          <ion-label (click)="cameraOptions()" class="smallText">Editar Imagen</ion-label>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input type="text" formControlName="userName" (click)="onInputClick()"></ion-input>
+        </ion-item>
+        <div *ngFor="let err of errorMessages.userName">
+          <ng-container *ngIf="userName.hasError(err.type) && userName.touched">
+            <small class="errorMessage">{{ err.message }}</small>
+          </ng-container>
+        </div>
+        <br>
+        <ion-item>
+          <ion-label position="floating">Correo electrónico</ion-label>
+          <ion-input type="email" formControlName="email" (click)="onInputClick()"></ion-input>
+        </ion-item>
+        <div *ngFor="let err of errorMessages.email">
+          <ng-container *ngIf="email.hasError(err.type) && email.touched">
+            <small class="errorMessage">{{ err.message }}</small>
+          </ng-container>
+        </div>
+        <br>
+        <ion-item lines="none">
+          <ion-label class="textPWD" (click)="presentConfirm()">Cambiar la contraseña</ion-label>
+        </ion-item>
+        <br>
+        <div >
+          <ion-button *ngIf="InputClick" type="submit" expand="block">Actualizar Perfil</ion-button>
+        </div>
+        <br>
+        <br>
+      </ion-list>
+    </form>
+  </ion-card>
 </ion-content>

@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AngularFireModule } from '@angular/fire';
 
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from './services/auth.service';
 
 
 @Component({
@@ -57,8 +58,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    public afAuth: AngularFireAuth
-    
+    public afAuth: AngularFireAuth,
+    public auth: AuthService
   ) {
     this.initializeApp();
   }
@@ -75,6 +76,10 @@ export class AppComponent implements OnInit {
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
+  }
+
+  logOut() {
+    this.auth.logOut();
   }
 
   

@@ -153,5 +153,4 @@ export class RegisterPage implements OnInit {
      console.log('Camera error:' + err)
     });
   }
-
 }
