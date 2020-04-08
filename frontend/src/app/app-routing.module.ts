@@ -66,6 +66,10 @@ const routes: Routes = [
   {
     path: 'add-event',
     loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
+  },
+  {
+    path: 'location-select',
+    loadChildren: () => import('./pages/location-select/location-select.module').then( m => m.LocationSelectPageModule)
   }
 
 

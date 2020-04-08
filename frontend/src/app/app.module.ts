@@ -20,8 +20,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
+
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Network } from '@ionic-native/network/ngx'
+import { Connectivity } from '../providers/connectivity/connectivity-service'
+import { googleMaps } from '../providers/googleMaps/google-maps'
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +47,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     AngularFirestore,
     Geolocation,
     InAppBrowser,
+    Network,
+    Connectivity,
+    googleMaps,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider,
     GooglePlus

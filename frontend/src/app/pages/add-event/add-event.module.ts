@@ -8,6 +8,8 @@ import { AddEventPageRoutingModule } from './add-event-routing.module';
 
 import { ReactiveFormsModule } from '@angular/forms'
 
+import { LocationSelectPageModule } from '../location-select/location-select.module'
+
 import { AddEventPage } from './add-event.page';
 
 @NgModule({
@@ -16,8 +18,9 @@ import { AddEventPage } from './add-event.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    AddEventPageRoutingModule
+    AddEventPageRoutingModule,
+    LocationSelectPageModule
   ],
-  declarations: [AddEventPage]
+  declarations: [AddEventPage],
 })
 export class AddEventPageModule {}

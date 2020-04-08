@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular'
 
 import { ActivatedRoute, Router } from '@angular/router'
 
 import { FormBuilder, Validators} from '@angular/forms'
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
+
+import { LocationSelectPage } from '../location-select/location-select.page'
 
 @Component({
   selector: 'app-add-event',
@@ -30,10 +33,24 @@ export class AddEventPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public formBuilder: FormBuilder,
-    public api: apiRestProvider
+    public api: apiRestProvider,
+    public modalCtrl: ModalController
   ) {  }
 
   ngOnInit() {
   }
 
+  goBack() {
+    this.router.navigate(['calendar']);
+  }
+
+  async launchLocationPage(){
+    let modal = await this.modalCtrl.create({
+      component: LocationSelectPage
+    });
+    modal.onDidDismiss().then((location) => {
+      console.log(location.data);
+    });
+    return modal.present();    
+  }
 }
