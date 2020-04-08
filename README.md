@@ -175,8 +175,6 @@ ThisIsAFunction() {
 _Function parameters should start with_ **i_** _if they are_ **input parameters**, **o_** _if they are_ **output parameters** _or_ **io_** _if they are_ **both input and output parameters** _and the type has to_ **ALWAYS** _be specified_
 
 ```
-
-
 ThisIsAFunction(i_input: String, o_output: String, io_inOut: String) {
 /* code */
 }
@@ -185,3 +183,28 @@ ThisIsAFunction(i_input: String, o_output: String, io_inOut: String) {
 ## CRUDS
 _Each crud has to be in a separate file, referenced in index or other cruds_
 
+## DB Fields
+_**ALL** fields must be written in lowerCamelCase_
+_like:_
+```
+statistics {
+  team{
+    football{
+      wonMatches : 0,
+      lostMatches : 0
+    }
+  }
+}
+```
+
+_not in UpperCamelCase or snake_case like:_
+```
+statistics {
+  team{
+    Football{
+      won_matches : 0,
+      LostMatches : 0
+    }
+  }
+}
+```
