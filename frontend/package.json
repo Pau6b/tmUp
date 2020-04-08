@@ -94,7 +94,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-actionsheet": {},
       "cordova-plugin-googleplus": {
-        "REVERSED_CLIENT_ID": "489608967542-8quc1uc92o0io6f8j1jgmtnban91r3f8.apps.googleusercontent.com"
+        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.489608967542-jl99l1p7jub7k7uo6of0ngtdmn34lqct",
+        "WEB_APPLICATION_CLIENT_ID": "489608967542-8quc1uc92o0io6f8j1jgmtnban91r3f8.apps.googleusercontent.com"
       },
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"

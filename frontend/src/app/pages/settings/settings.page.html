@@ -10,18 +10,18 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label>Escoge el  idioma</ion-label>
+      <ion-label>Cambiar idioma</ion-label>
       <ion-select>
-        <ion-select-option>
-          Castellano
-        </ion-select-option>
-        <ion-select-option>
-          Inglés
-        </ion-select-option>
-        <ion-select-option>
-          Catalan
-        </ion-select-option>
+        <ion-select-option *ngFor="let idioma of arrayString"> {{idioma}} </ion-select-option>
       </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="help-circle" slot="end"></ion-icon>
+      <ion-label>Ayuda</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="information-circle" slot="end"></ion-icon>
+      <ion-label>About</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
