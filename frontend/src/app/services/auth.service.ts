@@ -29,6 +29,7 @@ export class AuthService {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
+  //mensaje para indicar el cambio de contraseña
   async showToast() {
     const toast = await this.toastCtrl.create({
       message: 'Se ha enviado un mensaje a tu correo electrónico.',
@@ -38,6 +39,7 @@ export class AuthService {
     await toast.present();
   }
 
+  //cambiar contraseña function
   recover(email: string) {
     this.afAuth.auth.sendPasswordResetEmail(email)
       .then(data => {
@@ -54,7 +56,8 @@ export class AuthService {
    //logout function
   logOut() {
     this.afAuth.auth.signOut()
-    .then(function() {
+    .then(data=> {
+      this.router.navigateByUrl('/login');
       console.log('Signed out!');
     })
     .catch(function(error) {

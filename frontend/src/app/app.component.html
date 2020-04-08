@@ -45,8 +45,8 @@
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false">
-            <ion-item  (click)="logOut()" lines="none" detail="false" [class.selected]="selectedIndex == -14">
-              <ion-icon slot="end" name="log-out"></ion-icon>
+            <ion-item  (click)="selectedIndex = -14" routerLink="main" routerDirection="main" lines="none" detail="false" [class.selected]="selectedIndex == -14">
+              <ion-icon slot="end" name="log-out" (click)="presentConfirm()" ></ion-icon>
             </ion-item>
           </ion-menu-toggle>
         </ion-list-header>  

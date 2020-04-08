@@ -7,6 +7,7 @@ import { AngularFireModule } from '@angular/fire';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './services/auth.service';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -59,7 +60,8 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public afAuth: AngularFireAuth,
-    public auth: AuthService
+    public auth: AuthService,
+    public alertCtrl: AlertController
   ) {
     this.initializeApp();
   }
@@ -78,9 +80,26 @@ export class AppComponent implements OnInit {
     }
   }
 
-  logOut() {
-    this.auth.logOut();
-  }
-
-  
+  async presentConfirm() {
+    const alert = await this.alertCtrl.create({
+      message: 'Log out of (nombre usuario)?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Log Out',
+          handler: () => {
+            this.auth.logOut();
+            console.log('LogOut clicked');
+          }
+        }
+      ]
+    });
+    await alert.present(); 
+  }  
 }
