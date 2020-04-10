@@ -62,7 +62,7 @@ app.get('/:userEmail', (req, res) => {
                 }
             });
             if (!userExists) {
-                return res.status(400).send("UG1").;
+                return res.status(400).send("UG1");
             }
 
             return res.status(200).send(userData);
@@ -135,7 +135,7 @@ app.get('/me/teams', (req, res) => {
             });            
 
             //User exists, get team ids
-            const query = db.collection('memberships').where("userId", "==", req.params.email );
+            const query = db.collection('memberships').where("userId", "==", email );
             let teamIds: string[] = [];
             
             await query.get().then((querySnapshot: any) => {

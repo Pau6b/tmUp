@@ -1,7 +1,6 @@
 import * as express from 'express';
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const admin = require("firebase-admin");
-const db = admin.firestore();
 const app = express();
 
 //Create => Post
@@ -31,3 +30,5 @@ app.post('/', (req, res) => {
 
     })().then().catch();
 });
+
+module.exports = app;

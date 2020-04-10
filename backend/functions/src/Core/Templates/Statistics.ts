@@ -126,3 +126,20 @@ export function GetMembershipStatsBySport(sport: string) {
     }
     return result;
 }
+
+export function GetMatchStatsBySport(sport: string) {
+    let result = {};
+    if (sport == "football") {
+        result = matchStats.football;
+    }
+    else if (sport == "basketball") {
+        result = matchStats.basketball;
+    }
+    else if (sport == "handball") {
+        result = matchStats.handball;
+    }
+    else if (sport == "baseball") {
+        result = matchStats.baseball;
+    }
+    return result;
+}

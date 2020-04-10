@@ -53,7 +53,7 @@ app.use((req, res, next) => {
 const loginHandler = require('./Auth/Login');
 app.use('/login', loginHandler);
 
-const logoutHandler = require('./Users/Logout');
+const logoutHandler = require('./Auth/Logout');
 app.use('/logout', logoutHandler);
 
 const usersHandler = require('./Users/Users');
@@ -73,6 +73,7 @@ app.use('/teams/events/rivalAnalysis', rivalAnalysisHandler);
 
 const normativesHandler = require('./Teams/Normatives/Normatives');
 app.use('/teams/normatives', normativesHandler);
+
 const tacticsHandler = require('./Teams/Tactics/Tactics');
 app.use('/teams/tactics', tacticsHandler);
 
