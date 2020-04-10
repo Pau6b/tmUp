@@ -30,4 +30,7 @@ export class TeamListPage implements OnInit {
     this.navCtrl.navigateRoot('chat');
   }
 
+  goToaddTeam(){
+    this.navCtrl.navigateRoot('add-team');
+  }
 }

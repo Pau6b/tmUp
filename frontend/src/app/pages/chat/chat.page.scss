@@ -1,7 +1,13 @@
 /* ------------------------------
               HEADER
    ------------------------------ */
-
+   ion-header{
+        text-align: center;
+    }
+    
+    ion-menu-button {
+        display: block;
+    }
    /* ------------------------------
               CONTENT
    ------------------------------ */
@@ -9,45 +15,7 @@
    /* ------------------------------
               FOOTER
    ------------------------------ */
-    /*
-    ion-toolbar {
-        --background: var(--ion-color-primary);
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-    }
-
-    ion-toolbar > ion-input {
-        background: var(--ion-color-primary-contrast);
-        border-radius: 5em;
-    }
-
-    input {
-        margin-left: 0.5em;
-        margin-right: 2em;
-    }
-
-    ion-toolbar > ion-button {
-        --background: var(--ion-color-secondary);
-        border-radius: 50%;
-        margin-left: 0.6em;
-    }
-    ion-button > ion-icon {
-        border-radius: 50%;
-    }
-
-    .cardfooter{
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        margin-left: 1em;
-        margin-right: 0.5em;
-    }
-
-    ion-card {
-        --background: rgb(86, 186, 216);
-        color: white;
-    }
-    */
+    
     .message {
         padding: 0.625em;
         border-radius: 10px;

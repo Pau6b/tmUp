@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController, MenuController } from '@ionic/angular';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-tactics',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TacticsPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private api: apiRestProvider,
+    private navCtrl: NavController,
+    private menuCtrl: MenuController,) { }
 
   ngOnInit() {
+  }
+
+  goToaddTactic(){
+    this.navCtrl.navigateRoot("add-tactic");
   }
 
 }

@@ -61,6 +61,10 @@ const routes: Routes = [
   {
     path: 'add-match',
     loadChildren: () => import('./pages/add-match/add-match.module').then( m => m.AddMatchPageModule)
+  },
+  {
+    path: 'add-tactic',
+    loadChildren: () => import('./pages/add-tactic/add-tactic.module').then( m => m.AddTacticPageModule)
   }
 
 ];
