@@ -43,6 +43,10 @@ app.use((req, res, next) => {
 */
 /* --- end of before all requests --- */
 /* --- begin of routes --- */
+const loginHandler = require('./Auth/Login');
+app.use('/login', loginHandler);
+const logoutHandler = require('./Auth/Logout');
+app.use('/logout', logoutHandler);
 const usersHandler = require('./Users/Users');
 app.use('/users', usersHandler);
 const teamsHandler = require('./Teams/Teams');
