@@ -3,7 +3,6 @@ import { GetMatchStatsBySport } from "../../Core/Templates/Statistics"
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
-
 //-----------------------------------CREATE----------------------------------------------------------------------------------------
 
 //Crear evento partido
@@ -239,11 +238,21 @@ async function comprobarEvento(jsonContent: any) {
 }
 
 async function comprobarEquipo(jsonContent: any) {
+<<<<<<< HEAD
     let existsTeam = true;
     const query = db.collection('teams').doc(jsonContent.teamId);
     await query.get().then((querySnapshot: any) => {
         if(!querySnapshot.exists) {
             existsTeam = false;
+=======
+    let existsTeam = false;
+    const query = db.collection('teams');
+    await query.get().then((querySnapshot: any) => {
+        const docs = querySnapshot.docs;
+        for (const doc of docs) {
+            if (doc.id === jsonContent.teamId)
+                existsTeam = true;
+>>>>>>> 7bcd4dcfa17bb0bbc6160cec72e2326b93c68bad
         }
     });
     return existsTeam;
