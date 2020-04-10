@@ -109,3 +109,20 @@ export function GetTeamStatsBySport(sport: string) {
     }
     return result;
 }
+
+export function GetMembershipStatsBySport(sport: string) {
+    let result = {};
+    if (sport == "football") {
+        result = memberhsipStats.football;
+    }
+    else if (sport == "basketball") {
+        result = memberhsipStats.basketball;
+    }
+    else if (sport == "handball") {
+        result = memberhsipStats.handball;
+    }
+    else if (sport == "baseball") {
+        result = memberhsipStats.baseball;
+    }
+    return result;
+}

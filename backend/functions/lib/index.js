@@ -61,14 +61,6 @@ const membershipsHandler = require('./Memberships/Memberships');
 app.use('/memberships', membershipsHandler);
 const finesHandler = require('./Memberships/Fines/Fines');
 app.use('/memberships/fines', finesHandler);
-app.use(cors({ origin: true }));
-app.use(expressSession({
-    secret: 'ssshhhhh',
-    saveUninitialized: true,
-    resave: true
-}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 /* --- end of routes --- */
 exports.app = functions.https.onRequest(app);
 const db = admin.firestore();

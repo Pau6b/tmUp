@@ -8,20 +8,19 @@ const app = express();
 app.post('/', (req, res) => {
     (async () => {
         try {
+            if (req.session!.user) {
+                return res.status(400).send("LI2");
+            }
             const jsonContent = JSON.parse(req.body);
             let uid:any = "";
-            let error : any = "";
             admin.auth().verifyIdToken(jsonContent.token).then((decodedToken: any) => {
                 uid = decodedToken.uid;
-            }).catch((tokenError : any) => {
-                error = tokenError
-            });
+            })
             if (uid == "") {
-                return res.status(400).send(error);
+                return res.status(400).send("LI1");
             }
             admin.auth().getUser(uid).then((user: UserRecord) => {
-                req.session!.userUid = uid;
-                req.session!.userEmail = user.email;
+                req.session!.user = uid;
             });
             return res.status(200).send();
         }

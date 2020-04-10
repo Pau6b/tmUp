@@ -7,9 +7,10 @@ const app = express();
 app.post('/', (req, res) => {
     (async () => {
         try {
-            
-            req.session!.userUid = null;
-            req.session!.userEmail = null;
+            if (req.session!.user == null) {
+                return res.status(400).send("LO1");
+            }
+            req.session!.user = null;
             return res.status(200).send();
         }
         catch(error){

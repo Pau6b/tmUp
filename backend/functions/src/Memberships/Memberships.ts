@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { GetMembershipStatsBySport } from '../Core/Templates/Statistics'
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -9,42 +10,77 @@ app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let equipo = true;
-            let usuario = true;
-            let miembro = true;
+            
+            //Miramos que esten todos los camps
+            let errores: string[] = [];
+            let hayErrores: boolean = false;
+
+            if (jsonContent.hasOwnProperty("teamId")){
+                hayErrores = true;
+                errores.push("To create a membership you must indicate the teamId");
+            }
+            if (jsonContent.hasOwnProperty("userId")){
+                hayErrores = true;
+                errores.push("To create a membership you must indicate the userId");
+            }
+            if (jsonContent.hasOwnProperty("type")){
+                hayErrores = true;
+                errores.push("To create a membership you must indicate the type of membership");
+            }
+
+            if (hayErrores){
+                return res.status(400).send(errores);
+            }
+
+            //Miramos que el usuario y el equipo sean correctos y no tengan una membership ya☺
+            let equipoExiste: boolean = true;
+            let usuarioExiste: boolean = true;
+            let miembroExiste: boolean = true;
+            let teamSport: string ="";
             const team = db.collection('teams').doc(jsonContent.teamId);
-            await team.get().then((t:any) => {
-                if (!t.exists) equipo=false;
+            await team.get().then((team:any) => {
+                if (!team.exists) equipoExiste=false;
+                else {
+                    teamSport = team.sport;
+                }
             })
             const user = db.collection('users').doc(jsonContent.userId);
-            await user.get().then((u:any) => {
-                if (!u.exists) usuario=false;
+            await user.get().then((user:any) => {
+                if (!user.exists) usuarioExiste=false;
             })
             const membership = db.collection('memberships').where('userId', '==', jsonContent.userId).where('teamId', '==', jsonContent.teamId);
             await membership.get().then((snapshot:any) => {
-                if (snapshot.empty) miembro = false;
+                if (snapshot.empty) miembroExiste = false;
             })
-            if (miembro) {
-                return res.status(200).send("este usuario ya es miembro de este equipo");
+
+            errores = [];
+            hayErrores = false;
+
+            if (miembroExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + jsonContent.userId + "] already has a membership in the team: [" + jsonContent.teamId + "]");
             }
-            else if (!equipo && !usuario) {
-                return res.status(200).send("no existe nada");
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with id : [" + jsonContent.teamId + "] does not exist");
             }
-            else if (!equipo) {
-                return res.status(200).send("no existe equipo");
+            if (!usuarioExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + jsonContent.userId + "] does not exist");
             }
-            else if (!usuario) {
-                return res.status(200).send("no existe usuario");
+
+            if (hayErrores){
+                return res.status(400).send(errores);
             }
-            else {
-                console.log(miembro);
-                await db.collection('memberships').add({
-                    teamId: jsonContent.teamId,
-                    type: jsonContent.type,
-                    userId: jsonContent.userId,
-                });
-                return res.status(200).send();
-            }  
+
+            //Todo correcto, creamos la membership
+            await db.collection('memberships').add({
+                teamId: jsonContent.teamId,
+                type: jsonContent.type,
+                userId: jsonContent.userId,
+                stats: GetMembershipStatsBySport(teamSport)
+            });
+            return res.status(200).send(); 
                 
         }
         catch(error){
@@ -59,7 +95,6 @@ app.post('/create', (req, res) => {
 app.get('/getByTeam/:teamId', (req, res) => {
     (async () => {
         try {
-
             const query = db.collection('memberships').where('teamId','==',req.params.teamId);
             const response: any = [];
 

@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { sports } from '../Core/Core'
 import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -12,18 +13,28 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
+
+            if (req.session!.user == null) {
+                res.status(400).send("T1");
+            }
+
+            let email: any ="";  
+            admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    email = user.email
+            });    
+
             let errors: string[] = [];
             let hasErrors: boolean = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
-                errors.push("To create a team you must indicate the team name");
+                errors.push("TC2");
                 hasErrors = true;
             }
             if (!jsonContent.hasOwnProperty("sport")) {
-                errors.push("To create a team you must indicate the sport");
+                errors.push("TC3");
                 hasErrors = true;                
             }
             if (!sports.includes(jsonContent.sport)) {
-                errors.push("Sport must be one of the following: " + sports.toString());
+                errors.push("TC4");
                 hasErrors = true;  
             }
             if (hasErrors) {
@@ -42,7 +53,7 @@ app.post('/create', (req, res) => {
 
             await db.collection('memberships').add({
                 teamId: id,
-                userId: jsonContent.userId,
+                userId: email,
                 type: "staff"
             })
             return res.status(200).send(id);
@@ -100,8 +111,6 @@ app.get('/', (req, res) => {
 
                 for (const doc of docs) {
                     const selectedItem  = {
-                        teamId: doc.data().teamId,
-
                         teamName: doc.data().teamName,
                         sport: doc.data().sport
                     };
