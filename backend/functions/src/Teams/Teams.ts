@@ -100,8 +100,7 @@ app.get('/', (req, res) => {
 
                 for (const doc of docs) {
                     const selectedItem  = {
-                        teamId: doc.data().teamId,
-
+                        id: doc.data().id,
                         teamName: doc.data().teamName,
                         sport: doc.data().sport
                     };
