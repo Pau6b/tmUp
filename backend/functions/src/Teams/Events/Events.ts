@@ -127,10 +127,7 @@ app.get('/bymonth/:teamId/:month', (req, res) => {
                 console.log(req.params.month);
 
                 for (const doc of docs) {
-                    const selectedData  = {
-                        date: doc.data().date,
-                        type: doc.data().type
-                    };
+                    const selectedData  = doc.data();
                     const newDate = selectedData.date.split('-');
                     if (Buffer.from(newDate[1]).equals(Buffer.from(req.params.month))) {
                         response.push(selectedData); 
@@ -238,21 +235,11 @@ async function comprobarEvento(jsonContent: any) {
 }
 
 async function comprobarEquipo(jsonContent: any) {
-<<<<<<< HEAD
     let existsTeam = true;
     const query = db.collection('teams').doc(jsonContent.teamId);
     await query.get().then((querySnapshot: any) => {
         if(!querySnapshot.exists) {
             existsTeam = false;
-=======
-    let existsTeam = false;
-    const query = db.collection('teams');
-    await query.get().then((querySnapshot: any) => {
-        const docs = querySnapshot.docs;
-        for (const doc of docs) {
-            if (doc.id === jsonContent.teamId)
-                existsTeam = true;
->>>>>>> 7bcd4dcfa17bb0bbc6160cec72e2326b93c68bad
         }
     });
     return existsTeam;
