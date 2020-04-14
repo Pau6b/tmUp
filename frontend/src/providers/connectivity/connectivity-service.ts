@@ -11,7 +11,6 @@ export class Connectivity {
 
   constructor(public platform: Platform, public network: Network){
     this.onDevice = this.platform.is('desktop') || this.platform.is('ios') || this.platform.is('android') || this.platform.is('cordova');
-    console.log(this.onDevice);
   }
 
   isOnline(): boolean {

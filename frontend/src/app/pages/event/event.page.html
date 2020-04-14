@@ -9,15 +9,15 @@
 
 <ion-content>
   <div class="ion-padding">
-    <div class="rivalInfo">
-      <ion-label *ngIf="event.type === 'match'">Rival: {{ event.title }}</ion-label>
-    </div>
-    <div>
+    <ion-item *ngIf="event.type === 'match'" class="rivalInfo" lines="none">
+      <ion-label>Rival: {{ event.title }}</ion-label>
+    </ion-item>
+    <ion-item>
       <ion-label>{{ event.startTime | date: 'dd MMM yyyy'}}</ion-label>
-    </div>
-    <div class="smallText">
+    </ion-item>
+    <ion-item class="smallText">
       <ion-label>{{ event.startTime | date: 'HH:mm' }} - {{ event.endTime | date: 'HH:mm' }}</ion-label>
-    </div>
+    </ion-item>
   </div>
   <div id="map"></div>
   <ion-button (click)="GoogleDirections()" color="primary" expand="block">Cómo llegar</ion-button>
