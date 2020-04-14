@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button (click)="goBack()">Cancel</ion-button>
+      <ion-button routerLink="calendar" routerDirection="root">Cancel</ion-button>
     </ion-buttons>
     <ion-title>Nuevo evento</ion-title>
     <ion-buttons slot="end">
-      <ion-button [disabled]="!createMatchForm.valid" routerLink="calendar" routerDirection="root">Añadir</ion-button>
+      <ion-button [disabled]="!createMatchForm.valid" (click)="onAdd()">Añadir</ion-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
@@ -34,12 +34,36 @@
 
         <ion-item>
           <ion-label>Empieza</ion-label>
-          <ion-datetime displayFormat="D MMM H:mm"formControlName="startsMatch"></ion-datetime>
+          <ion-datetime displayFormat="D MMM H:mm"formControlName="startsMatch" minuteValues="0,15,30,45,50,55"></ion-datetime>
         </ion-item>
 
         <ion-item>
           <ion-label>Acaba</ion-label>
-          <ion-datetime displayFormat="H:mm" formControlName="endsMatch"></ion-datetime>
+          <ion-datetime displayFormat="H:mm" formControlName="endsMatch" minuteValues="0,15,30,45,50,55"></ion-datetime>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+
+  <div *ngIf="segmentModel === 'training'">
+    <form [formGroup]="createTrainingForm">
+      <ion-list>
+        <ion-item (click)="launchLocationPage()" formGroupName="location">
+          <ion-input type="search" placeholder="Localización" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Empieza</ion-label>
+          <ion-datetime displayFormat="D MMM H:mm"formControlName="startTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Acaba</ion-label>
+          <ion-datetime displayFormat="H:mm" formControlName="endTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-textarea rows="6" placeholder="Añade los ejercicios aquí..." formControlName="description"></ion-textarea>
         </ion-item>
       </ion-list>
     </form>

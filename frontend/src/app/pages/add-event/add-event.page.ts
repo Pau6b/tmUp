@@ -19,8 +19,6 @@ export class AddEventPage implements OnInit {
   startdate = new Date();
   endTime = new Date(new Date().setMinutes(this.startdate.getMinutes()+60));
 
-  selectedLoc: any;
-
   //create match form group
   locationForm = this.formBuilder.group({
     lat: [null, [Validators.required]],
@@ -32,9 +30,18 @@ export class AddEventPage implements OnInit {
     type: ['match'],
     rivalTeam: ['', [Validators.required]],
     location: this.locationForm,
-    startsMatch: [this.startdate.toISOString()],
-    endsMatch: [this.endTime.toISOString()],
-    allDay: false
+    startsMatch: [this.startdate.toISOString(), [Validators.required]],
+    endsMatch: [this.endTime.toISOString(), [Validators.required]],
+    allDay: [false]
+  });
+
+  createTrainingForm = this.formBuilder.group({
+    type:['training'],
+    location: this.locationForm,
+    startTime: [this.startdate.toISOString(), [Validators.required]],
+    endTime: [this.endTime.toISOString(), [Validators.required]],
+    allDay: [false],
+    description: ['']
   });
 
   constructor(
@@ -47,10 +54,6 @@ export class AddEventPage implements OnInit {
   ngOnInit() {
   }
 
-  goBack() {
-    this.router.navigate(['calendar']);
-  }
-
   async launchLocationPage(){
     let modal = await this.modalCtrl.create({
       component: LocationSelectPage
@@ -60,6 +63,12 @@ export class AddEventPage implements OnInit {
       console.log(location.data);
       this.createMatchForm.patchValue(location.data);
     });
-    return modal.present();    
+    return modal.present();
   }
+
+  onAdd() {
+    //mirar si es match o training y llamar API
+    console.log(this.createMatchForm.value);
+  }
+  
 }
