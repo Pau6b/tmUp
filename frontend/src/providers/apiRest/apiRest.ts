@@ -19,8 +19,16 @@ export class apiRestProvider {
     constructor (private http: HttpClient, private db: AngularFirestore){
     }
 
-    getTeams(){
-        return this.http.get(this.url+'teams');
+    getMe(){
+        return this.http.get(this.url+'users/me');
+    }
+
+    getUserTeams(){
+        return this.http.get(this.url+'users/me/teams');
+    }
+
+    getTeams(userid){
+        return this.http.get(this.url+'memberships/getByUser/'+userid);
     }
 
     createTeam(teamData) {
@@ -35,7 +43,7 @@ export class apiRestProvider {
 
     createMembership(data: JSON) {
         return new Promise(resolve => {
-            this.http.post(this.url+'membership/create', data)
+            this.http.post(this.url+'memberships/create', data)
             .subscribe(data => {
                 resolve(data);
             });

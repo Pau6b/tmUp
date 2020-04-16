@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { NavController, MenuController } from '@ionic/angular';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-add-tactic',
@@ -12,7 +13,8 @@ export class AddTacticPage implements OnInit {
   constructor(
     private api: apiRestProvider,
     private navCtrl: NavController,
-    private menuCtrl: MenuController) { }
+    private menuCtrl: MenuController,
+    private photo: PhotoService) { }
 
   ngOnInit() {
   }
@@ -21,7 +23,8 @@ export class AddTacticPage implements OnInit {
     this.menuCtrl.enable(false);
   }
 
-  goToTactics() {
-    this.navCtrl.na("tactics");
+  openOptions(){
+    this.photo.alertSheetPictureOptions();
   }
+
 }

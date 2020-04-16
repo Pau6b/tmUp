@@ -10,15 +10,24 @@ import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 export class TeamListPage implements OnInit {
 
   teamList;
+  me;
 
   constructor(
     public proveedor:apiRestProvider,
     public navCtrl: NavController,
     public menuCtrl: MenuController
     ) { 
-      this.proveedor.getTeams()
+      this.proveedor.getMe()
       .subscribe(
-        (data) => { this.teamList = data;},
+        (data) => { this.me = data;
+        console.log(this.me);},
+        (error) => {console.log(error);}
+      );
+      console.log("-------------------------")
+      this.proveedor.getUserTeams()
+      .subscribe(
+        (data) => { this.teamList = data;
+          console.log(this.teamList);},
         (error) => {console.log(error);}
       );
     }
