@@ -16,7 +16,7 @@ export class AddTeamPage implements OnInit {
   
   myPhoto: any;
 
-  sportsLists = ['Football', 'Basketball', 'Handball','Baseball']
+  sportsLists = ['football', 'basketball', 'handball','baseball']
   roles = ['Fisioterapeuta', 'Jugador']
 
   segmentModel = "create";
@@ -29,8 +29,9 @@ export class AddTeamPage implements OnInit {
 
   //join team form
   joinTeamForm = this.formBuilder.group({
-    teamID: ['', [Validators.required]],
-    role: ['', [Validators.required]]
+    teamId: ['', [Validators.required]],
+    userId: [''],
+    role: ['']
   });
 
 
@@ -45,7 +46,7 @@ export class AddTeamPage implements OnInit {
     role: [
       { type: 'required', message: 'Rol es necesario'}
     ],
-    teamID: [
+    teamId: [
       { type: 'required', message: 'Código de equipo es  necesario'}
     ]
   }
@@ -77,7 +78,7 @@ export class AddTeamPage implements OnInit {
   get role() {
     return this.createTeamForm.get("role")
   }
-  get teamID() {
+  get teamId() {
     return this.joinTeamForm.get("teamID")
   }
 
@@ -100,6 +101,13 @@ export class AddTeamPage implements OnInit {
   //calling api rest to join team
   joinTeam() {
     console.log(this.joinTeamForm.value);
+    this.api.createMembership(this.joinTeamForm.value)
+    .then( () => {
+      console.log("user added to team");
+    },
+    (error) => {
+      console.log(error.message);
+    });
   }
 
   //camera options

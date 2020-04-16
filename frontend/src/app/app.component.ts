@@ -6,7 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AngularFireModule } from '@angular/fire';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from './services/auth.service';
 import { AlertController } from '@ionic/angular';
 
 

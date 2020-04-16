@@ -31,6 +31,7 @@
           <ion-label position="floating">Nombre Equipo</ion-label>
           <ion-input type="text" formControlName="teamName"></ion-input>
         </ion-item>
+        <!--mirar error-->
         <div *ngFor="let err of errorMessages.teamName">
           <ng-container *ngIf="teamName.hasError(err.type) && teamName.touched">
             <small class="errorMessage">{{ err.message }}</small>
@@ -61,10 +62,10 @@
         <ion-list>
           <ion-item>
             <ion-label position="floating">Introduce el ID de equipo</ion-label>
-            <ion-input type="text" formControlName="teamID"></ion-input>
+            <ion-input type="text" formControlName="teamId"></ion-input>
           </ion-item>
-          <div *ngFor="let err of errorMessages.teamID">
-            <ng-container *ngIf="teamID.hasError(err.type) && teamID.touched">
+          <div *ngFor="let err of errorMessages.teamId">
+            <ng-container *ngIf="teamId.hasError(err.type) && teamId.touched">
               <small class="errorMessage">{{ err.message }}</small>
             </ng-container>
           </div>

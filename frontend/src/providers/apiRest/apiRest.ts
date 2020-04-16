@@ -23,9 +23,9 @@ export class apiRestProvider {
         })
     }
 
-    createMembership(data: JSON) {
+    createMembership(data) {
         return new Promise(resolve => {
-            this.http.post(this.url+'membership/create', data)
+            this.http.post(this.url+'memberships/create', JSON.stringify(data))
             .subscribe(data => {
                 resolve(data);
             });
