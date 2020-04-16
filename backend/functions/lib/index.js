@@ -28,11 +28,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /* --- before all requests --- */
 /*
 app.use((req, res, next) => {
-  const token
-            await document.update({
-                email: jsonContent.email,
-                userName: jsonCon= req.headers.token;
-  admin.auth.verifyIdToken(token)
+  const jsonContent = JSON.parse(req.body);
+  admin.auth.verifyIdToken(jsonContent.token)
   .then((payload : any) => {
     next(payload);
   })
