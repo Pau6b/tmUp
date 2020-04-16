@@ -12,7 +12,7 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-            if (req.session.user == null) {
+            if (req.session.user === null) {
                 res.status(400).send("T1");
             }
             let email = "";
@@ -64,7 +64,7 @@ app.get('/:teamId', (req, res) => {
         try {
             const document = db.collection("teams").doc(req.params.teamId);
             let teamExists = true;
-            let teamData = await document.get().then((doc) => {
+            const teamData = await document.get().then((doc) => {
                 if (!doc.exists) {
                     teamExists = false;
                 }

@@ -9,16 +9,37 @@ chaiT.use(chaiHttp);
 const url = 'http://localhost:5001/tmup-908e4/us-central1/app';
 
 
-describe('Post users: ',()=>{
-    it('get all users', (done) => {
-        chaiT.request(url)
-        .get('/users/create')
-        .send({email:"a@a.com", userName: "a"})
-        .end( function(err,res){
-            expect(res).to.have.status(200);
-            done();
-        });
+describe('Create memberships: ',()=>{
+  
+
+    it('Create team', async() => {
+        var team = {
+            "userId": "c@a.com",
+            "teamName": "fcb",
+            "sport": "football"
+        };
+        const response = await chaiT.request(url)
+        .post('/teams/create')
+        .set('content-type', 'application/raw')
+        .send(JSON.stringify(team));
+        expect(response).to.have.status(200);
+            //expect(body).should.include("CM1");
+
     });
+    /*it('Create existing membership', async() => {
+        var memb = {
+            "userId": "a@a.com",
+            "teamId": "a",
+            "sport": "Football"
+        };
+        const response = await chaiT.request(url)
+        .post('/memberships/create')
+        .set('content-type','application/raw')
+        .send(JSON.stringify(memb));
+        console.log(response);
+        expect(response).to.have.status(400);
+
+    });*/
 });
    
    
