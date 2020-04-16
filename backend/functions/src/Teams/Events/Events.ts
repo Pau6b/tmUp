@@ -11,10 +11,8 @@ app.post('/match/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            //let data = new Date(req.body.date);
             const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
-            //const location = new db.GeoPoint(jsonContent.latitude, jsonContent.longitude);
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "match",
                 title: jsonContent.title,
@@ -23,8 +21,6 @@ app.post('/match/create', (req, res) => {
                 allDay: jsonContent.allDay,
                 rival: jsonContent.rival,
                 location: jsonContent.location
-                //latitude: jsonContent.latitude,
-                //longitude: jsonContent.longitude
             })
             return res.status(200).send();
         }
@@ -51,8 +47,6 @@ app.post('/training/create', (req, res) => {
                 allDay: jsonContent.allDay,
                 description: jsonContent.description,
                 location: jsonContent.location
-                /*latitude: jsonContent.latitude,
-                longitude: jsonContent.longitude*/
             })
             return res.status(200).send();
         }
@@ -78,12 +72,6 @@ app.get('/byday/:teamId/:date', (req, res) => {
                 const docs = querySnapshot.docs;
                 let selectedData;
                 for (const doc of docs) {
-                    /*
-                    if(doc.data.type === "match") {
-                        selectedData = matchData(doc);
-                    }else {
-                        selectedData = trainingData(doc);
-                    }*/
                     if (doc.data().startTime === req.params.startTime) {
                         if(doc.data.type === "match") selectedData = matchData(doc);
                         else selectedData = trainingData(doc);
@@ -114,27 +102,18 @@ app.get('/bymonth/:teamId/:month', (req, res) => {
                 setTimeout(() => {
                     query.onSnapshot((snapshot: any[]) => {
                         snapshot.forEach(snap => {
-                            /*const selectedData = {
-                                date: snap.data().startTime,
-                                type: snap.data().type
-                            }*/
                             const event = new Date(snap.data().startTime);
 
                             if(event.getMonth() ===  parseInt(req.params.month)) {
                                 let selectedData;
                                 if(snap.data().type === "match") selectedData = matchData(snap);
                                 else selectedData = trainingData(snap);
-                                /*const selectedData = {
-                                    date: snap.data().startTime,
-                                    type: snap.data().type
-                                }*/
                                 response.push(selectedData);
                             }
                         })
                         console.log(response);
                         resolve({msg: "It works", response});
                         return res.status(200).send(response);
-                        //return response;         
                     })
                     if(true){
                         resolve({msg: "It works", response});
@@ -220,8 +199,6 @@ app.put('/match/update', (req, res) => {
                 allDay: jsonContent.allDay,
                 rival: jsonContent.rival,
                 location: jsonContent.location
-                /*latitude: jsonContent.latitude,
-                longitude: jsonContent.longitude*/
             })
             return res.status(200).send();
         }
@@ -264,9 +241,6 @@ function trainingData(doc: any) {
         type: doc.data().type,
         description: doc.data().description,
         location: doc.data().location
-/*
-        latitude: doc.data().latitude,
-        longitude: doc.data().longitude*/
     };
     return selectedData;
 }
