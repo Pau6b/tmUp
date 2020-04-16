@@ -5,7 +5,7 @@ import { ActionSheetController, NavController, MenuController } from '@ionic/ang
 
 import { FormBuilder, Validators} from '@angular/forms'
 
-import { AuthService } from '../../../services/auth/auth.service'
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'app-register',

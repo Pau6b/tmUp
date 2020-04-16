@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, NavigationExtras } from '@angular/router';
 
+import { apiRestProvider } from '../../../providers/apiRest/apiRest'
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.page.html',
@@ -67,10 +69,14 @@ export class CalendarPage implements OnInit {
   }
 
   constructor(
-    private router: Router
+    private router: Router,
+    private api: apiRestProvider
   ) { }
 
   ngOnInit() {
+    /*
+      this.api.
+    */
   }
 
   addEvent() {

@@ -6,7 +6,7 @@ import { ActionSheetController, NavController, MenuController } from '@ionic/ang
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AlertController } from '@ionic/angular';
-import { AuthService } from '../../../services/auth/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
