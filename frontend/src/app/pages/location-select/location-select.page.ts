@@ -15,8 +15,6 @@ export class LocationSelectPage implements OnInit {
   @ViewChild('map', {static: true}) mapElement: ElementRef;
   @ViewChild('pleaseConnect', {static: true}) pleaseConnect: ElementRef;
 
-  latitude: number;
-  longitude: number;
   autocompleteService: any;
   placesService: any;
   query: string = '';
@@ -47,17 +45,17 @@ export class LocationSelectPage implements OnInit {
   selectPlace(place) {
     this.places = [];
     let location = {
-      lat: null,
-      lng: null,
+      latitude: null,
+      longitude: null,
       name: place.name
     };
     this.placesService.getDetails({placeId: place.place_id}, (details) => {
       this.zone.run(() => {
         location.name = details.name;
-        location.lat = details.geometry.location.lat();
-        location.lng = details.geometry.location.lng();
+        location.latitude = details.geometry.location.lat();
+        location.longitude = details.geometry.location.lng();
         this.saveDisabled = false;
-        this.maps.map.setCenter({lat: location.lat, lng: location.lng}); 
+        this.maps.map.setCenter({lat: location.latitude, lng: location.longitude}); 
         this.location = location;
       });
     });

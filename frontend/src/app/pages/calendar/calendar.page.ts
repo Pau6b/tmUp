@@ -74,13 +74,13 @@ export class CalendarPage implements OnInit {
   }
 
   addEvent() {
-    //to pass the selectedDate to AddEvent Page
+    /*to pass the selectedDate to AddEvent Page
     let navigationExtras: NavigationExtras = {
       state: {
         selectedDay: this.selectedDate
       }
-    };
-    this.router.navigate(['/add-event'], navigationExtras);
+    };*/
+    this.router.navigate(['/add-event']);
   }
 
   markDisabled = (date: Date) => {

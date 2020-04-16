@@ -25,7 +25,7 @@
     <form [formGroup]="createMatchForm">
       <ion-list>
         <ion-item>
-          <ion-input type="text" placeholder="Equipo rival" formControlName="rivalTeam"></ion-input>
+          <ion-input type="text" placeholder="Equipo rival" formControlName="rival"></ion-input>
         </ion-item>
 
         <ion-item (click)="launchLocationPage()" formGroupName="location">
@@ -34,12 +34,12 @@
 
         <ion-item>
           <ion-label>Empieza</ion-label>
-          <ion-datetime displayFormat="D MMM H:mm"formControlName="startsMatch" minuteValues="0,15,30,45,50,55"></ion-datetime>
+          <ion-datetime displayFormat="D MMM H:mm"formControlName="startsTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
         </ion-item>
 
         <ion-item>
           <ion-label>Acaba</ion-label>
-          <ion-datetime displayFormat="H:mm" formControlName="endsMatch" minuteValues="0,15,30,45,50,55"></ion-datetime>
+          <ion-datetime displayFormat="H:mm" formControlName="endTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
         </ion-item>
       </ion-list>
     </form>

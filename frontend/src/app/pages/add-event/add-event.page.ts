@@ -21,22 +21,24 @@ export class AddEventPage implements OnInit {
 
   //create match form group
   locationForm = this.formBuilder.group({
-    lat: [null, [Validators.required]],
-    lng: [null, [Validators.required]],
+    latitude: [null, [Validators.required]],
+    longitude: [null, [Validators.required]],
     name: ['', [Validators.required]]
   });
   
   createMatchForm = this.formBuilder.group({
     type: ['match'],
-    rivalTeam: ['', [Validators.required]],
+    title: [''],
+    rival: ['', [Validators.required]],
     location: this.locationForm,
-    startsMatch: [this.startdate.toISOString(), [Validators.required]],
-    endsMatch: [this.endTime.toISOString(), [Validators.required]],
+    starTime: [this.startdate.toISOString(), [Validators.required]],
+    endTime: [this.endTime.toISOString(), [Validators.required]],
     allDay: [false]
   });
 
   createTrainingForm = this.formBuilder.group({
     type:['training'],
+    title: [''],
     location: this.locationForm,
     startTime: [this.startdate.toISOString(), [Validators.required]],
     endTime: [this.endTime.toISOString(), [Validators.required]],
@@ -68,7 +70,12 @@ export class AddEventPage implements OnInit {
 
   onAdd() {
     //mirar si es match o training y llamar API
-    console.log(this.createMatchForm.value);
+    if (this.segmentModel == "match") {
+      console.log(this.createMatchForm.value);
+    }
+    else {
+      console.log(this.createTrainingForm.value);
+    }
   }
   
 }
