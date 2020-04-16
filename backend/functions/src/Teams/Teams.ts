@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { sports } from '../Core/Core'
 import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -12,18 +13,28 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
+
+            if (req.session!.user === null) {
+                res.status(400).send("T1");
+            }
+
+            let email: any ="";  
+            admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    email = user.email
+            });    
+
             let errors: string[] = [];
             let hasErrors: boolean = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
-                errors.push("To create a team you must indicate the team name");
+                errors.push("TC2");
                 hasErrors = true;
             }
             if (!jsonContent.hasOwnProperty("sport")) {
-                errors.push("To create a team you must indicate the sport");
+                errors.push("TC3");
                 hasErrors = true;                
             }
             if (!sports.includes(jsonContent.sport)) {
-                errors.push("Sport must be one of the following: " + sports.toString());
+                errors.push("TC4");
                 hasErrors = true;  
             }
             if (hasErrors) {
@@ -42,7 +53,7 @@ app.post('/create', (req, res) => {
 
             await db.collection('memberships').add({
                 teamId: id,
-                userId: jsonContent.userId,
+                userId: email,
                 type: "staff"
             })
             return res.status(200).send(id);
@@ -63,7 +74,7 @@ app.get('/:teamId', (req, res) => {
             const document = db.collection("teams").doc(req.params.teamId);
 
             let teamExists:boolean = true;
-            let teamData = await document.get().then((doc: any) => {
+            const teamData = await document.get().then((doc: any) => {
                 if(!doc.exists) {
                     teamExists = false;
                 }
@@ -124,21 +135,9 @@ app.put('/:teamId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            
-
+        
             if (!jsonContent.hasOwnProperty("teamName")) {
                 return res.status(400).send("No teamName specified.");
-            }
-
-            let teamExists : boolean = true;
-            await db.collection('teams').doc(req.params.teamId).get().then((doc:any) => {
-                if(!doc.exists){
-                    teamExists = false;
-                }
-            });
-
-            if (!teamExists) {
-                return res.status(400).send("Team with teamid : [" + req.params.teamId + "] does not exist");
             }
 
             await db.collection('teams').doc(req.params.teamId).update({

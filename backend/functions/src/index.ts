@@ -12,7 +12,6 @@ const serviceAccount = require("../permissions.json");
 const app = express(); 
 const admin = require("firebase-admin");
 
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://tmup-908e4.firebaseio.com"
@@ -26,18 +25,17 @@ app.use( expressSession({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 /*end-of-configuration */
 
 //Per correr el development server => npm run serve dins de la carpeta de functions
 
 /* --- before all requests --- */
+
 /*
 app.use((req, res, next) => {
-  const token 
-            await document.update({
-                email: jsonContent.email,
-                userName: jsonCon= req.headers.token;
-  admin.auth.verifyIdToken(token)
+  const jsonContent = JSON.parse(req.body);
+  admin.auth.verifyIdToken(jsonContent.token)
   .then((payload : any) => {
     next(payload);
   })
@@ -46,9 +44,16 @@ app.use((req, res, next) => {
   } );
 });
 */
+
 /* --- end of before all requests --- */
 
 /* --- begin of routes --- */
+
+const loginHandler = require('./Auth/Login');
+app.use('/login', loginHandler);
+
+const logoutHandler = require('./Auth/Logout');
+app.use('/logout', logoutHandler);
 
 const usersHandler = require('./Users/Users');
 app.use('/users', usersHandler);
@@ -67,6 +72,7 @@ app.use('/teams/events/rivalAnalysis', rivalAnalysisHandler);
 
 const normativesHandler = require('./Teams/Normatives/Normatives');
 app.use('/teams/normatives', normativesHandler);
+
 const tacticsHandler = require('./Teams/Tactics/Tactics');
 app.use('/teams/tactics', tacticsHandler);
 
@@ -75,15 +81,6 @@ app.use('/memberships', membershipsHandler);
 
 const finesHandler = require('./Memberships/Fines/Fines');
 app.use('/memberships/fines', finesHandler);
-
-app.use( cors( { origin: true } ) );
-app.use( expressSession({
-  secret: 'ssshhhhh',
-  saveUninitialized: true,
-  resave: true
-}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
 /* --- end of routes --- */
 
 exports.app = functions.https.onRequest(app);

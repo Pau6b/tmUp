@@ -95,17 +95,51 @@ export const teamStats = {
 
 export function GetTeamStatsBySport(sport: string) {
     let result = {};
-    if (sport == "football") {
+    if (sport === "football") {
         result = teamStats.football;
     }
-    else if (sport == "basketball") {
+    else if (sport === "basketball") {
         result = teamStats.basketball;
     }
-    else if (sport == "handball") {
+    else if (sport === "handball") {
         result = teamStats.handball;
     }
-    else if (sport == "baseball") {
+    else if (sport === "baseball") {
         result = teamStats.baseball;
+    }
+    return result;
+}
+
+export function GetMembershipStatsBySport(sport: string) {
+    let result = {};
+    if (sport === "football") {
+        result = memberhsipStats.football;
+    }
+    else if (sport === "basketball") {
+        result = memberhsipStats.basketball;
+    }
+    else if (sport === "handball") {
+        result = memberhsipStats.handball;
+    }
+    else if (sport === "baseball") {
+        result = memberhsipStats.baseball;
+    }
+    return result;
+}
+
+export function GetMatchStatsBySport(sport: string) {
+    let result = {};
+    if (sport === "football") {
+        result = matchStats.football;
+    }
+    else if (sport === "basketball") {
+        result = matchStats.basketball;
+    }
+    else if (sport === "handball") {
+        result = matchStats.handball;
+    }
+    else if (sport === "baseball") {
+        result = matchStats.baseball;
     }
     return result;
 }
