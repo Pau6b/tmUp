@@ -28,7 +28,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /* --- before all requests --- */
 /*
 app.use((req, res, next) => {
-  const token = req.headers.token;
+  const token
+            await document.update({
+                email: jsonContent.email,
+                userName: jsonCon= req.headers.token;
   admin.auth.verifyIdToken(token)
   .then((payload : any) => {
     next(payload);
@@ -44,8 +47,28 @@ const usersHandler = require('./Users/Users');
 app.use('/users', usersHandler);
 const teamsHandler = require('./Teams/Teams');
 app.use('/teams', teamsHandler);
-const membershipHandler = require('./Users/Membership');
-app.use('/membership', membershipHandler);
+const eventsHandler = require('./Teams/Events/Events');
+app.use('/teams/events', eventsHandler);
+const photosHandler = require('./Teams/Events/Photos/Photos');
+app.use('/teams/events/photos', photosHandler);
+const rivalAnalysisHandler = require('./Teams/Events/RivalAnalysis/RivalAnalysis');
+app.use('/teams/events/rivalAnalysis', rivalAnalysisHandler);
+const normativesHandler = require('./Teams/Normatives/Normatives');
+app.use('/teams/normatives', normativesHandler);
+const tacticsHandler = require('./Teams/Tactics/Tactics');
+app.use('/teams/tactics', tacticsHandler);
+const membershipsHandler = require('./Memberships/Memberships');
+app.use('/memberships', membershipsHandler);
+const finesHandler = require('./Memberships/Fines/Fines');
+app.use('/memberships/fines', finesHandler);
+app.use(cors({ origin: true }));
+app.use(expressSession({
+    secret: 'ssshhhhh',
+    saveUninitialized: true,
+    resave: true
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 /* --- end of routes --- */
 exports.app = functions.https.onRequest(app);
 const db = admin.firestore();
@@ -66,5 +89,5 @@ exports.onUserCreate = functions.auth.user().onCreate((user) => {
 exports.onUserDelete = functions.auth.user().onDelete((user) => {
 
 });
-*/ 
+*/
 //# sourceMappingURL=index.js.map
