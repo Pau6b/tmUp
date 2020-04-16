@@ -3,20 +3,28 @@ import * as express from 'express';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
-//-----------------------------------CREATE----------------------------------------------------------------------------------------
+
+//-------------------------------------------------CREATE----------------------------------------------------------------------------------------
 
 //Crear evento partido
 app.post('/match/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            //let data = new Date(req.body.date);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
+            //const location = new db.GeoPoint(jsonContent.latitude, jsonContent.longitude);
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "match",
-                date: jsonContent.date,
-                hour: jsonContent.hour,
-                rival: jsonContent.rival
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                rival: jsonContent.rival,
+                location: jsonContent.location
+                //latitude: jsonContent.latitude,
+                //longitude: jsonContent.longitude
             })
             return res.status(200).send();
         }
@@ -33,14 +41,18 @@ app.post('/training/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "training",
-                date: jsonContent.date,
-                hour: jsonContent.hour,
-                finalhour: jsonContent.finalhour,
-                description: jsonContent.description
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                description: jsonContent.description,
+                location: jsonContent.location
+                /*latitude: jsonContent.latitude,
+                longitude: jsonContent.longitude*/
             })
             return res.status(200).send();
         }
@@ -58,7 +70,7 @@ app.post('/training/create', (req, res) => {
 app.get('/byday/:teamId/:date', (req, res) => {
     (async () => {
         try {
-            let existsTeam = await comprobarEquipo(req.params);
+            const existsTeam = await comprobarEquipo(req.params);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
             const query = db.collection('teams').doc(req.params.teamId).collection("events");
             const response: any = [];
@@ -66,31 +78,18 @@ app.get('/byday/:teamId/:date', (req, res) => {
                 const docs = querySnapshot.docs;
                 let selectedData;
                 for (const doc of docs) {
-                    if(doc.data.type == "match") {
-                        selectedData  = {
-                            id: doc.id,
-                            date: doc.data().date,
-                            type: doc.data().type,
-                            hour: doc.data().hour,
-                            rival: doc.data().rival
-                        };
+                    /*
+                    if(doc.data.type === "match") {
+                        selectedData = matchData(doc);
                     }else {
-                        selectedData  = {
-                            id: doc.id,
-                            date: doc.data().date,
-                            type: doc.data().type,
-                            hour: doc.data().hour,
-                            finalhour: doc.data().finalhour,
-                            description: doc.data().description
-                        };
-                    }
-                    //if(selectedData.type == "match") selectedData.push({rival: doc.data().rival});
-                    console.log(selectedData);
-                    if (selectedData.date == req.params.date) {
+                        selectedData = trainingData(doc);
+                    }*/
+                    if (doc.data().startTime === req.params.startTime) {
+                        if(doc.data.type === "match") selectedData = matchData(doc);
+                        else selectedData = trainingData(doc);
                         response.push(selectedData); 
                     } 
                 }
-                console.log(response);
                 return response;
             })
             return res.status(200).send(response);
@@ -106,28 +105,44 @@ app.get('/byday/:teamId/:date', (req, res) => {
 //Read Events of a month => GET
 app.get('/bymonth/:teamId/:month', (req, res) => {
     (async () => {
-        try { 
-            let existsTeam = await comprobarEquipo(req.params);
+        try {
+            const existsTeam = await comprobarEquipo(req.params);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
             const query = db.collection('teams').doc(req.params.teamId).collection('events');
             const response: any = [];
-            await query.get().then((querySnapshot: any) => {
-                const docs = querySnapshot.docs;
-                console.log(req.params.month);
+            return new Promise(function(resolve, reject) {
+                setTimeout(() => {
+                    query.onSnapshot((snapshot: any[]) => {
+                        snapshot.forEach(snap => {
+                            /*const selectedData = {
+                                date: snap.data().startTime,
+                                type: snap.data().type
+                            }*/
+                            const event = new Date(snap.data().startTime);
 
-                for (const doc of docs) {
-                    const selectedData  = {
-                        date: doc.data().date,
-                        type: doc.data().type
-                    };
-                    const newDate = selectedData.date.split('-');
-                    if (Buffer.from(newDate[1]).equals(Buffer.from(req.params.month))) {
-                        response.push(selectedData); 
-                    } 
-                }                 
-                return response;             
-            })              
-        return res.status(200).send(response);         
+                            if(event.getMonth() ===  parseInt(req.params.month)) {
+                                let selectedData;
+                                if(snap.data().type === "match") selectedData = matchData(snap);
+                                else selectedData = trainingData(snap);
+                                /*const selectedData = {
+                                    date: snap.data().startTime,
+                                    type: snap.data().type
+                                }*/
+                                response.push(selectedData);
+                            }
+                        })
+                        console.log(response);
+                        resolve({msg: "It works", response});
+                        return res.status(200).send(response);
+                        //return response;         
+                    })
+                    if(true){
+                        resolve({msg: "It works", response});
+                    }else {
+                        reject({});
+                    }
+                }, 2000);
+            })
         }         
         catch(error){             
             console.log(error);             
@@ -137,16 +152,16 @@ app.get('/bymonth/:teamId/:month', (req, res) => {
 });
 
 
-//----------------------------------------------DELETE------------------------------------------------------------------------
+//---------------------------------------------------------DELETE------------------------------------------------------------------------
 
 //Delete event
 app.delete('/delete', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
-            let existeevento = await comprobarEvento(jsonContent);
+            const existeevento = await comprobarEvento(jsonContent);
             if(!existeevento) return res.status(400).send("no existe el evento");
             await db.collection('teams').doc(jsonContent.teamId).collection('events').doc(jsonContent.eventId).delete();
             return res.status(200).send("evento eliminado");
@@ -165,16 +180,18 @@ app.put('/training/update', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
-            let existeevento = await comprobarEvento(jsonContent);
+            const existeevento = await comprobarEvento(jsonContent);
             if(!existeevento) return res.status(400).send("no existe el evento");
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(jsonContent.eventId).set({
                 type: "training",
-                date: jsonContent.date,
-                hour: jsonContent.hour,
-                finalhour: jsonContent.finalhour,
-                description: jsonContent.description
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                description: jsonContent.description,
+                location: jsonContent.location
             })
             return res.status(200).send();
         }
@@ -191,15 +208,20 @@ app.put('/match/update', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
-            let existeevento = await comprobarEvento(jsonContent);
+            const existeevento = await comprobarEvento(jsonContent);
             if(!existeevento) return res.status(400).send("no existe el evento");
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(jsonContent.eventId).set({
                 type: "match",
-                date: jsonContent.date,
-                hour: jsonContent.hour,
-                rival: jsonContent.rival
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                rival: jsonContent.rival,
+                location: jsonContent.location
+                /*latitude: jsonContent.latitude,
+                longitude: jsonContent.longitude*/
             })
             return res.status(200).send();
         }
@@ -212,6 +234,42 @@ app.put('/match/update', (req, res) => {
 });
 
 module.exports = app;
+
+
+function matchData(doc: any) {
+    let selectedData;
+    selectedData = {
+        id: doc.id,
+        title: doc.data().title,
+        startTime: doc.data().startTime,
+        endTime: doc.data().endTime,
+        allDay: doc.data().allDay,
+        type: doc.data().type,
+        rival: doc.data().rival,
+        location: doc.data().location
+        /*latitude: doc.data().latitude,
+        longitude: doc.data().longitude*/
+    };
+    return selectedData;
+}
+
+function trainingData(doc: any) {
+    let selectedData;
+    selectedData = {
+        id: doc.id,
+        title: doc.data().title,
+        startTime: doc.data().startTime,
+        endTime: doc.data().endTime,
+        allDay: doc.data().allDay,
+        type: doc.data().type,
+        description: doc.data().description,
+        location: doc.data().location
+/*
+        latitude: doc.data().latitude,
+        longitude: doc.data().longitude*/
+    };
+    return selectedData;
+}
 
 async function comprobarEvento(jsonContent: any) {
     let existeevento = false;
