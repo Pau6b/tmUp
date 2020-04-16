@@ -224,8 +224,6 @@ function matchData(doc: any) {
         type: doc.data().type,
         rival: doc.data().rival,
         location: doc.data().location
-        /*latitude: doc.data().latitude,
-        longitude: doc.data().longitude*/
     };
     return selectedData;
 }
