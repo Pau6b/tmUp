@@ -12,7 +12,6 @@ const serviceAccount = require("../permissions.json");
 const app = express(); 
 const admin = require("firebase-admin");
 
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://tmup-908e4.firebaseio.com"
@@ -26,6 +25,7 @@ app.use( expressSession({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 /*end-of-configuration */
 
 //Per correr el development server => npm run serve dins de la carpeta de functions
@@ -33,7 +33,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 /* --- before all requests --- */
 /*
 app.use((req, res, next) => {
-  const token = req.headers.token;
+  const token 
+            await document.update({
+                email: jsonContent.email,
+                userName: jsonCon= req.headers.token;
   admin.auth.verifyIdToken(token)
   .then((payload : any) => {
     next(payload);
@@ -47,15 +50,38 @@ app.use((req, res, next) => {
 
 /* --- begin of routes --- */
 
+const loginHandler = require('./Auth/Login');
+app.use('/login', loginHandler);
+
+const logoutHandler = require('./Auth/Logout');
+app.use('/logout', logoutHandler);
+
 const usersHandler = require('./Users/Users');
 app.use('/users', usersHandler);
 
 const teamsHandler = require('./Teams/Teams');
 app.use('/teams', teamsHandler);
 
-const membershipHandler = require('./Users/Membership');
-app.use('/membership', membershipHandler);
+const eventsHandler = require('./Teams/Events/Events');
+app.use('/:teamId/events', eventsHandler);
 
+const photosHandler = require('./Teams/Events/Photos/Photos');
+app.use('/teams/events/photos', photosHandler);
+
+const rivalAnalysisHandler = require('./Teams/Events/RivalAnalysis/RivalAnalysis');
+app.use('/teams/events/rivalAnalysis', rivalAnalysisHandler);
+
+const normativesHandler = require('./Teams/Normatives/Normatives');
+app.use('/teams/normatives', normativesHandler);
+
+const tacticsHandler = require('./Teams/Tactics/Tactics');
+app.use('/teams/tactics', tacticsHandler);
+
+const membershipsHandler = require('./Memberships/Memberships');
+app.use('/memberships', membershipsHandler);
+
+const finesHandler = require('./Memberships/Fines/Fines');
+app.use('/memberships/fines', finesHandler);
 /* --- end of routes --- */
 
 exports.app = functions.https.onRequest(app);
