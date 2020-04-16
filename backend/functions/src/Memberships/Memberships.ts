@@ -39,15 +39,15 @@ app.post('/create', (req, res) => {
             let miembroExiste: boolean = true;
             let teamSport: string ="";
             const team = db.collection('teams').doc(jsonContent.teamId);
-            await team.get().then((team:any) => {
-                if (!team.exists) equipoExiste=false;
+            await team.get().then((teamDoc:any) => {
+                if (!teamDoc.exists) equipoExiste=false;
                 else {
-                    teamSport = team.data().sport;
+                    teamSport = teamDoc.data().sport;
                 }
             })
             const user = db.collection('users').doc(jsonContent.userId);
-            await user.get().then((user:any) => {
-                if (!user.exists) usuarioExiste=false;
+            await user.get().then((userDoc:any) => {
+                if (!userDoc.exists) usuarioExiste=false;
             })
             const membership = db.collection('memberships').where('userId', '==', jsonContent.userId).where('teamId', '==', jsonContent.teamId);
             await membership.get().then((snapshot:any) => {
@@ -74,13 +74,13 @@ app.post('/create', (req, res) => {
                 return res.status(400).send(errores);
             }
 
-            let membershipData :any = {
+            const membershipData :any = {
                 teamId: jsonContent.teamId,
                 type: jsonContent.type,
                 userId: jsonContent.userId
             }
 
-            if (jsonContent.type == "player") {
+            if (jsonContent.type === "player") {
                 membershipData.stats = GetMembershipStatsBySport(teamSport);
                 membershipData.state =  GetDefaultPlayerState();
             }
@@ -102,7 +102,7 @@ app.put('/updatePlayerState/:teamId/:userId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            if (jsonContent.state == null) {
+            if (jsonContent.state === null) {
                 return res.status(400).send("UMS1");
             }
             if (!playerStates.includes(jsonContent.state)) {
@@ -117,7 +117,7 @@ app.put('/updatePlayerState/:teamId/:userId', (req, res) => {
                 for (const doc  of querySnapshot.docs) {
                     docid = doc.id;
                     docExists = true;
-                    if (doc.data().type != "player") {
+                    if (doc.data().type !== "player") {
                         isPlayer = false;
                     }
                 }
@@ -155,10 +155,7 @@ app.get('/getByTeam/:teamId', (req, res) => {
                 const docs = querySnapshot.docs;
 
                 for (const doc of docs) {
-                    const selectedItem  = {
-                        type: doc.data().type,
-                        userId: doc.data().userId
-                    };
+                    const selectedItem = doc.data();
                     response.push(selectedItem);
                 }
                 return response;
@@ -235,23 +232,23 @@ app.delete('/delete', (req, res) => {
 
                 for (const doc of docs) {
                     ++miembros;
-                    if(doc.data().type == 'staff') ++staffEnEquipo;
-                    if (doc.data().userId == jsonContent.userId) {
+                    if(doc.data().type === 'staff') ++staffEnEquipo;
+                    if (doc.data().userId === jsonContent.userId) {
                         console.log("entro");
                         console.log(doc.id);
                         id = doc.id;
-                        if (doc.data().type == "staff") esStaff = true;
+                        if (doc.data().type === "staff") esStaff = true;
                     }
                     
                 }
             })
             
 
-            if (miembros > 1 && staffEnEquipo == 1 && esStaff) return res.status(200).send("eres el ultimo entrenador que queda");
+            if (miembros > 1 && staffEnEquipo === 1 && esStaff) return res.status(200).send("eres el ultimo entrenador que queda");
             else {
                 console.log(id);
                 await db.collection('memberships').doc(id).delete();
-                if (miembros == 1) console.log("tendremos que borrar el equipo");
+                if (miembros === 1) console.log("tendremos que borrar el equipo");
                 return res.status(200).send();
                     
             }

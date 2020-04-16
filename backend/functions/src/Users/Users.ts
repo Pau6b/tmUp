@@ -79,7 +79,7 @@ app.get('/:userEmail/teams', (req, res) => {
     (async () => {
         try {
 
-            let userRef = db.collection('users').doc(req.params.userEmail);
+            const userRef = db.collection('users').doc(req.params.userEmail);
 
             let userExists : boolean = true;
             await userRef.get().then((doc:any) => {
@@ -103,7 +103,7 @@ app.get('/:userEmail/teams', (req, res) => {
             });
             
             //get team names
-            let response: Set<any> = new Set();
+            const response: Set<any> = new Set();
             for (const id of teamIds) {
                 const teamQuery = db.collection('teams').doc(id);
                 await teamQuery.get().then((teamDoc:any) => {
@@ -136,7 +136,7 @@ app.get('/me/teams', (req, res) => {
 
             //User exists, get team ids
             const query = db.collection('memberships').where("userId", "==", email );
-            let teamIds: string[] = [];
+            const teamIds: string[] = [];
             
             await query.get().then((querySnapshot: any) => {
                 querySnapshot.forEach((element:any) => {
@@ -145,7 +145,7 @@ app.get('/me/teams', (req, res) => {
             });
             
             //get team names
-            let response: Set<any> = new Set();
+            const response: Set<any> = new Set();
             for (const id of teamIds) {
                 const teamQuery = db.collection('teams').doc(id);
                 await teamQuery.get().then((teamDoc:any) => {

@@ -14,7 +14,7 @@ app.post('/create', (req, res) => {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
 
-            if (req.session!.user == null) {
+            if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
 
@@ -74,7 +74,7 @@ app.get('/:teamId', (req, res) => {
             const document = db.collection("teams").doc(req.params.teamId);
 
             let teamExists:boolean = true;
-            let teamData = await document.get().then((doc: any) => {
+            const teamData = await document.get().then((doc: any) => {
                 if(!doc.exists) {
                     teamExists = false;
                 }

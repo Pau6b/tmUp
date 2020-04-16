@@ -11,11 +11,11 @@ app.post('/', (req, res) => {
                 return res.status(400).send("LI2");
             }
             //const jsonContent = JSON.parse(req.body);
-            let uid:any = "5kLQfatPq9gLoJ89SHZwsqOC3lx1";
+            const uid:any = "5kLQfatPq9gLoJ89SHZwsqOC3lx1";
             /*admin.auth().verifyIdToken(jsonContent.token).then((decodedToken: any) => {
                 uid = decodedToken.uid;
             })*/
-            if (uid == "") {
+            if (uid === "") {
                 return res.status(400).send("LI1");
             }
             req.session!.user = uid;
