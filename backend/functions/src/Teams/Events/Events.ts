@@ -44,7 +44,7 @@ app.post('/training/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "training",
@@ -69,7 +69,7 @@ app.post('/training/create', (req, res) => {
 app.get('/byday/:teamId/:date', (req, res) => {
     (async () => {
         try {
-            let existsTeam = await comprobarEquipo(req.params);
+            const existsTeam = await comprobarEquipo(req.params);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
             const query = db.collection('teams').doc(req.params.teamId).collection("events");
             const response: any = [];
@@ -77,7 +77,7 @@ app.get('/byday/:teamId/:date', (req, res) => {
                 const docs = querySnapshot.docs;
                 let selectedData;
                 for (const doc of docs) {
-                    if(doc.data.type == "match") {
+                    if(doc.data.type === "match") {
                         selectedData  = {
                             id: doc.id,
                             date: doc.data().date,
@@ -97,7 +97,7 @@ app.get('/byday/:teamId/:date', (req, res) => {
                     }
                     //if(selectedData.type == "match") selectedData.push({rival: doc.data().rival});
                     console.log(selectedData);
-                    if (selectedData.date == req.params.date) {
+                    if (selectedData.date === req.params.date) {
                         response.push(selectedData); 
                     } 
                 }
@@ -118,7 +118,7 @@ app.get('/byday/:teamId/:date', (req, res) => {
 app.get('/bymonth/:teamId/:month', (req, res) => {
     (async () => {
         try { 
-            let existsTeam = await comprobarEquipo(req.params);
+            const existsTeam = await comprobarEquipo(req.params);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
             const query = db.collection('teams').doc(req.params.teamId).collection('events');
             const response: any = [];
@@ -152,9 +152,9 @@ app.delete('/delete', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
-            let existeevento = await comprobarEvento(jsonContent);
+            const existeevento = await comprobarEvento(jsonContent);
             if(!existeevento) return res.status(400).send("no existe el evento");
             await db.collection('teams').doc(jsonContent.teamId).collection('events').doc(jsonContent.eventId).delete();
             return res.status(200).send("evento eliminado");
@@ -173,9 +173,9 @@ app.put('/training/update', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
-            let existeevento = await comprobarEvento(jsonContent);
+            const existeevento = await comprobarEvento(jsonContent);
             if(!existeevento) return res.status(400).send("no existe el evento");
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(jsonContent.eventId).set({
                 type: "training",
@@ -199,9 +199,9 @@ app.put('/match/update', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
-            let existeevento = await comprobarEvento(jsonContent);
+            const existeevento = await comprobarEvento(jsonContent);
             if(!existeevento) return res.status(400).send("no existe el evento");
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(jsonContent.eventId).set({
                 type: "match",

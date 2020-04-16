@@ -31,13 +31,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 //Per correr el development server => npm run serve dins de la carpeta de functions
 
 /* --- before all requests --- */
+
 /*
 app.use((req, res, next) => {
-  const token 
-            await document.update({
-                email: jsonContent.email,
-                userName: jsonCon= req.headers.token;
-  admin.auth.verifyIdToken(token)
+  const jsonContent = JSON.parse(req.body);
+  admin.auth.verifyIdToken(jsonContent.token)
   .then((payload : any) => {
     next(payload);
   })
@@ -46,6 +44,7 @@ app.use((req, res, next) => {
   } );
 });
 */
+
 /* --- end of before all requests --- */
 
 /* --- begin of routes --- */
