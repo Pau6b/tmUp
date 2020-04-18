@@ -37,3 +37,19 @@ describe('Create user: ',()=> {
 
     });
 });
+
+describe('Get user: ',()=> {
+    it('Get user info', async() => {
+        var user = {
+            "email": "a@a.com",
+            "userName": "b"
+        };
+        const response = await chaiT.request(url)
+        .post('/users/create')
+        .set('content-type', 'application/raw')
+        .send(JSON.stringify(user));
+        expect(response).to.have.status(200);
+            //expect(body).should.include("CM1");
+
+    });
+});

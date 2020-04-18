@@ -14,7 +14,7 @@ describe('Create memberships: ',()=>{
 
     it('Create team', async() => {
         var team = {
-            "userId": "c@a.com",
+            "userId": "a@a.com",
             "teamName": "fcb",
             "sport": "football"
         };
