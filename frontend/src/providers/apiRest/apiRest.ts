@@ -80,6 +80,14 @@ export class apiRestProvider {
         })
     }
 
+    getProfileInfo() {
+        return this.http.get(this.url+'users');
+    }
+
+    updateProfileInfo(name, email, password) {
+
+    }
+
     //CALENDAR AND EVENTS METHODS
     getEventsOfMonth(month) {
         return this.http.get(this.url+'teams/events/6hd6Bdym8CXKW0Sm3hDb/'+month);

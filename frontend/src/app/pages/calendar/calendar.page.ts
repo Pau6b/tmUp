@@ -79,7 +79,6 @@ export class CalendarPage implements OnInit {
   }
 
   onEventSelected(event) {
-    console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
     let navigationExtras: NavigationExtras = {
       state: {
         ev: event

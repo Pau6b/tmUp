@@ -4,6 +4,9 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{ event.type }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>Edit</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,10 +18,10 @@
     <ion-item>
       <ion-label>{{ event.startTime | date: 'dd MMM yyyy'}}</ion-label>
     </ion-item>
-    <ion-item class="smallText">
+    <ion-item>
       <ion-label>{{ event.startTime | date: 'HH:mm' }} - {{ event.endTime | date: 'HH:mm' }}</ion-label>
     </ion-item>
   </div>
   <div id="map"></div>
-  <ion-button (click)="GoogleDirections()" color="primary" expand="block">Cómo llegar</ion-button>
+  <ion-button class="directionsButton" (click)="GoogleDirections()" color="primary" expand="block">Cómo llegar</ion-button>
 </ion-content>

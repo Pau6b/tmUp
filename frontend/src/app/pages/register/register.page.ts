@@ -5,6 +5,7 @@ import {NavController, MenuController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
 
 import { AuthService } from '../../services/auth.service'
+import { PhotoService } from '../../services/photo.service'
 
 @Component({
   selector: 'app-register',
@@ -48,7 +49,8 @@ export class RegisterPage implements OnInit {
     public navCtrl: NavController,
     public menuCtrl: MenuController,
     public formBuilder: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    public photoService: PhotoService
     ) { }
 
   ngOnInit() {
@@ -82,6 +84,10 @@ export class RegisterPage implements OnInit {
       console.log(error.message);
     }
     )
+  }
+
+  cameraOptions() {
+    this.photoService.alertSheetPictureOptions();
   }
 
 }
