@@ -1,9 +1,101 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>chat</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Chat</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+    <ion-row *ngFor="let message of messages">
+      <ion-col size="9" *ngIf="currentUser !== message.email" class="message otherMessage">
+        <b>{{ message.email }}</b>
+        <br>
+        <span class="smallText"> {{ message.bodyMessage }} </span>
+        <div class="xsmallText ion-text-right">
+          <br>
+          {{ message.date | date:'short' }}
+        </div>
+      </ion-col>
 
+      <ion-col offset="3" size="9" *ngIf="currentUser === message.email" class="message myMessage">
+        <b>{{ message.email }}</b>
+        <br>
+        <span class="smallText"> {{ message.bodyMessage }} </span>
+        <div class="xsmallText ion-text-right">
+          <br>
+          {{ message.date | date:'short' }}
+        </div>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row class="ion-align-items-center no-padding">
+      <ion-col size="10">
+        <textarea autosize maxRows="4" [(ngModel)]="newMessage" class="messageInput"></textarea>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button expand="block" fill="clear" color="primary" [disabled]="newMessage === '' " (click)="sendMessage()" class="messageButton">
+          <ion-icon name="send" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
+
+<!--
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-input placeholder="  Escribe aqui..." padding-left [(ngModel)]="textMessage"></ion-input>
+    <ion-button slot="end" (click)="sendMessage()">
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+
+
+<div *ngFor="let message of messagess">
+  <ng-container 
+    [ngTemplateOutlet]="message.username == 'Ivan' ? myMessageCard : messageCard" 
+    [ngTemplateOutletContext]="{message: message}">
+  </ng-container>
+</div>
+-->
+<!------------------------ TEMPLATES ---------------------------->
+<ng-template #messageCard let-message="message">
+  <ion-card>
+    <ion-card-header>
+      {{message.authorMessage}}
+    </ion-card-header>
+    <ion-card-content>
+      {{message.bodyMessage}}
+    </ion-card-content>
+    <ion-row class="cardfooter smallText">
+      <ion-col>
+            <p>22:00</p>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ng-template>
+
+<ng-template  #myMessageCard let-message="message">
+  <ion-card class="myMessageCard">
+    <ion-card-header>
+      {{message.username}}
+    </ion-card-header>
+    <ion-card-content>
+      {{message.message}}
+    </ion-card-content>
+    <ion-row class="cardfooter smallText">
+      <ion-col>
+            <p>{{message.date}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ng-template>

@@ -60,6 +60,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/normative/normative.module').then( m => m.NormativePageModule)
   },
   {
+    path: 'add-tactic',
+    loadChildren: () => import('./pages/add-tactic/add-tactic.module').then( m => m.AddTacticPageModule)
+  },
+  {
     path: 'event',
     loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule)
   },

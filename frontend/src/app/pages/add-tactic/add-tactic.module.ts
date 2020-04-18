@@ -4,20 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChatPageRoutingModule } from './chat-routing.module';
+import { AddTacticPageRoutingModule } from './add-tactic-routing.module';
 
-import { AutosizeModule } from 'ngx-autosize';
-
-import { ChatPage } from './chat.page';
+import { AddTacticPage } from './add-tactic.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AutosizeModule,
-    ChatPageRoutingModule
+    AddTacticPageRoutingModule
   ],
-  declarations: [ChatPage]
+  declarations: [AddTacticPage]
 })
-export class ChatPageModule {}
+export class AddTacticPageModule {}

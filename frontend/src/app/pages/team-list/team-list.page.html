@@ -1,11 +1,6 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Team List</ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="../add-team">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -18,4 +13,10 @@
         <ion-label>{{team.teamName}}</ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
+    <ion-fab-button (click)="goToaddTeam()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

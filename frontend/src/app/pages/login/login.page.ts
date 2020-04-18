@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
+import { NavController, MenuController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
 import { AuthService } from '../../services/auth.service';
 import * as firebase from 'firebase';

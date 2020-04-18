@@ -1,0 +1,53 @@
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+   ion-header{
+        text-align: center;
+    }
+    
+    ion-menu-button {
+        display: block;
+    }
+   /* ------------------------------
+              CONTENT
+   ------------------------------ */
+
+   /* ------------------------------
+              FOOTER
+   ------------------------------ */
+    
+    .message {
+        padding: 0.625em;
+        border-radius: 10px;
+        margin-bottom: 4px;
+        white-space: pre-wrap;
+    }
+
+    .otherMessage {
+        background: var(--ion-color-tertiary);
+        color: var(--ion-color-tertiary-contrast);
+    }
+
+    .myMessage{
+        background: var(--ion-color-secondary-tint);
+        color: var(--ion-color-secondary-contrast);
+    }
+
+    .messageButton {
+        --padding-start: 0.5em;
+        --padding-end: 0.5em;
+    }
+
+    .messageInput {
+        width: 100%;
+        border: 0.06em solid var(--ion-color-medium);
+        border-radius: 0.625em;
+        background: #fff;
+        resize: none;
+        padding-left: 0.625em;
+        padding-right: 0.625em;
+    }
+    
+    .mediumText {
+        color: #000;
+    }
