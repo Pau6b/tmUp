@@ -39,4 +39,28 @@ export class apiRestProvider {
     updateProfileInfo(name, email, password) {
 
     }
+
+    //CALENDAR AND EVENTS METHODS
+    getEventsOfMonth(month) {
+        return this.http.get(this.url+'teams/events/6hd6Bdym8CXKW0Sm3hDb/'+month);
+    }
+
+    createMatch(matchInfo) { 
+        return new Promise(resolve => {
+            this.http.post(this.url+'teams/event/match/create', JSON.stringify(matchInfo))
+            .subscribe(data => {
+                resolve(data);
+            })
+        });
+    }
+
+    createTraining(trainingInfo) {
+        return new Promise(resolve => {
+            this.http.post(this.url+'teams/event/training/create', JSON.stringify(trainingInfo))
+            .subscribe(data => {
+                resolve(data);
+            })
+        });
+    }
+
 }

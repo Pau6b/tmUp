@@ -72,9 +72,23 @@ export class AddEventPage implements OnInit {
     //mirar si es match o training y llamar API
     if (this.segmentModel == "match") {
       console.log(this.createMatchForm.value);
+      this.api.createMatch(this.createMatchForm.value)
+      .then( () => {
+        //navigate to calendar
+      },
+      (err) => {
+        console.log(err.message);
+      });
     }
     else {
       console.log(this.createTrainingForm.value);
+      this.api.createTraining(this.createTrainingForm.value)
+      .then( () => {
+        //navigate to calendar
+      },
+      (err) => {
+        console.log(err.message);
+      });
     }
   }
   
