@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Nuevo evento</ion-title>
     <ion-buttons slot="end">
-      <ion-button [disabled]="!createMatchForm.valid" (click)="onAdd()">Añadir</ion-button>
+      <ion-button [disabled]="(!createMatchForm.valid&&!createTrainingForm.valid)" (click)="onAdd()">Añadir</ion-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
@@ -25,6 +25,10 @@
     <form [formGroup]="createMatchForm">
       <ion-list>
         <ion-item>
+          <ion-input type="text" placeholder="Título" formControlName="title"></ion-input>
+        </ion-item>
+
+        <ion-item>
           <ion-input type="text" placeholder="Equipo rival" formControlName="rival"></ion-input>
         </ion-item>
 
@@ -34,7 +38,7 @@
 
         <ion-item>
           <ion-label>Empieza</ion-label>
-          <ion-datetime displayFormat="D MMM H:mm"formControlName="startTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
+          <ion-datetime displayFormat="D MMM H:mm" formControlName="startTime" minuteValues="0,15,30,45,50,55" (ionChange)="dateChanged($event)"></ion-datetime>
         </ion-item>
 
         <ion-item>
@@ -48,13 +52,17 @@
   <div *ngIf="segmentModel === 'training'">
     <form [formGroup]="createTrainingForm">
       <ion-list>
+        <ion-item>
+          <ion-input type="text" placeholder="Título" formControlName="title"></ion-input>
+        </ion-item>
+
         <ion-item (click)="launchLocationPage()" formGroupName="location">
           <ion-input type="search" placeholder="Localización" formControlName="name"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label>Empieza</ion-label>
-          <ion-datetime displayFormat="D MMM H:mm"formControlName="startTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
+          <ion-datetime displayFormat="D MMM H:mm" formControlName="startTime" minuteValues="0,15,30,45,50,55" (ionChange)="dateChanged($event)"></ion-datetime>
         </ion-item>
 
         <ion-item>

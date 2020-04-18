@@ -15,6 +15,8 @@ import { LocationSelectPage } from '../location-select/location-select.page'
 })
 export class AddEventPage implements OnInit {
 
+  teamId = 'C0Wytx9JMIKgyIbfGAnC';
+
   segmentModel = 'match';
   startdate = new Date();
   endTime = new Date(new Date().setMinutes(this.startdate.getMinutes()+60));
@@ -27,18 +29,20 @@ export class AddEventPage implements OnInit {
   });
   
   createMatchForm = this.formBuilder.group({
+    teamId: [this.teamId],
     type: ['match'],
-    title: [''],
+    title: ['', [Validators.required]],
     rival: ['', [Validators.required]],
     location: this.locationForm,
-    starTime: [this.startdate.toISOString(), [Validators.required]],
+    startTime: [this.startdate.toISOString(), [Validators.required]],
     endTime: [this.endTime.toISOString(), [Validators.required]],
     allDay: [false]
   });
 
   createTrainingForm = this.formBuilder.group({
+    teamId: [this.teamId],
     type:['training'],
-    title: [''],
+    title: ['', [Validators.required]],
     location: this.locationForm,
     startTime: [this.startdate.toISOString(), [Validators.required]],
     endTime: [this.endTime.toISOString(), [Validators.required]],
@@ -56,25 +60,42 @@ export class AddEventPage implements OnInit {
   ngOnInit() {
   }
 
+  dateChanged(date) {
+    this.endTime = new Date(date.detail.value);
+    this.endTime.setMinutes(this.endTime.getMinutes()+60);
+    console.log('end '+this.endTime);
+    //update form values
+    if(this.segmentModel === "match") {
+      this.createMatchForm.patchValue({endTime: this.endTime.toISOString()});
+    }
+    else {
+      this.createTrainingForm.patchValue({endTime: this.endTime.toISOString()});
+    }
+  }
+
   async launchLocationPage(){
     let modal = await this.modalCtrl.create({
       component: LocationSelectPage
     });
     //get latitude, longitud and name of location
     modal.onDidDismiss().then((location) => {
-      console.log(location.data);
-      this.createMatchForm.patchValue(location.data);
+      if(this.segmentModel === "match") {
+        this.createMatchForm.patchValue(location.data);
+      }
+      else {
+        this.createTrainingForm.patchValue(location.data);
+      }
     });
     return modal.present();
   }
 
   onAdd() {
-    //mirar si es match o training y llamar API
     if (this.segmentModel == "match") {
       console.log(this.createMatchForm.value);
       this.api.createMatch(this.createMatchForm.value)
       .then( () => {
         //navigate to calendar
+        this.router.navigate(['/calendar']);
       },
       (err) => {
         console.log(err.message);
@@ -85,6 +106,7 @@ export class AddEventPage implements OnInit {
       this.api.createTraining(this.createTrainingForm.value)
       .then( () => {
         //navigate to calendar
+        this.router.navigate(['/calendar']);
       },
       (err) => {
         console.log(err.message);

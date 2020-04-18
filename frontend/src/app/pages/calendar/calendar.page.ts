@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Router, NavigationExtras } from '@angular/router';
 
+import { CalendarComponent } from 'ionic2-calendar/calendar';
+import { LoadingController } from '@ionic/angular';
+
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-calendar',
@@ -10,18 +14,22 @@ import { apiRestProvider } from '../../../providers/apiRest/apiRest'
   styleUrls: ['./calendar.page.scss'],
 })
 export class CalendarPage implements OnInit {
+
+  @ViewChild(CalendarComponent ,{static: false}) myCal: CalendarComponent;
+
+  teamId = 'C0Wytx9JMIKgyIbfGAnC';
+
   calendar = {
     mode: 'month',
     currentDate: new Date(),
-    startingDay: "1"
+    startingDay: "1",
+    queryMode: 'remote'
   };
 
   selectedDate = new Date();
   currentMonth = new Date().getMonth();
-  startTime = new Date();
-  endTime = new Date();
 
-  eventSource: any;
+  eventSource = [];
 
   //to know which type of events are
   eventExists(events, type) {
@@ -34,13 +42,39 @@ export class CalendarPage implements OnInit {
 
   constructor(
     private router: Router,
-    private api: apiRestProvider
+    private api: apiRestProvider,
+    private loadingCtrl: LoadingController,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
-    this.api.getEventsOfMonth(this.currentMonth)
-    .subscribe( (data) => {
-      this.eventSource = data;
+    this.loadMonthEvents(this.currentMonth);
+  }
+
+  private async loadMonthEvents(month) {
+    const loading = await this.loadingCtrl.create();
+    loading.present();
+    this.api.getEventsOfMonth(this.teamId , month)
+    .subscribe( (events) => {
+      this.eventSource = [];
+      let tmp: any;
+      tmp = events;
+      tmp.forEach(element => {
+        let aux = {
+          id: element.id,
+          title: element.title,
+          startTime: new Date(element.startTime),
+          endTime: new Date(element.endTime),
+          allDay: element.allDay,
+          type: element.type,
+          location: element.location,
+          rival: element.rival,
+          description: element.description
+        }
+        this.eventSource.push(aux);
+      });
+      this.myCal.loadEvents();
+      loading.dismiss();
       console.log(this.eventSource);
     },
     (err) => {
@@ -49,12 +83,6 @@ export class CalendarPage implements OnInit {
   }
 
   addEvent() {
-    /*to pass the selectedDate to AddEvent Page
-    let navigationExtras: NavigationExtras = {
-      state: {
-        selectedDay: this.selectedDate
-      }
-    };*/
     this.router.navigate(['/add-event']);
   }
 
@@ -64,18 +92,15 @@ export class CalendarPage implements OnInit {
     return date < current;
   };
 
+  onCurrentDateChanged = (ev: Date) => {
+    if(this.currentMonth.toString() != this.datePipe.transform(ev, 'MMMM yyyy') ) {
+      console.log('events updated');
+      this.loadMonthEvents(ev.getMonth());
+    }
+  };
+
   onViewTitleChanged(title) {
     this.currentMonth = title;
-    /*get events of the month
-    this.api.getEventsOfMonth(this.currentMonth)
-    .subscribe( (data) => {
-      this.eventSource = data;
-      console.log(this.eventSource);
-    },
-    (err) => {
-      console.log(err.message);
-    });
-    */
   }
 
   onEventSelected(event) {
@@ -93,13 +118,11 @@ export class CalendarPage implements OnInit {
 
   //arrows to previous/next functions
   nextMonth(){
-    var mySwiper = document.querySelector('.swiper-container')['swiper'];
-    mySwiper.slideNext();
+    this.myCal.slideNext();
   }
   
   previousMonth(){
-    var mySwiper = document.querySelector('.swiper-container')['swiper'];
-    mySwiper.slidePrev();
+    this.myCal.slidePrev();
   }
 
 }
