@@ -53,6 +53,7 @@ app.get('/:userEmail', (req, res) => {
             const userData = await document.get().then((doc) => {
                 if (!doc.exists) {
                     userExists = false;
+                    return;
                 }
                 else {
                     return doc.data();

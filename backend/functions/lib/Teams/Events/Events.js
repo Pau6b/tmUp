@@ -76,7 +76,7 @@ app.get('/byday/:teamId/:date', (req, res) => {
                 const docs = querySnapshot.docs;
                 let selectedData;
                 for (const doc of docs) {
-                    if (doc.data.type === "match") {
+                    if (doc.data().type === "match") {
                         selectedData = {
                             id: doc.id,
                             date: doc.data().date,
