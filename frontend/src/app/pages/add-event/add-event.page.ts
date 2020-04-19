@@ -88,6 +88,10 @@ export class AddEventPage implements OnInit {
     return modal.present();
   }
 
+  onCancel() {
+    this.router.navigate(['/calendar']);
+  }
+
   onAdd() {
     if (this.segmentModel == "match") {
       console.log(this.createMatchForm.value);
