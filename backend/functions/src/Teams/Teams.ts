@@ -2,6 +2,7 @@ import * as express from 'express';
 import { sports } from '../Core/Core'
 import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
+import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -74,9 +75,10 @@ app.get('/:teamId', (req, res) => {
             const document = db.collection("teams").doc(req.params.teamId);
 
             let teamExists:boolean = true;
-            const teamData = await document.get().then((doc: any) => {
+            const teamData = await document.get().then((doc: DocumentSnapshot) => {
                 if(!doc.exists) {
                     teamExists = false;
+                    return;
                 }
                 else {
                     return doc.data();
@@ -85,7 +87,7 @@ app.get('/:teamId', (req, res) => {
 
             //Check that the user exists
             if (!teamExists) {
-                return res.status(400).send("Team with teamid : [" + req.params.teamId + "] does not exist");
+                return res.status(400).send("TG1");
             }
 
             //return correct data
@@ -107,12 +109,12 @@ app.get('/', (req, res) => {
             const response: any = [];
 
             await query.get().then((querySnapshot: any) => {
-                const docs = querySnapshot.docs;
+                const docs : DocumentSnapshot[] = querySnapshot.docs;
 
                 for (const doc of docs) {
                     const selectedItem  = {
-                        teamName: doc.data().teamName,
-                        sport: doc.data().sport
+                        teamName: doc.data()!.teamName,
+                        sport: doc.data()!.sport
                     };
                     response.push(selectedItem);
                 }
@@ -151,6 +153,48 @@ app.put('/:teamId', (req, res) => {
             return res.status(500).send(error) 
         }
 
+    })().then().catch();
+});
+
+app.post('/select/:teamId', (req,res) => {
+    (async() => {
+        try {
+            const team = db.collection('teams').doc(req.params.teamId);
+            let teamExists: boolean = false;
+            await team.get().then( (teamDoc: DocumentSnapshot) => {
+                if(teamDoc.exists) {
+                    teamExists = true;
+                }
+            } );
+            if (!teamExists) {
+                return res.status(400).send("TS1");
+            }
+            req.session!.selectedTeam = req.params.teamId;
+            return res.status(200).send();
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+    })().then().catch();
+});
+
+app.get('/selected', (req,res) => {
+    (async() => {
+        try{
+            if (!req.session!.selectedTeam) {
+                return res.status(400).send("TS1");
+            }
+            const team = db.collection('teams').doc(req.session!.selectedTeam);
+            const teamData = await team.get().then( (teamDoc: DocumentSnapshot) => {
+                return teamDoc.data();
+            } );
+            return res.status(200).send(teamData);
+        }
+        catch(error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
     })().then().catch();
 });
 

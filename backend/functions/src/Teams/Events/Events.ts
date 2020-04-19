@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { GetMatchStatsBySport } from "../../Core/Templates/Statistics"
+import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -13,12 +14,12 @@ app.post('/match/create', (req, res) => {
             let existsTeam = true;
             let teamSport: string ="";
             const query = db.collection('teams').doc(jsonContent.teamId);
-            await query.get().then((querySnapshot: any) => {
+            await query.get().then((querySnapshot: DocumentSnapshot) => {
                 if(!querySnapshot.exists) {
                     existsTeam = false;
                 }
                 else {
-                    teamSport = querySnapshot.data().sport;
+                    teamSport = querySnapshot.data()!.sport;
                 }
             });
             if(!existsTeam) return res.status(400).send("no existe el equipo");
@@ -74,25 +75,25 @@ app.get('/byday/:teamId/:date', (req, res) => {
             const query = db.collection('teams').doc(req.params.teamId).collection("events");
             const response: any = [];
             await query.get().then((querySnapshot: any) => {
-                const docs = querySnapshot.docs;
+                const docs: DocumentSnapshot[] = querySnapshot.docs;
                 let selectedData;
                 for (const doc of docs) {
-                    if(doc.data.type === "match") {
+                    if(doc.data()!.type === "match") {
                         selectedData  = {
                             id: doc.id,
-                            date: doc.data().date,
-                            type: doc.data().type,
-                            hour: doc.data().hour,
-                            rival: doc.data().rival
+                            date: doc.data()!.date,
+                            type: doc.data()!.type,
+                            hour: doc.data()!.hour,
+                            rival: doc.data()!.rival
                         };
                     }else {
                         selectedData  = {
                             id: doc.id,
-                            date: doc.data().date,
-                            type: doc.data().type,
-                            hour: doc.data().hour,
-                            finalhour: doc.data().finalhour,
-                            description: doc.data().description
+                            date: doc.data()!.date,
+                            type: doc.data()!.type,
+                            hour: doc.data()!.hour,
+                            finalhour: doc.data()!.finalhour,
+                            description: doc.data()!.description
                         };
                     }
                     //if(selectedData.type == "match") selectedData.push({rival: doc.data().rival});
@@ -224,8 +225,8 @@ module.exports = app;
 async function comprobarEvento(jsonContent: any) {
     let existeevento = false;
     const query = db.collection('teams').doc(jsonContent.teamId).collection('events');
-    await query.get().then((querySnapshot: any) => {
-        const docs = querySnapshot.docs;
+    await query.get().then((querySnapshot: Docu) => {
+        const docs: DocumentSnapshot[] = querySnapshot.docs;
         for (const doc of docs) {
             if (doc.id === jsonContent.eventId)
                 existeevento = true;
@@ -237,7 +238,7 @@ async function comprobarEvento(jsonContent: any) {
 async function comprobarEquipo(jsonContent: any) {
     let existsTeam = true;
     const query = db.collection('teams').doc(jsonContent.teamId);
-    await query.get().then((querySnapshot: any) => {
+    await query.get().then((querySnapshot: DocumentSnapshot) => {
         if(!querySnapshot.exists) {
             existsTeam = false;
         }

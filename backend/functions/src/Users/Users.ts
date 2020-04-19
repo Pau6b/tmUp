@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
+import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -53,9 +54,10 @@ app.get('/:userEmail', (req, res) => {
         try {
             const document = db.collection("users").doc(req.params.userEmail);
             let userExists: boolean = true;
-            const userData = await document.get().then((doc: any) => {
+            const userData = await document.get().then((doc: DocumentSnapshot) => {
                 if (!doc.exists) {
                     userExists = false;
+                    return;
                 }
                 else {
                     return doc.data();
@@ -82,7 +84,7 @@ app.get('/:userEmail/teams', (req, res) => {
             const userRef = db.collection('users').doc(req.params.userEmail);
 
             let userExists : boolean = true;
-            await userRef.get().then((doc:any) => {
+            await userRef.get().then((doc: DocumentSnapshot) => {
                 if (!doc.exists) {
                     userExists = false;
                 }
@@ -106,9 +108,9 @@ app.get('/:userEmail/teams', (req, res) => {
             const response: Set<any> = new Set();
             for (const id of teamIds) {
                 const teamQuery = db.collection('teams').doc(id);
-                await teamQuery.get().then((teamDoc:any) => {
+                await teamQuery.get().then((teamDoc: DocumentSnapshot) => {
                         response.add({
-                            teamName: teamDoc.data().teamName,
+                            teamName: teamDoc.data()!.teamName,
                             teamId: id
                         });
                    });
@@ -139,8 +141,8 @@ app.get('/me/teams', (req, res) => {
             const teamIds: string[] = [];
             
             await query.get().then((querySnapshot: any) => {
-                querySnapshot.forEach((element:any) => {
-                    teamIds.push(element.data().teamId);
+                querySnapshot.forEach((element:DocumentSnapshot) => {
+                    teamIds.push(element.data()!.teamId);
                 });
             });
             
@@ -148,9 +150,9 @@ app.get('/me/teams', (req, res) => {
             const response: Set<any> = new Set();
             for (const id of teamIds) {
                 const teamQuery = db.collection('teams').doc(id);
-                await teamQuery.get().then((teamDoc:any) => {
+                await teamQuery.get().then((teamDoc:DocumentSnapshot) => {
                         response.add({
-                            teamName: teamDoc.data().teamName,
+                            teamName: teamDoc.data()!.teamName,
                             teamId: id
                         });
                    });

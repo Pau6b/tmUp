@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+const Statistics_1 = require("../../Core/Templates/Statistics");
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -10,14 +11,25 @@ app.post('/match/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let existsTeam = await comprobarEquipo(jsonContent);
+            let existsTeam = true;
+            let teamSport = "";
+            const query = db.collection('teams').doc(jsonContent.teamId);
+            await query.get().then((querySnapshot) => {
+                if (!querySnapshot.exists) {
+                    existsTeam = false;
+                }
+                else {
+                    teamSport = querySnapshot.data().sport;
+                }
+            });
             if (!existsTeam)
                 return res.status(400).send("no existe el equipo");
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "match",
                 date: jsonContent.date,
                 hour: jsonContent.hour,
-                rival: jsonContent.rival
+                rival: jsonContent.rival,
+                stats: Statistics_1.GetMatchStatsBySport(teamSport)
             });
             return res.status(200).send();
         }
@@ -113,10 +125,7 @@ app.get('/bymonth/:teamId/:month', (req, res) => {
                 const docs = querySnapshot.docs;
                 console.log(req.params.month);
                 for (const doc of docs) {
-                    const selectedData = {
-                        date: doc.data().date,
-                        type: doc.data().type
-                    };
+                    const selectedData = doc.data();
                     const newDate = selectedData.date.split('-');
                     if (Buffer.from(newDate[1]).equals(Buffer.from(req.params.month))) {
                         response.push(selectedData);
@@ -219,13 +228,11 @@ async function comprobarEvento(jsonContent) {
     return existeevento;
 }
 async function comprobarEquipo(jsonContent) {
-    let existsTeam = false;
-    const query = db.collection('teams');
+    let existsTeam = true;
+    const query = db.collection('teams').doc(jsonContent.teamId);
     await query.get().then((querySnapshot) => {
-        const docs = querySnapshot.docs;
-        for (const doc of docs) {
-            if (doc.id === jsonContent.teamId)
-                existsTeam = true;
+        if (!querySnapshot.exists) {
+            existsTeam = false;
         }
     });
     return existsTeam;
