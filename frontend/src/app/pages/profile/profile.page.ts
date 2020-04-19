@@ -17,20 +17,26 @@ export class ProfilePage implements OnInit {
 
   //inicializacion variables
   myPhoto: any;
+  profileInfo: any;
 
-  profileInfo;
+  ngOnInit() {
+    this.proveedor.getProfileInfo()
+    .subscribe(
+      (data) => { this.profileInfo = data;},
+      (error) => {console.log(error);}
+    );
+  }
 
   //declarar formulario
   updateForm = this.formBuilder.group({
-    userName: [ 'clara', [Validators.required, Validators.minLength(3)]],
+    userName: [ this.profileInfo.displayname, [Validators.required, Validators.minLength(3)]],
     email: [
-      'clara@gmail.com',
+      this.profileInfo.email,
       [
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$')
       ]
-    ],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    ]
   });
 
   public errorMessages = {
@@ -57,13 +63,7 @@ export class ProfilePage implements OnInit {
     public authService: AuthService
   ) { }
 
-  ngOnInit() {
-    this.proveedor.getProfileInfo()
-    .subscribe(
-      (data) => { this.profileInfo = data;},
-      (error) => {console.log(error);}
-    );
-  }
+  
 
   //getters for form
   get userName() {
@@ -72,14 +72,10 @@ export class ProfilePage implements OnInit {
   get email() {
     return this.updateForm.get("email");
   }
-  get password() {
-    return this.updateForm.get("password");
-  }
 
   //submit update form
   updateProfileUser() {
-    this.proveedor.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value, this.updateForm.get('password').value)
-    
+    this.proveedor.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
   }
 
   //Camera options

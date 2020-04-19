@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+//import { userInfo } from 'os';
 
 @Injectable()
 export class apiRestProvider {
@@ -8,6 +9,7 @@ export class apiRestProvider {
     constructor (public http: HttpClient){
         console.log('Hello, Soy el proveedor de la API Rest');
     }
+
 
     getTeams(){
         return this.http.get(this.url+'teams');
@@ -33,10 +35,10 @@ export class apiRestProvider {
     }
 
     getProfileInfo() {
-        return this.http.get(this.url+'users');
+        return this.http.get(this.url+'/users/me');
     }
 
-    updateProfileInfo(name, email, password) {
-
+    updateProfileInfo(name, email) {
+        
     }
 }
