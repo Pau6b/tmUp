@@ -225,7 +225,7 @@ module.exports = app;
 async function comprobarEvento(jsonContent: any) {
     let existeevento = false;
     const query = db.collection('teams').doc(jsonContent.teamId).collection('events');
-    await query.get().then((querySnapshot: Docu) => {
+    await query.get().then((querySnapshot: any) => {
         const docs: DocumentSnapshot[] = querySnapshot.docs;
         for (const doc of docs) {
             if (doc.id === jsonContent.eventId)

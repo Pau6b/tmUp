@@ -204,23 +204,23 @@ app.delete('/delete', (req, res) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
                     ++miembros;
-                    if (doc.data().type == 'staff')
+                    if (doc.data().type === 'staff')
                         ++staffEnEquipo;
-                    if (doc.data().userId == jsonContent.userId) {
+                    if (doc.data().userId === jsonContent.userId) {
                         console.log("entro");
                         console.log(doc.id);
                         id = doc.id;
-                        if (doc.data().type == "staff")
+                        if (doc.data().type === "staff")
                             esStaff = true;
                     }
                 }
             });
-            if (miembros > 1 && staffEnEquipo == 1 && esStaff)
+            if (miembros > 1 && staffEnEquipo === 1 && esStaff)
                 return res.status(200).send("eres el ultimo entrenador que queda");
             else {
                 console.log(id);
                 await db.collection('memberships').doc(id).delete();
-                if (miembros == 1)
+                if (miembros === 1)
                     console.log("tendremos que borrar el equipo");
                 return res.status(200).send();
             }

@@ -122,3 +122,9 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+#bottom {
+  position: relative;
+  bottom: 0;
+  width: fill;
+}

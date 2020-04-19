@@ -53,6 +53,7 @@ app.get('/:userEmail', (req, res) => {
             const userData = await document.get().then((doc) => {
                 if (!doc.exists) {
                     userExists = false;
+                    return;
                 }
                 else {
                     return doc.data();
@@ -72,7 +73,7 @@ app.get('/:userEmail', (req, res) => {
 app.get('/:userEmail/teams', (req, res) => {
     (async () => {
         try {
-            let userRef = db.collection('users').doc(req.params.userEmail);
+            const userRef = db.collection('users').doc(req.params.userEmail);
             let userExists = true;
             await userRef.get().then((doc) => {
                 if (!doc.exists) {
@@ -91,7 +92,7 @@ app.get('/:userEmail/teams', (req, res) => {
                 });
             });
             //get team names
-            let response = new Set();
+            const response = new Set();
             for (const id of teamIds) {
                 const teamQuery = db.collection('teams').doc(id);
                 await teamQuery.get().then((teamDoc) => {
@@ -121,14 +122,14 @@ app.get('/me/teams', (req, res) => {
             });
             //User exists, get team ids
             const query = db.collection('memberships').where("userId", "==", email);
-            let teamIds = [];
+            const teamIds = [];
             await query.get().then((querySnapshot) => {
                 querySnapshot.forEach((element) => {
                     teamIds.push(element.data().teamId);
                 });
             });
             //get team names
-            let response = new Set();
+            const response = new Set();
             for (const id of teamIds) {
                 const teamQuery = db.collection('teams').doc(id);
                 await teamQuery.get().then((teamDoc) => {

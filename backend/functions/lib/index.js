@@ -26,16 +26,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /*end-of-configuration */
 //Per correr el development server => npm run serve dins de la carpeta de functions
 /* --- before all requests --- */
+/*
 app.use((req, res, next) => {
-    const jsonContent = JSON.parse(req.body);
-    admin.auth.verifyIdToken(jsonContent.token)
-        .then((payload) => {
-        next(payload);
-    })
-        .catch((error) => {
-        res.status(401).send("Unauthorized");
-    });
+  const jsonContent = JSON.parse(req.body);
+  admin.auth.verifyIdToken(jsonContent.token)
+  .then((payload : any) => {
+    next(payload);
+  })
+  .catch((error: any) =>{
+    res.status(401).send("Unauthorized");
+  } );
 });
+*/
 /* --- end of before all requests --- */
 /* --- begin of routes --- */
 const loginHandler = require('./Auth/Login');
