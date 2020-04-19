@@ -63,7 +63,6 @@ export class AddEventPage implements OnInit {
   dateChanged(date) {
     this.endTime = new Date(date.detail.value);
     this.endTime.setMinutes(this.endTime.getMinutes()+60);
-    console.log('end '+this.endTime);
     //update form values
     if(this.segmentModel === "match") {
       this.createMatchForm.patchValue({endTime: this.endTime.toISOString()});
