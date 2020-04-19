@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { GetMembershipStatsBySport } from '../Core/Templates/Statistics'
 import { GetDefaultPlayerState, playerStates } from '../Core/States'
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -98,7 +99,7 @@ app.post('/create', (req, res) => {
     })().then().catch();
 });
 
-app.put('/updatePlayerState/:teamId/:userId', (req, res) => {
+app.put('/updatePlayerState/:teamId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
@@ -108,8 +109,12 @@ app.put('/updatePlayerState/:teamId/:userId', (req, res) => {
             if (!playerStates.includes(jsonContent.state)) {
                 return res.status(400).send("UMS2");
             }
+            let email: string = "";
+            admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    user.email = user.email;
+            })
 
-            const query = db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", req.params.userId);
+            const query = db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", email);
             let docExists: boolean = false;
             let isPlayer: boolean = true;
             let docid : string = "";
