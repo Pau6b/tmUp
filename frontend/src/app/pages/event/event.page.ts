@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -34,6 +34,16 @@ export class EventPage implements OnInit {
     this.loadMap();
   }
 
+  editEvent() {
+    let navigationExtras: NavigationExtras = {
+      relativeTo: this.route,
+      state: {
+        ev: this.event
+      }
+    };
+    this.router.navigate(['/edit-event'], navigationExtras);
+  }
+
   async GoogleDirections() {
     let currentLoc = await this.geolocation.getCurrentPosition();
     let currentLatLng = {
@@ -41,7 +51,7 @@ export class EventPage implements OnInit {
       currLng: currentLoc.coords.longitude
     };
     this.iab.create('https://www.google.com/maps/dir/?api=1&origin='+currentLatLng.currLat+
-      ','+currentLatLng.currLng+'&destination='+this.event.location.lat+','+this.event.location.lng);
+      ','+currentLatLng.currLng+'&destination='+this.event.location.latitude+','+this.event.location.longitude);
   }
 
   async loadMap() {
@@ -50,8 +60,8 @@ export class EventPage implements OnInit {
     loading.present();
     //get the location
     const myLatLng = {
-      lat: this.event.location.lat,
-      lng: this.event.location.lng
+      lat: this.event.location.latitude,
+      lng: this.event.location.longitude
     };
     const mapEle: HTMLElement = document.getElementById('map');
     // create map

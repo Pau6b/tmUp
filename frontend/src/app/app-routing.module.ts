@@ -74,7 +74,12 @@ const routes: Routes = [
   {
     path: 'location-select',
     loadChildren: () => import('./pages/location-select/location-select.module').then( m => m.LocationSelectPageModule)
+  },
+  {
+    path: 'edit-event',
+    loadChildren: () => import('./pages/edit-event/edit-event.module').then( m => m.EditEventPageModule)
   }
+
 
 
 ];

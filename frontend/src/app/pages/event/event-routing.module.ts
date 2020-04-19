@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: EventPage
+  },
+  {
+    path: 'edit-event',
+    loadChildren: () => import('../edit-event/edit-event.module').then( m => m.EditEventPageModule)
   }
 ];
 
