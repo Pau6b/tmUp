@@ -109,7 +109,7 @@ app.get('/:userEmail/teams', (req, res) => {
                 await teamQuery.get().then((teamDoc:any) => {
                         response.add({
                             teamName: teamDoc.data().teamName,
-                            teamId: id
+                            sport: teamDoc.data().sport
                         });
                    });
             }

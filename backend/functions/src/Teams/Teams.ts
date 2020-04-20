@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { sports } from '../Core/Core'
 import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
-import { UserRecord } from 'firebase-functions/lib/providers/auth';
+//import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -13,16 +13,17 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-
+            /*
             if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
 
-            let email: any ="";  
+            let email: any ="";
             admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    email = user.email
-            });    
-
+                    email = user.uid;
+            });  
+            */
+            console.log("hola");
             let errors: string[] = [];
             let hasErrors: boolean = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
@@ -53,7 +54,7 @@ app.post('/create', (req, res) => {
 
             await db.collection('memberships').add({
                 teamId: id,
-                userId: email,
+                userId: jsonContent.userId,
                 type: "staff"
             })
             return res.status(200).send(id);
