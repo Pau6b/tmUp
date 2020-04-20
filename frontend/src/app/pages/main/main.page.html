@@ -84,6 +84,73 @@
     </ion-card>
   </div>
   <div *ngIf="!welcome">
-    events de l'usuari
+    <ion-title style="padding-top: 5%; font-size: 30px">
+      <b><mark>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Últimas notícias&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</mark></b>
+    </ion-title>
+    <ion-grid>
+    <ion-card class="noticias" button *ngFor="let noticia of NoticiesArray">
+
+        <!--TIPO NORMATIVA-->
+        <ion-row style="width:20">
+        <ion-card *ngIf="noticia.name==='normativa'">
+          <ion-card-header>
+            Se ha modificado la normativa de tu club
+          </ion-card-header>
+          <ion-card-content>
+            <br><br><br><br>
+          </ion-card-content>
+        </ion-card>
+        </ion-row>
+
+        <!--TIPO TACTICAS-->
+        <ion-row>
+        <ion-card class="noticias" *ngIf="noticia.name==='tacticas'">
+          <ion-card-header>
+            Se han añadido tacticas nuevas de tu equipo
+          </ion-card-header>
+          <ion-card-content>
+            <br><br><br><br>
+          </ion-card-content>
+        </ion-card>
+        </ion-row
+
+        <!--TIPO ENTRENAMIENTO-->
+        <ion-row>
+        <ion-card class="noticias" *ngIf="noticia.name==='entreno'">
+          <ion-card-header>
+            Nuevo entreno dia {{noticia.date}} 
+          </ion-card-header>
+          <ion-card-content>
+            <br><br><br><br>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+
+        <!--TIPO PARTIDO-->
+      <ion-row>
+        <ion-card class="noticias" *ngIf="noticia.name==='partido'">
+          <ion-card-header>
+            Nuevo partido dia {{noticia.date}} 
+          </ion-card-header>
+          <ion-card-content>
+            <br><br><br><br>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+
+        <!--TIPO PARTIDO FINALIZADO-->
+      <ion-row>
+        <ion-card class="noticias" *ngIf="noticia.name==='partido finalizado'">
+          <ion-card-header>
+            Consulta los resultados del partido del dia {{noticia.date}}
+          </ion-card-header>
+          <ion-card-content>
+            <br><br><br><br>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+
+    </ion-card>
+  </ion-grid>
   </div>
 </ion-content>

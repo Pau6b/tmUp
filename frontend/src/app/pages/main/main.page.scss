@@ -9,7 +9,12 @@ ion-content {
 
 ion-card {
     box-shadow: none;
-    
+    background-color:  var(--ion-color-primary);
+}
+
+ion-card-header {
+    font-size: 20px;
+    color: white
 }
 
 mark{
@@ -42,4 +47,7 @@ mark{
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.noticias {
 }
