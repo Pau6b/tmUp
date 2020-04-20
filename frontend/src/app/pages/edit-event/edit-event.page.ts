@@ -11,7 +11,8 @@ import { LocationSelectPage } from '../location-select/location-select.page';
   styleUrls: ['./edit-event.page.scss'],
 })
 export class EditEventPage implements OnInit {
-
+  
+  teamId: string;
   event: any;
 
   locationForm = this.formBuilder.group({
@@ -21,7 +22,8 @@ export class EditEventPage implements OnInit {
   });
 
   editEventForm = this.formBuilder.group({
-    id: ['',[Validators.required]],
+    teamId:[this.teamId],
+    eventId: ['',[Validators.required]],
     type: ['',[Validators.required]],
     title: ['',[Validators.required]],
     location: this.locationForm,
@@ -39,10 +41,12 @@ export class EditEventPage implements OnInit {
     public api: apiRestProvider,
     public modalCtrl: ModalController
   ) { 
+    this.teamId = 'C0Wytx9JMIKgyIbfGAnC';
     this.route.queryParams.subscribe(params => {
       this.event = this.router.getCurrentNavigation().extras.state.ev;
       this.editEventForm.patchValue({
-        id: this.event.id,
+        teamId: this.teamId,
+        eventId: this.event.id,
         type: this.event.type,
         title: this.event.title,
         location: this.event.location,
@@ -80,16 +84,38 @@ export class EditEventPage implements OnInit {
   }
 
   deleteEvent() {
-    //call api to delete event
-  }
-
-  onCancel() {
-    this.router.navigate(['/calendar']);
+    //call api to delete event depending on type
+    this.api.deleteEvent(this.teamId, this.event.id)
+    .then(() => {
+      console.log('eliminado');
+      this.router.navigate(['/calendar']);
+    },
+    (err) => {
+      console.log('error' + err.message);
+    });
   }
 
   onDone() {
-    //call api to modify event
     console.log(this.editEventForm.value);
+    //call api to modify event
+    if(this.event.type == "match") {
+      this.api.editMatch(this.editEventForm.value)
+      .then(() => {
+        this.router.navigate(['/calendar']);
+      },
+      (err) => {
+        console.log(err.message);
+      });
+    }
+    else {
+      this.api.editTraining(this.editEventForm.value)
+      .then(() => {
+        this.router.navigate(['/calendar']);
+      },
+      (err) => {
+        console.log(err.message);
+      });
+    }
   }
 
 }

@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button (click)="onCancel()">Cancel</ion-button>
+      <ion-back-button [icon]="null">Cancel</ion-back-button>
     </ion-buttons>
     <ion-title>Modificar Evento</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="onDone()">Done</ion-button>
+      <ion-button [disabled]="!editEventForm.valid" (click)="onDone()">Done</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

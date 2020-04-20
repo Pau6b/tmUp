@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button [icon]="null">Cancel</ion-back-button>
     </ion-buttons>
     <ion-title>{{ event.title }}</ion-title>
     <ion-buttons slot="end">
@@ -25,7 +25,7 @@
     </ion-item>
 
     <ion-item *ngIf="event.type === 'training'" >
-      <ion-label>{{ event.description }}</ion-label>
+      <ion-textarea rows="3" [disabled]="true">{{ event.description }}</ion-textarea>
     </ion-item>
     
     <ion-item lines="none">

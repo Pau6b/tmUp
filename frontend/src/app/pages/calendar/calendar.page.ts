@@ -27,7 +27,7 @@ export class CalendarPage implements OnInit {
   };
 
   selectedDate = new Date();
-  currentMonth = new Date().getMonth();
+  currentMonth = this.datePipe.transform(new Date(), 'MMMM yyyy');
 
   eventSource = [];
 
@@ -48,7 +48,10 @@ export class CalendarPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadMonthEvents(this.currentMonth);
+  }
+
+  ionViewWillEnter() {
+    this.loadMonthEvents(new Date().getMonth());
   }
 
   private async loadMonthEvents(month) {
@@ -86,15 +89,10 @@ export class CalendarPage implements OnInit {
     this.router.navigate(['/add-event']);
   }
 
-  markDisabled = (date: Date) => {
-    var current = new Date();
-    current.setDate(current.getDate() - 1);
-    return date < current;
-  };
-
   onCurrentDateChanged = (ev: Date) => {
     if(this.currentMonth.toString() != this.datePipe.transform(ev, 'MMMM yyyy') ) {
       console.log('events updated');
+      
       this.loadMonthEvents(ev.getMonth());
     }
   };

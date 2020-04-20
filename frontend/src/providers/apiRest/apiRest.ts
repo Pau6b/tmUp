@@ -32,7 +32,6 @@ export class apiRestProvider {
     }
 
     createTeam(teamData) {
-        console.log(JSON.stringify(teamData));
         return new Promise(resolve => {
             this.http.post(this.url+'teams/create', JSON.stringify(teamData))
             .subscribe(data => {
@@ -105,6 +104,33 @@ export class apiRestProvider {
     createTraining(trainingInfo) {
         return new Promise(resolve => {
             this.http.post(this.url+'teams/events/training/create', JSON.stringify(trainingInfo))
+            .subscribe(data => {
+                resolve(data);
+            })
+        });
+    }
+
+    editMatch(matchInfo) {
+        return new Promise(resolve => {
+            this.http.put(this.url+'teams/events/match/update', JSON.stringify(matchInfo))
+            .subscribe(data => {
+                resolve(data);
+            })
+        });
+    }
+
+    editTraining(trainingInfo) {
+        return new Promise(resolve => {
+            this.http.put(this.url+'teams/events/training/update', JSON.stringify(trainingInfo))
+            .subscribe(data => {
+                resolve(data);
+            })
+        });
+    }
+
+    deleteEvent(tId, eId) {
+        return new Promise(resolve => {
+            this.http.delete(this.url+'teams/events/delete/'+ tId + '/' + eId)
             .subscribe(data => {
                 resolve(data);
             })
