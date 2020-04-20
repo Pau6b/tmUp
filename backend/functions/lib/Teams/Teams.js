@@ -13,17 +13,17 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-            /*
+            
             if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
+            
+            let email = "";
+            await admin.auth().getUser(req.session.user).then((user) => {
+                email = user.email;
 
-            let email: any ="";
-            admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    email = user.uid;
             });
-            */
-            console.log("hola");
+            
             let errors = [];
             let hasErrors = false;
             if (!jsonContent.hasOwnProperty("teamName")) {

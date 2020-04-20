@@ -88,7 +88,7 @@ app.post('/create', (req, res) => {
         }
     })().then().catch();
 });
-app.put('/updatePlayerState/:teamId/:userId', (req, res) => {
+app.put('/updatePlayerState/:teamId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
@@ -98,7 +98,11 @@ app.put('/updatePlayerState/:teamId/:userId', (req, res) => {
             if (!States_1.playerStates.includes(jsonContent.state)) {
                 return res.status(400).send("UMS2");
             }
-            const query = db.collection('memberships').where('teamId', '==', req.params.teamId).where('userId', "==", req.params.userId);
+            let email = "";
+            admin.auth().getUser(req.session.user).then((user) => {
+                user.email = user.email;
+            });
+            const query = db.collection('memberships').where('teamId', '==', req.params.teamId).where('userId', "==", email);
             let docExists = false;
             let isPlayer = true;
             let docid = "";

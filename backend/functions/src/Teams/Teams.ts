@@ -14,17 +14,16 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-            /*
+
             if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
 
-            let email: any ="";
-            admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    email = user.uid;
-            });  
-            */
-            console.log("hola");
+            let email: any ="";  
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    email = user.email
+            });    
+
             let errors: string[] = [];
             let hasErrors: boolean = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
@@ -49,13 +48,13 @@ app.post('/create', (req, res) => {
                 teamName: jsonContent.teamName,
                 sport: jsonContent.sport,
                 stats: GetTeamStatsBySport(jsonContent.sport)
-            }).then((ref:any) => {      
+            }).then((ref:any) => {
                 id= ref.id;
             });
 
             await db.collection('memberships').add({
                 teamId: id,
-                userId: jsonContent.userId,
+                userId: email,
                 type: "staff"
             })
             return res.status(200).send(id);
