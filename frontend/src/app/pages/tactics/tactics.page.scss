@@ -5,14 +5,21 @@ ion-header{
     text-align: center;
 }
 
-ion-menu-button {
-    display: block;
-}
-
 /* ------------------------------
           CONTENT
 ------------------------------ */
-
+ion-thumbnail{
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    min-width: 5rem;    
+    min-height: 8rem;
+    ion-img {   
+        min-width: 5rem;
+    }
+}
+ion-col{
+    text-align: center;
+}
 /* ------------------------------
           FOOTER
 ------------------------------ */

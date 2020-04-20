@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Camera } from '@ionic-native/camera/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { ActionSheetController } from '@ionic/angular';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { ActionSheetController } from '@ionic/angular';
 export class PhotoService {
 
   base64Image; 
+  myPhoto: any;
 
   constructor(
     public camera: Camera,
@@ -62,7 +63,7 @@ export class PhotoService {
       console.log(error);
     });
   }
-  /*Camera options
+  //Camera options
   async cameraOptions() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Choose file from',
@@ -111,11 +112,7 @@ export class PhotoService {
   }
 
   choosePhoto() {
-    this.fileChooser.open()
-      .then(uri => console.log(uri))
-      .catch(e => console.log(e));
-
-    /*
+    
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -133,6 +130,6 @@ export class PhotoService {
      console.log('Camera error:' + err)
     });
     
-  }*/
+  }
 
 }

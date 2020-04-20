@@ -17,12 +17,11 @@ export class TeamListPage implements OnInit {
     public navCtrl: NavController,
     public menuCtrl: MenuController
     ) { 
-      this.proveedor.getMe()
-      .subscribe(
-        (data) => { this.me = data;
-        console.log(this.me);},
-        (error) => {console.log(error);}
-      );
+      
+    }
+
+
+  ngOnInit() {
       console.log("-------------------------")
       this.proveedor.getUserTeams()
       .subscribe(
@@ -30,10 +29,7 @@ export class TeamListPage implements OnInit {
           console.log(this.teamList);},
         (error) => {console.log(error);}
       );
-    }
-
-
-  ngOnInit() { }
+   }
 
   goToHomePage(team: string){
     this.navCtrl.navigateRoot('chat');

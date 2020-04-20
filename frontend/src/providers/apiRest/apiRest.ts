@@ -24,7 +24,7 @@ export class apiRestProvider {
     }
 
     getUserTeams(){
-        return this.http.get(this.url+'users/me/teams');
+        return this.http.get(this.url+'users/juanjo@tmup.com/teams');
     }
 
     getTeams(userid){
@@ -61,7 +61,6 @@ export class apiRestProvider {
         return this.http.get(this.url+'chats/'+teamId);
     }
     getMessages(chatId: string, teamId: string){
-
         return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
             return mensajes.map(m => {
                 const data = m.payload.doc.data() as message;

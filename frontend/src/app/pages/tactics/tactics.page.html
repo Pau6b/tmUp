@@ -9,11 +9,21 @@
 
 <ion-content>
 
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let img of [1,2,3,4,5,6,7,8,9]; let i=index;">
+          <ion-thumbnail item-center (click)="seeImage(img)"> 
+            <ion-img [src]="'../assets/images/'+img+'.jpg'"></ion-img>
+          </ion-thumbnail>
+          <ion-label>titulo {{i}}</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
-    <ion-fab-button (click)="goToaddTactic()">
+    <ion-fab-button (click)="goToaddTactic(img)">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

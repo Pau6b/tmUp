@@ -18,6 +18,10 @@ import { Camera } from '@ionic-native/camera/ngx'
 import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { HttpClientModule } from '@angular/common/http';
 
+import { Chooser } from '@ionic-native/chooser/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -34,6 +38,9 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireAuth,
     Camera,
     AngularFirestore,
+    File,
+    Chooser,
+    PhotoViewer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],

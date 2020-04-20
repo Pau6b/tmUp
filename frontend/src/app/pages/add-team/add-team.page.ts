@@ -100,6 +100,13 @@ export class AddTeamPage implements OnInit {
   //calling api rest to join team
   joinTeam() {
     console.log(this.joinTeamForm.value);
+    this.api.createMembership(this.joinTeamForm.value)
+    .then( () => {
+      console.log("user added to team");
+    },
+    (error) => {
+      console.log(error.message);
+    });
   }
 
   //camera options
