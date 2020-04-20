@@ -16,7 +16,7 @@ app.post('/create', (req, res) => {
                 res.status(400).send("T1");
             }
             let email = "";
-            admin.auth().getUser(req.session.user).then((user) => {
+            await admin.auth().getUser(req.session.user).then((user) => {
                 email = user.email;
             });
             let errors = [];
