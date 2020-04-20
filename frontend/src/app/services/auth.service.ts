@@ -41,7 +41,7 @@ export class AuthService {
   //login con google
   async loginGoogle() {
     let params;
-    if (this.platform.is('android')) {
+    if (this.platform.is('android') || this.platform.is('ios') || this.platform.is('desktop')  || this.platform.is('cordova')) {
       params = {
         'webClientId': '489608967542-8quc1uc92o0io6f8j1jgmtnban91r3f8.apps.googleusercontent.com',
         'offline': true
@@ -52,15 +52,19 @@ export class AuthService {
     }
     this.google.login(params)
       .then((response) => {
+        console.log("Entro aqui")
         const { idToken, accessToken } = response
         this.onLoginSuccess(idToken, accessToken);
+        console.log("Login amb Google correcte");
       }).catch((error) => {
+        console.log("Dona error")
         console.log(error)
         alert('error:' + JSON.stringify(error))
       });
   }
 
   onLoginSuccess(accessToken, accessSecret) {
+    console.log("login success");
     const credential = accessSecret ? firebase.auth.GoogleAuthProvider
         .credential(accessToken, accessSecret) : firebase.auth.GoogleAuthProvider
             .credential(accessToken);
