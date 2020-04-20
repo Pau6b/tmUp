@@ -1,15 +1,56 @@
 /* ------------------------------
               HEADER
    ------------------------------ */
-   ion-header{
-    text-align: center;
-}
+    ion-header{
+        text-align: center;
+    }
 
 
 /* ------------------------------
           CONTENT
 ------------------------------ */
+    
+    ion-content,
+    ion-content > *{
+        //--background: rgb(213, 238, 253);
+    }
 
+    .file{
+        padding-bottom: 1rem;
+        border-bottom: solid lightgrey 0.1rem;
+
+        ion-item{
+            --background: lightgrey;
+            border: solid grey 0.1rem;
+            border-radius: 0.5rem;
+            -webkit-box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
+            box-shadow: 5px 5px 3px 0px rgba(0,0,0,0.75);
+            cursor: pointer;
+            margin: 1rem 1rem;
+
+            ion-label{
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    .title{
+        border-bottom: solid black 1px;
+    }
+
+    ion-button{
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 1rem
+    }
+
+    ion-textarea{
+        border: solid lightgrey 1px;
+        font-size: small;
+        padding-left: 0.5rem;
+        
+    }
 /* ------------------------------
           FOOTER
 ------------------------------ */

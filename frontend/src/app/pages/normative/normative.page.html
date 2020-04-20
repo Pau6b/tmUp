@@ -9,9 +9,33 @@
 
 <ion-content>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
-    <ion-fab-button (click)="chooseFile()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <div class="file">
+    <ng-container *ngIf=" isPDF===false ; else noPDF">
+      <ion-label>No hay ningun fichero de normativas. 
+        Añade un fichero existente o redactalo ahora
+      </ion-label>
+    </ng-container>
+
+    <ng-template #noPDF>    
+      <ion-item>
+          <ion-img src="../../../assets/icon/pdf.png"></ion-img>
+        <ion-label>Titulo normativa</ion-label>
+      </ion-item>
+    </ng-template> 
+
+    <ion-button expand="block" color="primary">Cargar documento</ion-button>
+  </div>
+
+  <ion-item style="white-space:nowrap">
+    <ion-label position="floating">Titulo del fichero</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">Normas</ion-label>
+    <ion-textarea rows="7" placeholder="Introduce cualquier norma aqui..."></ion-textarea>
+  </ion-item>
+
+  <ion-button expand="block" color="primary">Crear documento</ion-button>
+  
 </ion-content>

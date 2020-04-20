@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
   logIn() {
     this.authService.signIn(this.logInForm.get('email').value, this.logInForm.get('password').value)
     .then(() => {
-      this.navCtrl.navigateRoot('team-list');
+      this.navCtrl.navigateRoot('normative');
     })
     .catch((error:firebase.FirebaseError) => {
       this.logInError=true;

@@ -12,6 +12,7 @@ import { File } from '@ionic-native/file/ngx';
 export class NormativePage implements OnInit {
 
   fileObj: ChooserResult;
+  isPDF = true;
 
   constructor(
     private api: apiRestProvider,
@@ -33,5 +34,9 @@ export class NormativePage implements OnInit {
         alert(JSON.stringify(err));
         console.log(JSON.stringify(err));
       })
+  }
+
+  pdfViewer(){
+
   }
 }
