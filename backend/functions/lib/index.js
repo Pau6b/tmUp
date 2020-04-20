@@ -16,6 +16,17 @@ admin.initializeApp({
     databaseURL: "https://tmup-908e4.firebaseio.com",
     storageBucket: "gs://tmup-908e4.appspot.com"
 });
+/**
+ * TODO(developer): Uncomment these variables before running the sample.
+ 
+const bucketName = 'tactics';
+
+async function createBucket() {
+  // Creates the new bucket
+  await storage.createBucket(bucketName);
+  console.log(`Bucket ${bucketName} created.`);
+}
+*/
 app.use(cors({ origin: true }));
 app.use(expressSession({
     secret: 'ssshhhhh',
