@@ -98,7 +98,7 @@ app.get('/me/teams', (req, res) => {
                 await teamQuery.get().then((teamDoc) => {
                     response.add({
                         teamName: teamDoc.data().teamName,
-                        teamId: id
+                        sport: teamDoc.data().sport
                     });
                 });
             }

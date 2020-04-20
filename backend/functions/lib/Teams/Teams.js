@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const Core_1 = require("../Core/Core");
 const Statistics_1 = require("../Core/Templates/Statistics");
+//import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -12,13 +13,17 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-            if (req.session.user === null) {
+            
+            if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
+            
             let email = "";
             await admin.auth().getUser(req.session.user).then((user) => {
                 email = user.email;
+
             });
+            
             let errors = [];
             let hasErrors = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
@@ -47,7 +52,7 @@ app.post('/create', (req, res) => {
             });
             await db.collection('memberships').add({
                 teamId: id,
-                userId: email,
+                userId: jsonContent.userId,
                 type: "staff"
             });
             return res.status(200).send(id);

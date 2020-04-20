@@ -110,8 +110,9 @@ app.get('/me/teams', (req, res) => {
                 const teamQuery = db.collection('teams').doc(id);
                 await teamQuery.get().then((teamDoc:DocumentSnapshot) => {
                         response.add({
-                            teamName: teamDoc.data()!.teamName,
-                            teamId: id
+                            teamName: teamDoc.data().teamName,
+                            sport: teamDoc.data().sport
+
                         });
                    });
             }

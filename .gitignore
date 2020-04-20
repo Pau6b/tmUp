@@ -1,4 +1,3 @@
 .DS_Store
-backend/node_modules
-backend/functions/node_modules
+*/node_modules/*
 backend/functions/permissions.json

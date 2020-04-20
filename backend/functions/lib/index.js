@@ -13,7 +13,8 @@ const app = express();
 const admin = require("firebase-admin");
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://tmup-908e4.firebaseio.com"
+    databaseURL: "https://tmup-908e4.firebaseio.com",
+    storageBucket: 'gs://tmup-908e4.appspot.com'
 });
 app.use(cors({ origin: true }));
 app.use(expressSession({
