@@ -20,7 +20,7 @@ app.post('/create', (req, res) => {
             }
 
             let email: any ="";  
-            admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     email = user.email
             });    
 
