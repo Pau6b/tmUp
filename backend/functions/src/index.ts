@@ -33,18 +33,19 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 /* --- before all requests --- */
 
-/*
+
 app.use((req, res, next) => {
   const jsonContent = JSON.parse(req.body);
   admin.auth.verifyIdToken(jsonContent.token)
   .then((payload : any) => {
+    req.session!.user = payload.uid;
     next(payload);
   })
   .catch((error: any) =>{
-    res.status(401).send("Unauthorized");
+    return res.status(401).send("Unauthorized");
   } );
 });
-*/
+
 
 /* --- end of before all requests --- */
 
