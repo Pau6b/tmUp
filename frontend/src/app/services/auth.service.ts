@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-import { ToastController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
-import { LoadingController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,8 @@ export class AuthService {
     private google: GooglePlus,
     private platform: Platform,
     public loadingController: LoadingController,
-    public authService: AuthService
+    public authService: AuthService,
+    public alertController: AlertController
   ) { }
 
   signUpUser(email: string, password: string): Promise<any> {
@@ -39,6 +39,73 @@ export class AuthService {
   }
 
   //login con google
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+  async doGoogleLogin(){
+    const loading = await this.loadingController.create({
+      message: 'Please wait...'
+    });
+    this.presentLoading(loading);
+    this.google.login({
+      'scopes': '', // optional - space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+      'webClientId': '489608967542-8quc1uc92o0io6f8j1jgmtnban91r3f8.apps.googleusercontent.com', // optional - clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+      'offline': true, // Optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+      })
+      .then(() => {
+          this.router.navigate(["/user"]);
+      }, (error) => {
+        console.log(error);
+        if(!this.platform.is('cordova')){
+          this.presentAlert();
+        }
+      })
+      loading.dismiss();
+    }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+       message: 'Cordova is not available on desktop. Please try this in a real device or in an emulator.',
+       buttons: ['OK']
+     });
+
+    await alert.present();
+  }
+
+  async presentLoading(loading) {
+    return await loading.present();
+  }
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   async loginGoogle() {
     let params;
     if (this.platform.is('android') || this.platform.is('ios') || this.platform.is('desktop')  || this.platform.is('cordova')) {

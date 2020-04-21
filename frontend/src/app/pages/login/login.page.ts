@@ -60,7 +60,7 @@ export class LoginPage implements OnInit {
   }
 
   logInWithGoogle() {
-    this.authService.loginGoogle()
+    this.authService.doGoogleLogin()
     .then(() => {
       this.navCtrl.navigateRoot('team-list');
     })
