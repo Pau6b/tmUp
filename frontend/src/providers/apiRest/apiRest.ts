@@ -11,7 +11,7 @@ interface message {
   }
 
 @Injectable()
-export class apiRestProvider {
+export class apiRestProvider { 
 
     url: string = 'https://us-central1-tmup-908e4.cloudfunctions.net/app/';
 
@@ -21,16 +21,16 @@ export class apiRestProvider {
     //LOGIN AND LOGOUT
 
     setToken( token ) {
-            return new Promise(resolve => {
-                this.http.post(this.url+'login', JSON.stringify({token: token}) )
-                .subscribe( data => {
-                    resolve(data);
-                })
+        return new Promise(resolve => {
+            this.http.post(this.url+'login', JSON.stringify(token) )
+            .subscribe(data => {
+                resolve(data);
             })
-        }
+        })
+    }
 
     logOutBack() {
-        return this.http.post(this.url+'/logout', null);
+        return this.http.post(this.url+'logout', null);
     }
 
     //USER
@@ -40,7 +40,7 @@ export class apiRestProvider {
     }
 
     getProfileInfo() {
-        return this.http.get(this.url+'/users/me');
+        return this.http.get(this.url+'users/me');
     }
 
     updateProfileInfo(name, email) {

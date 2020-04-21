@@ -14,6 +14,7 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class AuthService {
 
+  currentUser = null;
   error: any;
   loading: any;
 
@@ -26,36 +27,38 @@ export class AuthService {
     public loadingController: LoadingController,
     public authService: AuthService,
     private apiProv: apiRestProvider
-  ) { }
-
-  getAndSetToken() {
-    this.afAuth.auth.currentUser.getIdToken(true)
-      .then((idToken) => {
-        this.apiProv.setToken(idToken)
-        .then( () => {
-          console.log('token setted succesfully!');
+  ) { 
+    //observable of Firebase Authentication
+    this.afAuth.auth.onAuthStateChanged( async (user) => {
+      if(user) {
+        console.log(user.email + ' logged');
+        this.afAuth.auth.currentUser.getIdToken(true).then( (idtoken) => {
+          this.apiProv.setToken({token: idtoken});
+          console.log('set token: '+ idtoken);
+          this.currentUser = user;
         },
         (err) => {
-          console.log(err.message);
-        });
-      },
-      (err) => {
-        console.log(err.message);
-      });
+          console.log('error setting token ' + err.message);
+        })
+      } else {
+        this.currentUser = null;
+        console.log('no user logged');
+      }
+    }) 
+  }
+
+  async isLogged() {
+    //to know if a user is logget or not
+    if(this.afAuth.auth.currentUser != null) return true;
+    else return false;
   }
 
   signUpUser(email: string, password: string): Promise<any> {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-    .then((user) => {
-      this.getAndSetToken();
-    });
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
   signIn(email: string, password: string): Promise<any> {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-    .then((user) => {
-      this.getAndSetToken();
-    });
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
   //login con google
@@ -126,14 +129,11 @@ export class AuthService {
    //logout function
   logOut() {
     this.afAuth.auth.signOut()
-    .then(data=> {
+    .then(() => {
       this.apiProv.logOutBack()
       .subscribe( () => {
         this.router.navigateByUrl('/login');
         console.log('Signed out!');
-      },
-      (err) => {
-        console.log(err.message);
       })
     })
     .catch(function(error) {
