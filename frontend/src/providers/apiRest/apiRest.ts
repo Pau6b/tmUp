@@ -19,6 +19,15 @@ export class apiRestProvider {
     constructor (private http: HttpClient, private db: AngularFirestore){
     }
 
+    setToken( token ) {
+        return new Promise(resolve => {
+            this.http.post(this.url+'login', JSON.stringify({token: token}) )
+            .subscribe( data => {
+                resolve(data);
+            })
+        })
+    }
+
     getMe(){
         return this.http.get(this.url+'users/me');
     }

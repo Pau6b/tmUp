@@ -7,13 +7,13 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { LoadingController } from '@ionic/angular';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  currentUser;
   error: any;
   loading: any;
 
@@ -24,13 +24,21 @@ export class AuthService {
     private google: GooglePlus,
     private platform: Platform,
     public loadingController: LoadingController,
-    public authService: AuthService
+    public authService: AuthService,
+    private apiProv: apiRestProvider
   ) { }
 
   signUpUser(email: string, password: string): Promise<any> {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
     .then((user) => {
-      //assign user created to the currentUser
+      this.afAuth.auth.currentUser.getIdToken(true)
+      .then((idToken) => {
+        this.apiProv.setToken(idToken) 
+        console.log('token setted succesfully!');
+      },
+      (err) => {
+        console.log(err.message);
+      });
     });
   }
 

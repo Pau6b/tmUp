@@ -82,8 +82,7 @@ export class RegisterPage implements OnInit {
     (error) => {
       this.emailUsed = true;
       console.log(error.message);
-    }
-    )
+    });
   }
 
   cameraOptions() {
