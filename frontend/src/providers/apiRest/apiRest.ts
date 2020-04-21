@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
 
 
 interface message {
@@ -89,11 +87,16 @@ export class apiRestProvider {
     }
 
     getProfileInfo() {
-        return this.http.get(this.url+'users');
+        return this.http.get(this.url+'/users/me');
     }
 
-    updateProfileInfo(name, email, password) {
+    updateProfileInfo(name, email) {
+        
+    }
 
+    logOutBack() {
+        this.http.post(this.url+'/logout', null);
+        console.log('logout back');
     }
 
     //CALENDAR AND EVENTS METHODS

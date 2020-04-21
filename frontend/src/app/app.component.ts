@@ -9,6 +9,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './services/auth.service';
 import { AlertController } from '@ionic/angular';
 
+import { apiRestProvider } from '../providers/apiRest/apiRest';
+
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
+  data;
   public appPages = [
     {
       title: 'Inicio',
@@ -61,7 +64,8 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     public afAuth: AngularFireAuth,
     public auth: AuthService,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public proveedor: apiRestProvider
   ) {
     this.initializeApp();
   }
@@ -81,8 +85,9 @@ export class AppComponent implements OnInit {
   }
 
   async presentConfirm() {
+    this.data = this.proveedor.getProfileInfo();
     const alert = await this.alertCtrl.create({
-      message: 'Log out of (nombre usuario)?',
+      message: 'Log out of' +  this.data.name +'?',
       buttons: [
         {
           text: 'Cancelar',
@@ -95,6 +100,7 @@ export class AppComponent implements OnInit {
           text: 'Log Out',
           handler: () => {
             this.auth.logOut();
+            this.proveedor.logOutBack();
             console.log('LogOut clicked');
           }
         }

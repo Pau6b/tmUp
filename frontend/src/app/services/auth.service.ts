@@ -60,15 +60,19 @@ export class AuthService {
     }
     this.google.login(params)
       .then((response) => {
+        console.log("Entro aqui")
         const { idToken, accessToken } = response
         this.onLoginSuccess(idToken, accessToken);
+        console.log("Login amb Google correcte");
       }).catch((error) => {
+        console.log("Dona error")
         console.log(error)
         alert('error:' + JSON.stringify(error))
       });
   }
 
   onLoginSuccess(accessToken, accessSecret) {
+    console.log("login success");
     const credential = accessSecret ? firebase.auth.GoogleAuthProvider
         .credential(accessToken, accessSecret) : firebase.auth.GoogleAuthProvider
             .credential(accessToken);
