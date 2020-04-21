@@ -17,7 +17,7 @@ export class ProfilePage implements OnInit {
 
   //inicializacion variables
   myPhoto: any;
-  profileInfo: any;
+  profileInfo;
 
   ngOnInit() {
     this.proveedor.getProfileInfo()
@@ -27,15 +27,13 @@ export class ProfilePage implements OnInit {
     );
   }
 
-  //declarar formulario
+  //declarar formulario this.profileInfo.displayname this.profileInfo.email
   updateForm = this.formBuilder.group({
-    userName: [ this.profileInfo.displayname, [Validators.required, Validators.minLength(3)]],
+    userName: [ 
+      'clara', [Validators.required, Validators.minLength(3)]
+    ],
     email: [
-      this.profileInfo.email,
-      [
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$')
-      ]
+      'clara', [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
     ]
   });
 

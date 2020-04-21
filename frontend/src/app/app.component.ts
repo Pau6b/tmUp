@@ -19,6 +19,7 @@ import { apiRestProvider } from '../providers/apiRest/apiRest';
 })
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
+  data;
   public appPages = [
     {
       title: 'Inicio',
@@ -84,8 +85,9 @@ export class AppComponent implements OnInit {
   }
 
   async presentConfirm() {
+    this.data = this.proveedor.getProfileInfo();
     const alert = await this.alertCtrl.create({
-      message: 'Log out of (nombre usuario)?',
+      message: 'Log out of' +  this.data.name +'?',
       buttons: [
         {
           text: 'Cancelar',

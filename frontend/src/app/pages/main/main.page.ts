@@ -8,7 +8,7 @@ import { getLocaleMonthNames } from '@angular/common';
 })
 export class MainPage implements OnInit {
   public selectedIndex = 0;
-  welcome = false;
+  welcome = true;
   NoticiesArray;
   //variable amb totes les noticies
   data = [
