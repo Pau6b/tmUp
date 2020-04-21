@@ -41,4 +41,9 @@ export class apiRestProvider {
     updateProfileInfo(name, email) {
         
     }
+
+    logOutBack() {
+        this.http.post(this.url+'/logout', null);
+        console.log('logout back');
+    }
 }
