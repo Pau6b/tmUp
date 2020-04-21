@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 
 interface message {
@@ -17,22 +18,40 @@ export class apiRestProvider {
     constructor (private http: HttpClient, private db: AngularFirestore){
     }
 
+    //LOGIN AND LOGOUT
+
     setToken( token ) {
-        return new Promise(resolve => {
-            this.http.post(this.url+'login', JSON.stringify({token: token}) )
-            .subscribe( data => {
-                resolve(data);
+            return new Promise(resolve => {
+                this.http.post(this.url+'login', JSON.stringify({token: token}) )
+                .subscribe( data => {
+                    resolve(data);
+                })
             })
-        })
+        }
+
+    logOutBack() {
+        return this.http.post(this.url+'/logout', null);
     }
+
+    //USER
 
     getMe(){
         return this.http.get(this.url+'users/me');
     }
 
+    getProfileInfo() {
+        return this.http.get(this.url+'/users/me');
+    }
+
+    updateProfileInfo(name, email) {
+        
+    }
+
     getUserTeams(){
         return this.http.get(this.url+'users/me/teams');
     }
+
+    //TEAMS
 
     getTeams(userid){
         return this.http.get(this.url+'memberships/getByUser/'+userid);
@@ -55,6 +74,9 @@ export class apiRestProvider {
             });
         })
     }
+
+    // CHAT
+
     createChat(chatInfo){
         return new Promise(resolve => {
             this.http.post(this.url+'chats/create', JSON.stringify(chatInfo))
@@ -63,20 +85,23 @@ export class apiRestProvider {
             })
         })
     }
+
     getChat(teamId: string){
         return this.http.get(this.url+'chats/'+teamId);
     }
+
     getMessages(chatId: string, teamId: string){
 
-        return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
+        /*return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
             return mensajes.map(m => {
                 const data = m.payload.doc.data() as message;
                 data.id = m.payload.doc.id;
                 return data;
             })
-        }))
-        //return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId);
+        }))*/
+        return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId);
     }
+
     createMessage(messageInfo){
         return new Promise(resolve => {
             this.http.post(this.url+'chats/messages/create', JSON.stringify(messageInfo))
@@ -86,20 +111,8 @@ export class apiRestProvider {
         })
     }
 
-    getProfileInfo() {
-        return this.http.get(this.url+'/users/me');
-    }
-
-    updateProfileInfo(name, email) {
-        
-    }
-
-    logOutBack() {
-        this.http.post(this.url+'/logout', null);
-        console.log('logout back');
-    }
-
     //CALENDAR AND EVENTS METHODS
+    
     getEventsOfMonth(teamId, month) {
         return this.http.get(this.url+'teams/events/bymonth/'+ teamId+'/'+month);
     }

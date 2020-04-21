@@ -28,22 +28,34 @@ export class AuthService {
     private apiProv: apiRestProvider
   ) { }
 
-  signUpUser(email: string, password: string): Promise<any> {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-    .then((user) => {
-      this.afAuth.auth.currentUser.getIdToken(true)
+  getAndSetToken() {
+    this.afAuth.auth.currentUser.getIdToken(true)
       .then((idToken) => {
-        this.apiProv.setToken(idToken) 
-        console.log('token setted succesfully!');
+        this.apiProv.setToken(idToken)
+        .then( () => {
+          console.log('token setted succesfully!');
+        },
+        (err) => {
+          console.log(err.message);
+        });
       },
       (err) => {
         console.log(err.message);
       });
+  }
+
+  signUpUser(email: string, password: string): Promise<any> {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+    .then((user) => {
+      this.getAndSetToken();
     });
   }
 
   signIn(email: string, password: string): Promise<any> {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      this.getAndSetToken();
+    });
   }
 
   //login con google
@@ -115,8 +127,14 @@ export class AuthService {
   logOut() {
     this.afAuth.auth.signOut()
     .then(data=> {
-      this.router.navigateByUrl('/login');
-      console.log('Signed out!');
+      this.apiProv.logOutBack()
+      .subscribe( () => {
+        this.router.navigateByUrl('/login');
+        console.log('Signed out!');
+      },
+      (err) => {
+        console.log(err.message);
+      })
     })
     .catch(function(error) {
       //handle error
