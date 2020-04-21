@@ -134,15 +134,14 @@ app.get('/bymonth/:teamId/:month', (req, res) => {
 //---------------------------------------------------------DELETE------------------------------------------------------------------------
 
 //Delete event
-app.delete('/delete', (req, res) => {
+app.delete('/delete/:teamId/:eventId', (req, res) => {
     (async () => {
         try {
-            const jsonContent = JSON.parse(req.body);
-            const existsTeam = await comprobarEquipo(jsonContent);
+            const existsTeam = await comprobarEquipo(req.params);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
-            const existeevento = await comprobarEvento(jsonContent);
+            const existeevento = await comprobarEvento(req.params);
             if(!existeevento) return res.status(400).send("no existe el evento");
-            await db.collection('teams').doc(jsonContent.teamId).collection('events').doc(jsonContent.eventId).delete();
+            await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).delete();
             return res.status(200).send("evento eliminado");
         }
         catch(error){
