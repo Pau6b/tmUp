@@ -7,14 +7,17 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { LoadingController } from '@ionic/angular';
-import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  currentUser = null;
+  //user parameters
+  currentUser: any;
+  token: any;
+  currentTeam: null;
+
   error: any;
   loading: any;
 
@@ -24,9 +27,7 @@ export class AuthService {
     private router: Router, 
     private google: GooglePlus,
     private platform: Platform,
-    public loadingController: LoadingController,
-    public authService: AuthService,
-    private apiProv: apiRestProvider
+    public loadingController: LoadingController
   ) { 
     //to test login
     if(this.afAuth.authState != null) this.logOut();
@@ -34,26 +35,20 @@ export class AuthService {
     //observable of Firebase Authentication
     this.afAuth.auth.onAuthStateChanged( (user) => {
       if(user) {
+        this.currentUser = user;
         console.log(user.email + ' logged');
-        this.afAuth.auth.currentUser.getIdToken(true).then( (idtoken) => {
-          this.apiProv.setToken({token: idtoken})
-          .then( () => {
-            console.log('set token: '+ idtoken);
-            this.currentUser = user;
-            //navigate after logged in
-            this.router.navigate(['team-list']);
-          });
+        this.afAuth.auth.currentUser.getIdToken(true)
+        .then( (idtoken) => {
+          this.token = idtoken.toString();
+          console.log('token setted');
+          this.router.navigate(['team-list']);
         },
         (err) => {
           console.log('error setting token ' + err.message);
         })
       } else {
         this.currentUser = null;
-        this.apiProv.logOutBack()
-        .subscribe( () => {
-          this.router.navigateByUrl('/login');
-          console.log('Signed out!');
-        })
+        this.router.navigateByUrl('/login');
         console.log('no user logged');
       }
     }) 
