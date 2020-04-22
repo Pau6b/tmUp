@@ -1,7 +1,6 @@
-
 import * as express from 'express';
-const admin = require("firebase-admin");
-const db = admin.firestore();
+/*const admin = require("firebase-admin");
+const db = admin.firestore();*/
 const app = express();
 
 //-------------------------------------------------CREATE----------------------------------------------------------------------------------------
@@ -255,15 +254,4 @@ async function comprobarEvento(jsonContent: any) {
     return existeevento;
 }
 
-async function comprobarEquipo(jsonContent: any) {
-    let existsTeam = false;
-    const query = db.collection('teams');
-    await query.get().then((querySnapshot: any) => {
-        const docs = querySnapshot.docs;
-        for (const doc of docs) {
-            if (doc.id === jsonContent.teamId)
-                existsTeam = true;
-        }
-    });
-    return existsTeam;
-}
+module.exports = app;
