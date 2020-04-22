@@ -32,15 +32,17 @@ export class AuthService {
     if(this.afAuth.authState != null) this.logOut();
 
     //observable of Firebase Authentication
-    this.afAuth.auth.onAuthStateChanged( async (user) => {
+    this.afAuth.auth.onAuthStateChanged( (user) => {
       if(user) {
         console.log(user.email + ' logged');
         this.afAuth.auth.currentUser.getIdToken(true).then( (idtoken) => {
-          this.apiProv.setToken({token: idtoken});
-          console.log('set token: '+ idtoken);
-          this.currentUser = user;
-          //navigate after logged in
-          this.router.navigate(['team-list']);
+          this.apiProv.setToken({token: idtoken})
+          .then( () => {
+            console.log('set token: '+ idtoken);
+            this.currentUser = user;
+            //navigate after logged in
+            this.router.navigate(['team-list']);
+          });
         },
         (err) => {
           console.log('error setting token ' + err.message);
@@ -55,12 +57,6 @@ export class AuthService {
         console.log('no user logged');
       }
     }) 
-  }
-
-  async isLogged() {
-    //to know if a user is logget or not
-    if(this.afAuth.auth.currentUser != null) return true;
-    else return false;
   }
 
   signUpUser(email: string, password: string): Promise<any> {
