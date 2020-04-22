@@ -1,6 +1,8 @@
 import * as express from 'express';
-/*const admin = require("firebase-admin");
-const db = admin.firestore();*/
+//import { GetMatchStatsBySport } from "../../Core/Templates/Statistics"
+//import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
+const admin = require("firebase-admin");
+const db = admin.firestore();
 const app = express();
 
 //-------------------------------------------------CREATE----------------------------------------------------------------------------------------
@@ -68,7 +70,7 @@ app.get('/byday/:teamId/:date', (req, res) => {
             const query = db.collection('teams').doc(req.params.teamId).collection("events");
             const response: any = [];
             await query.get().then((querySnapshot: any) => {
-                const docs = querySnapshot.docs;
+                const docs: DocumentSnapshot[] = querySnapshot.docs;
                 let selectedData;
                 for (const doc of docs) {
                     if (doc.data().startTime === req.params.startTime) {
@@ -245,7 +247,7 @@ async function comprobarEvento(jsonContent: any) {
     let existeevento = false;
     const query = db.collection('teams').doc(jsonContent.teamId).collection('events');
     await query.get().then((querySnapshot: any) => {
-        const docs = querySnapshot.docs;
+        const docs: DocumentSnapshot[] = querySnapshot.docs;
         for (const doc of docs) {
             if (doc.id === jsonContent.eventId)
                 existeevento = true;
@@ -254,4 +256,13 @@ async function comprobarEvento(jsonContent: any) {
     return existeevento;
 }
 
-module.exports = app;
+async function comprobarEquipo(jsonContent: any) {
+    let existsTeam = true;
+    const query = db.collection('teams').doc(jsonContent.teamId);
+    await query.get().then((querySnapshot: DocumentSnapshot) => {
+        if(!querySnapshot.exists) {
+            existsTeam = false;
+        }
+    });
+    return existsTeam;
+}

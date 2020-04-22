@@ -40,19 +40,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /* --- before all requests --- */
 /*
 app.use((req, res, next) => {
-  const token
-            await document.update({
-                email: jsonContent.email,
-                userName: jsonCon= req.headers.token;
-  admin.auth.verifyIdToken(token)
-  .then((payload : any) => {
-    next(payload);
-  })
-  .catch((error: any) =>{
-    res.status(401).send("Unauthorized");
-  } );
-});
-*/
+  (async () => {
+    if (req.path != '/login') {
+      if (req.session!.token == null) {
+        return res.status(401).send("User is not logged in");
+      }
+      let isLogged : boolean = false;
+      await admin.auth.verifyIdToken(req.session!.token)
+      .then((payload : any) => {
+        req.session!.user = payload.uid;
+         isLogged = true;
+      })
+      .catch((error: any) =>{
+        isLogged = false;
+      } );
+      if (!isLogged) {
+        return res.status(401).send("Invalid token");
+      }
+      return next();
+    }
+  })().then().catch();
+  
+});*/
 /* --- end of before all requests --- */
 /* --- begin of routes --- */
 const usersHandler = require('./Users/Users');

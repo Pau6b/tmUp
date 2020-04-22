@@ -1,4 +1,9 @@
 import * as express from 'express';
+<<<<<<< HEAD
+=======
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
+import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -23,14 +28,63 @@ app.post('/create', (req, res) => {
     })().then().catch();
 });
 
+<<<<<<< HEAD
+=======
+app.get('/me', (req, res) => {
+    console.log(req.path);
+    (async() => {
+        try{
+            if(!req.session!.user) {
+                return res.status(400).send("UGM1");
+            }
+            let email : any = "";
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    email = user.email;
+            });
+
+            const document = db.collection("users").doc(email);
+
+            const userData = await document.get().then((doc: DocumentSnapshot) => {
+                return doc.data();
+            });
+            return res.status(200).send(userData);
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch()
+});
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
+
 
 //Read => Get
+<<<<<<< HEAD
 app.get('/:userName', (req, res) => {
     (async () => {
         try {
             const document = db.collection("users").doc(req.params.userName);
             const user = await document.get();
             const response = user.data();
+=======
+app.get('/:userEmail', (req, res) => {
+    console.log("userEmail");
+    (async () => {
+        try {
+            const document = db.collection("users").doc(req.params.userEmail);
+            let userExists: boolean = true;
+            const userData = await document.get().then((doc: DocumentSnapshot) => {
+                if (!doc.exists) {
+                    userExists = false;
+                    return;
+                }
+                else {
+                    return doc.data();
+                }
+            });
+            if (!userExists) {
+                return res.status(400).send("UG1");
+            }
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 
             return res.status(200).send(response);
         }
@@ -42,6 +96,7 @@ app.get('/:userName', (req, res) => {
     })().then().catch();
 });
 
+<<<<<<< HEAD
 app.get('/:userName/teams', (req, res) => {
     (async () => {
         try {
@@ -63,6 +118,90 @@ app.get('/:userName/teams', (req, res) => {
             })
 
             return res.status(200).send(response);
+=======
+app.get('/me/teams', (req, res) => {
+    (async () => {
+        try {
+            if(!req.session!.user) {
+                return res.status(400).send("TMG1");
+            }
+            let email: any ="";  
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    email = user.email
+            });            
+
+            //User exists, get team ids
+            const query = db.collection('memberships').where("userId", "==", email );
+            const teamIds: string[] = [];
+            
+            await query.get().then((querySnapshot: any) => {
+                querySnapshot.forEach((element:DocumentSnapshot) => {
+                    teamIds.push(element.data()!.teamId);
+                });
+            });
+            
+            //get team names
+            const response: Set<any> = new Set();
+            for (const id of teamIds) {
+                const teamQuery = db.collection('teams').doc(id);
+                await teamQuery.get().then((teamDoc:DocumentSnapshot) => {
+                        response.add({
+                            teamName: teamDoc.data()!.teamName,
+                            sport: teamDoc.data()!.sport
+
+                        });
+                   });
+            }
+            return res.status(200).send(Array.from(response));
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
+app.get('/:userEmail/teams', (req, res) => {
+    (async () => {
+        try {
+
+            const userRef = db.collection('users/').doc(req.params.userEmail);
+
+            let userExists : boolean = true;
+            await userRef.get().then((doc: DocumentSnapshot) => {
+                if (!doc.exists) {
+                    userExists = false;
+                }
+            })
+
+            if (!userExists) {
+                return res.status(400).send("The user with email: [" + req.params.userEmail + "] does not exist");
+            }
+
+            //User exists, get team ids
+            const query = db.collection('memberships').where("userId", "==", req.params.userEmail );
+            let teamIds: string[] = [];
+            
+            await query.get().then((querySnapshot: any) => {
+                querySnapshot.forEach((element:any) => {
+                    teamIds.push(element.data().teamId);
+                });
+            });
+            
+            //get team names
+            const response: Set<any> = new Set();
+            for (const id of teamIds) {
+                const teamQuery = db.collection('teams/').doc(id);
+                await teamQuery.get().then((teamDoc: DocumentSnapshot) => {
+                        response.add({
+                            teamName: teamDoc.data()!.teamName,
+                            teamId: id
+                        });
+                   });
+            }
+            return res.status(200).send(Array.from(response));
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
         }
         catch(error){
             console.log(error);
@@ -112,7 +251,25 @@ app.put('/:userName', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
 
+<<<<<<< HEAD
             const document = db.collection('users').doc(req.params.userName);
+=======
+            if (!jsonContent.hasOwnProperty("userName")) {
+                return res.status(400).send("UU1");
+            }
+
+            const document = db.collection('users').doc(req.params.userEmail);
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
+
+            let userExists : boolean = false;
+
+            await document.get().then((doc : DocumentSnapshot) => {
+                userExists = doc.exists;
+            });
+
+            if (!userExists) {
+                return res.status(400).send("UU2");
+            }
 
             await document.update({
                 email: jsonContent.email,
