@@ -1,23 +1,18 @@
 import * as express from 'express';
-<<<<<<< HEAD
-=======
 import { sports } from '../Core/Core'
 import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
+
 
 //Create => Post
 app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-<<<<<<< HEAD
-            let id: any;
-=======
             //Check if the params are correct
 
             if (req.session!.user === null) {
@@ -49,13 +44,19 @@ app.post('/create', (req, res) => {
 
             //No errors, we proceed to creation
             let id = "invalid";
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
             await db.collection('teams').add({
                 teamName: jsonContent.teamName,
-                sport: jsonContent.sport
+                sport: jsonContent.sport,
+                stats: GetTeamStatsBySport(jsonContent.sport)
             }).then((ref:any) => {
                 id= ref.id;
             });
+
+            await db.collection('memberships').add({
+                teamId: id,
+                userId: email,
+                type: "staff"
+            })
             return res.status(200).send(id);
         }
         catch(error){
@@ -68,16 +69,9 @@ app.post('/create', (req, res) => {
 
 
 //Read => Get
-app.get('/:teamName', (req, res) => {
+app.get('/:teamId', (req, res) => {
     (async () => {
         try {
-<<<<<<< HEAD
-            const document = db.collection("teams").doc(req.params.teamName);
-            const user = await document.get();
-            const response = user.data();
-
-            return res.status(200).send(response);
-=======
             const document = db.collection("teams").doc(req.params.teamId);
 
             let teamExists:boolean = true;
@@ -98,7 +92,6 @@ app.get('/:teamName', (req, res) => {
 
             //return correct data
             return res.status(200).send(teamData);
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
         }
         catch(error){
             console.log(error);
@@ -120,14 +113,8 @@ app.get('/', (req, res) => {
 
                 for (const doc of docs) {
                     const selectedItem  = {
-<<<<<<< HEAD
-                        id: doc.data().id,
-                        teamName: doc.data().teamName,
-                        sport: doc.data().sport
-=======
                         teamName: doc.data()!.teamName,
                         sport: doc.data()!.sport
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
                     };
                     response.push(selectedItem);
                 }
@@ -146,19 +133,19 @@ app.get('/', (req, res) => {
 
 
 //Update => Put
-app.put('/:teamName', (req, res) => {
+app.put('/:teamId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
+        
+            if (!jsonContent.hasOwnProperty("teamName")) {
+                return res.status(400).send("No teamName specified.");
+            }
 
-            const document = db.collection('teams').doc(req.params.teamName);
-
-            await document.update({
-                teamName: jsonContent.teamName,
-                sport: jsonContent.sport
+            await db.collection('teams').doc(req.params.teamId).update({
+                teamName: jsonContent.teamName
             });
             
-
             return res.status(200).send();
         }
         catch(error){
@@ -212,13 +199,32 @@ app.get('/selected', (req,res) => {
 });
 
 //Delete => Delete
+/*
 app.delete('/:teamName', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('teams').doc(req.params.teamName);
+            let teamExists: boolean = true;
+            const team = db.collection('teams').doc(req.params.teamName).get().then((doc: any) => {
+                if(!doc.exists) {
+                    teamExists = false;
+                }
+            });
+            if (!teamExists) {
+                return res.status(400).send("teamId is incorrect");
+            }
+            await team.delete();
 
-            await document.delete();
-            
+            const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamName);
+            const response: any = [];
+
+            await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                     doc.delete();
+                }
+                return response;
+            })
             return res.status(200).send();
         }
         catch(error){
@@ -228,5 +234,5 @@ app.delete('/:teamName', (req, res) => {
 
     })().then().catch();
 });
-
+*/
 module.exports = app;
