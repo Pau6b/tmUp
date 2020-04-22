@@ -94,53 +94,19 @@ exports.teamStats = {
 };
 function GetTeamStatsBySport(sport) {
     let result = {};
-    if (sport === "football") {
+    if (sport == "football") {
         result = exports.teamStats.football;
     }
-    else if (sport === "basketball") {
+    else if (sport == "basketball") {
         result = exports.teamStats.basketball;
     }
-    else if (sport === "handball") {
+    else if (sport == "handball") {
         result = exports.teamStats.handball;
     }
-    else if (sport === "baseball") {
+    else if (sport == "baseball") {
         result = exports.teamStats.baseball;
     }
     return result;
 }
 exports.GetTeamStatsBySport = GetTeamStatsBySport;
-function GetMembershipStatsBySport(sport) {
-    let result = {};
-    if (sport === "football") {
-        result = exports.memberhsipStats.football;
-    }
-    else if (sport === "basketball") {
-        result = exports.memberhsipStats.basketball;
-    }
-    else if (sport === "handball") {
-        result = exports.memberhsipStats.handball;
-    }
-    else if (sport === "baseball") {
-        result = exports.memberhsipStats.baseball;
-    }
-    return result;
-}
-exports.GetMembershipStatsBySport = GetMembershipStatsBySport;
-function GetMatchStatsBySport(sport) {
-    let result = {};
-    if (sport === "football") {
-        result = exports.matchStats.football;
-    }
-    else if (sport === "basketball") {
-        result = exports.matchStats.basketball;
-    }
-    else if (sport === "handball") {
-        result = exports.matchStats.handball;
-    }
-    else if (sport === "baseball") {
-        result = exports.matchStats.baseball;
-    }
-    return result;
-}
-exports.GetMatchStatsBySport = GetMatchStatsBySport;
 //# sourceMappingURL=Statistics.js.map

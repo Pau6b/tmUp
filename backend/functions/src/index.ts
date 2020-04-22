@@ -12,11 +12,26 @@ const serviceAccount = require("../permissions.json");
 const app = express(); 
 const admin = require("firebase-admin");
 
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://tmup-908e4.firebaseio.com",
-  storageBucket: 'gs://tmup-908e4.appspot.com'
+  storageBucket: "gs://tmup-908e4.appspot.com"
 });
+
+
+/**
+ * TODO(developer): Uncomment these variables before running the sample.
+ 
+const bucketName = 'tactics';
+
+async function createBucket() {
+  // Creates the new bucket
+  await storage.createBucket(bucketName);
+  console.log(`Bucket ${bucketName} created.`);
+}
+*/
+
 
 app.use( cors( { origin: true } ) );
 app.use( expressSession({
@@ -26,7 +41,6 @@ app.use( expressSession({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
 /*end-of-configuration */
 
 //Per correr el development server => npm run serve dins de la carpeta de functions
@@ -63,12 +77,6 @@ app.use((req, res, next) => {
 
 /* --- begin of routes --- */
 
-const loginHandler = require('./Auth/Login');
-app.use('/login', loginHandler);
-
-const logoutHandler = require('./Auth/Logout');
-app.use('/logout', logoutHandler);
-
 const usersHandler = require('./Users/Users');
 app.use('/users', usersHandler);
 
@@ -76,7 +84,7 @@ const teamsHandler = require('./Teams/Teams');
 app.use('/teams', teamsHandler);
 
 const eventsHandler = require('./Teams/Events/Events');
-app.use('/:teamId/events', eventsHandler);
+app.use('/teams/events', eventsHandler);
 
 const photosHandler = require('./Teams/Events/Photos/Photos');
 app.use('/teams/events/photos', photosHandler);
@@ -86,7 +94,6 @@ app.use('/teams/events/rivalAnalysis', rivalAnalysisHandler);
 
 const normativesHandler = require('./Teams/Normatives/Normatives');
 app.use('/teams/normatives', normativesHandler);
-
 const tacticsHandler = require('./Teams/Tactics/Tactics');
 app.use('/teams/tactics', tacticsHandler);
 
@@ -95,6 +102,15 @@ app.use('/memberships', membershipsHandler);
 
 const finesHandler = require('./Memberships/Fines/Fines');
 app.use('/memberships/fines', finesHandler);
+
+app.use( cors( { origin: true } ) );
+app.use( expressSession({
+  secret: 'ssshhhhh',
+  saveUninitialized: true,
+  resave: true
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 /* --- end of routes --- */
 
 exports.app = functions.https.onRequest(app);

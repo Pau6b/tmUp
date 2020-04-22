@@ -1,17 +1,33 @@
 import * as express from 'express';
+<<<<<<< HEAD
+=======
 import { GetMembershipStatsBySport } from '../Core/Templates/Statistics'
 import { GetDefaultPlayerState, playerStates } from '../Core/States'
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
 
-//----------------------CREATE-----------------------------------
-
+//Create => Post
 app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
+<<<<<<< HEAD
+
+            const userCollection = await db.collection('users').doc(jsonContent.email);
+            const teamCollection = await db.collection('teams').doc(jsonContent.teamId);
+                userCollection.collection('memberships').doc(jsonContent.teamId).create({
+                    teamId: jsonContent.teamId,
+                    role: jsonContent.role
+                });
+                teamCollection.collection('members').doc(jsonContent.email).create({
+                    user: jsonContent.email,
+                    role: jsonContent.role
+                });
+                return res.status(200).send();
+=======
             
             //Miramos que esten todos los camps
             let errores: string[] = [];
@@ -90,6 +106,7 @@ app.post('/create', (req, res) => {
             await db.collection('memberships').add(membershipData);
             return res.status(200).send(); 
                 
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
         }
         catch(error){
             console.log(error);
@@ -99,6 +116,16 @@ app.post('/create', (req, res) => {
     })().then().catch();
 });
 
+<<<<<<< HEAD
+/*
+//Read => Get
+app.get('/:id', (req, res) => {
+    (async () => {
+        try {
+            const document = db.collection("users").doc(req.params.id);
+            const user = await document.get();
+            const response = user.data();
+=======
 app.put('/updatePlayerState/:teamId', (req, res) => {
     (async () => {
         try {
@@ -165,6 +192,7 @@ app.get('/getByTeam/:teamId', (req, res) => {
                 }
                 return response;
             })
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 
             return res.status(200).send(response);
         }
@@ -176,17 +204,22 @@ app.get('/getByTeam/:teamId', (req, res) => {
     })().then().catch();
 });
 
-app.get('/getByUser/:userId', (req, res) => {
+//ReadAll => Get
+app.get('/', (req, res) => {
     (async () => {
         try {
-            const query = db.collection('memberships').where('userId','==',req.params.userId);
+            const query = db.collection('users');
             const response: any = [];
 
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
 
                 for (const doc of docs) {
-                    const selectedItem  = doc.data();
+                    const selectedItem  = {
+                        id: doc.data().id,
+                        email: doc.data().email,
+                        userName: doc.data().userName
+                    };
                     response.push(selectedItem);
                 }
                 return response;
@@ -203,7 +236,7 @@ app.get('/getByUser/:userId', (req, res) => {
 });
 
 
-/*
+//Update => Put
 app.put('/:id', (req, res) => {
     (async () => {
         try {
@@ -212,29 +245,33 @@ app.put('/:id', (req, res) => {
             const document = db.collection('users').doc(req.params.id);
 
             await document.update({
-                email: jsonContent.email,
+                email: jsonContent.email,
+                userName: jsonContent.userName,
+                password: jsonContent.password
+            });
             
 
-            return res.status(200).send();db.collection('membership')
+            return res.status(200).send();
+        }
+        catch(error){
+            console.log(error);
             return res.status(500).send(error) 
         }
 
     })().then().catch();
 });
-*/
+
 //Delete => Delete
-app.delete('/delete', (req, res) => {
+app.delete('/:id', (req, res) => {
     (async () => {
         try {
-            const jsonContent = JSON.parse(req.body);
-            const comprobarRoles = db.collection('memberships').where('teamId', '==', jsonContent.teamId);
-            let staffEnEquipo = 0;
-            let miembros = 0;
-            let esStaff = false;
-            let id;
-            await comprobarRoles.get().then((querySnapshot: any) => {
-                const docs = querySnapshot.docs;
+            const document = db.collection('users').doc(req.params.id);
 
+<<<<<<< HEAD
+            await document.delete();
+            
+            return res.status(200).send();
+=======
                 for (const doc of docs) {
                     ++miembros;
                     if(doc.data().type === 'staff') ++staffEnEquipo;
@@ -258,6 +295,7 @@ app.delete('/delete', (req, res) => {
                     
             }
        
+>>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
         }
         catch(error){
             console.log(error);
@@ -266,5 +304,5 @@ app.delete('/delete', (req, res) => {
 
     })().then().catch();
 });
-
+*/
 module.exports = app;
