@@ -1,9 +1,6 @@
 import * as express from 'express';
-<<<<<<< HEAD
-=======
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -18,6 +15,8 @@ app.post('/create', (req, res) => {
                 email: jsonContent.email,
                 userName: jsonContent.userName,
             });
+            req.session!["userName"] = jsonContent.userName;
+            console.log(req.session!["userName"]);
             return res.status(200).send();
         }
         catch(error){
@@ -28,8 +27,6 @@ app.post('/create', (req, res) => {
     })().then().catch();
 });
 
-<<<<<<< HEAD
-=======
 app.get('/me', (req, res) => {
     console.log(req.path);
     (async() => {
@@ -54,18 +51,9 @@ app.get('/me', (req, res) => {
         }
     })().then().catch()
 });
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 
 
 //Read => Get
-<<<<<<< HEAD
-app.get('/:userName', (req, res) => {
-    (async () => {
-        try {
-            const document = db.collection("users").doc(req.params.userName);
-            const user = await document.get();
-            const response = user.data();
-=======
 app.get('/:userEmail', (req, res) => {
     console.log("userEmail");
     (async () => {
@@ -84,9 +72,8 @@ app.get('/:userEmail', (req, res) => {
             if (!userExists) {
                 return res.status(400).send("UG1");
             }
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 
-            return res.status(200).send(response);
+            return res.status(200).send(userData);
         }
         catch(error){
             console.log(error);
@@ -96,29 +83,6 @@ app.get('/:userEmail', (req, res) => {
     })().then().catch();
 });
 
-<<<<<<< HEAD
-app.get('/:userName/teams', (req, res) => {
-    (async () => {
-        try {
-            const query = db.collection('users/'+req.params.userName+'/memberships');
-            const response: any = [];
-
-            await query.get().then((querySnapshot: any) => {
-                const docs = querySnapshot.docs;
-
-                for (const doc of docs) {
-                    
-                    const selectedItem  = {
-                        teamName: doc.data().teamName,
-                        sport: doc.data().sport
-                    };
-                    response.push(selectedItem);
-                }
-                return response;
-            })
-
-            return res.status(200).send(response);
-=======
 app.get('/me/teams', (req, res) => {
     (async () => {
         try {
@@ -201,7 +165,6 @@ app.get('/:userEmail/teams', (req, res) => {
                    });
             }
             return res.status(200).send(Array.from(response));
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
         }
         catch(error){
             console.log(error);
@@ -245,21 +208,18 @@ app.get('/', (req, res) => {
 });
 
 
+// Falta determinar que hay que cambiar
 //Update => Put
-app.put('/:userName', (req, res) => {
+app.put('/:userEmail', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
 
-<<<<<<< HEAD
-            const document = db.collection('users').doc(req.params.userName);
-=======
             if (!jsonContent.hasOwnProperty("userName")) {
                 return res.status(400).send("UU1");
             }
 
             const document = db.collection('users').doc(req.params.userEmail);
->>>>>>> e2ec6fd04bbeb1f4af1a1963aeee7e26dbcbb628
 
             let userExists : boolean = false;
 
@@ -272,9 +232,8 @@ app.put('/:userName', (req, res) => {
             }
 
             await document.update({
-                email: jsonContent.email,
-                userName: jsonContent.userName,
-            });
+                userName: jsonContent.userName
+            }).then();
             
 
             return res.status(200).send();
@@ -288,10 +247,10 @@ app.put('/:userName', (req, res) => {
 });
 
 //Delete => Delete
-app.delete('/:userName', (req, res) => {
+app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('users').doc(req.params.userName);
+            const document = db.collection('users').doc(req.params.userEmail);
 
             await document.delete();
             
