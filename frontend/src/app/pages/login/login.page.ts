@@ -5,12 +5,15 @@ import { AuthService } from 'src/app/services/auth.service';
 import * as firebase from 'firebase';
 import { LoadingController } from '@ionic/angular';
 
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
 
   loading: any;
 
@@ -60,13 +63,7 @@ export class LoginPage implements OnInit {
   }
 
   logInWithGoogle() {
-    this.authService.doGoogleLogin()
-    .then(() => {
-      this.navCtrl.navigateRoot('team-list');
-    })
-    .catch((error:firebase.FirebaseError) => {
-      this.logInError=true;
-    });
+    this.authService.loginGoogle();
   }
 
 }
