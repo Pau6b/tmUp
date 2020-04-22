@@ -4,7 +4,7 @@ ion-title{
 
 ion-content {
     width: 100% auto !important;
-    align-items: center;
+    margin: 0 auto;
 }
 
 ion-card {
@@ -14,12 +14,31 @@ ion-card {
 
 ion-card-header {
     font-size: 20px;
-    color: white
+    color: white;
+    text-align: center;
+}
+
+ion-card-content{
+    text-align: center;
+}
+
+p {
+    text-align: center;
 }
 
 mark{
     background-color: rgba(var(--ion-color-primary-rgb), 0.70);
 }
+
+.toolbar {
+    text-align: center;
+    font-size: 25px;
+}
+
+.no_noticias {
+    background-color: rgba(var(--ion-color-primary-rgb), 0.20);
+}
+
 
 .calendar {
     background-image: url('~/../../assets/main_images/calendar-banner.jpg');

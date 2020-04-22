@@ -9,20 +9,18 @@
 
 <ion-content>
   <div *ngIf="welcome">
-    <ion-title style="padding-top: 5%; font-size: 30px">
-      <b>¡Bienvenido a la aplicación TMUP!</b>
-    </ion-title>
-    <p style="text-align: center;">Disfruta de nuestra aplicación para gestionar tu equipo.</p> 
-    <br><br>
-    <ion-card style="background-color: rgba(var(--ion-color-primary-rgb), 0.20);">
-      <ion-card-header style="text-align: center;">
-        <ion-card-title><b><i>Oohh... Todavía no tienes eventos...</i></b></ion-card-title>
+    <ion-card class="no_noticias">
+      <ion-card-header>
+        <ion-card-title><b>¡Bienvenido!</b></ion-card-title>
+        <p>Disfruta de nuestra aplicación para gestionar tu equipo.</p> 
+        <br><br>
+        <ion-card-title><b><i>Todavía no tienes eventos</i></b></ion-card-title>
       </ion-card-header>
-      <ion-card-content style="text-align: center;">
-        <b>¡¡Descubre todo lo que puedes hacer con nuestra aplicación!!</b>
+      <ion-card-content>
+        <b>¡¡Echa un vistazo de todo lo que puedes hacer con nuestra aplicación!!</b>
       </ion-card-content>
     </ion-card>
-    <br><br><br><br>
+    <br><br>
     <ion-card class ="calendar" routerLink="../calendar">
       <ion-card-header >
       </ion-card-header>
@@ -30,9 +28,11 @@
         <br><br><br><br>
       </ion-card-content>
     </ion-card>
-    <ion-title><b>Añade y consulta eventos en tu calendario</b></ion-title>
-    <p style="text-align:center"><i>Crea un calendario con los partidos y entrenamientos de la temporada.</i></p>
-    <br>
+    <div>
+      <p><b>Añade y consulta eventos en tu calendario</b></p>
+      <p><i>Crea un calendario con los partidos y entrenamientos de la temporada.</i></p>
+      <br>
+   </div>
     <ion-card class="chat" routerLink="../chat">
       <ion-card-header >
       </ion-card-header>
@@ -40,9 +40,11 @@
         <br><br><br><br>
       </ion-card-content>
     </ion-card>
-    <ion-title><b>Chat con tu equipo</b></ion-title>
-    <p style="text-align:center"><i>Chatea con tu entrenador y compañeros de equipo para una mejor comunicación.</i></p>
-    <br>
+    <div>
+      <p><b>Chat con tu equipo</b></p>
+      <p><i>Chatea con tu entrenador y compañeros de equipo para una mejor comunicación.</i></p>
+      <br>
+    </div>
     <ion-card class="tacticas" routerLink="../tactics">
       <ion-card-header >
       </ion-card-header>
@@ -50,9 +52,11 @@
         <br><br><br><br>
       </ion-card-content>
     </ion-card>
-    <ion-title><b>Tácticas equipo</b></ion-title>
-    <p style="text-align:center"><i>Estáte informado de las tácticas de tu equipo.</i></p>
-    <br>
+    <div>
+      <p><b>Tácticas equipo</b></p>
+      <p><i>Estáte informado de las tácticas de tu equipo.</i></p>
+      <br>
+    </div>
     <ion-card class="estadisticas" routerLink=""> <!--Link a estadístiques-->
       <ion-card-header>
       </ion-card-header>
@@ -60,32 +64,34 @@
         <br><br><br><br>
       </ion-card-content>
     </ion-card>
-    <ion-title><b>Estadísticas de tu equipo y personales</b></ion-title>
-    <p style="text-align:center"><i>Consulta las estadísticas de tu equipo y personales.</i></p>
-    <br>
-    <ion-card style="background-color: rgba(var(--ion-color-primary-rgb), 0.20);">
+    <div>
+      <p><b>Estadísticas de tu equipo y personales</b></p>
+      <p><i>Consulta las estadísticas de tu equipo y personales.</i></p>
+      <br>
+    </div>
+    <ion-card class="no_noticias">
       <br><br><br>
-      <ion-card-header style="text-align:center">
+      <ion-card-header>
         <ion-card-title><b>Entre muchas otras cosas...</b></ion-card-title>
       </ion-card-header>
-      <ion-card-content style="text-align:center">
+      <ion-card-content>
         <b>¡DESCÚBERLO TÚ MISMO!</b>
       </ion-card-content>
       <br><br><br>
     </ion-card>
     <br>
     <ion-card>
-      <ion-card-content style="text-align:center">
+      <ion-card-content>
         <b>2020,TMUP</b>
         <br>
-        ESPAÑOL &nbsp;&nbsp;  ENGLISH  &nbsp;&nbsp; CATALÀ
+        ESPAÑOL ENGLISH CATALÀ
         <br>
       </ion-card-content>
     </ion-card>
   </div>
   <div *ngIf="!welcome">
     <ion-title style="padding-top: 5%; font-size: 30px">
-      <b><mark>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Últimas notícias&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</mark></b>
+      <b><mark>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Canal de noticias&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</mark></b>
     </ion-title>
     <ion-grid>
     <ion-card class="noticias" button *ngFor="let noticia of NoticiesArray">

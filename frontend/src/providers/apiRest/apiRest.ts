@@ -38,7 +38,7 @@ export class apiRestProvider {
         return this.http.get(this.url+'/users/me');
     }
 
-    updateProfileInfo(name, email) {
+    updateProfileInfo(name,EMAIL) {
         
     }
 
