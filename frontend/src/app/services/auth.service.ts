@@ -28,6 +28,9 @@ export class AuthService {
     public authService: AuthService,
     private apiProv: apiRestProvider
   ) { 
+    //to test login
+    if(this.afAuth.authState != null) this.logOut();
+
     //observable of Firebase Authentication
     this.afAuth.auth.onAuthStateChanged( async (user) => {
       if(user) {
@@ -36,12 +39,19 @@ export class AuthService {
           this.apiProv.setToken({token: idtoken});
           console.log('set token: '+ idtoken);
           this.currentUser = user;
+          //navigate after logged in
+          this.router.navigate(['team-list']);
         },
         (err) => {
           console.log('error setting token ' + err.message);
         })
       } else {
         this.currentUser = null;
+        this.apiProv.logOutBack()
+        .subscribe( () => {
+          this.router.navigateByUrl('/login');
+          console.log('Signed out!');
+        })
         console.log('no user logged');
       }
     }) 
@@ -128,18 +138,7 @@ export class AuthService {
 
    //logout function
   logOut() {
-    this.afAuth.auth.signOut()
-    .then(() => {
-      this.apiProv.logOutBack()
-      .subscribe( () => {
-        this.router.navigateByUrl('/login');
-        console.log('Signed out!');
-      })
-    })
-    .catch(function(error) {
-      //handle error
-      console.log(error.message);
-    });
+    this.afAuth.auth.signOut();
   }
   
 
