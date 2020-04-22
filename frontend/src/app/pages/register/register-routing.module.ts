@@ -9,10 +9,6 @@ const routes: Routes = [
     component: RegisterPage
   },
   {
-    path: 'gettingstarted',
-    loadChildren: () => import('../gettingstarted/gettingstarted.module').then( m => m.GettingstartedPageModule)
-  },
-  {
     path: 'login',
     loadChildren: () => import('../login/login.module').then( m => m.LoginPageModule)
   }

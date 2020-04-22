@@ -36,19 +36,18 @@ export class AuthService {
     this.afAuth.auth.onAuthStateChanged( (user) => {
       if(user) {
         this.currentUser = user;
-        console.log(user.email + ' logged');
         this.afAuth.auth.currentUser.getIdToken(true)
         .then( (idtoken) => {
           this.token = idtoken.toString();
+          console.log(user.email + ' logged');
           console.log('token setted');
-          this.router.navigate(['team-list']);
+          //this.router.navigate(['team-list']);
         },
         (err) => {
           console.log('error setting token ' + err.message);
         })
       } else {
         this.currentUser = null;
-        this.router.navigateByUrl('/login');
         console.log('no user logged');
       }
     }) 
@@ -130,6 +129,7 @@ export class AuthService {
    //logout function
   logOut() {
     this.afAuth.auth.signOut();
+    this.router.navigateByUrl('/login');
   }
   
 

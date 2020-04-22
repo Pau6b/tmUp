@@ -19,7 +19,10 @@ export class TeamListPage implements OnInit {
   public menuCtrl: MenuController,
   public loadCtrl: LoadingController
   ) { 
-    this.initialize();
+    //wait a little bit to set token and initialize teams
+    setTimeout( () => {
+      this.initialize();
+    }, 1000);
   }
 
   async initialize() {
