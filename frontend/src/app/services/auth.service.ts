@@ -13,7 +13,10 @@ import { LoadingController } from '@ionic/angular';
 })
 export class AuthService {
 
-  //user parameters
+  /*user parameters {
+    email: string,
+    displayName: string
+  }*/
   currentUser: any;
   token: any;
   currentTeam: null;
@@ -36,10 +39,10 @@ export class AuthService {
     this.afAuth.auth.onAuthStateChanged( (user) => {
       if(user) {
         this.currentUser = user;
+          console.log(user.email + ' logged');
         this.afAuth.auth.currentUser.getIdToken(true)
         .then( (idtoken) => {
           this.token = idtoken.toString();
-          console.log(user.email + ' logged');
           console.log('token setted');
           //this.router.navigate(['team-list']);
         },
