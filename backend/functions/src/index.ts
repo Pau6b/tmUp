@@ -95,6 +95,12 @@ app.use('/memberships', membershipsHandler);
 
 const finesHandler = require('./Memberships/Fines/Fines');
 app.use('/memberships/fines', finesHandler);
+
+const chatsHandler = require('./Teams/Chats/Chats');
+app.use('/chats', chatsHandler);
+
+const messagesHandler = require('./Teams/Chats/Messages/Messages');
+app.use('/chats/messages', messagesHandler);
 /* --- end of routes --- */
 
 exports.app = functions.https.onRequest(app);
