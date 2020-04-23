@@ -20,7 +20,6 @@ export class TeamListPage implements OnInit {
       
     }
 
-
   ngOnInit() {
       console.log("-------------------------")
       this.proveedor.getUserTeams()
@@ -37,5 +36,9 @@ export class TeamListPage implements OnInit {
 
   goToaddTeam(){
     this.navCtrl.navigateRoot('add-team');
+  }
+
+  goTo(page: string){
+    this.navCtrl.navigateRoot(page);
   }
 }

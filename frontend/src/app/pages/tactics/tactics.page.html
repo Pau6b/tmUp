@@ -1,5 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+<ion-header [translucent]="true" class="ion-text-center">
+  <ion-toolbar color="primary" mode="ios">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -11,7 +11,7 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col *ngFor="let img of [1,2,3,4,5,6,7,8,9]; let i=index;">
+      <ion-col *ngFor="let img of [1,2,3,4,5,6,7,8,9]; let i=index;" class="ion-text-center">
           <ion-thumbnail item-center (click)="seeImage(img)"> 
             <ion-img [src]="'../assets/images/'+img+'.jpg'"></ion-img>
           </ion-thumbnail>

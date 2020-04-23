@@ -12,7 +12,7 @@ import { File } from '@ionic-native/file/ngx';
 export class NormativePage implements OnInit {
 
   fileObj: ChooserResult;
-  isPDF = true;
+  isPDF = 0;
 
   constructor(
     private api: apiRestProvider,
@@ -23,6 +23,7 @@ export class NormativePage implements OnInit {
     ) { }
 
   ngOnInit() {
+    console.log(this.isPDF);
   }
 
   chooseFile(){
