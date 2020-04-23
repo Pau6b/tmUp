@@ -34,16 +34,14 @@ app.get('/me', (req, res) => {
             if(!req.session!.user) {
                 return res.status(400).send("UGM1");
             }
-            let email : any = "";
+            let userData : any = "";
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    email = user.email;
+                userData = {
+                    email: user.email,
+                    userName: user.displayName
+                }
             });
 
-            const document = db.collection("users").doc(email);
-
-            const userData = await document.get().then((doc: DocumentSnapshot) => {
-                return doc.data();
-            });
             return res.status(200).send(userData);
         }
         catch (error) {
@@ -58,17 +56,18 @@ app.get('/:userEmail', (req, res) => {
     console.log("userEmail");
     (async () => {
         try {
-            const document = db.collection("users").doc(req.params.userEmail);
             let userExists: boolean = true;
-            const userData = await document.get().then((doc: DocumentSnapshot) => {
-                if (!doc.exists) {
-                    userExists = false;
-                    return;
-                }
-                else {
-                    return doc.data();
-                }
+
+            let userData : any = "";
+            await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {
+                    userData = {
+                        email: user.email,
+                        userName: user.displayName
+                    }
+            }).catch(() => {
+                userExists = false;
             });
+
             if (!userExists) {
                 return res.status(400).send("UG1");
             }
@@ -111,8 +110,8 @@ app.get('/me/teams', (req, res) => {
                 await teamQuery.get().then((teamDoc:DocumentSnapshot) => {
                         response.add({
                             teamName: teamDoc.data()!.teamName,
+                            id: teamDoc.id,
                             sport: teamDoc.data()!.sport
-
                         });
                    });
             }
@@ -160,7 +159,8 @@ app.get('/:userEmail/teams', (req, res) => {
                 await teamQuery.get().then((teamDoc: DocumentSnapshot) => {
                         response.add({
                             teamName: teamDoc.data()!.teamName,
-                            teamId: id
+                            teamId: id,
+                            sport: teamDoc.data()!.sport
                         });
                    });
             }

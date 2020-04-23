@@ -49,7 +49,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
     }
   })().then().catch();
   
-});*/
+});
+*/
 /* --- end of before all requests --- */
 /* --- begin of routes --- */
 const loginHandler = require('./Auth/Login');

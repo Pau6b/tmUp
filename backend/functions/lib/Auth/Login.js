@@ -11,6 +11,7 @@ app.post('/', (req, res) => {
             if (req.session.token) {
                 return res.status(400).send("LI2");
             }
+<<<<<<< HEAD
             const jsonContent = JSON.parse(req.body);
             //const uid:any = "RVsGf4DOrTbkcvN2mQeoEPYgFoi1";
             let uid = "";
@@ -18,8 +19,17 @@ app.post('/', (req, res) => {
                 uid = decodedToken.uid;
             });
             if (uid === "") {
+=======
+            //const jsonContent = JSON.parse(req.body);
+            const uid = "RVsGf4DOrTbkcvN2mQeoEPYgFoi1";
+            //let uid:any = "";
+            /*await admin.auth().verifyIdToken(jsonContent.token).then((decodedToken: any) => {
+                uid = decodedToken.uid;
+            })*/
+            /*if (uid === "") {
+>>>>>>> origin/SecondMaster
                 return res.status(400).send("LI1");
-            }
+            }*/
             req.session.user = uid;
             req.session.token = jsonContent.token;
             return res.status(200).send(req.session.user);
