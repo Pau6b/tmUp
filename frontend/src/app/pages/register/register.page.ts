@@ -77,8 +77,8 @@ export class RegisterPage implements OnInit {
 
   //submit register form
   registerUser() {
-    this.authService.signUpUser(this.registerForm.get('email').value, this.registerForm.get('password').value)
-    .then(() => {
+    this.authService.signUpUser(this.registerForm.value)
+    .then((user) => {
       this.emailUsed = false;
       this.presentAlert('¡Felicidades!', 'Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo.')
     },
