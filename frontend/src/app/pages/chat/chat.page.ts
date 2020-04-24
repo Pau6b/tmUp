@@ -9,35 +9,32 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class ChatPage implements OnInit {
 
-  username: string="Ivan";
-  messages :any = [];
-  currentUser = "Ivan";
+  username: string="juanjo@tmup.com";
+  msgList :any = [];
+  User = "juanjo@tmup.com";
   newMessage='';
-  @ViewChild (IonContent, {static: true}) content: IonContent
+  
+  @ViewChild(IonContent, {static: false}) content: IonContent;
 
   constructor(
     public api: apiRestProvider,
     public navCtrl: NavController,
     public menuCtrl: MenuController,
-  ) { }
+  ) {   }
 
+  
   ngOnInit() {
-    this.api.getMessages("a", "b").subscribe(mensajes => {
-      this.messages = mensajes;
-    });
-    setTimeout(() => {
-      this.content.scrollToBottom();
-    })
   }
 
   getMessages(){
     this.api.getMessages("t8qtEbMEcFbflhKlHGsQ", "6hd6Bdym8CXKW0Sm3hDb")
         .subscribe(
           (data) => { 
-            this.messages = data; 
+            this.msgList = data; 
           },
           (error) => { console.log(error); }
         );
+        console.log(this.msgList);
   }
 
   sendMessage() {
@@ -60,6 +57,12 @@ export class ChatPage implements OnInit {
     setTimeout(() => {
       this.content.scrollToBottom();
     })
-    
+  }
+
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.content.scrollToBottom()
+    }, 500)
+    this.getMessages();
   }
 }
