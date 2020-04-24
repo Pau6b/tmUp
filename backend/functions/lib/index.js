@@ -27,7 +27,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /*end-of-configuration */
 //Per correr el development server => npm run serve dins de la carpeta de functions
 /* --- before all requests --- */
-/*app.use((req, res, next) => {
+/*
+app.use((req, res, next) => {
   (async () => {
     if (req.path != '/login') {
       if (req.session!.token == null) {
