@@ -33,7 +33,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 /* --- before all requests --- */
 
-/*
 app.use((req, res, next) => {
   (async () => {
     if (req.path != '/login') {
@@ -58,7 +57,7 @@ app.use((req, res, next) => {
   })().then().catch();
   
 });
-*/
+
 
 /* --- end of before all requests --- */
 

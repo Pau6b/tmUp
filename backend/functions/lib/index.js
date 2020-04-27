@@ -27,32 +27,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /*end-of-configuration */
 //Per correr el development server => npm run serve dins de la carpeta de functions
 /* --- before all requests --- */
-/*
 app.use((req, res, next) => {
-  (async () => {
-    if (req.path != '/login') {
-      if (req.headers.authorization == null) {
-        return res.status(401).send("You must send a token to authentificate");
-      }
-      let isLogged : boolean = false;
-      await admin.auth().verifyIdToken(req.headers.authorization)
-      .then((payload : any) => {
-        req.session!.user = payload.uid;
-         isLogged = true;
-      })
-      .catch((error: any) =>{
-        isLogged = false;
-      } );
-      if (!isLogged) {
-        return res.status(401).send("Invalid token");
-      }
-      next();
-    }
-    return;
-  })().then().catch();
-  
+    (async () => {
+        if (req.path != '/login') {
+            if (req.headers.authorization == null) {
+                return res.status(401).send("You must send a token to authentificate");
+            }
+            let isLogged = false;
+            await admin.auth().verifyIdToken(req.headers.authorization)
+                .then((payload) => {
+                req.session.user = payload.uid;
+                isLogged = true;
+            })
+                .catch((error) => {
+                isLogged = false;
+            });
+            if (!isLogged) {
+                return res.status(401).send("Invalid token");
+            }
+            next();
+        }
+        return;
+    })().then().catch();
 });
-*/
 /* --- end of before all requests --- */
 /* --- begin of routes --- */
 const loginHandler = require('./Auth/Login');
