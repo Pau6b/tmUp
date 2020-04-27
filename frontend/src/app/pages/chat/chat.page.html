@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar color="primary" mode="ios">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -70,7 +70,7 @@
         </ion-row>
         <ion-row *ngIf="((msgList[i+1] && msgList[i+1].email != chat.email)|| !msgList[i+1])">
           <ion-col>
-            <ion-text>{{chat.date}}</ion-text>
+            <ion-text>{{chat.date | date:"dd/MM HH:mm"}}  {{chat.email}}</ion-text>
           </ion-col>
         </ion-row>
       </div>
@@ -95,12 +95,11 @@
           </div>
           <ion-label>
             <div class="chatDivLoader">
-                <ion-spinner name="dots" color="light"></ion-spinner>
+              <ion-spinner name="dots" color="light"></ion-spinner>
               <!-- <ion-img src="../../assets/chat/loader.gif"></ion-img> -->
               <!-- <p text-wrap padding> {{paramData.name || 'Pam'}} is typing...</p> -->
               <div class="corner-parent-right">
                 <div class="corner-child-right">
-  
                 </div>
               </div>
             </div>

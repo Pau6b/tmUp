@@ -8,13 +8,11 @@
   <ion-list>
     <ion-item-sliding button *ngFor="let team of teamList" (click)="goToHomePage(team)">
       <ion-item>
-        <ion-avatar slot="start">
-          <ion-img src="../../../assets/sports/{{ team.sport }}.png"></ion-img>
-        </ion-avatar>
+          <ion-img slot="start" src="../../../assets/icon/shield.png"></ion-img>
         <ion-col>
           <ion-label>{{team.teamName}}</ion-label>
           <ion-row>
-            <ion-img src="../../../assets/sports/Football.png"></ion-img>
+            <ion-img src="../../../assets/sports/{{ team.sport }}.png"></ion-img>
             <ion-label class="xsmallText">deporte</ion-label>
           </ion-row>
         </ion-col>

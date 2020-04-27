@@ -61,13 +61,14 @@ export class apiRestProvider {
         return this.http.get(this.url+'chats/'+teamId);
     }
     getMessages(chatId: string, teamId: string){
-        return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
+        return this.http.get(this.url+'chats/messages/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ');
+        /*return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
             return mensajes.map(m => {
                 const data = m.payload.doc.data() as message;
                 data.id = m.payload.doc.id;
                 return data;
             })
-        }))
+        }))*/
         //return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId);
     }
     createMessage(messageInfo){
@@ -77,5 +78,9 @@ export class apiRestProvider {
                 resolve(data);
             })
         })
+    }
+
+    getTactics(){
+        return this.http.get(this.url+'teams/tactics/download');
     }
 }

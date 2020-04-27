@@ -16,6 +16,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 export class TacticsPage implements OnInit {
 
   img;
+  tactics: File;
 
   constructor(
     private api: apiRestProvider,
@@ -25,6 +26,12 @@ export class TacticsPage implements OnInit {
     private photoViewer: PhotoViewer) { }
 
   ngOnInit() {
+    this.api.getTactics()
+      .subscribe(
+        (data) => {
+          console.log(data)
+        }
+      )
   }
 
   addImage(img){
@@ -43,5 +50,12 @@ export class TacticsPage implements OnInit {
     this.photoViewer.show('https://wallpaperplay.com/walls/full/3/b/4/268610.jpg');
   }
 
+  openPdf(){
+
+  }
+  
+  downloadPdf(){
+    
+  }
 
 }

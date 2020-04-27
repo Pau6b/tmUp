@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController } from '@ionic/angular';
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team-list',
@@ -14,7 +15,7 @@ export class TeamListPage implements OnInit {
 
   constructor(
     public proveedor:apiRestProvider,
-    public navCtrl: NavController,
+    public router: Router,
     public menuCtrl: MenuController
     ) { 
       
@@ -24,21 +25,19 @@ export class TeamListPage implements OnInit {
       console.log("-------------------------")
       this.proveedor.getUserTeams()
       .subscribe(
-        (data) => { this.teamList = data;
-          console.log(this.teamList);},
+        (data) => { this.teamList = data;},
         (error) => {console.log(error);}
       );
    }
 
   goToHomePage(team: string){
-    this.navCtrl.navigateRoot('chat');
+    this.router.navigate(['chat']);
   }
 
   goToaddTeam(){
-    this.navCtrl.navigateRoot('add-team');
+    this.router.navigate(['add-team']);
   }
 
   goTo(page: string){
-    this.navCtrl.navigateRoot(page);
   }
 }
