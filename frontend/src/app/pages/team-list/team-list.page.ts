@@ -31,7 +31,7 @@ export class TeamListPage implements OnInit {
    }
 
   goToHomePage(team: string){
-    this.router.navigate(['chat']);
+    this.router.navigate(['main']);
   }
 
   goToaddTeam(){

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastController, LoadingController, AlertController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
 
@@ -23,7 +22,6 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     public toastCtrl: ToastController,
     private router: Router, 
-    private google: GooglePlus,
     private platform: Platform,
     public loadingController: LoadingController,
     public authService: AuthService,
