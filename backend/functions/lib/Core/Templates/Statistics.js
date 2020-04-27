@@ -94,16 +94,16 @@ exports.teamStats = {
 };
 function GetTeamStatsBySport(sport) {
     let result = {};
-    if (sport === "football") {
+    if (sport === "Football") {
         result = exports.teamStats.football;
     }
-    else if (sport === "basketball") {
+    else if (sport === "Basketball") {
         result = exports.teamStats.basketball;
     }
-    else if (sport === "handball") {
+    else if (sport === "Handball") {
         result = exports.teamStats.handball;
     }
-    else if (sport === "baseball") {
+    else if (sport === "Baseball") {
         result = exports.teamStats.baseball;
     }
     return result;
@@ -111,16 +111,16 @@ function GetTeamStatsBySport(sport) {
 exports.GetTeamStatsBySport = GetTeamStatsBySport;
 function GetMembershipStatsBySport(sport) {
     let result = {};
-    if (sport === "football") {
+    if (sport === "Football") {
         result = exports.memberhsipStats.football;
     }
-    else if (sport === "basketball") {
+    else if (sport === "Basketball") {
         result = exports.memberhsipStats.basketball;
     }
-    else if (sport === "handball") {
+    else if (sport === "Handball") {
         result = exports.memberhsipStats.handball;
     }
-    else if (sport === "baseball") {
+    else if (sport === "Baseball") {
         result = exports.memberhsipStats.baseball;
     }
     return result;
@@ -128,16 +128,16 @@ function GetMembershipStatsBySport(sport) {
 exports.GetMembershipStatsBySport = GetMembershipStatsBySport;
 function GetMatchStatsBySport(sport) {
     let result = {};
-    if (sport === "football") {
+    if (sport === "Football") {
         result = exports.matchStats.football;
     }
-    else if (sport === "basketball") {
+    else if (sport === "Basketball") {
         result = exports.matchStats.basketball;
     }
-    else if (sport === "handball") {
+    else if (sport === "Handball") {
         result = exports.matchStats.handball;
     }
-    else if (sport === "baseball") {
+    else if (sport === "Baseball") {
         result = exports.matchStats.baseball;
     }
     return result;
