@@ -17,6 +17,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Camera } from '@ionic-native/camera/ngx'
 import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { HttpClientModule } from '@angular/common/http';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { File } from '@ionic-native/file/ngx';
@@ -42,7 +43,8 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
     Chooser,
     PhotoViewer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    apiRestProvider
+    apiRestProvider,
+    GooglePlus
   ],
   bootstrap: [AppComponent]
 })

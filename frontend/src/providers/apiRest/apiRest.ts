@@ -1,15 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 
-
-interface message {
-    id : string
-    message : string
-    username : string
-    createdAt : Date
-  }
+//import { userInfo } from 'os';
 
 @Injectable()
 export class apiRestProvider {
@@ -82,5 +77,18 @@ export class apiRestProvider {
 
     getTactics(){
         return this.http.get(this.url+'teams/tactics/download');
+    }
+    
+    getProfileInfo() {
+        return this.http.get(this.url+'/users/me');
+    }
+
+    updateProfileInfo(name,EMAIL) {
+        
+    }
+
+    logOutBack() {
+        this.http.post(this.url+'/logout', null);
+        console.log('logout back');
     }
 }

@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
 import { AuthService } from 'src/app/services/auth.service';
+import * as firebase from 'firebase';
+import { LoadingController } from '@ionic/angular';
+
+
 
 @Component({
   selector: 'app-login',
@@ -10,6 +14,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginPage implements OnInit {
 
+
+  loading: any;
 
   logInForm = this.formBuilder.group({
     email: [
@@ -28,7 +34,8 @@ export class LoginPage implements OnInit {
     public navCtrl: NavController,
     public menuCtrl: MenuController,
     public formBuilder: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    public loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
@@ -53,6 +60,10 @@ export class LoginPage implements OnInit {
     .catch((error:firebase.FirebaseError) => {
       this.logInError=true;
     });
-    
   }
+
+  logInWithGoogle() {
+    this.authService.loginGoogle();
+  }
+
 }

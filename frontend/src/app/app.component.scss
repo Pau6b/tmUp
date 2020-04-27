@@ -49,8 +49,8 @@ ion-menu.md ion-list#labels-list ion-list-header {
 }
 
 ion-menu.md ion-item {
-  --padding-start: 10px;
-  --padding-end: 10px;
+  --padding-start: 3px;
+  --padding-end: 3px;
   border-radius: 4px;
 }
 
@@ -127,4 +127,9 @@ ion-item.selected {
   position: relative;
   bottom: 0;
   width: fill;
+}
+
+#space {
+  --padding-start: 20px;
+  --padding-end: 50px;
 }
