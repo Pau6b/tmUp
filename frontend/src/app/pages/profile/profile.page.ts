@@ -30,10 +30,10 @@ export class ProfilePage implements OnInit {
   //declarar formulario this.profileInfo.displayname this.profileInfo.email
   updateForm = this.formBuilder.group({
     userName: [ 
-      'clara', [Validators.required, Validators.minLength(3)]
+      this.profileInfo.displayname, [Validators.required, Validators.minLength(3)]
     ],
     email: [
-      'clara', [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
+      this.profileInfo.email, [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
     ]
   });
 
