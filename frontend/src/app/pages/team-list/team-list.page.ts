@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, MenuController } from '@ionic/angular';
+import { NavController, MenuController, LoadingController } from '@ionic/angular';
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Router } from '@angular/router';
 
@@ -16,26 +16,48 @@ export class TeamListPage implements OnInit {
   constructor(
     public proveedor:apiRestProvider,
     public router: Router,
-    public menuCtrl: MenuController
-    ) { 
-      
-    }
+    public menuCtrl: MenuController,
+    public loadCtrl: LoadingController
+    ) { }
 
   ngOnInit() {
-      console.log("-------------------------")
-      this.proveedor.getUserTeams()
-      .subscribe(
-        (data) => { this.teamList = data;},
-        (error) => {console.log(error);}
-      );
+    setTimeout( () => {
+      this.initialize();
+    }, 1000);
    }
 
-  goToHomePage(team: string){
-    this.router.navigate(['main']);
+  
+
+  async initialize() {
+    const loading = await this.loadCtrl.create();
+
+    loading.present();
+    this.proveedor.getMe()
+    .subscribe( (data) => {
+      this.me = data;
+      console.log(this.me);
+    },
+    (error) => {
+      console.log(error);
+    });
+
+    this.proveedor.getUserTeams()
+    .subscribe( (data) => { 
+      this.teamList = data;
+      console.log(this.teamList);
+      loading.dismiss();
+    },
+    (error) => {
+      console.log(error);
+    });
   }
 
   goToaddTeam(){
     this.router.navigate(['add-team']);
+  }
+
+  goToHomePage(team: string){
+    this.router.navigate(['main']);
   }
 
   goTo(page: string){

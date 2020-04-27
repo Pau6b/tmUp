@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import * as firebase from 'firebase';
 import { LoadingController } from '@ionic/angular';
 
@@ -54,8 +54,11 @@ export class LoginPage implements OnInit {
 
   logIn() {
     this.authService.signIn(this.logInForm.get('email').value, this.logInForm.get('password').value)
-    .then(() => {
+    .then( () => {
       this.navCtrl.navigateRoot('team-list');
+    },
+    (err) => {
+      console.log(err.message);
     })
     .catch((error:firebase.FirebaseError) => {
       this.logInError=true;

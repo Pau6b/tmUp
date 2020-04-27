@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import {NavController, MenuController } from '@ionic/angular';
+import {NavController, MenuController, AlertController } from '@ionic/angular';
 
 import { FormBuilder, Validators} from '@angular/forms';
 
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service'
 import { PhotoService } from '../../services/photo.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -50,7 +51,9 @@ export class RegisterPage implements OnInit {
     public menuCtrl: MenuController,
     public formBuilder: FormBuilder,
     public authService: AuthService,
-    private photoService: PhotoService
+    public photoService: PhotoService,
+    private alertCtrl: AlertController,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -74,19 +77,32 @@ export class RegisterPage implements OnInit {
 
   //submit register form
   registerUser() {
-    this.authService.signUpUser(this.registerForm.get('email').value, this.registerForm.get('password').value)
-    .then(() => {
+    this.authService.signUpUser(this.registerForm.value)
+    .then((user) => {
       this.emailUsed = false;
-      this.navCtrl.navigateRoot('gettingstarted');
+      this.presentAlert('¡Felicidades!', 'Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo.')
     },
     (error) => {
       this.emailUsed = true;
       console.log(error.message);
-    }
-    )
+    });
+  }
+  cameraOptions() {
+    this.photoService.alertSheetPictureOptions();
   }
 
-  cameraOptions(){
-    this.photoService.cameraOptions();
+  async presentAlert(header, message) {
+    const alert = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      buttons: [{
+        text: 'Continuar',
+        handler: () => {
+          this.router.navigate(['add-team']);
+        }
+      }]
+    });
+    await alert.present();
   }
+
 }

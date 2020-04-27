@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { GettingstartedPageRoutingModule } from './gettingstarted-routing.module';
+import { LocationSelectPageRoutingModule } from './location-select-routing.module';
 
-import { GettingstartedPage } from './gettingstarted.page';
+import { LocationSelectPage } from './location-select.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GettingstartedPageRoutingModule
+    LocationSelectPageRoutingModule
   ],
-  declarations: [GettingstartedPage]
+  declarations: [LocationSelectPage]
 })
-export class GettingstartedPageModule {}
+export class LocationSelectPageModule {}

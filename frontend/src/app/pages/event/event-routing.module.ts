@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RegisterPage } from './register.page';
+import { EventPage } from './event.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RegisterPage
+    component: EventPage
   },
   {
-    path: 'login',
-    loadChildren: () => import('../login/login.module').then( m => m.LoginPageModule)
+    path: 'edit-event',
+    loadChildren: () => import('../edit-event/edit-event.module').then( m => m.EditEventPageModule)
   }
 ];
 
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RegisterPageRoutingModule {}
+export class EventPageRoutingModule {}

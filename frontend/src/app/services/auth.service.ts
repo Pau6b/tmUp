@@ -11,11 +11,17 @@ import * as firebase from 'firebase';
 })
 export class AuthService {
 
-  currentUser;
+  /*user parameters {
+    email: string,
+    displayName: string
+  }*/
+  currentUser: any;
+  token: any;
+  currentTeam: null;
+
   error: any;
   loading: any;
   provider = new firebase.auth.GoogleAuthProvider();
-  token;
   user;
 
   constructor(
@@ -23,16 +29,40 @@ export class AuthService {
     public toastCtrl: ToastController,
     private router: Router, 
     private platform: Platform,
-    public loadingController: LoadingController,
-    public authService: AuthService,
-    public alertController: AlertController,
-    public navCtrl: NavController,
-  ) { }
+    public loadingController: LoadingController
+  ) { 
+    //to test login
+    if(this.afAuth.authState != null) this.logOut();
 
-  signUpUser(email: string, password: string): Promise<any> {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-    .then((user) => {
-      //assign user created to the currentUser
+    //observable of Firebase Authentication
+    this.afAuth.auth.onAuthStateChanged( (user) => {
+      if(user) {
+        this.currentUser = user;
+          console.log(user.email + ' logged');
+        this.afAuth.auth.currentUser.getIdToken(true)
+        .then( (idtoken) => {
+          this.token = idtoken.toString();
+          console.log('token setted');
+          //this.router.navigate(['team-list']);
+        },
+        (err) => {
+          console.log('error setting token ' + err.message);
+        })
+      } else {
+        this.currentUser = null;
+        console.log('no user logged');
+      }
+    }) 
+  }
+
+  signUpUser(data): Promise<any> {
+    return this.afAuth.auth.createUserWithEmailAndPassword(data.email, data.password)
+    .then( (user) => {
+      if (user) {
+        user.user.updateProfile({
+          displayName: data.userName
+        });
+      }
     });
   }
 
@@ -49,7 +79,7 @@ export class AuthService {
       // The signed-in user info.
       this.user = result.user;
       console.log(this.user);
-      this.navCtrl.navigateRoot('team-list');
+      this.router.navigate(['team-list']);
       // ...
     }).catch(function(error) {
       // Handle Errors here.
@@ -89,15 +119,8 @@ export class AuthService {
 
    //logout function
   logOut() {
-    this.afAuth.auth.signOut()
-    .then(data=> {
-      this.router.navigateByUrl('/login');
-      console.log('Signed out!');
-    })
-    .catch(function(error) {
-      //handle error
-      console.log(error.message);
-    });
+    this.afAuth.auth.signOut();
+    this.router.navigateByUrl('/login');
   }
   
 

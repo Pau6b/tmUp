@@ -6,8 +6,6 @@ import { PhotoService } from 'src/app/services/photo.service';
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { File } from '@ionic-native/file/ngx';
 
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-
 @Component({
   selector: 'app-tactics',
   templateUrl: './tactics.page.html',
@@ -22,8 +20,7 @@ export class TacticsPage implements OnInit {
     private api: apiRestProvider,
     private navCtrl: NavController,
     private menuCtrl: MenuController,
-    private photoService: PhotoService,
-    private photoViewer: PhotoViewer) { }
+    private photoService: PhotoService) { }
 
   ngOnInit() {
     this.api.getTactics()
@@ -47,7 +44,7 @@ export class TacticsPage implements OnInit {
   }
   
   seeImage(img){
-    this.photoViewer.show('https://wallpaperplay.com/walls/full/3/b/4/268610.jpg');
+    //this.photoViewer.show('https://wallpaperplay.com/walls/full/3/b/4/268610.jpg');
   }
 
   openPdf(){

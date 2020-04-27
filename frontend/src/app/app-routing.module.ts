@@ -20,10 +20,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
   {
-    path: 'gettingstarted',
-    loadChildren: () => import('./pages/gettingstarted/gettingstarted.module').then( m => m.GettingstartedPageModule)
-  },
-  {
     path: 'add-team',
     loadChildren: () => import('./pages/add-team/add-team.module').then( m => m.AddTeamPageModule)
   },
@@ -60,13 +56,27 @@ const routes: Routes = [
     loadChildren: () => import('./pages/normative/normative.module').then( m => m.NormativePageModule)
   },
   {
-    path: 'add-match',
-    loadChildren: () => import('./pages/add-match/add-match.module').then( m => m.AddMatchPageModule)
-  },
-  {
     path: 'add-tactic',
     loadChildren: () => import('./pages/add-tactic/add-tactic.module').then( m => m.AddTacticPageModule)
+  },
+  {
+    path: 'event',
+    loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule)
+  },
+  {
+    path: 'add-event',
+    loadChildren: () => import('./pages/add-event/add-event.module').then( m => m.AddEventPageModule)
+  },
+  {
+    path: 'location-select',
+    loadChildren: () => import('./pages/location-select/location-select.module').then( m => m.LocationSelectPageModule)
+  },
+  {
+    path: 'edit-event',
+    loadChildren: () => import('./pages/edit-event/edit-event.module').then( m => m.EditEventPageModule)
   }
+
+
 
 ];
 

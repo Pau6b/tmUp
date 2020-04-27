@@ -1,0 +1,61 @@
+/* ------------------------------
+              GENERIC
+   ------------------------------ */
+
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
+
+.colorKey {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 0.5em auto;
+  text-align: center;
+}
+
+.dotKey {
+  border-radius: 50%;
+  display: inline-block;
+  height: 12px;
+  margin: 0px 2px !important;
+  width: 12px;
+}
+
+.itemKey {
+  display: flex;
+  margin: 0.2em 0.3em !important;
+  padding: 0.1em 0.2em !important;
+}
+
+.eventDot {
+  border-radius: 50%;
+  display: inline-block;
+  height: 6px;
+  margin: 25% 2px 0 auto !important;
+  padding: 0;
+  width: 6px;
+}
+
+#training {
+  background: var(--ion-color-warning);
+}
+
+#match {
+  background: var(--ion-color-danger);
+}
+
+.eventItem {
+  cursor: pointer;
+}
+
+.eventTime {
+  font-size: small !important;
+  padding: 0.2em;
+}
+

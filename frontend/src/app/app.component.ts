@@ -100,7 +100,6 @@ export class AppComponent implements OnInit {
           text: 'Log Out',
           handler: () => {
             this.auth.logOut();
-            this.proveedor.logOutBack();
             console.log('LogOut clicked');
           }
         }

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AddMatchPageRoutingModule } from './add-match-routing.module';
+import { EventPageRoutingModule } from './event-routing.module';
 
-import { AddMatchPage } from './add-match.page';
+import { EventPage } from './event.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AddMatchPageRoutingModule
+    EventPageRoutingModule
   ],
-  declarations: [AddMatchPage]
+  declarations: [EventPage]
 })
-export class AddMatchPageModule {}
+export class EventPageModule {}

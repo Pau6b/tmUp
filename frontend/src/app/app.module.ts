@@ -20,7 +20,15 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
+import { NgCalendarModule  } from 'ionic2-calendar';
+
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Network } from '@ionic-native/network/ngx'
+import { Connectivity } from '../providers/connectivity/connectivity-service'
+import { googleMaps } from '../providers/googleMaps/google-maps'
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +38,8 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
     IonicModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    NgCalendarModule
   ],
   providers: [
     StatusBar,
@@ -40,7 +49,11 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
     AngularFirestore,
     File,
     Chooser,
-    PhotoViewer,
+    Geolocation,
+    InAppBrowser,
+    Network,
+    Connectivity,
+    googleMaps,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],
