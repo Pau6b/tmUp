@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 
-import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
+import { ActionSheetController, MenuController } from '@ionic/angular';
 
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -54,7 +54,6 @@ export class ProfilePage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public proveedor:apiRestProvider,
-    public navCtrl: NavController,
     public camera: Camera,
     public actionSheetCtrl: ActionSheetController,
     public alertCtrl: AlertController,
@@ -171,8 +170,4 @@ export class ProfilePage implements OnInit {
     });
     await alert.present(); 
   }
-
-
-  
-
 }
