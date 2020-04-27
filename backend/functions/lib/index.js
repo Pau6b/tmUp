@@ -50,7 +50,8 @@ app.use((req, res, next) => {
     }
   })().then().catch();
   
-});*/
+});
+*/
 /* --- end of before all requests --- */
 /* --- begin of routes --- */
 const loginHandler = require('./Auth/Login');
