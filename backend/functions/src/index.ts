@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 /* --- before all requests --- */
 
-
+/*
 app.use((req, res, next) => {
   (async () => {
     if (req.path != '/login') {
@@ -41,7 +41,7 @@ app.use((req, res, next) => {
         return res.status(401).send("You must send a token to authentificate");
       }
       let isLogged : boolean = false;
-      await admin.auth.verifyIdToken(req.headers.authorization)
+      await admin.auth().verifyIdToken(req.headers.authorization)
       .then((payload : any) => {
         req.session!.user = payload.uid;
          isLogged = true;
@@ -52,12 +52,13 @@ app.use((req, res, next) => {
       if (!isLogged) {
         return res.status(401).send("Invalid token");
       }
-      return next();
+      next();
     }
+    return;
   })().then().catch();
   
 });
-
+*/
 
 /* --- end of before all requests --- */
 

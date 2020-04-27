@@ -95,16 +95,16 @@ export const teamStats = {
 
 export function GetTeamStatsBySport(sport: string) {
     let result = {};
-    if (sport === "football") {
+    if (sport === "Football") {
         result = teamStats.football;
     }
-    else if (sport === "basketball") {
+    else if (sport === "Basketball") {
         result = teamStats.basketball;
     }
-    else if (sport === "handball") {
+    else if (sport === "Handball") {
         result = teamStats.handball;
     }
-    else if (sport === "baseball") {
+    else if (sport === "Baseball") {
         result = teamStats.baseball;
     }
     return result;
@@ -112,16 +112,16 @@ export function GetTeamStatsBySport(sport: string) {
 
 export function GetMembershipStatsBySport(sport: string) {
     let result = {};
-    if (sport === "football") {
+    if (sport === "Football") {
         result = memberhsipStats.football;
     }
-    else if (sport === "basketball") {
+    else if (sport === "Basketball") {
         result = memberhsipStats.basketball;
     }
-    else if (sport === "handball") {
+    else if (sport === "Handball") {
         result = memberhsipStats.handball;
     }
-    else if (sport === "baseball") {
+    else if (sport === "Baseball") {
         result = memberhsipStats.baseball;
     }
     return result;
@@ -129,16 +129,16 @@ export function GetMembershipStatsBySport(sport: string) {
 
 export function GetMatchStatsBySport(sport: string) {
     let result = {};
-    if (sport === "football") {
+    if (sport === "Football") {
         result = matchStats.football;
     }
-    else if (sport === "basketball") {
+    else if (sport === "Basketball") {
         result = matchStats.basketball;
     }
-    else if (sport === "handball") {
+    else if (sport === "Handball") {
         result = matchStats.handball;
     }
-    else if (sport === "baseball") {
+    else if (sport === "Baseball") {
         result = matchStats.baseball;
     }
     return result;
