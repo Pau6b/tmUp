@@ -1,5 +1,6 @@
 import * as express from 'express';
 const admin = require("firebase-admin");
+//import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const db = admin.firestore();
 const app = express();
 
@@ -10,16 +11,20 @@ app.post('/create', (req, res) => {
             const jsonContent = JSON.parse(req.body);
             let lengthCollMessages = 0;
             let index = lengthCollMessages;
-            //FALTA CONTROL D'ERROR DE LA QUERY DE LA SIZE PQ NO LI ASSIGNEM 1 AL INDEX DEL NOU MESSAGE
+            //let userName;
             await db.collection('teams').doc(jsonContent.teamId).collection('chats').doc(jsonContent.chatId).collection('messages').get().then((snap: { size: any; }) => {
                 lengthCollMessages = snap.size 
                 index = lengthCollMessages + 1;
              });
+            /*await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {        
+                userName = user.displayName
+            });*/
             await db.collection('teams').doc(jsonContent.teamId).collection('chats').doc(jsonContent.chatId).collection('messages').add({
                 chatId: jsonContent.chatId,
                 email: jsonContent.email,
                 bodyMessage: jsonContent.bodyMessage,
                 date:jsonContent.date,
+                userName: jsonContent.userName,
                 index: index
             })
             return res.status(200).send();
@@ -35,7 +40,7 @@ app.post('/create', (req, res) => {
 app.get('/:teamId/:chatId', (req, res) => {
     (async () => {
         try {
-            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').orderBy("index", "desc");
+            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').orderBy("date", "asc");
             query.limit(50); 
             const response: any = [];
             await query.get().then((querySnapshot: any) => {
@@ -47,6 +52,7 @@ app.get('/:teamId/:chatId', (req, res) => {
                         email: doc.data().email,
                         bodyMessage: doc.data().bodyMessage,
                         date: doc.data().date,
+                        userName: doc.data().userName,
                         index: doc.data().index
                     };
                     response.push(selectedItem);
@@ -70,9 +76,11 @@ app.get('/:teamId/:chatId/:messageIndex', (req, res) => {
         try {
             const messageIndexInt = parseInt(req.params.messageIndex);
             let query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').where('index', '>', messageIndexInt).orderBy("index", "desc");
-            //query.orderBy("date", "desc"); //we get in order by date
-            //where('population', '>', 2500000)
-            query.limit(50);//last 50 messages from the index passed 
+            query.limit(50);
+            /* With date limitation-->problem same second--->obtain duplicated messages in chat (Need start date as a req.param)
+            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').where('date', '>', req.params.date).orderBy("date", "asc");
+            query.limit(50); 
+            */
             const response: any = [];
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
@@ -83,6 +91,7 @@ app.get('/:teamId/:chatId/:messageIndex', (req, res) => {
                         email: doc.data().email,
                         bodyMessage: doc.data().bodyMessage,
                         date: doc.data().date,
+                        userName: doc.data().userName,
                         index: doc.data().index
                     };
                     response.push(selectedItem);
