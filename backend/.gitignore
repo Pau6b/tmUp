@@ -44,7 +44,8 @@ bower_components
 build/Release
 
 # Dependency directories
-!node_modules/
+*/node_modules/*
+permissions.json
 
 # Optional npm cache directory
 .npm
