@@ -23,7 +23,7 @@ export class apiRestProvider {
   ){ }
 
   private setHeader() {
-    this.headers = new HttpHeaders({ 'Authentication' : this.authServ.token });
+    this.headers = new HttpHeaders({ 'Authorization' : this.authServ.token });
   }
 
   //USER
