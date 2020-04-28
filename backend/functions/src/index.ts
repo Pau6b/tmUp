@@ -21,8 +21,8 @@ admin.initializeApp({
 app.use( cors( { origin: true } ) );
 app.use( expressSession({
   secret: 'ssshhhhh',
-  saveUninitialized: true,
-  resave: true
+  saveUninitialized: false,
+  resave: false
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 /* --- before all requests --- */
 
-app.use((req, res, next) => {
+function authchecker(req: any, res: any, next: any){
   (async () => {
     if (req.path != '/login') {
       if (req.headers.authorization == null) {
@@ -55,8 +55,9 @@ app.use((req, res, next) => {
     }
     return;
   })().then().catch();
-  
-});
+}
+
+app.use(authchecker);
 
 
 /* --- end of before all requests --- */
