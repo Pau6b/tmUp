@@ -16,7 +16,7 @@ export class AddTeamPage implements OnInit {
   
   myPhoto: any;
 
-  sportsLists = ['football', 'basketball', 'handball','baseball']
+  sportsLists = ['Football', 'Basketball', 'Handball','Baseball']
   roles = ['Fisioterapeuta', 'Jugador']
 
   segmentModel = "create";

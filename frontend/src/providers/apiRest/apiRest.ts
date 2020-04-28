@@ -37,7 +37,7 @@ export class apiRestProvider {
 
   getProfileInfo() {
     this.setHeader();
-    return this.http.get(this.url+'users/me', { headers: this.headers });
+    return this.http.get(this.url+'users/demo@tmup.com', { headers: this.headers });
   }
 
   updateProfileInfo(name, email) {
@@ -46,7 +46,7 @@ export class apiRestProvider {
 
   getUserTeams(){
     this.setHeader();
-    return this.http.get(this.url+'users/me/teams', { headers: this.headers });
+    return this.http.get(this.url+'users/juanjo@tmup.com/teams', { headers: this.headers });
   }
 
   //TEAMS

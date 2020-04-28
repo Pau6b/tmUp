@@ -7,10 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: AddEventPage
-  },
-  {
-    path: 'calendar',
-    loadChildren: () => import('../calendar/calendar.module').then( m => m.CalendarPageModule)
   }
 ];
 
