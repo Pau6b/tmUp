@@ -7,5 +7,7 @@ typings/
 
 node_modules/
 
-!permissions.json
+permissions.json
+
+firestore-debug.log
 

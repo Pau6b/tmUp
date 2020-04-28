@@ -12,10 +12,10 @@ const serviceAccount = require("../permissions.json");
 const app = express(); 
 const admin = require("firebase-admin");
 
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://tmup-908e4.firebaseio.com"
+  databaseURL: "https://tmup-908e4.firebaseio.com",
+  storageBucket: 'gs://tmup-908e4.appspot.com'
 });
 
 app.use( cors( { origin: true } ) );
@@ -26,29 +26,48 @@ app.use( expressSession({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 /*end-of-configuration */
 
 //Per correr el development server => npm run serve dins de la carpeta de functions
 
 /* --- before all requests --- */
-/*
+
 app.use((req, res, next) => {
-  const token 
-            await document.update({
-                email: jsonContent.email,
-                userName: jsonCon= req.headers.token;
-  admin.auth.verifyIdToken(token)
-  .then((payload : any) => {
-    next(payload);
-  })
-  .catch((error: any) =>{
-    res.status(401).send("Unauthorized");
-  } );
+  (async () => {
+    if (req.path != '/login') {
+      if (req.headers.authorization == null) {
+        return res.status(401).send("You must send a token to authentificate");
+      }
+      let isLogged : boolean = false;
+      await admin.auth().verifyIdToken(req.headers.authorization)
+      .then((payload : any) => {
+        req.session!.user = payload.uid;
+         isLogged = true;
+      })
+      .catch((error: any) =>{
+        isLogged = false;
+      } );
+      if (!isLogged) {
+        return res.status(401).send("Invalid token");
+      }
+      next();
+    }
+    return;
+  })().then().catch();
+  
 });
-*/
+
+
 /* --- end of before all requests --- */
 
 /* --- begin of routes --- */
+
+const loginHandler = require('./Auth/Login');
+app.use('/login', loginHandler);
+
+const logoutHandler = require('./Auth/Logout');
+app.use('/logout', logoutHandler);
 
 const usersHandler = require('./Users/Users');
 app.use('/users', usersHandler);
@@ -57,7 +76,7 @@ const teamsHandler = require('./Teams/Teams');
 app.use('/teams', teamsHandler);
 
 const eventsHandler = require('./Teams/Events/Events');
-app.use('/teams/events', eventsHandler);
+app.use('/:teamId/events', eventsHandler);
 
 const photosHandler = require('./Teams/Events/Photos/Photos');
 app.use('/teams/events/photos', photosHandler);
@@ -67,6 +86,7 @@ app.use('/teams/events/rivalAnalysis', rivalAnalysisHandler);
 
 const normativesHandler = require('./Teams/Normatives/Normatives');
 app.use('/teams/normatives', normativesHandler);
+
 const tacticsHandler = require('./Teams/Tactics/Tactics');
 app.use('/teams/tactics', tacticsHandler);
 
@@ -76,14 +96,11 @@ app.use('/memberships', membershipsHandler);
 const finesHandler = require('./Memberships/Fines/Fines');
 app.use('/memberships/fines', finesHandler);
 
-app.use( cors( { origin: true } ) );
-app.use( expressSession({
-  secret: 'ssshhhhh',
-  saveUninitialized: true,
-  resave: true
-}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+const chatsHandler = require('./Teams/Chats/Chats');
+app.use('/chats', chatsHandler);
+
+const messagesHandler = require('./Teams/Chats/Messages/Messages');
+app.use('/chats/messages', messagesHandler);
 /* --- end of routes --- */
 
 exports.app = functions.https.onRequest(app);

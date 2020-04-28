@@ -1,20 +1,62 @@
 import * as express from 'express';
+import { sports } from '../Core/Core'
+import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
+import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
+
 
 //Create => Post
 app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let id: any;
+            //Check if the params are correct
+
+            if (req.session!.user === null) {
+                res.status(400).send("T1");
+            }
+
+            let email: any ="";  
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    email = user.email
+            });    
+
+            let errors: string[] = [];
+            let hasErrors: boolean = false;
+            if (!jsonContent.hasOwnProperty("teamName")) {
+                errors.push("TC2");
+                hasErrors = true;
+            }
+            if (!jsonContent.hasOwnProperty("sport")) {
+                errors.push("TC3");
+                hasErrors = true;                
+            }
+            if (!sports.includes(jsonContent.sport)) {
+                errors.push("TC4");
+                hasErrors = true;  
+            }
+            if (hasErrors) {
+                return res.status(400).send(errors);
+            }
+
+            //No errors, we proceed to creation
+            let id = "invalid";
             await db.collection('teams').add({
                 teamName: jsonContent.teamName,
-                sport: jsonContent.sport
+                sport: jsonContent.sport,
+                stats: GetTeamStatsBySport(jsonContent.sport)
             }).then((ref:any) => {
                 id= ref.id;
             });
+
+            await db.collection('memberships').add({
+                teamId: id,
+                userId: email,
+                type: "staff"
+            })
             return res.status(200).send(id);
         }
         catch(error){
@@ -27,14 +69,29 @@ app.post('/create', (req, res) => {
 
 
 //Read => Get
-app.get('/:teamName', (req, res) => {
+app.get('/:teamId', (req, res) => {
     (async () => {
         try {
-            const document = db.collection("teams").doc(req.params.teamName);
-            const user = await document.get();
-            const response = user.data();
+            const document = db.collection("teams").doc(req.params.teamId);
 
-            return res.status(200).send(response);
+            let teamExists:boolean = true;
+            const teamData = await document.get().then((doc: DocumentSnapshot) => {
+                if(!doc.exists) {
+                    teamExists = false;
+                    return;
+                }
+                else {
+                    return doc.data();
+                }
+            });
+
+            //Check that the user exists
+            if (!teamExists) {
+                return res.status(400).send("TG1");
+            }
+
+            //return correct data
+            return res.status(200).send(teamData);
         }
         catch(error){
             console.log(error);
@@ -52,13 +109,12 @@ app.get('/', (req, res) => {
             const response: any = [];
 
             await query.get().then((querySnapshot: any) => {
-                const docs = querySnapshot.docs;
+                const docs : DocumentSnapshot[] = querySnapshot.docs;
 
                 for (const doc of docs) {
                     const selectedItem  = {
-                        id: doc.data().id,
-                        teamName: doc.data().teamName,
-                        sport: doc.data().sport
+                        teamName: doc.data()!.teamName,
+                        sport: doc.data()!.sport
                     };
                     response.push(selectedItem);
                 }
@@ -77,19 +133,19 @@ app.get('/', (req, res) => {
 
 
 //Update => Put
-app.put('/:teamName', (req, res) => {
+app.put('/:teamId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
+        
+            if (!jsonContent.hasOwnProperty("teamName")) {
+                return res.status(400).send("No teamName specified.");
+            }
 
-            const document = db.collection('teams').doc(req.params.teamName);
-
-            await document.update({
-                teamName: jsonContent.teamName,
-                sport: jsonContent.sport
+            await db.collection('teams').doc(req.params.teamId).update({
+                teamName: jsonContent.teamName
             });
             
-
             return res.status(200).send();
         }
         catch(error){
@@ -101,13 +157,32 @@ app.put('/:teamName', (req, res) => {
 });
 
 //Delete => Delete
+/*
 app.delete('/:teamName', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('teams').doc(req.params.teamName);
+            let teamExists: boolean = true;
+            const team = db.collection('teams').doc(req.params.teamName).get().then((doc: any) => {
+                if(!doc.exists) {
+                    teamExists = false;
+                }
+            });
+            if (!teamExists) {
+                return res.status(400).send("teamId is incorrect");
+            }
+            await team.delete();
 
-            await document.delete();
-            
+            const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamName);
+            const response: any = [];
+
+            await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                     doc.delete();
+                }
+                return response;
+            })
             return res.status(200).send();
         }
         catch(error){
@@ -117,5 +192,5 @@ app.delete('/:teamName', (req, res) => {
 
     })().then().catch();
 });
-
+*/
 module.exports = app;
