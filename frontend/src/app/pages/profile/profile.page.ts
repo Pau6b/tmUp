@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 
-import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
+import { ActionSheetController, MenuController } from '@ionic/angular';
 
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -30,10 +30,10 @@ export class ProfilePage implements OnInit {
   //declarar formulario this.profileInfo.displayname this.profileInfo.email
   updateForm = this.formBuilder.group({
     userName: [ 
-      'clara', [Validators.required, Validators.minLength(3)]
+      this.profileInfo.displayname, [Validators.required, Validators.minLength(3)]
     ],
     email: [
-      'clara', [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
+      this.profileInfo.email, [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
     ]
   });
 
@@ -54,7 +54,6 @@ export class ProfilePage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public proveedor:apiRestProvider,
-    public navCtrl: NavController,
     public camera: Camera,
     public actionSheetCtrl: ActionSheetController,
     public alertCtrl: AlertController,
@@ -171,8 +170,4 @@ export class ProfilePage implements OnInit {
     });
     await alert.present(); 
   }
-
-
-  
-
 }

@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-import { ToastController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
-import { LoadingController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +21,13 @@ export class AuthService {
 
   error: any;
   loading: any;
+  provider = new firebase.auth.GoogleAuthProvider();
+  user;
 
   constructor(
     public afAuth: AngularFireAuth,
     public toastCtrl: ToastController,
     private router: Router, 
-    private google: GooglePlus,
     private platform: Platform,
     public loadingController: LoadingController
   ) { 
@@ -72,44 +71,26 @@ export class AuthService {
   }
 
   //login con google
-  async loginGoogle() {
-    let params;
-    if (this.platform.is('android')) {
-      params = {
-        'webClientId': '489608967542-8quc1uc92o0io6f8j1jgmtnban91r3f8.apps.googleusercontent.com',
-        'offline': true
-      }
-    }
-    else {
-      params = {}
-    }
-    this.google.login(params)
-      .then((response) => {
-        console.log("Entro aqui")
-        const { idToken, accessToken } = response
-        this.onLoginSuccess(idToken, accessToken);
-        console.log("Login amb Google correcte");
-      }).catch((error) => {
-        console.log("Dona error")
-        console.log(error)
-        alert('error:' + JSON.stringify(error))
-      });
-  }
-
-  onLoginSuccess(accessToken, accessSecret) {
-    console.log("login success");
-    const credential = accessSecret ? firebase.auth.GoogleAuthProvider
-        .credential(accessToken, accessSecret) : firebase.auth.GoogleAuthProvider
-            .credential(accessToken);
-    this.afAuth.auth.signInWithCredential(credential)
-      .then((response) => {
-        this.router.navigate(["/profile"]);
-        this.loading.dismiss();
-      })
-  }
-
-  onLoginError(err) {
-    console.log(err);
+  loginGoogle() {
+    firebase.auth().signInWithPopup(this.provider).then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      this.token = (<any>result).credential.accessToken;
+      console.log(this.token);
+      // The signed-in user info.
+      this.user = result.user;
+      console.log(this.user);
+      this.router.navigate(['team-list']);
+      // ...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
   }
 
   //mensaje para indicar el cambio de contraseña

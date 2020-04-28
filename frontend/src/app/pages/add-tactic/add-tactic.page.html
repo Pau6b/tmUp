@@ -3,14 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tactics"></ion-back-button>
     </ion-buttons>
-    <ion-title>Añadir táctica</ion-title>
+    <ion-title>{{image}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
-  <ion-item>
-    <ion-input placeholder="Nombre del archivo"></ion-input>
-  </ion-item>
-  <ion-button (click)="openOptions()">Subir un archivo</ion-button>
+  <ion-img [src]="'../assets/images/'+image+'.jpg'"></ion-img>
 </ion-content>

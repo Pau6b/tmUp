@@ -24,6 +24,7 @@ export class apiRestProvider {
 
   private setHeader() {
     this.headers = new HttpHeaders({ 'Authorization' : this.authServ.token });
+    console.log("ENTRO EN EL METODO SET HEADER");
   }
 
   //USER
@@ -101,7 +102,8 @@ export class apiRestProvider {
           return data;
       })
     }))*/
-    return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId, { headers: this.headers });
+    return this.http.get(this.url+'chats/messages/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
+    //return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId, { headers: this.headers });
   }
 
   createMessage(messageInfo){
@@ -169,6 +171,11 @@ export class apiRestProvider {
           resolve(data);
       })
     });
+  }
+
+  //Tactics
+  getTactics(){
+    return this.http.get(this.url+'teams/tactics/download');
   }
 
 }

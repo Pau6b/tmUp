@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController, LoadingController } from '@ionic/angular';
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
-import { load } from 'google-maps';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team-list',
@@ -14,16 +14,19 @@ export class TeamListPage implements OnInit {
   me;
 
   constructor(
-  public proveedor:apiRestProvider,
-  public navCtrl: NavController,
-  public menuCtrl: MenuController,
-  public loadCtrl: LoadingController
-  ) { 
-    //wait a little bit to set token and initialize teams
+    public proveedor:apiRestProvider,
+    public router: Router,
+    public menuCtrl: MenuController,
+    public loadCtrl: LoadingController
+    ) { }
+
+  ngOnInit() {
     setTimeout( () => {
       this.initialize();
     }, 1000);
-  }
+   }
+
+  
 
   async initialize() {
     const loading = await this.loadCtrl.create();
@@ -49,15 +52,14 @@ export class TeamListPage implements OnInit {
     });
   }
 
-
-
-  ngOnInit() { }
-
-  goToHomePage(team: string){
-    this.navCtrl.navigateRoot('main');
+  goToaddTeam(){
+    this.router.navigate(['add-team']);
   }
 
-  goToaddTeam(){
-    this.navCtrl.navigateRoot('add-team');
+  goToHomePage(team: string){
+    this.router.navigate(['main']);
+  }
+
+  goTo(page: string){
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {NavController, MenuController, AlertController } from '@ionic/angular';
 
-import { FormBuilder, Validators} from '@angular/forms'
+import { FormBuilder, Validators} from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service'
 import { PhotoService } from '../../services/photo.service'
@@ -87,7 +87,6 @@ export class RegisterPage implements OnInit {
       console.log(error.message);
     });
   }
-
   cameraOptions() {
     this.photoService.alertSheetPictureOptions();
   }
