@@ -28,6 +28,22 @@
       </ion-buttons>
     </ion-toolbar>
 
+    <calendar class="calendar" 
+    [monthviewDisplayEventTemplate]="monthViewTemplate"
+    [monthviewEventDetailTemplate]="eventListTemplate"
+    [eventSource]="eventSource"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    [startingDayMonth] = "calendar.startingDay"
+    [queryMode] = "calendar.queryMode"
+    (onCurrentDateChanged)="onCurrentDateChanged($event)"
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"
+    step="30">
+    </calendar>
+
+    <!------------------------TEMPLATES--------------------------->
     <ng-template #monthViewTemplate let-view="view" let-row="row" let-col="col">
       <div class="dayBox">
         <div *ngIf="!view.dates[row*7+col].events.length" class="noEvent" >{{view.dates[row*7+col].label}}</div>
@@ -65,21 +81,5 @@
         </ion-item>
       </ion-list>
     </ng-template>
-
-    <calendar class="calendar" 
-    [monthviewDisplayEventTemplate]="monthViewTemplate"
-    [monthviewEventDetailTemplate]="eventListTemplate"
-    [eventSource]="eventSource"
-    [calendarMode]="calendar.mode"
-    [currentDate]="calendar.currentDate"
-    [startingDayMonth] = "calendar.startingDay"
-    [queryMode] = "calendar.queryMode"
-    (onCurrentDateChanged)="onCurrentDateChanged($event)"
-    (onEventSelected)="onEventSelected($event)"
-    (onTitleChanged)="onViewTitleChanged($event)"
-    (onTimeSelected)="onTimeSelected($event)"
-    step="30">
-        
-    </calendar>
   </div>
 </ion-content>

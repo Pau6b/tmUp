@@ -21,6 +21,7 @@
     "@angular/router": "~8.2.14",
     "@ionic-native/camera": "^5.23.0",
     "@ionic-native/chooser": "^5.24.0",
+    "@ionic-native/core": "^5.24.0",
     "@ionic-native/file": "^5.24.0",
     "@ionic-native/geolocation": "^5.23.0",
     "@ionic-native/in-app-browser": "^5.23.0",
