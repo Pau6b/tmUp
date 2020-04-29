@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const Core_1 = require("../Core/Core");
 const Statistics_1 = require("../Core/Templates/Statistics");
-//import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -13,17 +12,13 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-            
-            if (req.session!.user === null) {
+            if (req.session.user === null) {
                 res.status(400).send("T1");
             }
-            
             let email = "";
             await admin.auth().getUser(req.session.user).then((user) => {
                 email = user.email;
-
             });
-            
             let errors = [];
             let hasErrors = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
@@ -52,7 +47,7 @@ app.post('/create', (req, res) => {
             });
             await db.collection('memberships').add({
                 teamId: id,
-                userId: jsonContent.userId,
+                userId: email,
                 type: "staff"
             });
             return res.status(200).send(id);
@@ -128,46 +123,6 @@ app.put('/:teamId', (req, res) => {
                 teamName: jsonContent.teamName
             });
             return res.status(200).send();
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(500).send(error);
-        }
-    })().then().catch();
-});
-app.post('/select/:teamId', (req, res) => {
-    (async () => {
-        try {
-            const team = db.collection('teams').doc(req.params.teamId);
-            let teamExists = false;
-            await team.get().then((teamDoc) => {
-                if (teamDoc.exists) {
-                    teamExists = true;
-                }
-            });
-            if (!teamExists) {
-                return res.status(400).send("TS1");
-            }
-            req.session.selectedTeam = req.params.teamId;
-            return res.status(200).send();
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(500).send(error);
-        }
-    })().then().catch();
-});
-app.get('/selected', (req, res) => {
-    (async () => {
-        try {
-            if (!req.session.selectedTeam) {
-                return res.status(400).send("TS1");
-            }
-            const team = db.collection('teams').doc(req.session.selectedTeam);
-            const teamData = await team.get().then((teamDoc) => {
-                return teamDoc.data();
-            });
-            return res.status(200).send(teamData);
         }
         catch (error) {
             console.log(error);

@@ -13,7 +13,7 @@ describe('Create teams: ',()=>{
 
     it('Create team', async() => {
         var team = {
-            "userId": "b@a.com",
+            "userId": "juanjo@tmup.com",
             "teamName": "fcb",
             "sport": "football"
         };
@@ -29,7 +29,7 @@ describe('Create teams: ',()=>{
     });
     it('Bad request in Create team', async() => {
         var team = {
-            "userd": "b@a.com",
+            "userd": "juanjo@tmup.com",
             "teamame": "fcb",
             "sprt": "football"
         };

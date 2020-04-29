@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsPage implements OnInit {
 
+  arrayString: Array<string> = ['Castellano', 'Inglés', 'Catalan'];
+
   constructor() { }
 
   ngOnInit() {

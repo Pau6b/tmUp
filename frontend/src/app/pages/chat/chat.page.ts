@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavController, MenuController, IonContent } from '@ionic/angular';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-chat',
@@ -7,9 +9,73 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatPage implements OnInit {
 
-  constructor() { }
+  username: string="juanjo@tmup.com";
+  msgList :any = [];
+  User = "juanjo@tmup.com";
+  newMessage='';
+  start_typing: any;
+  
+  @ViewChild(IonContent, {static: false}) content: IonContent;
 
+  constructor(
+    public api: apiRestProvider,
+    public navCtrl: NavController,
+    public menuCtrl: MenuController,
+  ) {   }
+
+  
   ngOnInit() {
   }
 
+  getMessages(){
+    this.api.getMessages("t8qtEbMEcFbflhKlHGsQ", "6hd6Bdym8CXKW0Sm3hDb")
+        .subscribe(
+          (data) => { 
+            this.msgList = data; 
+          },
+          (error) => { console.log(error); }
+        );
+        console.log(this.msgList);
+  }
+
+  sendMessage() {
+    var msg = 
+      {
+      "email": this.username,
+      "teamId": "6hd6Bdym8CXKW0Sm3hDb",
+      "chatId": "t8qtEbMEcFbflhKlHGsQ",
+      "bodyMessage": this.newMessage,
+      "date": new Date().toString()
+      };
+      console.log(msg)
+    this.api.createMessage(msg)
+        .then( () => {
+        })
+        .catch( () => {
+        });
+    
+    this.newMessage = '';
+    setTimeout(() => {
+      this.content.scrollToBottom();
+    })
+  }
+
+  scrollDown() {
+    setTimeout(() => {
+      this.content.scrollToBottom(50)
+    }, 50);
+  }
+
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.content.scrollToBottom(50)
+    }, 50);
+    this.getMessages();
+  }
+
+  userTyping(event: any) {
+    console.log(event);
+    this.start_typing = event.target.value;
+    this.scrollDown()
+  }
 }

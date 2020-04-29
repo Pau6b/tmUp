@@ -1,9 +1,166 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>chat</ion-title>
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Chat</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!--<ion-content #content>-->
 
+  <ion-content #IonContent fullscreen="true">
+    <ion-list>
+      <div *ngFor="let chat of msgList; let i = index; ">
+        <ion-row *ngIf="chat.email !== User">
+          <ion-col class="right" no-padding [ngClass]="{'clubbed':((msgList[i+1] && msgList[i+1].email != chat.email)|| !msgList[i+1])}">
+            <div class="imageAvatarRight">
+              <div class="imageAvatarBottom">
+                <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == chat.email)?'hidden':''">
+                  <div class="imageAvatarBottomIcon">
+                    <ion-icon name="add" expand="icon-only" color="light"> </ion-icon>
+                  </div>
+                  <ion-img [src]="'../assets/images/1.jpg'"></ion-img>
+                </ion-avatar>
+              </div>
+              <ion-label color="light">
+                <div class="chatDiv" [ngClass]="{'sharper':((msgList[i+1] && msgList[i+1].email == chat.email) && 
+                (msgList[i-1] && msgList[i-1].email == chat.email)),
+                'sharper-top':(msgList[i-1] && msgList[i-1].email == chat.email),
+                'sharper-bottom':(msgList[i+1] && msgList[i+1].email == chat.email)}">
+                  <p text-wrap padding>{{chat.bodyMessage}}
+                  </p>
+                  <div class="corner-parent-right">
+                    <div class="corner-child-right">
+  
+                    </div>
+                  </div>
+                </div>
+              </ion-label>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="chat.email === User">
+          <ion-col class="left" no-padding [ngClass]="{'clubbed':((msgList[i+1] && msgList[i+1].email != chat.email)|| !msgList[i+1])}">
+            <div class="imageAvatarLeft">
+              <ion-label color="light">
+                <div class="chatDiv" [ngClass]="{'sharper':((msgList[i+1] && msgList[i+1].email == chat.email) && 
+                (msgList[i-1] && msgList[i-1].email == chat.email)),
+                'sharper-top':(msgList[i-1] && msgList[i-1].email == chat.email),
+                'sharper-bottom':(msgList[i+1] && msgList[i+1].email == chat.email)}">
+                  <p text-wrap padding>{{chat.bodyMessage}}</p>
+                  <div class="corner-parent-left">
+                    <div class="corner-child-left">
+  
+                    </div>
+                  </div>
+                </div>
+              </ion-label>
+              <div class="imageAvatarBottom">
+                <!-- <ion-icon class="imageAvatarBottomIcon" name="add" expand="icon-only" color="success"></ion-icon> -->
+                <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == chat.email)?'hidden':''">
+                  <div class="imageAvatarBottomIcon">
+                    <ion-icon name="add" expand="icon-only" color="light"> </ion-icon>
+                  </div>
+                  <ion-img [src]="'../assets/images/7.jpg'"></ion-img>
+                </ion-avatar>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="((msgList[i+1] && msgList[i+1].email != chat.email)|| !msgList[i+1])">
+          <ion-col>
+            <ion-text>{{chat.date | date:"dd/MM HH:mm"}}  {{chat.email}}</ion-text>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-list>
+  
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)=" sendMessage()">
+        <ion-icon name="send" expand="icon-only"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  
+    <ion-row *ngIf="loader">
+      <ion-col no-padding class="loading-col">
+        <div class="imageAvatarRight">
+          <div class="imageAvatarBottomLoader">
+            <ion-avatar class="avatar">
+              <div class="imageAvatarBottomIcon">
+                <ion-icon name="add" expand="icon-only" color="light"> </ion-icon>
+              </div>
+              <ion-img src="../../assets/chat/chat5.jpg"></ion-img>
+            </ion-avatar>
+          </div>
+          <ion-label>
+            <div class="chatDivLoader">
+              <ion-spinner name="dots" color="light"></ion-spinner>
+              <!-- <ion-img src="../../assets/chat/loader.gif"></ion-img> -->
+              <!-- <p text-wrap padding> {{paramData.name || 'Pam'}} is typing...</p> -->
+              <div class="corner-parent-right">
+                <div class="corner-child-right">
+                </div>
+              </div>
+            </div>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  
+  </ion-content>
+
+  <ion-footer>
+    <ion-item>
+      <ion-textarea autosize maxRows="3" class="input-box" placeholder="Write a message..." [(ngModel)]="newMessage" (keypress)="userTyping($event)"></ion-textarea>
+    </ion-item>
+  </ion-footer>
+<!--
+  <ion-grid>
+    <ion-row *ngFor="let message of messages">
+      <ng-container 
+        *ngTemplateOutlet="currentUser !== message.email ?otherMessage : myMessage; context{message: message}">
+      </ng-container>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row class="ion-align-items-center no-padding">
+      <ion-col size="10">
+        <ion-textarea autosize maxRows="4" [(ngModel)]="newMessage" class="messageInput" placeholder="Escribe texto aqui..."></ion-textarea>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button expand="block" fill="clear" color="primary" [disabled]="newMessage === '' " (click)="sendMessage()" class="messageButton">
+          <ion-icon name="send" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
+
+<!------------------------TEMPLATES--------------------------->
+<ng-template #otherMessage let-message='message'>
+  <ion-col size="9" *ngIf="currentUser !== message.email" class="smallText message" id="otherMessage">
+    <b>{{ message.email }}</b>
+    <br>
+    <span class="smallText">{{ message.bodyMessage }}</span>
+    <div class="xsmallText ion-text-right">
+      <br>
+      {{ message.date | date:'short' }}
+    </div>
+  </ion-col>
+</ng-template>
+
+<ng-template #myMessage let-message='message'>
+  <ion-col offset="3" size="9" *ngIf="currentUser === message.email" class="smallText message" id="myMessage">
+    <b>{{ message.username }}</b>
+    <br>
+    <span class="smallText">{{ message.bodyMessage }}</span>
+    <div class="xsmallText ion-text-right">
+      <br>
+      {{ message.date | date:'short' }}
+    </div>
+  </ion-col>
+</ng-template>

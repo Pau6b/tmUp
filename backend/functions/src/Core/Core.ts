@@ -1,2 +1,2 @@
 
-export const sports = ["football", "basketball", "handball", "baseball"];
+export const sports = ["Football", "Basketball", "Handball", "Haseball"];
