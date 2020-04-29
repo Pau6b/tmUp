@@ -32,15 +32,7 @@ export class TeamListPage implements OnInit {
     const loading = await this.loadCtrl.create();
 
     loading.present();
-    this.proveedor.getMe()
-    .subscribe( (data) => {
-      this.me = data;
-      console.log(this.me);
-    },
-    (error) => {
-      console.log(error);
-    });
-
+    
     this.proveedor.getUserTeams()
     .subscribe( (data) => { 
       this.teamList = data;

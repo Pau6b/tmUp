@@ -42,6 +42,7 @@ export class AuthService {
         this.afAuth.auth.currentUser.getIdToken(true)
         .then( (idtoken) => {
           this.token = idtoken.toString();
+          console.log(this.token);
           console.log('token setted');
           //this.router.navigate(['team-list']);
         },
