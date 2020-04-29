@@ -18,6 +18,18 @@ import { Camera } from '@ionic-native/camera/ngx'
 import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { HttpClientModule } from '@angular/common/http';
 
+import { Chooser } from '@ionic-native/chooser/ngx';
+import { File } from '@ionic-native/file/ngx';
+
+import { NgCalendarModule  } from 'ionic2-calendar';
+
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Network } from '@ionic-native/network/ngx'
+import { Connectivity } from '../providers/connectivity/connectivity-service'
+import { googleMaps } from '../providers/googleMaps/google-maps'
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -26,7 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
     IonicModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    NgCalendarModule
   ],
   providers: [
     StatusBar,
@@ -34,6 +47,13 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireAuth,
     Camera,
     AngularFirestore,
+    File,
+    Chooser,
+    Geolocation,
+    InAppBrowser,
+    Network,
+    Connectivity,
+    googleMaps,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],

@@ -6,6 +6,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AngularFireModule } from '@angular/fire';
 
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from './services/auth.service';
+import { AlertController } from '@ionic/angular';
+
+import { apiRestProvider } from '../providers/apiRest/apiRest';
 
 
 @Component({
@@ -15,6 +19,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
+  data;
   public appPages = [
     {
       title: 'Inicio',
@@ -50,11 +55,6 @@ export class AppComponent implements OnInit {
       title: 'Fisioterapeuta',
       url: '',
       icon: 'medkit'
-    },
-    {
-      title: 'Calendario',
-      url: 'calendar',
-      icon: 'calendar'
     }
   ];
 
@@ -62,8 +62,10 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    public afAuth: AngularFireAuth
-    
+    public afAuth: AngularFireAuth,
+    public auth: AuthService,
+    public alertCtrl: AlertController,
+    public proveedor: apiRestProvider
   ) {
     this.initializeApp();
   }
@@ -82,5 +84,27 @@ export class AppComponent implements OnInit {
     }
   }
 
-  
+  async presentConfirm() {
+    this.data = this.proveedor.getProfileInfo();
+    const alert = await this.alertCtrl.create({
+      message: 'Log out of' +  this.data.name +'?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Log Out',
+          handler: () => {
+            this.auth.logOut();
+            console.log('LogOut clicked');
+          }
+        }
+      ]
+    });
+    await alert.present(); 
+  }  
 }

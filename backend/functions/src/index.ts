@@ -21,8 +21,8 @@ admin.initializeApp({
 app.use( cors( { origin: true } ) );
 app.use( expressSession({
   secret: 'ssshhhhh',
-  saveUninitialized: true,
-  resave: true
+  saveUninitialized: false,
+  resave: false
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -33,15 +33,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 /* --- before all requests --- */
 
-/*
-app.use((req, res, next) => {
+function authchecker(req: any, res: any, next: any){
   (async () => {
     if (req.path != '/login') {
-      if (req.session!.token == null) {
-        return res.status(401).send("User is not logged in");
+      if (req.headers.authorization == null) {
+        return res.status(401).send("You must send a token to authentificate");
       }
       let isLogged : boolean = false;
-      await admin.auth.verifyIdToken(req.session!.token)
+      await admin.auth().verifyIdToken(req.headers.authorization)
       .then((payload : any) => {
         req.session!.user = payload.uid;
          isLogged = true;
@@ -52,12 +51,14 @@ app.use((req, res, next) => {
       if (!isLogged) {
         return res.status(401).send("Invalid token");
       }
-      return next();
+      next();
     }
+    return;
   })().then().catch();
-  
-});
-*/
+}
+
+app.use(authchecker);
+
 
 /* --- end of before all requests --- */
 

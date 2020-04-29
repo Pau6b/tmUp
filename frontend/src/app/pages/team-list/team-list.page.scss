@@ -11,3 +11,13 @@ ion-content {
         var(--ion-color-primary-contrast) 100%
     );
 }
+
+ion-row > ion-label{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0.2rem;
+}
+
+ion-row > ion-img {
+    max-width: 0.8rem;
+}

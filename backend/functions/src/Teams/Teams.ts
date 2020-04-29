@@ -156,48 +156,6 @@ app.put('/:teamId', (req, res) => {
     })().then().catch();
 });
 
-app.post('/select/:teamId', (req,res) => {
-    (async() => {
-        try {
-            const team = db.collection('teams').doc(req.params.teamId);
-            let teamExists: boolean = false;
-            await team.get().then( (teamDoc: DocumentSnapshot) => {
-                if(teamDoc.exists) {
-                    teamExists = true;
-                }
-            } );
-            if (!teamExists) {
-                return res.status(400).send("TS1");
-            }
-            req.session!.selectedTeam = req.params.teamId;
-            return res.status(200).send();
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(500).send(error) 
-        }
-    })().then().catch();
-});
-
-app.get('/selected', (req,res) => {
-    (async() => {
-        try{
-            if (!req.session!.selectedTeam) {
-                return res.status(400).send("TS1");
-            }
-            const team = db.collection('teams').doc(req.session!.selectedTeam);
-            const teamData = await team.get().then( (teamDoc: DocumentSnapshot) => {
-                return teamDoc.data();
-            } );
-            return res.status(200).send(teamData);
-        }
-        catch(error) {
-            console.log(error);
-            return res.status(500).send(error);
-        }
-    })().then().catch();
-});
-
 //Delete => Delete
 /*
 app.delete('/:teamName', (req, res) => {

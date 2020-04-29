@@ -3,9 +3,20 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
-
+          <ion-list-header>
+            <ion-item (click)="selectedIndex = -10" routerLink="" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -10">
+              <ion-avatar slot="start">
+                <ion-img src="../../../assets/sports/Football.png"></ion-img>
+              </ion-avatar>
+              <ion-label>Nombre Equipo</ion-label>
+            </ion-item>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item  (click)="selectedIndex = -11" routerLink='team-list' routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -11">
+                <ion-icon slot="end" name="swap-horizontal" rouerLink='team-list'></ion-icon>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list-header>
+          <br>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
@@ -14,19 +25,32 @@
           </ion-menu-toggle>
         </ion-list>
         <ion-list id="inbox-list">
-          <ion-item  (click)="selectedIndex = -1" [routerLink]="" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -1">
-            <ion-icon slot="start" name="stopwatch"></ion-icon>
-            <ion-label>Próximo partido</ion-label>
-          </ion-item>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item  (click)="selectedIndex = -1" routerLink="" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -1">
+              <ion-icon slot="start" routerLink="" name="stopwatch"></ion-icon>
+              <ion-label>Próximo partido</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
         </ion-list>
-
-        <ion-item id="bottom" [routerLink]="" routerDirection="root" lines="none" detail="false">
-          <ion-label>Perfil</ion-label>
-          <ion-icon slot="end" name="swap-horizontal" [routerLink]="team-list"></ion-icon>
-          <ion-icon slot="end" name="settings" [routerLink]="settings"></ion-icon>
-          <ion-icon slot="end" name="log-out"></ion-icon>
-        </ion-item>
-
+          <br>
+        <ion-list-header>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item (click)="selectedIndex = -12" routerLink="profile" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -12">
+              <ion-label><b>Perfil</b></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item  (click)="selectedIndex = -13" routerLink="settings" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -13">
+              <ion-icon slot="end" name="settings" routerLink="settings"></ion-icon>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item  (click)="selectedIndex = -14" routerLink="main" routerDirection="main" lines="none" detail="false" [class.selected]="selectedIndex == -14">
+              <ion-icon slot="end" name="log-out" (click)="presentConfirm()" ></ion-icon>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list-header>  
+        <br>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
