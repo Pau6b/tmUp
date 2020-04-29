@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../src/app/services/auth.service';
+import { Observable } from 'rxjs';
+
 
 interface message {
   id : string
@@ -92,6 +94,21 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+'chats/'+teamId, { headers: this.headers });
   }
+
+  getMessagesObs(chatId: string, teamId: string): Observable<message[]> {
+    this.setHeader();
+    return this.http.get(this.url+'chats/messages/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers })
+      .map(res => {
+        return res.json().results.map(item => {
+          return new message (
+              item.id,
+              item.message,
+              item.username,
+              item.createdAt
+          );
+        });
+      });
+    }
 
   getMessages(chatId: string, teamId: string){
     this.setHeader();

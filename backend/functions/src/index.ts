@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //Per correr el development server => npm run serve dins de la carpeta de functions
 
 /* --- before all requests --- */
-
+/*
 function authchecker(req: any, res: any, next: any){
   (async () => {
     if (req.path != '/login') {
@@ -59,7 +59,7 @@ function authchecker(req: any, res: any, next: any){
 
 app.use(authchecker);
 
-
+*/
 /* --- end of before all requests --- */
 
 /* --- begin of routes --- */

@@ -1,5 +1,7 @@
 import * as express from 'express';
 const admin = require("firebase-admin");
+//import {Observable} from 'rxjs';
+
 //import { UserRecord } from 'firebase-functions/lib/providers/auth';
 const db = admin.firestore();
 const app = express();
@@ -61,6 +63,49 @@ app.get('/:teamId/:chatId', (req, res) => {
             })
 
             return res.status(200).send(response);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
+//ReadAll => GET
+app.get('/obs/:teamId/:chatId', (req, res) => {
+    (async () => {
+        try {
+            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
+            const response: any = [];
+            return new Promise(function(resolve, reject) {
+                setTimeout(() => {
+                    query.onSnapshot((snapshot: any[]) => {
+                        snapshot.forEach(snap => {
+                            const selectedItem  = {
+                                chatId: snap.data().chatId,
+                                email: snap.data().email,
+                                bodyMessage: snap.data().bodyMessage,
+                                date: snap.data().date,
+                                userName: snap.data().userName,
+                                index: snap.data().index
+                            };
+                            response.push(selectedItem);
+                        })
+                        console.log(response);
+                        return res
+                            .status(200)
+                            .json({ response });
+                        return res.status(200).send(response);
+                    })
+                    if(true){
+                        resolve({msg: "It works", response});
+                    }else {
+                        reject({});
+                    }
+                }, 2000);
+            })
+
         }
         catch(error){
             console.log(error);
