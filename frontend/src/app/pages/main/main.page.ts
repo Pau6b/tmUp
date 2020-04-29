@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { getLocaleMonthNames } from '@angular/common';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-main',
@@ -69,11 +70,18 @@ export class MainPage implements OnInit {
         where: null
     }];
 
-  constructor() { }
+  constructor(
+    private menuCtrl: MenuController
+    ) { }
 
   ngOnInit() {
     //inicialitzar variable global array amb tots els events cridant a la funcio a la api rest qe em mostri totes les noticies
     this.NoticiesArray = this.data;
+    
+  }
+
+  ionViewWillEnter(){
+    this.menuCtrl.enable(true);
   }
 
 }
