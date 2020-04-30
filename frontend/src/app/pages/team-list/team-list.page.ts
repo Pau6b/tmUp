@@ -47,7 +47,7 @@ export class TeamListPage implements OnInit {
   goToHomePage(team: string){
     this.apiProv.setTeam(team);
     this.appComponent.updateTeam();
-    this.router.navigate(['main']);
+    this.router.navigate(['/main']);
   }
 
 }

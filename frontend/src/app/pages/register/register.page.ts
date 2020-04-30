@@ -98,7 +98,7 @@ export class RegisterPage implements OnInit {
       buttons: [{
         text: 'Continuar',
         handler: () => {
-          this.router.navigate(['add-team']);
+          this.router.navigate(['/add-team']);
         }
       }]
     });
