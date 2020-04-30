@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
-
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastController, LoadingController, AlertController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
+import { apiRestProvider } from '../../providers/apiRest/apiRest';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  /*user parameters {
-    email: string,
-    displayName: string
-  }*/
   currentUser: any;
-  token: any;
-  currentTeam: null;
 
   error: any;
   loading: any;
@@ -28,8 +22,8 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     public toastCtrl: ToastController,
     private router: Router, 
-    private platform: Platform,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private apiProv: apiRestProvider
   ) { 
     //to test login
     if(this.afAuth.authState != null) this.logOut();
@@ -38,20 +32,16 @@ export class AuthService {
     this.afAuth.auth.onAuthStateChanged( (user) => {
       if(user) {
         this.currentUser = user;
-          console.log(user.email + ' logged');
         this.afAuth.auth.currentUser.getIdToken(true)
         .then( (idtoken) => {
-          this.token = idtoken.toString();
-          console.log(this.token);
-          console.log('token setted');
-          //this.router.navigate(['team-list']);
+          apiProv.setToken(idtoken.toString());
+          console.log(idtoken.toString);
         },
         (err) => {
           console.log('error setting token ' + err.message);
         })
       } else {
         this.currentUser = null;
-        console.log('no user logged');
       }
     }) 
   }
@@ -75,8 +65,9 @@ export class AuthService {
   loginGoogle() {
     firebase.auth().signInWithPopup(this.provider).then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      this.token = (<any>result).credential.accessToken;
-      console.log(this.token);
+      let token = (<any>result).credential.accessToken;
+      this.apiProv.setToken(token);
+      console.log(token);
       // The signed-in user info.
       this.user = result.user;
       console.log(this.user);
@@ -110,10 +101,8 @@ export class AuthService {
       .then(data => {
         this.showToast();
         this.router.navigateByUrl('/profile');
-        console.log(data);
       })
       .catch(err => {
-        console.log(` failed ${err}`);
         this.error = err.message;
       });
   }

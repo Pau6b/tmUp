@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, MenuController, LoadingController } from '@ionic/angular';
+import { MenuController, LoadingController } from '@ionic/angular';
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Router } from '@angular/router';
 
@@ -14,7 +14,7 @@ export class TeamListPage implements OnInit {
   me;
 
   constructor(
-    public proveedor:apiRestProvider,
+    public proveedor: apiRestProvider,
     public router: Router,
     public menuCtrl: MenuController,
     public loadCtrl: LoadingController
