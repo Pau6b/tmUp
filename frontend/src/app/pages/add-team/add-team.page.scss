@@ -5,7 +5,7 @@
 ion-header, ion-title, ion-toolbar{
 	--background: var(--ion-color-primary);
 	color: white;
-    text-align: center;
+	text-align: center;
 }
 
 ion-segment {
@@ -16,11 +16,8 @@ ion-segment-button {
 	--color-checked: black;
 }
 
-ion-back-button {
-	display: block;
-}
 /* ------------------------------
-        MAIN CONTENT
+      	  MAIN CONTENT
 	------------------------------ */
 
 form {
@@ -40,13 +37,14 @@ ion-list {
 
 ion-avatar {
 	cursor: pointer;
-	height: 100% !important;
+	height: 4em !important;
 	margin: 0 auto;
-	max-height: 4em !important;
-	max-width: 4em !important;
-	width: 100% !important;
+	width: 4em !important;
 }
 
-.endButton {
-	margin: 3em 0em;
+.smallText {
+	color: var(--ion-color-primary);
+	cursor: pointer;
+	justify-self: center;
+	text-decoration-line: underline;
 }
