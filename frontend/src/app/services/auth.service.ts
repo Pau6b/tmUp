@@ -16,7 +16,6 @@ export class AuthService {
   error: any;
   loading: any;
   provider = new firebase.auth.GoogleAuthProvider();
-  user;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -35,10 +34,6 @@ export class AuthService {
         this.afAuth.auth.currentUser.getIdToken(true)
         .then( (idtoken) => {
           apiProv.setToken(idtoken.toString());
-          console.log(idtoken.toString);
-        },
-        (err) => {
-          console.log('error setting token ' + err.message);
         })
       } else {
         this.currentUser = null;
@@ -67,21 +62,9 @@ export class AuthService {
       // This gives you a Google Access Token. You can use it to access the Google API.
       let token = (<any>result).credential.accessToken;
       this.apiProv.setToken(token);
-      console.log(token);
       // The signed-in user info.
-      this.user = result.user;
-      console.log(this.user);
+      this.currentUser = result.user;
       this.router.navigate(['team-list']);
-      // ...
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
     });
   }
 

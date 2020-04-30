@@ -27,9 +27,7 @@ export class TeamListPage implements OnInit {
       this.initialize();
     }, 1000);
    }
-
-  
-
+   
   async initialize() {
     const loading = await this.loadCtrl.create();
 
@@ -38,11 +36,7 @@ export class TeamListPage implements OnInit {
     this.apiProv.getUserTeams()
     .subscribe( (data) => { 
       this.teamList = data;
-      console.log(this.teamList);
       loading.dismiss();
-    },
-    (error) => {
-      console.log(error);
     });
   }
 

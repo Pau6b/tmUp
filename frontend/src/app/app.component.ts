@@ -85,11 +85,9 @@ export class AppComponent implements OnInit {
   }
 
   public updateTeam() {
-    if (this.apiProv.getTeam() != "") {
+    if (this.apiProv.getTeamId() != "") {
       this.apiProv.getCurrentTeam().subscribe((data) => {
         this.team = data;
-        console.log("ESTOY EN APP COMPONENT");
-        console.log(data);
       });
     }
   }
@@ -102,15 +100,11 @@ export class AppComponent implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
         },
         {
           text: 'Log Out',
           handler: () => {
             this.auth.logOut();
-            console.log('LogOut clicked');
           }
         }
       ]

@@ -28,7 +28,7 @@ export class apiRestProvider {
     this.currentTeam = team;
   }
 
-  public getTeam(): string {
+  public getTeamId(): string {
     return this.currentTeam;
   }
 
@@ -40,7 +40,6 @@ export class apiRestProvider {
 
   public getMe(){
     this.setHeader();
-    console.log(this.headers);
     return this.http.get(this.url+'users/me', { headers: this.headers });
   }
 

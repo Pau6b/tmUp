@@ -26,6 +26,7 @@ export class AddEventPage implements OnInit {
   });
   
   createMatchForm = this.formBuilder.group({
+    teamId: [this.apiProv.getTeamId()],
     type: ['match'],
     title: ['', [Validators.required]],
     rival: ['', [Validators.required]],
@@ -36,6 +37,7 @@ export class AddEventPage implements OnInit {
   });
 
   createTrainingForm = this.formBuilder.group({
+    teamId: [this.apiProv.getTeamId()],
     type:['training'],
     title: ['', [Validators.required]],
     location: this.locationForm,

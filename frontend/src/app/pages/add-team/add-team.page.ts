@@ -4,6 +4,8 @@ import { FormBuilder, Validators} from '@angular/forms'
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
+import { sports } from '../../Core/Arrays';
+import { rols } from '../../Core/Arrays';
 
 @Component({
   selector: 'app-add-team',
@@ -12,15 +14,14 @@ import { Router } from '@angular/router';
 })
 export class AddTeamPage implements OnInit {
 
-  sportsLists = ['Football', 'Basketball', 'Handball','Baseball']
-  roles = ['Fisioterapeuta', 'Jugador']
+  sportsLists = sports;
+  roles = rols;
 
   segmentModel = "create";
 
   createTeamForm = this.formBuilder.group({
     teamName: ['', [Validators.required]],
-    sport: ['', [Validators.required]],
-    teamPhoto: ['']
+    sport: ['', [Validators.required]]
   });
 
   joinTeamForm = this.formBuilder.group({
@@ -77,14 +78,14 @@ export class AddTeamPage implements OnInit {
   onDone() {
     if(this.segmentModel == "create") {
       this.apiProv.createTeam(this.createTeamForm.value)
-      .then( () => {
-        this.router.navigate(['/team-list']);
+      .then( (data) => {
+        this.router.navigate(['/main']);
       })
     }
     else {
       this.apiProv.createMembership(this.joinTeamForm.value)
       .then( () => {
-        this.router.navigate(['/team-list']);
+        this.router.navigate(['/main']);
       })
     }
 

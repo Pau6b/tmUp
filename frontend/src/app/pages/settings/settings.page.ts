@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { languages } from '../../Core/Languages'
+import { languages } from '../../Core/Arrays'
 
 @Component({
   selector: 'app-settings',
