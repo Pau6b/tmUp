@@ -7,6 +7,7 @@ import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,31 +20,33 @@ export class ProfilePage implements OnInit {
   myPhoto: any;
   profileInfo;
 
-  ngOnInit() {
-    this.proveedor.getProfileInfo()
+  public  constructor(
+    public formBuilder: FormBuilder,
+    public apiProv: apiRestProvider,
+    public camera: Camera,
+    public actionSheetCtrl: ActionSheetController,
+    public alertCtrl: AlertController,
+    public authService: AuthService,
+    private photoServ: PhotoService
+  ) { }
+
+  public ngOnInit() {
+    this.apiProv.getMe()
     .subscribe(
       (data) => { 
-        console.log("------------------------");
-        console.log(this.profileInfo);
-        console.log("------------------------");
-        console.log(data);
-        console.log("------------------------");
         this.profileInfo = data;
-        
-      },
-      (error) => {console.log(error);}
-    );
+        this.updateForm.patchValue({userName: this.profileInfo.userName});
+        this.updateForm.patchValue({email: this.profileInfo.email});
+      });
   }
 
   //declarar formulario this.profileInfo.displayname this.profileInfo.email
   updateForm = this.formBuilder.group({
     userName: [ 
-      "juanjo", [Validators.required, Validators.minLength(3)]
-      //this.profileInfo.displayname, [Validators.required, Validators.minLength(3)]
+      "", [Validators.required, Validators.minLength(3)]
     ],
     email: [
-      "juanjo@tmup.com", [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
-      //this.profileInfo.email, [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
+      "", [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
     ]
   });
 
@@ -60,18 +63,6 @@ export class ProfilePage implements OnInit {
 
   public InputClick: boolean = false;
 
-  
-  constructor(
-    public formBuilder: FormBuilder,
-    public proveedor:apiRestProvider,
-    public camera: Camera,
-    public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController,
-    public authService: AuthService
-  ) { }
-
-  
-
   //getters for form
   get userName() {
     return this.updateForm.get("userName");
@@ -81,99 +72,36 @@ export class ProfilePage implements OnInit {
   }
 
   //submit update form
-  updateProfileUser() {
-    this.proveedor.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
+  public updateProfileUser() {
+    this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
   }
 
   //Camera options
-  async cameraOptions() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Choose image from',
-      buttons: [
-        {
-          text: 'Camera',
-          handler: () => {
-            this.takePhoto();
-          }
-        },
-        {
-          text: 'Library',
-          handler: () => {
-            this.choosePhoto();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    await actionSheet.present();
+  public async cameraOptions() {
+    this.photoServ.alertSheetPictureOptions()
+    .then( (photo) => {
+      this.myPhoto = photo;
+    })
   }
 
-  takePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.CAMERA
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.myPhoto = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-     console.log('Camera error:' + err)
-    });
-  }
-
-  choosePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.myPhoto = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-     console.log('Camera error:' + err)
-    });
-  }
-
-  onInputClick() {
+  public onInputClick() {
     if (this.InputClick === false ) {
       this.InputClick = true;
     }
   }
 
-  async presentConfirm() {
+  public async presentConfirm() {
     const alert = await this.alertCtrl.create({
       message: 'Recibirá un correo electrónico en (correo electronico) para realizar el cambio de contraseña. ',
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
+          role: 'cancel'
         },
         {
           text: 'Comfirmar',
           handler: () => {
-            this.authService.recover('csanchezflaquer@gmail.com');
-            console.log('OK clicked');
+            this.authService.recover(this.profileInfo.email);
           }
         }
       ]

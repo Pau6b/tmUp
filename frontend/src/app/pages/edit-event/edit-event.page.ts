@@ -11,8 +11,7 @@ import { LocationSelectPage } from '../location-select/location-select.page';
   styleUrls: ['./edit-event.page.scss'],
 })
 export class EditEventPage implements OnInit {
-  
-  teamId: string;
+
   event: any;
 
   locationForm = this.formBuilder.group({
@@ -22,7 +21,6 @@ export class EditEventPage implements OnInit {
   });
 
   editEventForm = this.formBuilder.group({
-    teamId:[this.teamId],
     eventId: ['',[Validators.required]],
     type: ['',[Validators.required]],
     title: ['',[Validators.required]],
@@ -35,17 +33,15 @@ export class EditEventPage implements OnInit {
   });
 
   constructor(
+    private apiProv: apiRestProvider,
+    private formBuilder: FormBuilder,
+    private modalCtrl: ModalController,
     private route: ActivatedRoute,
-    private router: Router,
-    public formBuilder: FormBuilder,
-    public api: apiRestProvider,
-    public modalCtrl: ModalController
+    private router: Router
   ) { 
-    this.teamId = 'C0Wytx9JMIKgyIbfGAnC';
     this.route.queryParams.subscribe(params => {
       this.event = this.router.getCurrentNavigation().extras.state.ev;
       this.editEventForm.patchValue({
-        teamId: this.teamId,
         eventId: this.event.id,
         type: this.event.type,
         title: this.event.title,
@@ -60,7 +56,7 @@ export class EditEventPage implements OnInit {
         this.editEventForm.patchValue({description: this.event.description});
       }
     });
-   }
+  }
 
   ngOnInit() {
   }
@@ -68,7 +64,6 @@ export class EditEventPage implements OnInit {
   dateChanged(date) {
     let time = new Date(date.detail.value)
     time.setMinutes(time.getMinutes()+60);
-    //update form values
     this.editEventForm.patchValue({endTime: time.toISOString()});
   }
 
@@ -76,7 +71,6 @@ export class EditEventPage implements OnInit {
     let modal = await this.modalCtrl.create({
       component: LocationSelectPage
     });
-    //get latitude, longitud and name of location
     modal.onDidDismiss().then((location) => {
       this.editEventForm.patchValue(location.data);
     });
@@ -84,36 +78,23 @@ export class EditEventPage implements OnInit {
   }
 
   deleteEvent() {
-    //call api to delete event depending on type
-    this.api.deleteEvent(this.teamId, this.event.id)
+    this.apiProv.deleteEvent(this.event.id)
     .then(() => {
-      console.log('eliminado');
       this.router.navigate(['/calendar']);
-    },
-    (err) => {
-      console.log('error' + err.message);
     });
   }
 
   onDone() {
-    console.log(this.editEventForm.value);
-    //call api to modify event
     if(this.event.type == "match") {
-      this.api.editMatch(this.editEventForm.value)
+      this.apiProv.editMatch(this.editEventForm.value)
       .then(() => {
         this.router.navigate(['/calendar']);
-      },
-      (err) => {
-        console.log(err.message);
       });
     }
     else {
-      this.api.editTraining(this.editEventForm.value)
+      this.apiProv.editTraining(this.editEventForm.value)
       .then(() => {
         this.router.navigate(['/calendar']);
-      },
-      (err) => {
-        console.log(err.message);
       });
     }
   }

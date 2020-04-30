@@ -4,11 +4,11 @@
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>
-            <ion-item (click)="selectedIndex = -10" routerLink="" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -10">
+            <ion-item (click)="selectedIndex = -10" routerLink="/main" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -10">
               <ion-avatar slot="start">
                 <ion-img src="../../../assets/sports/Football.png"></ion-img>
               </ion-avatar>
-              <ion-label>Nombre Equipo</ion-label>
+              <ion-label *ngIf="team != null" >{{team.teamName}}</ion-label>
             </ion-item>
             <ion-menu-toggle auto-hide="false">
               <ion-item  (click)="selectedIndex = -11" routerLink='team-list' routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -11">
@@ -36,7 +36,7 @@
         <ion-list-header>
           <ion-menu-toggle auto-hide="false">
             <ion-item (click)="selectedIndex = -12" routerLink="profile" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -12">
-              <ion-label><b>Perfil</b></ion-label>
+              <ion-label>Perfil</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false">

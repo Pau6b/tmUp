@@ -7,10 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: AddTeamPage
-  },
-  {
-    path: 'team-list',
-    loadChildren: () => import('../team-list/team-list.module').then( m => m.TeamListPageModule)
   }
 ];
 

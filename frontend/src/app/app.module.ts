@@ -12,7 +12,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Camera } from '@ionic-native/camera/ngx'
 import { apiRestProvider } from '../providers/apiRest/apiRest';
@@ -46,7 +45,6 @@ import { googleMaps } from '../providers/googleMaps/google-maps'
     SplashScreen,
     AngularFireAuth,
     Camera,
-    AngularFirestore,
     File,
     Chooser,
     Geolocation,

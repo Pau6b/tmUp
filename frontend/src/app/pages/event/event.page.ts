@@ -19,11 +19,11 @@ export class EventPage implements OnInit {
   currentLoc: any;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private loadingCtrl: LoadingController,
     private geolocation: Geolocation,
-    private iab: InAppBrowser
+    private iab: InAppBrowser,
+    private loadingCtrl: LoadingController,
+    private route: ActivatedRoute,
+    private router: Router
   ) { 
     this.route.queryParams.subscribe(params => {
       this.event = this.router.getCurrentNavigation().extras.state.ev;
@@ -55,23 +55,19 @@ export class EventPage implements OnInit {
   }
 
   async loadMap() {
-    //loading circle
     const loading = await this.loadingCtrl.create();
     loading.present();
-    //get the location
     const myLatLng = {
       lat: this.event.location.latitude,
       lng: this.event.location.longitude
     };
     const mapEle: HTMLElement = document.getElementById('map');
-    // create map
     const map = new google.maps.Map(mapEle, {
       center: myLatLng,
       zoom: 12
     });
     google.maps.event
     .addListenerOnce(map, 'idle', () => {
-      // map loaded, we don't need the loading circle anymore
       loading.dismiss();
       const marker = new google.maps.Marker({
         position: {

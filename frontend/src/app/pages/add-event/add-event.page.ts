@@ -15,13 +15,10 @@ import { LocationSelectPage } from '../location-select/location-select.page'
 })
 export class AddEventPage implements OnInit {
 
-  teamId = 'C0Wytx9JMIKgyIbfGAnC';
-
   segmentModel = 'match';
   startdate = new Date();
   endTime = new Date(new Date().setMinutes(this.startdate.getMinutes()+60));
 
-  //create match form group
   locationForm = this.formBuilder.group({
     latitude: [null, [Validators.required]],
     longitude: [null, [Validators.required]],
@@ -29,7 +26,7 @@ export class AddEventPage implements OnInit {
   });
   
   createMatchForm = this.formBuilder.group({
-    teamId: [this.teamId],
+    teamId: [this.apiProv.getTeamId()],
     type: ['match'],
     title: ['', [Validators.required]],
     rival: ['', [Validators.required]],
@@ -40,7 +37,7 @@ export class AddEventPage implements OnInit {
   });
 
   createTrainingForm = this.formBuilder.group({
-    teamId: [this.teamId],
+    teamId: [this.apiProv.getTeamId()],
     type:['training'],
     title: ['', [Validators.required]],
     location: this.locationForm,
@@ -51,10 +48,10 @@ export class AddEventPage implements OnInit {
   });
 
   constructor(
-    private router: Router,
-    public formBuilder: FormBuilder,
-    public api: apiRestProvider,
-    public modalCtrl: ModalController
+    private apiProv: apiRestProvider,
+    private formBuilder: FormBuilder,
+    private modalCtrl: ModalController,
+    private router: Router
   ) {  }
 
   ngOnInit() {
@@ -63,7 +60,6 @@ export class AddEventPage implements OnInit {
   dateChanged(date) {
     this.endTime = new Date(date.detail.value);
     this.endTime.setMinutes(this.endTime.getMinutes()+60);
-    //update form values
     if(this.segmentModel === "match") {
       this.createMatchForm.patchValue({endTime: this.endTime.toISOString()});
     }
@@ -94,25 +90,15 @@ export class AddEventPage implements OnInit {
 
   onAdd() {
     if (this.segmentModel == "match") {
-      console.log(this.createMatchForm.value);
-      this.api.createMatch(this.createMatchForm.value)
+      this.apiProv.createMatch(this.createMatchForm.value)
       .then( () => {
-        //navigate to calendar
         this.router.navigate(['/calendar']);
-      },
-      (err) => {
-        console.log(err.message);
       });
     }
     else {
-      console.log(this.createTrainingForm.value);
-      this.api.createTraining(this.createTrainingForm.value)
+      this.apiProv.createTraining(this.createTrainingForm.value)
       .then( () => {
-        //navigate to calendar
         this.router.navigate(['/calendar']);
-      },
-      (err) => {
-        console.log(err.message);
       });
     }
   }

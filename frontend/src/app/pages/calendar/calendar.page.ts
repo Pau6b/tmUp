@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { Router, NavigationExtras } from '@angular/router';
 
 import { CalendarComponent } from 'ionic2-calendar/calendar';
@@ -17,8 +16,6 @@ export class CalendarPage implements OnInit {
 
   @ViewChild(CalendarComponent ,{static: false}) myCal: CalendarComponent;
 
-  teamId = 'C0Wytx9JMIKgyIbfGAnC';
-
   calendar = {
     mode: 'month',
     currentDate: new Date(),
@@ -31,20 +28,11 @@ export class CalendarPage implements OnInit {
 
   eventSource = [];
 
-  //to know which type of events are
-  eventExists(events, type) {
-    for (let i = 0; i < events.length; i++) {
-      const event = events[i];
-      if (type === 'training' && event.type === 'training') return true;
-      else if (type === 'match' && event.type === 'match') return true;
-    }
-  }
-
   constructor(
-    private router: Router,
-    private api: apiRestProvider,
+    private apiProv: apiRestProvider,
+    private datePipe: DatePipe,
     private loadingCtrl: LoadingController,
-    private datePipe: DatePipe
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -57,7 +45,7 @@ export class CalendarPage implements OnInit {
   private async loadMonthEvents(month) {
     const loading = await this.loadingCtrl.create();
     loading.present();
-    this.api.getEventsOfMonth(this.teamId , month)
+    this.apiProv.getEventsOfMonth( month )
     .subscribe( (events) => {
       this.eventSource = [];
       let tmp: any;
@@ -78,11 +66,16 @@ export class CalendarPage implements OnInit {
       });
       this.myCal.loadEvents();
       loading.dismiss();
-      console.log(this.eventSource);
-    },
-    (err) => {
-      console.log(err.message);
     });
+  }
+
+  //to know which type of events are
+  eventExists(events, type) {
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      if (type === 'training' && event.type === 'training') return true;
+      else if (type === 'match' && event.type === 'match') return true;
+    }
   }
 
   addEvent() {
@@ -91,8 +84,6 @@ export class CalendarPage implements OnInit {
 
   onCurrentDateChanged = (ev: Date) => {
     if(this.currentMonth.toString() != this.datePipe.transform(ev, 'MMMM yyyy') ) {
-      console.log('events updated');
-      
       this.loadMonthEvents(ev.getMonth());
     }
   };

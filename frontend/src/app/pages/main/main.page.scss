@@ -1,72 +1,54 @@
-ion-title{
-    text-align: center;
-}
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
 
 ion-content {
-    width: 100% auto !important;
-    margin: 0 auto;
+  margin: 0 auto;
+  width: 100% auto !important;
 }
 
 ion-card {
-    box-shadow: none;
-    //background-color:  var(--ion-color-primary);
+  box-shadow: none;
+  padding: 1em 0em;
 }
 
 ion-card-header {
-    font-size: 20px;
-    color: white;
-    text-align: center;
+  color: var(--ion-color-primary);
+  font-size: 20px;
+  text-align: center;
+}
+
+ion-card-title {
+  font-weight: bold;
+  font-style: italic;
 }
 
 ion-card-content{
-    text-align: center;
+  color: black;
+  text-align: center;
 }
 
 p {
-    text-align: center;
+  text-align: center;
+}
+
+.boldText {
+  font-weight: bold;
+}
+
+.italicText {
+  font-style: italic;
 }
 
 mark{
-    background-color: rgba(var(--ion-color-primary-rgb), 0.70);
+  background-color: rgba(var(--ion-color-primary-rgb), 0.70);
 }
 
 .toolbar {
-    text-align: center;
-    font-size: 25px;
+  font-size: 25px;
+  text-align: center;
 }
 
 .no_noticias {
-    background-color: rgba(var(--ion-color-primary-rgb), 0.20);
-}
-
-
-.calendar {
-    background-image: url('~/../../assets/main_images/calendar-banner.jpg');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.chat {
-    background-image: url('~/../../assets/main_images/chat-online.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.tacticas {
-    background-image: url('~/../../assets/main_images/tacticas-banner.jpg');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.estadisticas {
-    background-image: url('~/../../assets/main_images/triangle.png');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.noticias {
+  background-color: rgba(var(--ion-color-primary-rgb), 0.20);
 }
