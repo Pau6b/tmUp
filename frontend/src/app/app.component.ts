@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
   }
 
   async presentConfirm() {
-    this.data = this.proveedor.getProfileInfo();
+    this.data = this.proveedor.getMe();
     const alert = await this.alertCtrl.create({
       message: 'Log out of' +  this.data.name +'?',
       buttons: [

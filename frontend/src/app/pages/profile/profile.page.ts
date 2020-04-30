@@ -29,10 +29,13 @@ export class ProfilePage implements OnInit {
   ) { }
 
   public ngOnInit() {
-    this.apiProv.getProfileInfo()
+    this.apiProv.getMe()
     .subscribe(
       (data) => { 
         this.profileInfo = data;
+        console.log(this.updateForm);
+        this.updateForm.patchValue({userName: this.profileInfo.userName});
+        this.updateForm.patchValue({email: this.profileInfo.email});
       },
       (error) => {console.log(error);}
     );
@@ -41,10 +44,10 @@ export class ProfilePage implements OnInit {
   //declarar formulario this.profileInfo.displayname this.profileInfo.email
   updateForm = this.formBuilder.group({
     userName: [ 
-      "juanjo", [Validators.required, Validators.minLength(3)]
+      "", [Validators.required, Validators.minLength(3)]
     ],
     email: [
-      "juanjo@tmup.com", [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
+      "", [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
     ]
   });
 

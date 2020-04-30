@@ -41,18 +41,13 @@ export class apiRestProvider {
     return this.http.get(this.url+'users/me', { headers: this.headers });
   }
 
-  public getProfileInfo() {
-    this.setHeader();
-    return this.http.get(this.url+'users/demo@tmup.com', { headers: this.headers });
-  }
-
   public updateProfileInfo(name, email) {
     this.setHeader();      
   }
 
   public getUserTeams(){
     this.setHeader();
-    return this.http.get(this.url+'users/juanjo@tmup.com/teams', { headers: this.headers });
+    return this.http.get(this.url+'users/me/teams', { headers: this.headers });
   }
 
   //TEAMS
