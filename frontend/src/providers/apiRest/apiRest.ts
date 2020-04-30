@@ -94,7 +94,7 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+'chats/'+teamId, { headers: this.headers });
   }
-
+/*
   getMessagesObs(chatId: string, teamId: string): Observable<message[]> {
     this.setHeader();
     return this.http.get(this.url+'chats/messages/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers })
@@ -109,7 +109,7 @@ export class apiRestProvider {
         });
       });
     }
-
+*/
   getMessages(chatId: string, teamId: string){
     this.setHeader();
     /*return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
@@ -119,7 +119,7 @@ export class apiRestProvider {
           return data;
       })
     }))*/
-    return this.http.get(this.url+'chats/messages/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
+    return this.http.get(this.url+'chats/messages/obs/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
     //return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId, { headers: this.headers });
   }
 
