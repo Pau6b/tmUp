@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 
-import { NavController, Platform, ModalController } from '@ionic/angular'
+import { NavController, ModalController } from '@ionic/angular'
 
 import { googleMaps } from '../../../providers/googleMaps/google-maps'
 declare var google;
@@ -24,11 +24,9 @@ export class LocationSelectPage implements OnInit {
   location: any;  
 
   constructor(
-    public navCtrl: NavController,
-    public zone: NgZone,
-    public maps: googleMaps,
-    public platform: Platform,
-    public modalCtrl: ModalController
+    private maps: googleMaps,
+    private modalCtrl: ModalController,
+    private zone: NgZone
   ) {
     this.searchDisabled = true;
     this.saveDisabled = true;
