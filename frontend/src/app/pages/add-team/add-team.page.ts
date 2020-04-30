@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
-import {  MenuController, NavController } from '@ionic/angular';
-
+import {  MenuController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
-
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 import { PhotoService } from '../../services/photo.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-team',
@@ -13,29 +11,26 @@ import { PhotoService } from '../../services/photo.service'
   styleUrls: ['./add-team.page.scss'],
 })
 export class AddTeamPage implements OnInit {
-  
-  myPhoto: any;
 
-  sportsLists = ['football', 'basketball', 'handball','baseball']
+  sportsLists = ['Football', 'Basketball', 'Handball','Baseball']
   roles = ['Fisioterapeuta', 'Jugador']
 
   segmentModel = "create";
 
-  //create team form
   createTeamForm = this.formBuilder.group({
     teamName: ['', [Validators.required]],
-    sport: ['', [Validators.required]]
+    sport: ['', [Validators.required]],
+    teamPhoto: ['']
   });
 
-  //join team form
   joinTeamForm = this.formBuilder.group({
     teamId: ['', [Validators.required]],
     userId: [''],
-    role: ['']
+    role: ['', [Validators.required]]
   });
 
 
-  public errorMessages = {
+  errorMessages = {
     teamName: [
       { type: 'required', message: 'Nombre equipo es necesario'},
       { type: 'minlength', message: 'Nombre debe tener más de 3 letras'}
@@ -52,22 +47,20 @@ export class AddTeamPage implements OnInit {
   }
 
   constructor(
-    public navCtrl: NavController,
-    public menuCtrl: MenuController,
-    public formBuilder: FormBuilder,
-    public api: apiRestProvider,
-    public photoServ: PhotoService
+    private apiProv: apiRestProvider,
+    private formBuilder: FormBuilder,
+    private menuCtrl: MenuController,
+    private photoServ: PhotoService,
+    private router: Router
     ) { }
 
   ngOnInit() {
   }
 
-  //disable side menu for this page
   ionViewWillEnter() {
     this.menuCtrl.enable(false);
   }
 
-  //getters
   get teamName() {
     return this.createTeamForm.get("teamName")
   }
@@ -75,43 +68,33 @@ export class AddTeamPage implements OnInit {
     return this.createTeamForm.get("sport")
   }
   get role() {
-    return this.createTeamForm.get("role")
+    return this.joinTeamForm.get("role")
   }
   get teamId() {
-    return this.joinTeamForm.get("teamID")
+    return this.joinTeamForm.get("teamId")
   }
 
-  //calling api rest to create team
-  createTeam() {
-    console.log(this.createTeamForm.value);
-    this.api.createTeam(this.createTeamForm.value)
-    .then( () => {
-      //team created      
-      console.log('team created succesfully.');
-      this.navCtrl.navigateRoot("team-list");
-    },
-    (error) => {
-      //handle error
-      console.log(error.message);
-      this.navCtrl.navigateRoot("team-list");
-    });
+  onDone() {
+    if(this.segmentModel == "create") {
+      this.apiProv.createTeam(this.createTeamForm.value)
+      .then( () => {
+        this.router.navigate(['/team-list']);
+      })
+    }
+    else {
+      this.apiProv.createMembership(this.joinTeamForm.value)
+      .then( () => {
+        this.router.navigate(['/team-list']);
+      })
+    }
+
   }
 
-  //calling api rest to join team
-  joinTeam() {
-    console.log(this.joinTeamForm.value);
-    this.api.createMembership(this.joinTeamForm.value)
-    .then( () => {
-      console.log("user added to team");
-    },
-    (error) => {
-      console.log(error.message);
-    });
-  }
-
-  //camera options
   cameraOptions() {
-    this.photoServ.alertSheetPictureOptions();
+    this.photoServ.alertSheetPictureOptions()
+    .then( (photo) => {
+      this.createTeamForm.patchValue({teamPhoto: photo});
+    });
   }
 
 }

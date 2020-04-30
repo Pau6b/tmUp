@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { getLocaleMonthNames } from '@angular/common';
+import { MenuController } from '@ionic/angular';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-main',
@@ -7,73 +8,50 @@ import { getLocaleMonthNames } from '@angular/common';
   styleUrls: ['./main.page.scss'],
 })
 export class MainPage implements OnInit {
-  public selectedIndex = 0;
-  welcome = true;
+  
+  welcome;
   NoticiesArray;
-  //variable amb totes les noticies
-  data = [
+  public WelcomeMsgs = [
     {
-        id: 1,
-        name: "normativa",
-        added: "Lunes 20 de Abril a las 19:00h",
-        date: null,
-        where: null
+      url: '/calendar',
+      title: 'Añade y consulta eventos en tu calendario',
+      description: 'Crea un calendario con los partidos y entrenamientos de la temporada.',
+      image: 'calendar-banner.jpg'
     },
     {
-        id: 2,
-        name: "tacticas",
-        added: "Lunes 27 de Abril a las 9:47h",
-        date: null,
-        where: null
+      url: '/chat',
+      title: 'Chatea con tu equipo',
+      description: 'Chatea con tu entrenador y compañeros de equipo para una mejor comunicacion.',
+      image: 'chat-online.png'
     },
     {
-        id: 3,
-        name: "entreno",
-        added: "Miércoles 2 de Mayo a las 14:09h",
-        date: "30 de Mayo 2020",
-        where: "Calle Roger de Flor, 204"
+      url: '/tactics',
+      title: 'Tacticas equipo',
+      description: 'Estate informado de las tacticas de tu equipo.',
+      image: 'tacticas-banner.jpg'
     },
     {
-        id: 4,
-        name: "partido",
-        added: "Domingo 7 de Mayo a las 20:57h",
-        date: "Domingo 20 de Junio",
-        where: "Estadio ..."
-    },
-    {
-        id: 5,
-        name: "partido finalizado",
-        added: "Domingo 20 de Junio a las 20:57h",
-        date: "Domingo 20 de Junio",
-        where: null
-    },
-    {
-        id: 6,
-        name: "partido",
-        added: "Domingo 20 de Junio a las 20:57h",
-        date: "Domingo 20 de Junio",
-        where: null
-    },
-    {
-        id: 7,
-        name: "normativa",
-        added: "Domingo 20 de Junio a las 20:57h",
-        date: "Domingo 20 de Junio",
-        where: null
-    },
-    {
-        id: 8,
-        name: "entreno",
-        added: "Domingo 20 de Junio a las 20:57h",
-        date: "Domingo 20 de Junio",
-        where: null
-    }];
-
-  constructor() { }
+      url: '/main', /*cambiar a estadisticas*/
+      title: 'Estadisticas de tu equipo y personales',
+      description: 'Consulta las estadisticas de tu equipo y personales.',
+      image: 'triangle.png'
+    }
+  ];
+  
+  constructor(
+    private menuCtrl: MenuController,
+    private apiProv: apiRestProvider
+  ) { }
 
   ngOnInit() {
-    //inicialitzar variable global array amb tots els events cridant a la funcio a la api rest qe em mostri totes les noticies
-    this.NoticiesArray = this.data;
+    //call api to get notifications
+
+    if(this.NoticiesArray == null) this.welcome = true;
+    else this.welcome = false;
+  }
+
+  ionViewWillEnter(){
+    this.menuCtrl.enable(true);
   }
 
 }

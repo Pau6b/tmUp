@@ -10,13 +10,13 @@
           CONTENT
 ------------------------------ */
     .file{
-        padding-bottom: 1rem;
         border-bottom: solid lightgrey 0.1rem;
+        padding-bottom: 1rem;
 
         ion-item{
             --background: lightgrey;
-            border: solid grey 0.1rem;
             border-radius: 0.5rem;
+            border: solid grey 0.1rem;
             cursor: pointer;
             margin: 1rem 1rem;
 

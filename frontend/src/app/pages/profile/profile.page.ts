@@ -19,10 +19,24 @@ export class ProfilePage implements OnInit {
   myPhoto: any;
   profileInfo;
 
-  ngOnInit() {
-    this.proveedor.getProfileInfo()
+  public  constructor(
+    public formBuilder: FormBuilder,
+    public apiProv: apiRestProvider,
+    public camera: Camera,
+    public actionSheetCtrl: ActionSheetController,
+    public alertCtrl: AlertController,
+    public authService: AuthService
+  ) { }
+
+  public ngOnInit() {
+    this.apiProv.getMe()
     .subscribe(
-      (data) => { this.profileInfo = data;},
+      (data) => { 
+        this.profileInfo = data;
+        console.log(this.updateForm);
+        this.updateForm.patchValue({userName: this.profileInfo.userName});
+        this.updateForm.patchValue({email: this.profileInfo.email});
+      },
       (error) => {console.log(error);}
     );
   }
@@ -30,10 +44,10 @@ export class ProfilePage implements OnInit {
   //declarar formulario this.profileInfo.displayname this.profileInfo.email
   updateForm = this.formBuilder.group({
     userName: [ 
-      this.profileInfo.displayname, [Validators.required, Validators.minLength(3)]
+      "", [Validators.required, Validators.minLength(3)]
     ],
     email: [
-      this.profileInfo.email, [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
+      "", [ Validators.required, Validators.pattern('^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-z]{2,4}$') ]
     ]
   });
 
@@ -50,18 +64,6 @@ export class ProfilePage implements OnInit {
 
   public InputClick: boolean = false;
 
-  
-  constructor(
-    public formBuilder: FormBuilder,
-    public proveedor:apiRestProvider,
-    public camera: Camera,
-    public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController,
-    public authService: AuthService
-  ) { }
-
-  
-
   //getters for form
   get userName() {
     return this.updateForm.get("userName");
@@ -71,12 +73,12 @@ export class ProfilePage implements OnInit {
   }
 
   //submit update form
-  updateProfileUser() {
-    this.proveedor.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
+  public updateProfileUser() {
+    this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
   }
 
   //Camera options
-  async cameraOptions() {
+  public async cameraOptions() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Choose image from',
       buttons: [
@@ -96,7 +98,6 @@ export class ProfilePage implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
           }
         }
       ]
@@ -104,7 +105,7 @@ export class ProfilePage implements OnInit {
     await actionSheet.present();
   }
 
-  takePhoto() {
+  public takePhoto() {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -123,7 +124,7 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  choosePhoto() {
+  public choosePhoto() {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -138,17 +139,16 @@ export class ProfilePage implements OnInit {
      this.myPhoto = 'data:image/jpeg;base64,' + imageData;
     }, (err) => {
      // Handle error
-     console.log('Camera error:' + err)
     });
   }
 
-  onInputClick() {
+  public onInputClick() {
     if (this.InputClick === false ) {
       this.InputClick = true;
     }
   }
 
-  async presentConfirm() {
+  public async presentConfirm() {
     const alert = await this.alertCtrl.create({
       message: 'Recibirá un correo electrónico en (correo electronico) para realizar el cambio de contraseña. ',
       buttons: [

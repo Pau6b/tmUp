@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
-import { NavController, MenuController } from '@ionic/angular';
-import { PhotoService } from 'src/app/services/photo.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-tactic',
@@ -11,16 +10,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AddTacticPage implements OnInit {
   image
+  
   constructor(
-    private aroute: ActivatedRoute,
     private api: apiRestProvider,
-    private navCtrl: NavController,
-    private menuCtrl: MenuController,
-    private photo: PhotoService) { }
+    private aroute: ActivatedRoute,
+    private menuCtrl: MenuController
+  ) { }
 
   ngOnInit() {
     this.image = this.aroute.snapshot.paramMap.get("img");
-    console.log(this.image);
   }
 
   ionViewWillEnter(){

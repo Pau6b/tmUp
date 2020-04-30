@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NavController, MenuController, IonContent } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
@@ -9,49 +9,45 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class ChatPage implements OnInit {
 
-  username: string="juanjo@tmup.com";
-  msgList :any = [];
-  User = "juanjo@tmup.com";
-  newMessage='';
-  
   @ViewChild(IonContent, {static: false}) content: IonContent;
 
+  User;
+  msgList :any = [];
+  newMessage='';
+  start_typing: any;
+  username;
+
+  teamId;
+  chatId;
+
   constructor(
-    public api: apiRestProvider,
-    public navCtrl: NavController,
-    public menuCtrl: MenuController,
-  ) {   }
+    private apiProv: apiRestProvider
+  ) {  }
 
   
   ngOnInit() {
   }
 
   getMessages(){
-    this.api.getMessages("t8qtEbMEcFbflhKlHGsQ", "6hd6Bdym8CXKW0Sm3hDb")
-        .subscribe(
-          (data) => { 
-            this.msgList = data; 
-          },
-          (error) => { console.log(error); }
-        );
-        console.log(this.msgList);
+    this.apiProv.getMessages(this.teamId, this.chatId)
+    .subscribe(
+      (data) => { 
+        this.msgList = data; 
+      });
   }
 
   sendMessage() {
     var msg = 
       {
       "email": this.username,
-      "teamId": "6hd6Bdym8CXKW0Sm3hDb",
-      "chatId": "t8qtEbMEcFbflhKlHGsQ",
+      "teamId": this.teamId,
+      "chatId": this.chatId,
       "bodyMessage": this.newMessage,
       "date": new Date().toString()
       };
-      console.log(msg)
-    this.api.createMessage(msg)
-        .then( () => {
-        })
-        .catch( () => {
-        });
+    this.apiProv.createMessage(msg)
+    .then( () => {
+    });
     
     this.newMessage = '';
     setTimeout(() => {
@@ -59,10 +55,21 @@ export class ChatPage implements OnInit {
     })
   }
 
+  scrollDown() {
+    setTimeout(() => {
+      this.content.scrollToBottom(50)
+    }, 50);
+  }
+
   ionViewDidEnter() {
     setTimeout(() => {
-      this.content.scrollToBottom()
-    }, 500)
+      this.content.scrollToBottom(50)
+    }, 50);
     this.getMessages();
+  }
+
+  userTyping(event: any) {
+    this.start_typing = event.target.value;
+    this.scrollDown()
   }
 }
