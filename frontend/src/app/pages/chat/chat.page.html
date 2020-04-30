@@ -109,28 +109,3 @@
     <ion-textarea autosize maxRows="3" class="input-box" placeholder="Write a message..." [(ngModel)]="newMessage" (keypress)="userTyping($event)"></ion-textarea>
   </ion-item>
 </ion-footer>
-
-<!------------------------TEMPLATES--------------------------->
-<ng-template #otherMessage let-message='message'>
-  <ion-col size="9" *ngIf="User !== message.email" class="smallText message" id="otherMessage">
-    <strong>{{ message.email }}</strong>
-    <br>
-    <span class="smallText">{{ message.bodyMessage }}</span>
-    <div class="xsmallText ion-text-right">
-      <br>
-      {{ message.date | date:'short' }}
-    </div>
-  </ion-col>
-</ng-template>
-
-<ng-template #myMessage let-message='message'>
-  <ion-col offset="3" size="9" *ngIf="User === message.email" class="smallText message" id="myMessage">
-    <strong>{{ message.username }}</strong>
-    <br>
-    <span class="smallText">{{ message.bodyMessage }}</span>
-    <div class="xsmallText ion-text-right">
-      <br>
-      {{ message.date | date:'short' }}
-    </div>
-  </ion-col>
-</ng-template>

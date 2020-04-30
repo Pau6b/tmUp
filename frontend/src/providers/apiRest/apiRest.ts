@@ -14,7 +14,7 @@ export class apiRestProvider {
   private url: string = 'https://us-central1-tmup-908e4.cloudfunctions.net/app/';
   private headers;
   private token: string;
-  private currentTeam: string;
+  private currentTeam: string = "";
 
   constructor (
     private http: HttpClient,
@@ -28,9 +28,12 @@ export class apiRestProvider {
     this.currentTeam = team;
   }
 
+  public getTeam(): string {
+    return this.currentTeam;
+  }
+
   private setHeader() {
     this.headers = new HttpHeaders({ 'Authorization' : this.token });
-    console.log("ENTRO EN EL METODO SET HEADER");
   }
 
   //USER
@@ -55,6 +58,11 @@ export class apiRestProvider {
   public getTeams(userid){
     this.setHeader();
     return this.http.get(this.url+'memberships/getByUser/'+userid, { headers: this.headers });
+  }
+
+  public getCurrentTeam() {
+    this.setHeader();
+    return this.http.get(this.url+'teams/'+this.currentTeam, {headers: this.headers});
   }
 
   public createTeam(teamData) {
@@ -96,13 +104,6 @@ export class apiRestProvider {
 
   public getMessages(chatId: string, teamId: string){
     this.setHeader();
-    /*return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
-      return mensajes.map(m => {
-          const data = m.payload.doc.data() as message;
-          data.id = m.payload.doc.id;
-          return data;
-      })
-    }))*/
     return this.http.get(this.url+'chats/messages/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
     //return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId, { headers: this.headers });
   }
@@ -119,10 +120,10 @@ export class apiRestProvider {
 
   //CALENDAR AND EVENTS METHODS
   
-  public getEventsOfMonth(teamId, month) {
+  public getEventsOfMonth(month) {
     this.setHeader();
-    return this.http.get(this.url+'teams/events/bymonth/'+ teamId+'/'+month, { headers: this.headers });
-  }
+    return this.http.get(this.url+'teams/events/bymonth/'+ this.currentTeam +'/'+ month, { headers: this.headers });
+  } 
 
   public createMatch(matchInfo) { 
     this.setHeader();
@@ -164,10 +165,10 @@ export class apiRestProvider {
     });
   }
 
-  public deleteEvent(tId, eId) {
+  public deleteEvent(eId) {
     this.setHeader();
     return new Promise(resolve => {
-      this.http.delete(this.url+'teams/events/delete/'+ tId + '/' + eId, { headers: this.headers })
+      this.http.delete(this.url+'teams/events/delete/'+ this.currentTeam + '/' + eId, { headers: this.headers })
       .subscribe(data => {
           resolve(data);
       })

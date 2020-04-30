@@ -34,7 +34,7 @@ export class TacticsPage implements OnInit {
   }
 
   goToaddTactic(img){
-    this.photoService.cameraOptions();
+    this.photoService.alertSheetPictureOptions();
   }
   
   seeImage(img){

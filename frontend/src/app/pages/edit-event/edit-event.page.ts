@@ -11,8 +11,7 @@ import { LocationSelectPage } from '../location-select/location-select.page';
   styleUrls: ['./edit-event.page.scss'],
 })
 export class EditEventPage implements OnInit {
-  
-  teamId;
+
   event: any;
 
   locationForm = this.formBuilder.group({
@@ -22,7 +21,6 @@ export class EditEventPage implements OnInit {
   });
 
   editEventForm = this.formBuilder.group({
-    teamId:[this.teamId],
     eventId: ['',[Validators.required]],
     type: ['',[Validators.required]],
     title: ['',[Validators.required]],
@@ -41,13 +39,9 @@ export class EditEventPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) { 
-    /*asign value
-    this.teamId = ;
-    */
     this.route.queryParams.subscribe(params => {
       this.event = this.router.getCurrentNavigation().extras.state.ev;
       this.editEventForm.patchValue({
-        teamId: this.teamId,
         eventId: this.event.id,
         type: this.event.type,
         title: this.event.title,
@@ -84,7 +78,7 @@ export class EditEventPage implements OnInit {
   }
 
   deleteEvent() {
-    this.apiProv.deleteEvent(this.teamId, this.event.id)
+    this.apiProv.deleteEvent(this.event.id)
     .then(() => {
       this.router.navigate(['/calendar']);
     });
