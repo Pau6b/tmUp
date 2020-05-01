@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
     this.selectedIndex = -15;
     //call api to get next Match
     let event = {
-      id: "1",
+      id: "RTkwlInroAEfE92irPFm",
       title: "Match1",
       type: "match",
       startTime: new Date()
@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
     event.startTime.setMinutes(event.startTime.getMinutes() + 30);
     if( (event.startTime.getTime()-new Date().getTime()) > 1800000 ) {
       //if >1h to match, redirect event page
-      console.log("redireccioname!");
+      this.router.navigate(['event', event.id]);
     }
     else {
       //if <1h to match, redirect to LiveMatch

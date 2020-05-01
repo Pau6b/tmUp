@@ -1,0 +1,28 @@
+<div class="stopwatch">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-label class="title"> Local </ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label text-center class="largeText"> {{ time }} </ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-label class="title"> Visitante </ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-label class="largeText"> {{ localPts }}</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-button *ngIf="!running" (click)="start()">Empezar</ion-button>
+        <ion-button *ngIf="running" (click)="stop()">Parar</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-label class="largeText"> {{ visitPts }}</ion-label>
+      </ion-col>
+    </ion-row> 
+  </ion-grid>
+</div>

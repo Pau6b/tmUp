@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-live-match',
@@ -8,6 +9,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 export class LiveMatchPage implements OnInit {
 
   @ViewChild('playersList', {static:false}) playersList: any;
+
+  sport: string;
 
   //testing
   listaConv = [
@@ -45,12 +48,29 @@ export class LiveMatchPage implements OnInit {
 
   convocadosList = [];
 
-  constructor() {  }
+  constructor(
+    private apiProv: apiRestProvider
+  ) {  }
 
   ngOnInit() {
+    this.getTeam();
     setTimeout( () => {
-      this.playersList.open();
+      this.openList();
     }, 500);
+  }
+
+  openList() {
+    this.playersList.open();
+  }
+
+  getTeam() {
+    if (this.apiProv.getTeamId() != "") {
+      this.apiProv.getCurrentTeam().subscribe((data) => {
+        let team: any;
+        team = data;
+        this.sport = team.sport;
+      });
+    }
   }
 
 }

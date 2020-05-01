@@ -9,11 +9,19 @@
 
 <ion-content class="gradientBG">
 
-  <ion-item class="transparent" lines="none">
+  <ion-item class="transparent" lines="none" (click)="openList()">
     <ion-label>Jugadores</ion-label>
-    <ion-select #playersList class="transparent" multiple="true" name="convocadosList" selectedText="null">
+    <ion-select [hidden]="true" #playersList class="transparent" multiple="true" name="convocadosList" selectedText="">
       <ion-select-option *ngFor="let conv of listaConv" [value]="conv.name"> {{ conv.name }}</ion-select-option>
     </ion-select>
   </ion-item>
+
+  <app-stopwatch></app-stopwatch>
+
+  <app-basketball-view *ngIf="sport=='Basketball'"></app-basketball-view>
+
+  <app-football-view *ngIf="sport=='Football'"></app-football-view>
+
+  <app-handball-view *ngIf="sport=='Handball'"></app-handball-view>
 
 </ion-content>
