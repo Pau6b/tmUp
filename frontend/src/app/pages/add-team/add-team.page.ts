@@ -4,6 +4,8 @@ import { FormBuilder, Validators} from '@angular/forms'
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
+import { sports } from '../../Core/Arrays';
+import { rols } from '../../Core/Arrays';
 
 @Component({
   selector: 'app-add-team',
@@ -12,8 +14,8 @@ import { Router } from '@angular/router';
 })
 export class AddTeamPage implements OnInit {
 
-  sportsLists = ['Football', 'Basketball', 'Handball','Baseball']
-  roles = ['Fisioterapeuta', 'Jugador']
+  sportsLists = sports;
+  roles = rols;
 
   segmentModel = "create";
 
@@ -42,7 +44,7 @@ export class AddTeamPage implements OnInit {
       { type: 'required', message: 'Rol es necesario'}
     ],
     teamId: [
-      { type: 'required', message: 'Código de equipo es  necesario'}
+      { type: 'required', message: 'Código de equipo es necesario'}
     ]
   }
 
@@ -67,6 +69,9 @@ export class AddTeamPage implements OnInit {
   get sport() {
     return this.createTeamForm.get("sport")
   }
+  get teamPhoto() {
+    return this.createTeamForm.get("teamPhoto")
+  }
   get role() {
     return this.joinTeamForm.get("role")
   }
@@ -77,14 +82,18 @@ export class AddTeamPage implements OnInit {
   onDone() {
     if(this.segmentModel == "create") {
       this.apiProv.createTeam(this.createTeamForm.value)
-      .then( () => {
-        this.router.navigate(['/team-list']);
+      .then( (data) => {
+        console.log(data);
+        this.router.navigate(['/main']);
+      },
+      (err) => {
+        console.log(err.message);
       })
     }
     else {
       this.apiProv.createMembership(this.joinTeamForm.value)
       .then( () => {
-        this.router.navigate(['/team-list']);
+        this.router.navigate(['/main']);
       })
     }
 

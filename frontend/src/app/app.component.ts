@@ -14,6 +14,7 @@ import { apiRestProvider } from '../providers/apiRest/apiRest';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
+
 export class AppComponent implements OnInit {
 
   public selectedIndex = 0;
@@ -56,6 +57,8 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  public team;
+
   constructor(
     private alertCtrl: AlertController,
     private apiProv: apiRestProvider,
@@ -81,23 +84,27 @@ export class AppComponent implements OnInit {
     }
   }
 
+  public updateTeam() {
+    if (this.apiProv.getTeamId() != "") {
+      this.apiProv.getCurrentTeam().subscribe((data) => {
+        this.team = data;
+      });
+    }
+  }
+
   async presentConfirm() {
-    this.data = this.proveedor.getMe();
+    this.data = this.apiProv.getMe();
     const alert = await this.alertCtrl.create({
       message: 'Log out of' +  this.data.name +'?',
       buttons: [
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
         },
         {
           text: 'Log Out',
           handler: () => {
             this.auth.logOut();
-            console.log('LogOut clicked');
           }
         }
       ]

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, LoadingController } from '@ionic/angular';
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-team-list',
@@ -14,10 +15,11 @@ export class TeamListPage implements OnInit {
   me;
 
   constructor(
-    public proveedor: apiRestProvider,
+    public apiProv: apiRestProvider,
     public router: Router,
     public menuCtrl: MenuController,
-    public loadCtrl: LoadingController
+    public loadCtrl: LoadingController,
+    public appComponent: AppComponent
     ) { }
 
   ngOnInit() {
@@ -25,22 +27,16 @@ export class TeamListPage implements OnInit {
       this.initialize();
     }, 1000);
    }
-
-  
-
+   
   async initialize() {
     const loading = await this.loadCtrl.create();
 
     loading.present();
     
-    this.proveedor.getUserTeams()
+    this.apiProv.getUserTeams()
     .subscribe( (data) => { 
       this.teamList = data;
-      console.log(this.teamList);
       loading.dismiss();
-    },
-    (error) => {
-      console.log(error);
     });
   }
 
@@ -49,9 +45,9 @@ export class TeamListPage implements OnInit {
   }
 
   goToHomePage(team: string){
-    this.router.navigate(['main']);
+    this.apiProv.setTeam(team);
+    this.appComponent.updateTeam();
+    this.router.navigate(['/main']);
   }
 
-  goTo(page: string){
-  }
 }

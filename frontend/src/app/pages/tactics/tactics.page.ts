@@ -30,11 +30,11 @@ export class TacticsPage implements OnInit {
   }
 
   addImage(img){
-    this.router.navigate(["add-tactic", {img: img}]);
+    this.router.navigate(["/add-tactic", {img: img}]);
   }
 
   goToaddTactic(img){
-    this.photoService.cameraOptions();
+    this.photoService.alertSheetPictureOptions();
   }
   
   seeImage(img){

@@ -16,8 +16,6 @@ export class CalendarPage implements OnInit {
 
   @ViewChild(CalendarComponent ,{static: false}) myCal: CalendarComponent;
 
-  teamId;
-
   calendar = {
     mode: 'month',
     currentDate: new Date(),
@@ -47,7 +45,7 @@ export class CalendarPage implements OnInit {
   private async loadMonthEvents(month) {
     const loading = await this.loadingCtrl.create();
     loading.present();
-    this.apiProv.getEventsOfMonth(this.teamId , month)
+    this.apiProv.getEventsOfMonth( month )
     .subscribe( (events) => {
       this.eventSource = [];
       let tmp: any;

@@ -15,9 +15,6 @@ import { LocationSelectPage } from '../location-select/location-select.page'
 })
 export class AddEventPage implements OnInit {
 
-  //asign teamId value.
-  teamId;
-
   segmentModel = 'match';
   startdate = new Date();
   endTime = new Date(new Date().setMinutes(this.startdate.getMinutes()+60));
@@ -29,7 +26,7 @@ export class AddEventPage implements OnInit {
   });
   
   createMatchForm = this.formBuilder.group({
-    teamId: [this.teamId],
+    teamId: [this.apiProv.getTeamId()],
     type: ['match'],
     title: ['', [Validators.required]],
     rival: ['', [Validators.required]],
@@ -40,7 +37,7 @@ export class AddEventPage implements OnInit {
   });
 
   createTrainingForm = this.formBuilder.group({
-    teamId: [this.teamId],
+    teamId: [this.apiProv.getTeamId()],
     type:['training'],
     title: ['', [Validators.required]],
     location: this.locationForm,

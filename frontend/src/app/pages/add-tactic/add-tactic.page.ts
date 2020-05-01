@@ -12,7 +12,7 @@ export class AddTacticPage implements OnInit {
   image
   
   constructor(
-    private api: apiRestProvider,
+    private apiProv: apiRestProvider,
     private aroute: ActivatedRoute,
     private menuCtrl: MenuController
   ) { }

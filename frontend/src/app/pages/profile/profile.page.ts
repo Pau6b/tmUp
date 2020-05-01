@@ -7,6 +7,7 @@ import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-profile',
@@ -25,7 +26,8 @@ export class ProfilePage implements OnInit {
     public camera: Camera,
     public actionSheetCtrl: ActionSheetController,
     public alertCtrl: AlertController,
-    public authService: AuthService
+    public authService: AuthService,
+    private photoServ: PhotoService
   ) { }
 
   public ngOnInit() {
@@ -33,12 +35,9 @@ export class ProfilePage implements OnInit {
     .subscribe(
       (data) => { 
         this.profileInfo = data;
-        console.log(this.updateForm);
         this.updateForm.patchValue({userName: this.profileInfo.userName});
         this.updateForm.patchValue({email: this.profileInfo.email});
-      },
-      (error) => {console.log(error);}
-    );
+      });
   }
 
   //declarar formulario this.profileInfo.displayname this.profileInfo.email
@@ -79,67 +78,10 @@ export class ProfilePage implements OnInit {
 
   //Camera options
   public async cameraOptions() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Choose image from',
-      buttons: [
-        {
-          text: 'Camera',
-          handler: () => {
-            this.takePhoto();
-          }
-        },
-        {
-          text: 'Library',
-          handler: () => {
-            this.choosePhoto();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-          }
-        }
-      ]
-    });
-    await actionSheet.present();
-  }
-
-  public takePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.CAMERA
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.myPhoto = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-     console.log('Camera error:' + err)
-    });
-  }
-
-  public choosePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.myPhoto = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-    });
+    this.photoServ.alertSheetPictureOptions()
+    .then( (photo) => {
+      this.myPhoto = photo;
+    })
   }
 
   public onInputClick() {
@@ -154,16 +96,12 @@ export class ProfilePage implements OnInit {
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
+          role: 'cancel'
         },
         {
           text: 'Comfirmar',
           handler: () => {
-            this.authService.recover('csanchezflaquer@gmail.com');
-            console.log('OK clicked');
+            this.authService.recover(this.profileInfo.email);
           }
         }
       ]

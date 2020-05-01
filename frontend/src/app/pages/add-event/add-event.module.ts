@@ -17,8 +17,8 @@ import { AddEventPage } from './add-event.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    LocationSelectPageModule,
-    AddEventPageRoutingModule
+    AddEventPageRoutingModule,
+    LocationSelectPageModule
   ],
   declarations: [AddEventPage],
 })
