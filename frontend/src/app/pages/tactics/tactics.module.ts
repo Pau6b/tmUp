@@ -8,12 +8,15 @@ import { TacticsPageRoutingModule } from './tactics-routing.module';
 
 import { TacticsPage } from './tactics.page';
 
+import { AngularFireStorageModule } from '@angular/fire/storage'
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TacticsPageRoutingModule
+    TacticsPageRoutingModule,
+    AngularFireStorageModule
   ],
   declarations: [TacticsPage]
 })
