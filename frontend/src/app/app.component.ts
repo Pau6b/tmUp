@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service';
 import { AlertController } from '@ionic/angular';
 
 import { apiRestProvider } from '../providers/apiRest/apiRest';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -65,7 +66,8 @@ export class AppComponent implements OnInit {
     private auth: AuthService,
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -89,6 +91,26 @@ export class AppComponent implements OnInit {
       this.apiProv.getCurrentTeam().subscribe((data) => {
         this.team = data;
       });
+    }
+  }
+
+  gotoMatch() {
+    this.selectedIndex = -15;
+    //call api to get next Match
+    let event = {
+      id: "1",
+      title: "Match1",
+      type: "match",
+      startTime: new Date()
+    }
+    event.startTime.setMinutes(event.startTime.getMinutes() + 30);
+    if( (event.startTime.getTime()-new Date().getTime()) > 1800000 ) {
+      //if >1h to match, redirect event page
+      console.log("redireccioname!");
+    }
+    else {
+      //if <1h to match, redirect to LiveMatch
+      this.router.navigate(['live-match', {id: event.id}]);
     }
   }
 
