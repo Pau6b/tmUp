@@ -12,32 +12,33 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-            /*if (req.session!.user === null) {
-                res.status(400).send("T1");
-            }
-
-            let email: any ="";
-            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    email = user.email
-            });
-
-            let errors: string[] = [];
-            let hasErrors: boolean = false;
-            if (!jsonContent.hasOwnProperty("teamName")) {
-                errors.push("TC2");
-                hasErrors = true;
-            }
-            if (!jsonContent.hasOwnProperty("sport")) {
-                errors.push("TC3");
-                hasErrors = true;
-            }
-            if (!sports.includes(jsonContent.sport)) {
-                errors.push("TC4");
-                hasErrors = true;
-            }
-            if (hasErrors) {
-                return res.status(400).send(errors);
-            }*/
+            /*
+                        if (req.session!.user === null) {
+                            res.status(400).send("T1");
+                        }
+            
+                        let email: any ="";
+                        await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                                email = user.email
+                        });
+            
+                        let errors: string[] = [];
+                        let hasErrors: boolean = false;
+                        if (!jsonContent.hasOwnProperty("teamName")) {
+                            errors.push("TC2");
+                            hasErrors = true;
+                        }
+                        if (!jsonContent.hasOwnProperty("sport")) {
+                            errors.push("TC3");
+                            hasErrors = true;
+                        }
+                        if (!sports.includes(jsonContent.sport)) {
+                            errors.push("TC4");
+                            hasErrors = true;
+                        }
+                        if (hasErrors) {
+                            return res.status(400).send(errors);
+                        }*/
             //No errors, we proceed to creation
             let id = "invalid";
             await db.collection('teams').add({
@@ -47,11 +48,12 @@ app.post('/create', (req, res) => {
             }).then((ref) => {
                 id = ref.id;
             });
-            /*await db.collection('memberships').add({
-                teamId: id,
-                userId: email,
-                type: "staff"
-            })*/
+            /*
+                        await db.collection('memberships').add({
+                            teamId: id,
+                            userId: email,
+                            type: "staff"
+                        })*/
             return res.status(200).send(id);
         }
         catch (error) {
@@ -147,13 +149,10 @@ app.delete('/:teamName', (req, res) => {
                 return res.status(400).send("teamId is incorrect");
             }
             await team.delete();
-
             const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamName);
             const response: any = [];
-
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
-
                 for (const doc of docs) {
                      doc.delete();
                 }
@@ -165,7 +164,6 @@ app.delete('/:teamName', (req, res) => {
             console.log(error);
             return res.status(500).send(error)
         }
-
     })().then().catch();
 });
 */

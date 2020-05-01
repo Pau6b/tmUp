@@ -1,7 +1,7 @@
 import * as express from 'express';
-//import { sports } from '../Core/Core'
+import { sports } from '../Core/Core'
 import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
-//import { UserRecord } from 'firebase-functions/lib/providers/auth';
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
@@ -15,7 +15,7 @@ app.post('/create', (req, res) => {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
 
-            /*if (req.session!.user === null) {
+            if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
 
@@ -40,7 +40,7 @@ app.post('/create', (req, res) => {
             }
             if (hasErrors) {
                 return res.status(400).send(errors);
-            }*/
+            }
 
             //No errors, we proceed to creation
             let id = "invalid";
@@ -52,11 +52,11 @@ app.post('/create', (req, res) => {
                 id= ref.id;
             });
 
-            /*await db.collection('memberships').add({
+            await db.collection('memberships').add({
                 teamId: id,
                 userId: email,
                 type: "staff"
-            })*/
+            })
             return res.status(200).send(id);
         }
         catch(error){
@@ -171,13 +171,10 @@ app.delete('/:teamName', (req, res) => {
                 return res.status(400).send("teamId is incorrect");
             }
             await team.delete();
-
             const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamName);
             const response: any = [];
-
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
-
                 for (const doc of docs) {
                      doc.delete();
                 }
@@ -189,7 +186,6 @@ app.delete('/:teamName', (req, res) => {
             console.log(error);
             return res.status(500).send(error) 
         }
-
     })().then().catch();
 });
 */

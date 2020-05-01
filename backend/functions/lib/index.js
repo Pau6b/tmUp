@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Per correr el development server => npm run serve dins de la carpeta de functions
 /* --- before all requests --- */
 /*
-function authchecker(req: any, res: any, next: any){
+app.use((req,res,next)=>{
   (async () => {
     if (req.path != '/login') {
       if (req.headers.authorization == null) {
@@ -50,9 +50,8 @@ function authchecker(req: any, res: any, next: any){
     }
     return;
   })().then().catch();
-}
-
-app.use(authchecker);*/
+});
+*/
 /* --- end of before all requests --- */
 /* --- begin of routes --- */
 const loginHandler = require('./Auth/Login');
@@ -99,7 +98,6 @@ exports.onUserCreate = functions.auth.user().onCreate((user) => {
 });
 /*
 exports.onUserDelete = functions.auth.user().onDelete((user) => {
-
 });
-*/
+*/ 
 //# sourceMappingURL=index.js.map

@@ -145,43 +145,6 @@ app.get('/:teamId/:chatId/:date', (req, res) => {
     })().then().catch();
 });
 
-//ReadAll => GET
-/*app.get('/obs/:teamId/:chatId', (req, res) => {
-    (async () => {
-        try {
-            const observable = new Observable(function subscribe(subscriber) {
-                const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
-                const response: any = [];
-                query.onSnapshot((snapshot: any[]) => {
-                    snapshot.forEach(snap => {
-                        const selectedItem  = {
-                            chatId: snap.data().chatId,
-                            email: snap.data().email,
-                            bodyMessage: snap.data().bodyMessage,
-                            date: snap.data().date,
-                            userName: snap.data().userName,
-                            index: snap.data().index
-                        };
-                        response.push(selectedItem);
-                    })
-                    return response;
-                })
-            })
-            /*
-            .map((response:Response) => {
-             return {type: "success", payload: response.json()}; // <----
-            })
-            
-           observable.subscribe(x => console.log(x));
-            return res.status(200).send(observable);
-        }
-        catch(error){
-            console.log(error);
-            return res.status(500).send(error) 
-        }
-
-    })().then().catch();
-});*/
 
 //ReadAll => GET
 
