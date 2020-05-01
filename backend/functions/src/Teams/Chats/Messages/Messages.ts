@@ -1,5 +1,8 @@
 import * as express from 'express';
 const admin = require("firebase-admin");
+import {Observable} from 'rxjs';
+import { firestore } from 'firebase-admin';
+
 //import { UserRecord } from 'firebase-functions/lib/providers/auth';
 //import 'rxjs/add/observable/of';
 //import 'rxjs/add/observable/fromEvent';
@@ -64,6 +67,50 @@ app.get('/:teamId/:chatId', (req, res) => {
     })().then().catch();
 });
 
+//ReadAll => GET
+app.get('/obs/:teamId/:chatId', (req, res) => {
+    (async () => {
+        try {
+            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
+            return res.status(200).send(queryToObservable(query));
+            const response: any = [];
+            return new Promise(function(resolve, reject) {
+                setTimeout(() => {
+                    query.onSnapshot((snapshot: any[]) => {
+                        snapshot.forEach(snap => {
+                            const selectedItem  = {
+                                chatId: snap.data().chatId,
+                                email: snap.data().email,
+                                bodyMessage: snap.data().bodyMessage,
+                                date: snap.data().date,
+                                userName: snap.data().userName,
+                                index: snap.data().index
+                            };
+                            response.push(selectedItem);
+                        })
+                        console.log(response);
+                        return res
+                            .status(200)
+                            .send({ response });
+                        return res.status(200).send(response);
+                    })
+                    if(true){
+                        resolve({msg: "It works", response});
+                    }else {
+                        reject({});
+                    }
+                }, 2000);
+            })
+
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
 //get anterior messages. 50 anterior messages (getAntMessages)
 app.get('/:teamId/:chatId/:date', (req, res) => {
     (async () => {
@@ -98,43 +145,6 @@ app.get('/:teamId/:chatId/:date', (req, res) => {
     })().then().catch();
 });
 
-//ReadAll => GET
-/*app.get('/obs/:teamId/:chatId', (req, res) => {
-    (async () => {
-        try {
-            const observable = new Observable(function subscribe(subscriber) {
-                const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
-                const response: any = [];
-                query.onSnapshot((snapshot: any[]) => {
-                    snapshot.forEach(snap => {
-                        const selectedItem  = {
-                            chatId: snap.data().chatId,
-                            email: snap.data().email,
-                            bodyMessage: snap.data().bodyMessage,
-                            date: snap.data().date,
-                            userName: snap.data().userName,
-                            index: snap.data().index
-                        };
-                        response.push(selectedItem);
-                    })
-                    return response;
-                })
-            })
-            /*
-            .map((response:Response) => {
-             return {type: "success", payload: response.json()}; // <----
-            })
-            
-           observable.subscribe(x => console.log(x));
-            return res.status(200).send(observable);
-        }
-        catch(error){
-            console.log(error);
-            return res.status(500).send(error) 
-        }
-
-    })().then().catch();
-});*/
 
 //ReadAll => GET
 
@@ -283,3 +293,17 @@ app.delete('/:id', (req, res) => {
 });
 */
 module.exports = app;
+
+function queryToObservable(query: firestore.Query): Observable<firestore.DocumentData[]> {
+    let observable = Observable.create(query.onSnapshot.bind(query));
+    return observable;
+    /*return new Observable(subscriber => {
+        const snapUnsub = query.onSnapshot(next => {
+            subscriber.next(next.docSnapshots.map(doc => doc.data()));
+        });
+
+        subscriber.add(() => {
+            snapUnsub();
+        });
+    });*/
+}

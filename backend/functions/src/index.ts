@@ -1,3 +1,4 @@
+
 /*imports*/
 import * as functions from 'firebase-functions';
 import * as express from 'express';
@@ -33,7 +34,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 /* --- before all requests --- */
 
-function authchecker(req: any, res: any, next: any){
+app.use((req,res,next)=>{
   (async () => {
     if (req.path != '/login') {
       if (req.headers.authorization == null) {
@@ -55,9 +56,8 @@ function authchecker(req: any, res: any, next: any){
     }
     return;
   })().then().catch();
-}
+});
 
-app.use(authchecker);
 
 
 /* --- end of before all requests --- */
@@ -124,6 +124,5 @@ exports.onUserCreate = functions.auth.user().onCreate((user) => {
 
 /*
 exports.onUserDelete = functions.auth.user().onDelete((user) => {
-
 });
 */

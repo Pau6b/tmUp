@@ -124,6 +124,11 @@ export class apiRestProvider {
     return this.http.get(this.url+'teams/events/bymonth/'+ this.currentTeam +'/'+ month, { headers: this.headers });
   } 
 
+  public getEventById(eId) {
+    this.setHeader();
+    return this.http.get(this.url+'teams/events/'+ this.currentTeam +'/'+ eId, { headers: this.headers });
+  }
+
   public createMatch(matchInfo) { 
     this.setHeader();
     return new Promise(resolve => {
