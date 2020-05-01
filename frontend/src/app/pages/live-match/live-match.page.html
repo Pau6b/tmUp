@@ -9,4 +9,11 @@
 
 <ion-content class="gradientBG">
 
+  <ion-item class="transparent" lines="none">
+    <ion-label>Jugadores</ion-label>
+    <ion-select #playersList class="transparent" multiple="true" name="convocadosList" selectedText="null">
+      <ion-select-option *ngFor="let conv of listaConv" [value]="conv.name"> {{ conv.name }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
 </ion-content>
