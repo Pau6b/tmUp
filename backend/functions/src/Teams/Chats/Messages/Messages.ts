@@ -78,6 +78,7 @@ app.get('/obs/:teamId/:chatId', (req, res) => {
     (async () => {
         try {
             const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
+            return res.status(200).send(queryToObservable(query));
             const response: any = [];
             return new Promise(function(resolve, reject) {
                 setTimeout(() => {
@@ -243,7 +244,9 @@ app.delete('/:id', (req, res) => {
 module.exports = app;
 
 function queryToObservable(query: firestore.Query): Observable<firestore.DocumentData[]> {
-    return new Observable(subscriber => {
+    let observable = Observable.create(query.onSnapshot.bind(query));
+    return observable;
+    /*return new Observable(subscriber => {
         const snapUnsub = query.onSnapshot(next => {
             subscriber.next(next.docSnapshots.map(doc => doc.data()));
         });
@@ -251,5 +254,5 @@ function queryToObservable(query: firestore.Query): Observable<firestore.Documen
         subscriber.add(() => {
             snapUnsub();
         });
-    });
+    });*/
 }
