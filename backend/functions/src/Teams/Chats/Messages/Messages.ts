@@ -4,6 +4,10 @@ import {Observable} from 'rxjs';
 import { firestore } from 'firebase-admin';
 
 //import { UserRecord } from 'firebase-functions/lib/providers/auth';
+//import 'rxjs/add/observable/of';
+//import 'rxjs/add/observable/fromEvent';
+//import { object } from 'rxfire/database';
+//import {Observable} from 'rxjs';
 const db = admin.firestore();
 const app = express();
 
@@ -12,23 +16,15 @@ app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            let lengthCollMessages = 0;
-            let index = lengthCollMessages;
+            var today = new Date(jsonContent.date); 
             //let userName;
-            await db.collection('teams').doc(jsonContent.teamId).collection('chats').doc(jsonContent.chatId).collection('messages').get().then((snap: { size: any; }) => {
-                lengthCollMessages = snap.size 
-                index = lengthCollMessages + 1;
-             });
-            /*await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {        
-                userName = user.displayName
-            });*/
             await db.collection('teams').doc(jsonContent.teamId).collection('chats').doc(jsonContent.chatId).collection('messages').add({
                 chatId: jsonContent.chatId,
                 email: jsonContent.email,
                 bodyMessage: jsonContent.bodyMessage,
                 date:jsonContent.date,
-                userName: jsonContent.userName,
-                index: index
+                dateOrd: today,
+                //userName: jsonContent.userName
             })
             return res.status(200).send();
         }
@@ -39,11 +35,10 @@ app.post('/create', (req, res) => {
     })().then().catch();
 });
 
-//ReadAll => GET
 app.get('/:teamId/:chatId', (req, res) => {
     (async () => {
         try {
-            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').orderBy("date", "asc");
+            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').orderBy("dateOrd", "asc");
             query.limit(50); 
             const response: any = [];
             await query.get().then((querySnapshot: any) => {
@@ -53,10 +48,9 @@ app.get('/:teamId/:chatId', (req, res) => {
                     const selectedItem  = {
                         chatId: doc.data().chatId,
                         email: doc.data().email,
+                        //userName: doc.data().userName,
                         bodyMessage: doc.data().bodyMessage,
-                        date: doc.data().date,
-                        userName: doc.data().userName,
-                        index: doc.data().index
+                        date: doc.data().date
                     };
                     response.push(selectedItem);
                 }
@@ -118,16 +112,12 @@ app.get('/obs/:teamId/:chatId', (req, res) => {
 });
 
 //get anterior messages. 50 anterior messages (getAntMessages)
-app.get('/:teamId/:chatId/:messageIndex', (req, res) => {
+app.get('/:teamId/:chatId/:date', (req, res) => {
     (async () => {
         try {
-            const messageIndexInt = parseInt(req.params.messageIndex);
-            let query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').where('index', '>', messageIndexInt).orderBy("index", "desc");
+            var limDate = new Date(req.params.date); 
+            let query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').where('dateOrd', '<', limDate).orderBy("dateOrd", "asc");
             query.limit(50);
-            /* With date limitation-->problem same second--->obtain duplicated messages in chat (Need start date as a req.param)
-            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').where('date', '>', req.params.date).orderBy("date", "asc");
-            query.limit(50); 
-            */
             const response: any = [];
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
@@ -136,10 +126,9 @@ app.get('/:teamId/:chatId/:messageIndex', (req, res) => {
                     const selectedItem  = {
                         chatId: doc.data().chatId,
                         email: doc.data().email,
+                        //userName: doc.data().userName,
                         bodyMessage: doc.data().bodyMessage,
-                        date: doc.data().date,
-                        userName: doc.data().userName,
-                        index: doc.data().index
+                        date: doc.data().date
                     };
                     response.push(selectedItem);
                 }
@@ -155,6 +144,105 @@ app.get('/:teamId/:chatId/:messageIndex', (req, res) => {
 
     })().then().catch();
 });
+
+//ReadAll => GET
+/*app.get('/obs/:teamId/:chatId', (req, res) => {
+    (async () => {
+        try {
+            const observable = new Observable(function subscribe(subscriber) {
+                const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
+                const response: any = [];
+                query.onSnapshot((snapshot: any[]) => {
+                    snapshot.forEach(snap => {
+                        const selectedItem  = {
+                            chatId: snap.data().chatId,
+                            email: snap.data().email,
+                            bodyMessage: snap.data().bodyMessage,
+                            date: snap.data().date,
+                            userName: snap.data().userName,
+                            index: snap.data().index
+                        };
+                        response.push(selectedItem);
+                    })
+                    return response;
+                })
+            })
+            /*
+            .map((response:Response) => {
+             return {type: "success", payload: response.json()}; // <----
+            })
+            
+           observable.subscribe(x => console.log(x));
+            return res.status(200).send(observable);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});*/
+
+//ReadAll => GET
+
+/*
+getWorkers():Observable<any> {    
+  let fn = firebase.database().ref('/workers').on('child_added', (snapshot) => {
+        return snapshot.val();
+  });
+
+  return Observable.bindCallback(fn) as Observable<any>
+}
+*/
+
+//ReadAllObservable => GET
+/*app.get('/:teamId/:chatId', (req, res) => {
+    (async () => {
+        try {
+            const response: any = [];
+            let query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages').orderBy("timestamp", "asc").get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                    const selectedItem  = {
+                        chatId: doc.data().chatId,
+                        email: doc.data().email,
+                        bodyMessage: doc.data().bodyMessage,
+                        date: doc.data().date,
+                        //userName: doc.data().userName,
+                        //index: doc.data().index
+                    };
+                    response.push(selectedItem);
+                }
+                //return response;
+                object(query).subscribe(change => {
+                    const { event, snapshot, prevKey } = change;
+                    console.log(event, ' will always be value');
+                    console.log(prevKey, ' the previous key');
+                    console.log(snapshot.val(), ' this is the data');
+                    return res.status(200).send(snapshot.val());
+                    });
+                    return res.status(200).send(response);
+          });
+            //return object(query);
+            /*
+            object(ref).subscribe(change => {
+            const { event, snapshot, prevKey } = change;
+            console.log(event, ' will always be value');
+            console.log(prevKey, ' the previous key');
+            console.log(snapshot.val(), ' this is the data');
+            });
+            
+            return res.status(200).send(object(query));
+            
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});*/
 
 /*
 //OBERVABLE: El controlador de instantáneas recibirá una nueva instantánea 

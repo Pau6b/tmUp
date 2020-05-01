@@ -64,7 +64,7 @@ export class AuthService {
       this.apiProv.setToken(token);
       // The signed-in user info.
       this.currentUser = result.user;
-      this.router.navigate(['team-list']);
+      this.router.navigate(['/team-list']);
     });
   }
 
