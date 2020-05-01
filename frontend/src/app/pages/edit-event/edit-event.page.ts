@@ -40,14 +40,15 @@ export class EditEventPage implements OnInit {
     private router: Router
   ) { 
     this.route.queryParams.subscribe(params => {
+      let evId = this.router.getCurrentNavigation().extras.state.evId;
       this.event = this.router.getCurrentNavigation().extras.state.ev;
       this.editEventForm.patchValue({
-        eventId: this.event.id,
+        eventId: evId,
         type: this.event.type,
         title: this.event.title,
         location: this.event.location,
-        startTime: this.event.startTime.toISOString(),
-        endTime: this.event.endTime.toISOString(),
+        startTime: this.event.startTime,
+        endTime: this.event.endTime,
       });
       if(this.event.type == "match"){
         this.editEventForm.patchValue({rival: this.event.rival});
@@ -88,13 +89,13 @@ export class EditEventPage implements OnInit {
     if(this.event.type == "match") {
       this.apiProv.editMatch(this.editEventForm.value)
       .then(() => {
-        this.router.navigate(['/calendar']);
+        this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
       });
     }
     else {
       this.apiProv.editTraining(this.editEventForm.value)
       .then(() => {
-        this.router.navigate(['/calendar']);
+        this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
       });
     }
   }

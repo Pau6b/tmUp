@@ -56,7 +56,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/add-tactic/add-tactic.module').then( m => m.AddTacticPageModule)
   },
   {
-    path: 'event',
+    path: 'event/:id',
     loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule)
   },
   {
