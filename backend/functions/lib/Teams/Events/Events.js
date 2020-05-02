@@ -27,7 +27,6 @@ app.post('/match/create', (req, res) => {
             return res.status(200).send();
         }
         catch (error) {
-            console.log(error);
             return res.status(500).send(error);
         }
     })().then().catch();
@@ -52,7 +51,6 @@ app.post('/training/create', (req, res) => {
             return res.status(200).send();
         }
         catch (error) {
-            console.log(error);
             return res.status(500).send(error);
         }
     })().then().catch();
@@ -82,12 +80,42 @@ app.get('/byday/:teamId/:date', (req, res) => {
             return res.status(200).send(response);
         }
         catch(error){
-            console.log(error);
             return res.status(500).send(error)
         }
     })().then().catch();
 });
 */
+app.get('/:teamId/:eventId', (req, res) => {
+    (async () => {
+        try {
+            const existsTeam = await comprobarEquipo(req.params);
+            if (!existsTeam)
+                return res.status(400).send("no existe el equipo");
+            let existeevento = true;
+            const evento = await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).get();
+            console.log(evento);
+            const eventData = await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).get().then((doc) => {
+                if (!doc.exists) {
+                    existeevento = false;
+                    return;
+                }
+                else {
+                    console.log(doc.data());
+                    return doc.data();
+                }
+            });
+            //Check that the event exists
+            if (!existeevento) {
+                return res.status(400).send("no existe evento");
+            }
+            //return correct data
+            return res.status(200).send(eventData);
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
 //Read Events of a month => GET
 app.get('/bymonth/:teamId/:month', (req, res) => {
     (async () => {
@@ -111,7 +139,6 @@ app.get('/bymonth/:teamId/:month', (req, res) => {
                                 response.push(selectedData);
                             }
                         });
-                        console.log(response);
                         resolve({ msg: "It works", response });
                         return res.status(200).send(response);
                     });
@@ -125,7 +152,6 @@ app.get('/bymonth/:teamId/:month', (req, res) => {
             });
         }
         catch (error) {
-            console.log(error);
             return res.status(500).send(error);
         }
     })().then().catch();
@@ -145,7 +171,6 @@ app.delete('/delete/:teamId/:eventId', (req, res) => {
             return res.status(200).send("evento eliminado");
         }
         catch (error) {
-            console.log(error);
             return res.status(500).send(error);
         }
     })().then().catch();
@@ -174,7 +199,6 @@ app.put('/training/update', (req, res) => {
             return res.status(200).send();
         }
         catch (error) {
-            console.log(error);
             return res.status(500).send(error);
         }
     })().then().catch();
@@ -202,7 +226,6 @@ app.put('/match/update', (req, res) => {
             return res.status(200).send();
         }
         catch (error) {
-            console.log(error);
             return res.status(500).send(error);
         }
     })().then().catch();

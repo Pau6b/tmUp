@@ -93,12 +93,7 @@ export class CalendarPage implements OnInit {
   }
 
   onEventSelected(event) {
-    let navigationExtras: NavigationExtras = {
-      state: {
-        ev: event
-      }
-    };
-    this.router.navigate(['/event'], navigationExtras);
+    this.router.navigate(['/event', event.id]);
   }
 
   onTimeSelected(ev) {

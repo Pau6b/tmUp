@@ -6,6 +6,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { LoadingController } from '@ionic/angular';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 declare var google;
 
 @Component({
@@ -15,29 +16,47 @@ declare var google;
 })
 export class EventPage implements OnInit {
 
+  eventId: string;
   event: any;
   currentLoc: any;
 
   constructor(
     private geolocation: Geolocation,
     private iab: InAppBrowser,
-    private loadingCtrl: LoadingController,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private apiProv: apiRestProvider,
+    private loadCtrl: LoadingController
   ) { 
-    this.route.queryParams.subscribe(params => {
-      this.event = this.router.getCurrentNavigation().extras.state.ev;
-    });
   }
 
   ngOnInit() { 
-    this.loadMap();
+    this.getEventInfo()
+    setTimeout(() => {
+      this.loadMap();
+    }, 1000);
+  }
+
+  async getEventInfo() {
+    const loading = await this.loadCtrl.create();
+    loading.present();
+    this.route.params.subscribe(params => {
+      this.eventId = params['id'];
+      if(this.eventId) {
+        this.apiProv.getEventById(this.eventId)
+        .subscribe( (data) => {
+          this.event = data;
+          loading.dismiss();
+        })
+      }
+    });
   }
 
   editEvent() {
     let navigationExtras: NavigationExtras = {
       relativeTo: this.route,
       state: {
+        evId: this.eventId,
         ev: this.event
       }
     };
@@ -54,9 +73,7 @@ export class EventPage implements OnInit {
       ','+currentLatLng.currLng+'&destination='+this.event.location.latitude+','+this.event.location.longitude);
   }
 
-  async loadMap() {
-    const loading = await this.loadingCtrl.create();
-    loading.present();
+  loadMap() {
     const myLatLng = {
       lat: this.event.location.latitude,
       lng: this.event.location.longitude
@@ -68,8 +85,7 @@ export class EventPage implements OnInit {
     });
     google.maps.event
     .addListenerOnce(map, 'idle', () => {
-      loading.dismiss();
-      const marker = new google.maps.Marker({
+      let marker = new google.maps.Marker({
         position: {
           lat: myLatLng.lat,
           lng: myLatLng.lng
