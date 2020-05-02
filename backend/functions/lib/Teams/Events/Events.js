@@ -92,15 +92,12 @@ app.get('/:teamId/:eventId', (req, res) => {
             if (!existsTeam)
                 return res.status(400).send("no existe el equipo");
             let existeevento = true;
-            const evento = await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).get();
-            console.log(evento);
             const eventData = await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).get().then((doc) => {
                 if (!doc.exists) {
                     existeevento = false;
                     return;
                 }
                 else {
-                    console.log(doc.data());
                     return doc.data();
                 }
             });

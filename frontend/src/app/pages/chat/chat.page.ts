@@ -29,7 +29,7 @@ export class ChatPage implements OnInit {
   }
 
   getMessages(){
-    this.apiProv.getMessages(this.teamId, this.chatId)
+    this.apiProv.getMessagesObs(this.teamId, this.chatId)
     .subscribe(
       (data) => { 
         this.msgList = data; 

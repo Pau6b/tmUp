@@ -1,7 +1,7 @@
 import * as express from 'express';
 const admin = require("firebase-admin");
-import {Observable} from 'rxjs';
-import { firestore } from 'firebase-admin';
+//import {Observable} from 'rxjs';
+//import { firestore } from 'firebase-admin';
 
 //import { UserRecord } from 'firebase-functions/lib/providers/auth';
 //import 'rxjs/add/observable/of';
@@ -72,7 +72,7 @@ app.get('/obs/:teamId/:chatId', (req, res) => {
     (async () => {
         try {
             const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
-            return res.status(200).send(queryToObservable(query));
+            //return res.status(200).send(queryToObservable(query));
             const response: any = [];
             return new Promise(function(resolve, reject) {
                 setTimeout(() => {
@@ -293,7 +293,7 @@ app.delete('/:id', (req, res) => {
 });
 */
 module.exports = app;
-
+/*
 function queryToObservable(query: firestore.Query): Observable<firestore.DocumentData[]> {
     let observable = Observable.create(query.onSnapshot.bind(query));
     return observable;
@@ -306,4 +306,3 @@ function queryToObservable(query: firestore.Query): Observable<firestore.Documen
             snapUnsub();
         });
     });*/
-}

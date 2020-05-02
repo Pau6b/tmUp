@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators'; 
 
 interface message {
   id : string
@@ -18,6 +20,7 @@ export class apiRestProvider {
 
   constructor (
     private http: HttpClient,
+    private db: AngularFirestore
   ){ }
 
   public setToken(token: string) {
@@ -100,6 +103,20 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+'chats/'+teamId, { headers: this.headers });
   }
+
+public getMessagesObs(chatId: string, teamId: string) {
+  this.setHeader();
+  return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
+      return mensajes.map(m => {
+          const data = m.payload.doc.data() as message;
+          data.id = m.payload.doc.id;
+          return data;
+      })
+    }))
+  /*const query = this.db.collection('teams').doc(teamId).collection("chat").doc(chatId).collection("messages");
+  let messages =query.snapshotChanges().pipe(map(actions=> actions.map(this.documentToDomainObject)));
+  return messages;*/
+}
 
   public getMessages(chatId: string, teamId: string){
     this.setHeader();
