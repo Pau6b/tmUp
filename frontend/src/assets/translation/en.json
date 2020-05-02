@@ -1,0 +1,8 @@
+{
+    "SETTINGS": {
+        "title": "Configuration",
+        "help": "Help",
+        "about": "About us",
+        "changeLanguage": "Change language"
+    }
+}
