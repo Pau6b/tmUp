@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { storageProvider } from 'src/providers/storage/storage';
 
 import { PhotoService } from 'src/app/services/photo.service';
 import { File } from '@ionic-native/file/ngx';
@@ -17,14 +16,9 @@ export class TacticsPage implements OnInit {
 
   constructor(
     private router: Router,
-    private photoService: PhotoService,
-    private storageProv: storageProvider) { }
+    private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.storageProv.getTactics();
-  }
-
-  getImages() {
 
   }
 
