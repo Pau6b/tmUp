@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { storageProvider } from 'src/providers/storage/storage';
-import { AngularFireStorageModule } from '@angular/fire/storage'
 
 import { PhotoService } from 'src/app/services/photo.service';
 import { File } from '@ionic-native/file/ngx';
@@ -17,18 +16,12 @@ export class TacticsPage implements OnInit {
   tactics: File;
 
   constructor(
-    private storage: storageProvider,
     private router: Router,
     private photoService: PhotoService,
-    private fbstorage: AngularFireStorageModule) { }
+    private storageProv: storageProvider) { }
 
   ngOnInit() {
-    this.storage.getTactics()
-      .subscribe(
-        (data) => {
-          console.log(data)
-        }
-      )
+    this.storageProv.getTactics();
   }
 
   getImages() {

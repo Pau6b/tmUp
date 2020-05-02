@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chooser, ChooserResult } from '@ionic-native/chooser/ngx';
 
+
 @Component({
   selector: 'app-normative',
   templateUrl: './normative.page.html',
@@ -12,7 +13,7 @@ export class NormativePage implements OnInit {
   isPDF = 0;
 
   public constructor(
-    private chooser: Chooser,
+    private chooser: Chooser
     ) { }
 
   public ngOnInit() {
