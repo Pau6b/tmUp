@@ -32,6 +32,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicStorageModule } from '@ionic/storage';
 
+import { AngularFirestore } from '@angular/fire/firestore';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'/assets/translation/','.json');
 }
@@ -67,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
     Network,
     Connectivity,
     googleMaps,
+    AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],

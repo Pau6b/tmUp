@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /*end-of-configuration */
 //Per correr el development server => npm run serve dins de la carpeta de functions
 /* --- before all requests --- */
-function authchecker(req, res, next) {
+app.use((req, res, next) => {
     (async () => {
         if (req.path != '/login') {
             if (req.headers.authorization == null) {
@@ -49,8 +49,7 @@ function authchecker(req, res, next) {
         }
         return;
     })().then().catch();
-}
-app.use(authchecker);
+});
 /* --- end of before all requests --- */
 /* --- begin of routes --- */
 const loginHandler = require('./Auth/Login');
@@ -77,8 +76,8 @@ const finesHandler = require('./Memberships/Fines/Fines');
 app.use('/memberships/fines', finesHandler);
 const chatsHandler = require('./Teams/Chats/Chats');
 app.use('/chats', chatsHandler);
-const messagesHandler = require('./Teams/Chats/Messages/Messages');
-app.use('/chats/messages', messagesHandler);
+const messagesHandler = require('./Teams/Messages/Messages');
+app.use('/teams/messages', messagesHandler);
 /* --- end of routes --- */
 exports.app = functions.https.onRequest(app);
 const db = admin.firestore();
@@ -97,7 +96,6 @@ exports.onUserCreate = functions.auth.user().onCreate((user) => {
 });
 /*
 exports.onUserDelete = functions.auth.user().onDelete((user) => {
-
 });
-*/
+*/ 
 //# sourceMappingURL=index.js.map

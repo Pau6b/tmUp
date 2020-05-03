@@ -145,13 +145,10 @@ app.delete('/:teamName', (req, res) => {
                 return res.status(400).send("teamId is incorrect");
             }
             await team.delete();
-
             const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamName);
             const response: any = [];
-
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
-
                 for (const doc of docs) {
                      doc.delete();
                 }
@@ -163,7 +160,6 @@ app.delete('/:teamName', (req, res) => {
             console.log(error);
             return res.status(500).send(error)
         }
-
     })().then().catch();
 });
 */
