@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button routerLink="/team-list">Cancel</ion-button>
     </ion-buttons>
-    <ion-title>Añadir equipo</ion-title>
+    <ion-title>{{ 'ADD-TEAM.addTeam' | translate}}</ion-title>
     <ion-buttons slot="end">
       <ion-button [disabled]="(!createTeamForm.valid&&!joinTeamForm.valid)" (click)="onDone()">Done</ion-button>
     </ion-buttons>
@@ -11,10 +11,10 @@
   <ion-toolbar>
     <ion-segment value="create" [(ngModel)]="segmentModel">
       <ion-segment-button value="create">
-        <ion-label>Crear equipo</ion-label>
+        <ion-label>{{'ADD-TEAM.createTeam' | translate}}</ion-label>
       </ion-segment-button>
       <ion-segment-button value="join">
-        <ion-label>Unirse a equipo</ion-label>
+        <ion-label>{{'ADD-TEAM.joinTeam' | translate}}</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -28,11 +28,11 @@
             <img src="{{ createTeamForm.get('teamPhoto').value }}" onerror="src='../../../assets/icon/avatar.svg'">
           </ion-avatar>
           <ion-item  lines="none" class="ion-text-center">
-            <ion-label (click)="cameraOptions()" class="smallText">Editar Imagen</ion-label>
+            <ion-label (click)="cameraOptions()" class="smallText">{{'ADD-TEAM.editImage' | translate}}</ion-label>
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating">Nombre Equipo</ion-label>
+            <ion-label position="floating">{{'ADD-TEAM.teamName' | translate}}</ion-label>
             <ion-input type="text" formControlName="teamName"></ion-input>
           </ion-item>
           <!--mirar error-->
@@ -43,9 +43,9 @@
           </div>
         
           <ion-item>
-            <ion-label>Deporte</ion-label>
+            <ion-label>{{'CORE.sport' | translate}}</ion-label>
             <ion-select interface="popover" formControlName="sport">
-            <ion-select-option *ngFor="let s of sportsLists;" [value]="s">{{ s }}</ion-select-option>
+            <ion-select-option *ngFor="let s of sportsLists;" [value]="s">{{ 'CORE.sports.'+s | translate }}</ion-select-option>
             </ion-select>
           </ion-item>
           <div *ngFor="let err of errorMessages.sport">
@@ -61,7 +61,7 @@
       <form [formGroup]="joinTeamForm">
         <ion-list>
           <ion-item>
-            <ion-label position="floating">Introduce el ID de equipo</ion-label>
+            <ion-label position="floating">{{'ADD-TEAM.enterTeamId' | translate}}</ion-label>
             <ion-input type="text" formControlName="teamId"></ion-input>
           </ion-item>
           <div *ngFor="let err of errorMessages.teamId">
@@ -71,9 +71,9 @@
           </div>
 
           <ion-item>
-            <ion-label>Rol</ion-label>
+            <ion-label>{{'ADD-TEAM.role' | translate}}</ion-label>
             <ion-select interface="popover" formControlName="role">
-              <ion-select-option *ngFor="let jr of roles;" [value]="jr" >{{ jr }}</ion-select-option>
+              <ion-select-option *ngFor="let jr of roles;" [value]="jr" >{{ 'CORE.roles.'+jr | translate }}</ion-select-option>
             </ion-select>
           </ion-item>
           <div *ngFor="let err of errorMessages.role">

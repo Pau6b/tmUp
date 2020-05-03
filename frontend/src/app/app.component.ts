@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Estadísticas',
-      url: '',
+      url: 'statistics',
       icon: 'bar-chart'
     },
     {
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Fisioterapeuta',
-      url: '',
+      url: 'physiotherapist',
       icon: 'medkit'
     }
   ];

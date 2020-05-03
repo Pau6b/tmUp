@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Calendario</ion-title>
+    <ion-title>{{'CALENDAR.title' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="addEvent()">
         <ion-icon name="add-outline"></ion-icon>
@@ -63,9 +63,9 @@
     <ng-template #eventListTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
       <div class="colorKey"> 
         <span class="dotKey" id="training"></span>
-        <span class="itemKey">entreno</span>
+        <span class="itemKey">{{'CORE.events.training' | translate }}</span>
         <span class="dotKey" id="match"></span>
-        <span class="itemKey">partido</span>
+        <span class="itemKey">{{'CORE.events.match' | translate }}</span>
       </div>
       <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
         <ion-item class="eventItem" *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
@@ -77,7 +77,7 @@
           <span class="event-detail">  |  {{event.title}}</span>
         </ion-item>
         <ion-item *ngIf="selectedDate?.events.length==0">
-          <div class="no-events-label">{{noEventsLabel}}</div>
+          <div class="no-events-label">{{'CALENDAR.noEvents' | translate}}</div>
         </ion-item>
       </ion-list>
     </ng-template>

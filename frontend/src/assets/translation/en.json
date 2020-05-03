@@ -1,8 +1,128 @@
 {
+    "ADD-EVENT": {
+        "newEvent": "Add event",
+        "match": "Match",
+        "training": "Training",
+        "title": "Title",
+        "otherTeam":"Opponent team",
+        "location": "Location",
+        "starts": "Starts",
+        "ends": "Finishes",
+        "addExercises": "Add exercises here..."
+    },
+    "ADD-TEAM" : {
+        "addTeam": "Add team",
+        "createTeam": "Create team",
+        "joinTeam": "Join a team",
+        "editImage": "Edit image",
+        "teamName": "Team name",
+        "enterTeamId": "Insert team ID",
+        "role": "Role"
+    },
+    "CALENDAR" : {
+        "title": "Calendar",
+        "noEvents" : "There are no events"
+    },
     "SETTINGS": {
         "title": "Configuration",
         "help": "Help",
         "about": "About us",
         "changeLanguage": "Change language"
+    },
+    "CHAT": {
+        "title": "Chat",
+        "writeAMessage": "Write a message..."
+    },
+    "EDIT-EVENT": {
+        "pageName": "Edit event",
+        "title": "Title",
+        "deleteEvent": "Delete event"
+    },
+    "EVENT": {
+        "howToGet": "How to get"
+    },
+    "LOCATION-SELECT": {
+        "connectToInternet": "It seems that you have no Interent connection..."
+    },
+    "LOGIN": {
+        "wrongCombination": "Wrong user and/or passowrd",
+        "user": "User",
+        "password": "Password",
+        "forgotPassword": "Forgot passoword? ",
+        "submit": "Submit",
+        "enterWithGoogle": "Sign in with google",
+        "ifNotAccount": "If you do not have an account, ",
+        "registerHere": " register here"
+    },
+    "REGISTER": {
+        "registerWithEmail": "Register with email",
+        "emailAreadyInUse": "The email is already in use",
+        "register": "Resgister",
+        "alreadyHaveAnAccount": "I already have an account"
+    },
+    "NORMATIVE": {
+        "title": "Normative",
+        "noFile": "There are no normative filew. Add an existing file or write it down",
+        "normativeTitle": "Normative title",
+        "uploadFile": "Upload a file",
+        "fileTitle": "File title",
+        "norm": "Rules",
+        "insertNorm": "Insert rules here...",
+        "createDoc": "Create document"
+    },
+    "TACTICS": {
+        "title": "Tactics"
+    },
+    "PROFILE": {
+        "title": "Profile",
+        "editImage": "Edit image",
+        "name": "Name",
+        "email": "Email",
+        "changePassword": "Change password",
+        "updateProfile": "Update profile"
+    },
+    "TEAM-LIST": {
+        "title": "Team list"
+    },
+    "CORE" : {
+        "sport": "Sport",
+        "sports": {
+            "basketball": "Basketball",
+            "handball": "Handball",
+            "football": "Football"
+        },
+        "roles" : {
+            "physiotherapist": "Physiotherapist",
+            "player": "Player",
+            "staff": "Staff",
+            "admin": "Admin"
+        },
+        "events": {
+            "training": "Training",
+            "match": "Match"
+        },
+        "actions" : {
+            "cancel": "Cancel",
+            "done": "Done",
+            "edit": "Edit",
+            "here": "Here",
+            "delete": "Delete"
+        },
+        "verbs": {
+            "from": "From",
+            "to": "To",
+            "or": "or"
+        },
+        "pages": {
+            "main": "Home",
+            "normative": "Normative",
+            "tactics": "Tactics",
+            "statistics": "Statistics",
+            "chat": "Chat",
+            "calendar": "Calendar",
+            "physiotherapist": "Physiotherapist",
+            "nextMatch": "Next match",
+            "profile": "Profile" 
+        }
     }
 }

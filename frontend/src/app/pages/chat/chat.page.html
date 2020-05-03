@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Chat</ion-title>
+    <ion-title>{{'CHAT.title' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -106,6 +106,6 @@
 
 <ion-footer>
   <ion-item>
-    <ion-textarea autosize maxRows="3" class="input-box" placeholder="Write a message..." [(ngModel)]="newMessage" (keypress)="userTyping($event)"></ion-textarea>
+    <ion-textarea autosize maxRows="3" class="input-box" placeholder="{{'CHAT.writeAMessage' | translate }}" [(ngModel)]="newMessage" (keypress)="userTyping($event)"></ion-textarea>
   </ion-item>
 </ion-footer>

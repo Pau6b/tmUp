@@ -1,8 +1,128 @@
 {
+    "ADD-EVENT": {
+        "newEvent": "Nou esdeveniment",
+        "match": "Partit",
+        "training": "Entrenament",
+        "title": "Títol",
+        "otherTeam":"Equip rival",
+        "location": "Localització",
+        "starts": "Comença",
+        "ends": "Acaba",
+        "addExercises": "Afegeix els exercicis aqui..."
+    },
+    "ADD-TEAM" : {
+        "addTeam": "Afegit equip",
+        "createTeam": "Crear equip",
+        "joinTeam": "Unirse a un equip",
+        "editImage": "Editar imatge",
+        "teamName": "Nom de l'equip",
+        "enterTeamId": "Introdueix el ID de l'equip",
+        "role": "Rol"
+    },
+    "CALENDAR" : {
+        "title": "Calendari",
+        "noEvents" : "No hi ha esdeveniments"
+    },
     "SETTINGS": {
         "title": "Configuració",
         "help": "Ajuda",
         "about": "Sobre nosaltres",
         "changeLanguage": "Canviar idioma"
+    },
+    "CHAT": {
+        "title": "Xat",
+        "writeAMessage": "Escriu un missatge..."
+    },
+    "EDIT-EVENT": {
+        "pageName": "Modificar esdeveniment",
+        "title": "Títol",
+        "deleteEvent": "Esborrar esdeveniment"
+    },
+    "EVENT": {
+        "howToGet": "Com arribar"
+    },
+    "LOCATION-SELECT": {
+        "connectToInternet": "Sembla que no tens connexió..."
+    },
+    "LOGIN": {
+        "wrongCombination": "Usuari i/o contrassenya incorrecte",
+        "user": "Usuari",
+        "password": "Contrasenya",
+        "forgotPassword": "Has oblidat la contrassenya? Recupera-la!",
+        "submit": "Entra",
+        "enterWithGoogle": "Entrar amb Google",
+        "ifNotAccount": "Si encara no tiens compte, ",
+        "registerHere": " enregistra't aqui"
+    },
+    "REGISTER": {
+        "registerWithEmail": "Registre amb correu",
+        "emailAreadyInUse": "El correu ja està associat a un altre compte",
+        "register": "Registrar-me",
+        "alreadyHaveAnAccount": "Ya tengo un compte"
+    },
+    "NORMATIVE": {
+        "title": "Normativa",
+        "noFile": "No hi ha cap fitxer de normatives. Puja un fitxer o crea'n un de noy",
+        "normativeTitle": "Títol",
+        "uploadFile": "Pujar documento",
+        "fileTitle": "Títol del fitxer",
+        "norm": "Normes",
+        "insertNorm": "Introdueix normes aqui...",
+        "createDoc": "Crear fitxer"
+    },
+    "TACTICS": {
+        "title": "Tàctiques"
+    },
+    "PROFILE": {
+        "title": "Perfil",
+        "editImage": "Editar imatge",
+        "name": "Nom",
+        "email": "Correu electrònic",
+        "changePassword": "Canviar contrassenya",
+        "updateProfile": "Actualizar perfil"
+    },
+    "TEAM-LIST": {
+        "title": "Llista d'equips"
+    },
+    "CORE" : {
+        "sport": "Esport",
+        "sports": {
+            "basketball": "Basketball",
+            "handball": "Handball",
+            "football": "Futbol"
+        },
+        "roles" : {
+            "physiotherapist": "Fisioterapeuta",
+            "player": "Jugador",
+            "staff": "Equip técnico",
+            "admin": "Admin"
+        },
+        "events": {
+            "training": "Entrenament",
+            "match": "Partit"
+        },
+        "actions" : {
+            "cancel": "Cancelar",
+            "done": "Acabar",
+            "edit": "Editar",
+            "here": "aqui",
+            "delete": "Eliminar"
+        },
+        "verbs": {
+            "from": "des de",
+            "to": "fins a",
+            "or": "o"
+        },
+        "pages": {
+            "main": "Inici",
+            "normative": "Normativa",
+            "tactics": "Tàctiques",
+            "statistics": "Estadístiques",
+            "chat": "Xat",
+            "calendar": "Calendari",
+            "physiotherapist": "Fisioterapeuta",
+            "nextMatch": "Següent partit",
+            "profile": "Perfil" 
+        }
     }
 }

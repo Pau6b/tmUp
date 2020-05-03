@@ -9,6 +9,7 @@ import { CalendarPageRoutingModule } from './calendar-routing.module';
 import { CalendarPage } from './calendar.page';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { NgCalendarModule  } from 'ionic2-calendar';
     FormsModule,
     IonicModule,
     CalendarPageRoutingModule,
-    NgCalendarModule
+    NgCalendarModule,
+    TranslateModule
   ],
   providers: [DatePipe],
   declarations: [CalendarPage]

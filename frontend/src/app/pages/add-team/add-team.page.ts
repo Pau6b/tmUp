@@ -4,8 +4,7 @@ import { FormBuilder, Validators} from '@angular/forms'
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
-import { sports } from '../../Core/Arrays';
-import { rols } from '../../Core/Arrays';
+import { sports, rols } from '../../Core/Arrays';
 
 @Component({
   selector: 'app-add-team',
