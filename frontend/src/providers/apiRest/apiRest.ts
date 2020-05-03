@@ -104,9 +104,9 @@ export class apiRestProvider {
     return this.http.get(this.url+'chats/'+teamId, { headers: this.headers });
   }
 
-  public getMessages(chatId: string, teamId: string){
+  public getMessages(teamId: string){
     this.setHeader();
-      return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
+      return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/messages", ref => ref.orderBy("dateOrd", "asc")).snapshotChanges().pipe(map(mensajes => {
         return mensajes.map(m => {
             const data = m.payload.doc.data() as message;
             data.id = m.payload.doc.id;
@@ -120,7 +120,7 @@ export class apiRestProvider {
   public createMessage(messageInfo){
     this.setHeader();
     return new Promise(resolve => {
-      this.http.post(this.url+'chats/messages/create', JSON.stringify(messageInfo), { headers: this.headers })
+      this.http.post(this.url+'teams/messages/create', JSON.stringify(messageInfo), { headers: this.headers })
       .subscribe(data => {
           resolve(data);
       })
