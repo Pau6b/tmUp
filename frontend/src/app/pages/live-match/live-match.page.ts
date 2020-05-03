@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
@@ -62,6 +62,8 @@ export class LiveMatchPage implements OnInit {
 
   titulars = [];
 
+  stadisticsLog = [];
+
   constructor(
     private apiProv: apiRestProvider,
     private route: ActivatedRoute,
@@ -80,10 +82,20 @@ export class LiveMatchPage implements OnInit {
     this.playersList.open();
   }
 
+  getTeam() {
+    if (this.apiProv.getTeamId() != "") {
+      this.apiProv.getCurrentTeam().subscribe((data) => {
+        let team: any;
+        team = data;
+        this.sport = team.sport;
+      });
+    }
+  }
+
   //confirmation for titulars
   async onTitularsSelected() {
     let alert = await this.alertCtrl.create({
-      message: 'Has seleccionado ' + this.titulars.length + ' jugadores titulares. Correcto?',
+      message: 'Has seleccionado ' + this.titulars.length + ' jugadores titulares. ¿Correcto?',
       buttons: [
         {
           text: 'Cancel',
@@ -98,17 +110,23 @@ export class LiveMatchPage implements OnInit {
       ]
     });
     alert.present();
-    console.log(this.titulars);
   }
 
-  getTeam() {
-    if (this.apiProv.getTeamId() != "") {
-      this.apiProv.getCurrentTeam().subscribe((data) => {
-        let team: any;
-        team = data;
-        this.sport = team.sport;
-      });
+  //Methods from component's events
+  onLocalScored(event: any) {
+    let infoEvent = {
+      time: this.time,
+      type: "scored",
+      points: event.points,
+      player: event.player
     }
+    this.stadisticsLog.push(infoEvent);
+    this.localPts += event.points;
+    console.log(this.stadisticsLog);
+  }
+
+  onVisitorScored(points) {
+    this.visitPts+=points;
   }
 
   // Stopwatch methods

@@ -1,13 +1,27 @@
+<ion-item [hidden]="true">
+  <ion-label>Jugadores Convocados</ion-label>
+  <ion-select #ConvList multiple="true" [(ngModel)]="titulars" (ionChange)="onChange()">
+    <ion-select-option *ngFor="let conv of listaConv" [value]="conv.name"> {{ conv.name }}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item [hidden]="true">
+  <ion-label>Jugadores titulares</ion-label>
+  <ion-select #TitularsList [(ngModel)]="selectedPlayer" (ionChange)="onChange()">
+    <ion-select-option *ngFor="let titu of titulars" [value]="titu"> {{ titu }}</ion-select-option>
+  </ion-select>
+</ion-item>
+
 <ion-grid>
   <ion-row>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/football/localGoal.png">
+      <img src="../../../../../assets/liveMatchIcons/football/localGoal.png" (click)="lclScored()">
     </ion-col>
     <ion-col>
       <img src="../../../../../assets/liveMatchIcons/football/stoppedGoal.png">
     </ion-col>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/football/visitorGoal.png">
+      <img src="../../../../../assets/liveMatchIcons/football/visitorGoal.png" (click)="vstScored()">
     </ion-col>
   </ion-row>
 
@@ -19,7 +33,7 @@
       <img src="../../../../../assets/liveMatchIcons/football/redCard.png">
     </ion-col>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/football/change.png">
+      <img src="../../../../../assets/liveMatchIcons/football/change.png" (click)="onChangePlayers()">
     </ion-col>
   </ion-row>
 </ion-grid>

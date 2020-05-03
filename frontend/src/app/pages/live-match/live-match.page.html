@@ -46,11 +46,19 @@
     </ion-grid>
   </div>
 
-  <app-basketball-view *ngIf="sport=='Basketball'"></app-basketball-view>
+  <app-basketball-view *ngIf="sport=='Basketball'">
+  </app-basketball-view>
 
-  <app-football-view *ngIf="sport=='Football'"></app-football-view>
+  <app-football-view *ngIf="sport=='Football'"
+  [listaConv]="listaConv"
+  [titulars]="titulars"
+  (localScored)="onLocalScored($event)"
+  (visitorScored)="onVisitorScored($event)"
+  >
+  </app-football-view>
 
-  <app-handball-view *ngIf="sport=='Handball'"></app-handball-view>
+  <app-handball-view *ngIf="sport=='Handball'">
+  </app-handball-view>
 
   <ion-button [disabled]="running" class="bottomButton">Finalizar</ion-button>
 
