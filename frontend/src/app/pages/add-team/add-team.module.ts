@@ -9,6 +9,7 @@ import { AddTeamPageRoutingModule } from './add-team-routing.module';
 import { AddTeamPage } from './add-team.page';
 
 import { ReactiveFormsModule } from '@angular/forms'
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms'
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    AddTeamPageRoutingModule
+    AddTeamPageRoutingModule,
+    TranslateModule
   ],
   declarations: [AddTeamPage]
 })

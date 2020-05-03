@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button (click)="onCancel()">Cancel</ion-button>
+      <ion-button (click)="onCancel()">{{ 'CORE.actions.cancel' | translate }}</ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button [disabled]="saveDisabled" (click)="onDone()">Done</ion-button>
+      <ion-button [disabled]="saveDisabled" (click)="onDone()">{{ 'CORE.actions.done' | translate }}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 
@@ -20,7 +20,7 @@
 
 <ion-content>
   <div #pleaseConnect id="please-connect">
-    <p>Please connect to the Internet...</p>
+    <p>{{ 'LOCATION-SELECT.connectToInternet' | translate }}</p>
   </div>
 
   <div #map id="map">
