@@ -110,7 +110,7 @@ export class AppComponent implements OnInit {
     }
     else {
       //if <1h to match, redirect to LiveMatch
-      this.router.navigate(['live-match', {id: event.id}]);
+      this.router.navigate(['live-match', {id: event.id, title: event.title}]);
     }
   }
 
