@@ -104,23 +104,16 @@ export class apiRestProvider {
     return this.http.get(this.url+'chats/'+teamId, { headers: this.headers });
   }
 
-public getMessagesObs(chatId: string, teamId: string) {
-  this.setHeader();
-  return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
-      return mensajes.map(m => {
-          const data = m.payload.doc.data() as message;
-          data.id = m.payload.doc.id;
-          return data;
-      })
-    }))
-  /*const query = this.db.collection('teams').doc(teamId).collection("chat").doc(chatId).collection("messages");
-  let messages =query.snapshotChanges().pipe(map(actions=> actions.map(this.documentToDomainObject)));
-  return messages;*/
-}
-
   public getMessages(chatId: string, teamId: string){
     this.setHeader();
-    return this.http.get(this.url+'chats/messages/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
+      return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/chats/t8qtEbMEcFbflhKlHGsQ/messages").snapshotChanges().pipe(map(mensajes => {
+        return mensajes.map(m => {
+            const data = m.payload.doc.data() as message;
+            data.id = m.payload.doc.id;
+            return data;
+        })
+    }));
+    //return this.http.get(this.url+'chats/messages/obs6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
     //return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId, { headers: this.headers });
   }
 

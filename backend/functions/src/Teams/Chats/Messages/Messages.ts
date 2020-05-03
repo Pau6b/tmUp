@@ -1,7 +1,9 @@
 import * as express from 'express';
 const admin = require("firebase-admin");
-//import {Observable} from 'rxjs';
-//import { firestore } from 'firebase-admin';
+import {Observable} from 'rxjs';
+import { firestore } from 'firebase-admin';
+import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
+//import { analytics } from 'firebase-functions';
 
 //import { UserRecord } from 'firebase-functions/lib/providers/auth';
 //import 'rxjs/add/observable/of';
@@ -67,12 +69,45 @@ app.get('/:teamId/:chatId', (req, res) => {
     })().then().catch();
 });
 
+app.get("/obs", (req, res) => {
+    (async () => {
+        try {
+            const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
+            const obs = await queryToObservable(query);
+            obs.subscribe(
+                (data) => { 
+                  console.log(data); 
+                });
+            return res.status(200).send(obs);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
 //ReadAll => GET
 app.get('/obs/:teamId/:chatId', (req, res) => {
     (async () => {
         try {
             const query = db.collection('teams').doc(req.params.teamId).collection('chats').doc(req.params.chatId).collection('messages');
-            //return res.status(200).send(queryToObservable(query));
+
+          let observable = Observable.create((observer: any) => 
+            query.onSnapshot(observer)
+          );
+          observable.subscribe({
+            next(value: any) { console.log('value', value); }
+          });
+/*
+            const obs = await queryToObservable(query);
+            obs.subscribe(texto => {
+                let mensaje = texto;
+                console.log(mensaje);
+            });
+*/
+            return res.status(200).send(observable);
             const response: any = [];
             return new Promise(function(resolve, reject) {
                 setTimeout(() => {
@@ -88,10 +123,7 @@ app.get('/obs/:teamId/:chatId', (req, res) => {
                             };
                             response.push(selectedItem);
                         })
-                        console.log(response);
-                        return res
-                            .status(200)
-                            .send({ response });
+                        console.log(response);;
                         return res.status(200).send(response);
                     })
                     if(true){
@@ -293,16 +325,14 @@ app.delete('/:id', (req, res) => {
 });
 */
 module.exports = app;
-/*
-function queryToObservable(query: firestore.Query): Observable<firestore.DocumentData[]> {
+
+function queryToObservable(query: firestore.Query): Observable<DocumentSnapshot[]>{
+
     let observable = Observable.create(query.onSnapshot.bind(query));
     return observable;
     /*return new Observable(subscriber => {
         const snapUnsub = query.onSnapshot(next => {
             subscriber.next(next.docSnapshots.map(doc => doc.data()));
         });
-
-        subscriber.add(() => {
-            snapUnsub();
-        });
     });*/
+}

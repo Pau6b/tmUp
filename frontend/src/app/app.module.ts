@@ -27,7 +27,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Network } from '@ionic-native/network/ngx'
 import { Connectivity } from '../providers/connectivity/connectivity-service'
 import { googleMaps } from '../providers/googleMaps/google-maps'
-
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,6 +52,7 @@ import { googleMaps } from '../providers/googleMaps/google-maps'
     Network,
     Connectivity,
     googleMaps,
+    AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],
