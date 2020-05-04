@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 import { PhotoService } from 'src/app/services/photo.service';
-import { File } from '@ionic-native/file/ngx';
 import { Router } from '@angular/router';
+
+import { File, FileEntry } from '@ionic-native/file/ngx';
+
+const MEDIA_FOLDER_NAME = "my_tactics";
 
 @Component({
   selector: 'app-tactics',
@@ -11,30 +14,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./tactics.page.scss'],
 })
 export class TacticsPage implements OnInit {
-
-  img;
-  tactics: File;
+  
+  files = [];
 
   constructor(
     private api: apiRestProvider,
     private router: Router,
+    private file: File,
     private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.api.getTactics()
-      .subscribe(
-        (data) => {
-          console.log(data)
-        }
-      )
+    this.files = this.photoService.getFiles();
   }
+
 
   addImage(img){
     this.router.navigate(["/add-tactic", {img: img}]);
   }
 
   goToaddTactic(img){
-    this.photoService.alertSheetPictureOptions();
+    this.photoService.selectMedia();
   }
   
   seeImage(img){

@@ -18,7 +18,10 @@ import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
@@ -70,6 +73,10 @@ export function createTranslateLoader(http: HttpClient) {
     Connectivity,
     googleMaps,
     AngularFirestore,
+    ImagePicker,
+    MediaCapture,
+    File,
+    PhotoViewer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],
