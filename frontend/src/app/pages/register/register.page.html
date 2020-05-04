@@ -6,7 +6,7 @@
     <ion-card-header>
       <ion-item lines="none" class="titleRegister">
         <ion-icon slot="start" src="../../../assets/icon/mail.svg"></ion-icon>
-        <ion-card-title>Registro con correo</ion-card-title>
+        <ion-card-title>{{ 'REGISTER.registerWithEmail' | translate }}</ion-card-title>
       </ion-item>
     </ion-card-header>
 
@@ -18,7 +18,7 @@
           </ion-avatar>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Nombre</ion-label>
+          <ion-label position="floating">{{ 'PROFILE.name' | translate }}</ion-label>
           <ion-input type="text" formControlName="userName"></ion-input>
         </ion-item>
         <div *ngFor="let err of errorMessages.userName">
@@ -28,7 +28,7 @@
         </div>
 
         <ion-item>
-          <ion-label position="floating">E-mail</ion-label>
+          <ion-label position="floating">{{ 'PROFILE.email' | translate }}</ion-label>
           <ion-input type="email" formControlName="email"></ion-input>
         </ion-item>
         <div *ngFor="let err of errorMessages.email">
@@ -38,12 +38,12 @@
         </div>
         <div *ngIf="emailUsed">
           <ng-container>
-            <small class="errorMessage">Email ya está asociado a otra cuenta</small>
+            <small class="errorMessage">{{ 'REGISTER.emailAreadyInUse' | translate }}</small>
           </ng-container>
         </div>
 
         <ion-item>
-          <ion-label position="floating">Password</ion-label>
+          <ion-label position="floating">{{ 'LOGIN.password' | translate }}</ion-label>
           <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
         <div *ngFor="let err of errorMessages.password">
@@ -53,8 +53,8 @@
         </div>
 
         <div class="cardFooter">
-          <ion-button [disabled]="!registerForm.valid" type="submit" expand="block">Registrarme</ion-button>
-          <ion-label class="smallText" routerLink="login" routerDirection="root">Ya tengo una cuenta</ion-label>
+          <ion-button [disabled]="!registerForm.valid" type="submit" expand="block">{{ 'REGISTER.register' | translate }}</ion-button>
+          <ion-label class="smallText" routerLink="login" routerDirection="root">{{ 'REGISTER.alreadyHaveAnAccount' | translate }}</ion-label>
         </div>
       </ion-list>
     </form>

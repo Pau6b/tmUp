@@ -1,0 +1,128 @@
+{
+    "ADD-EVENT": {
+        "newEvent": "Nuevo evento",
+        "match": "Partido",
+        "training": "Entrenamiento",
+        "title": "Título",
+        "otherTeam":"Equipo rival",
+        "location": "Localización",
+        "starts": "Empieza",
+        "ends": "Acaba",
+        "addExercises": "Añade los ejercicios aquí..."
+    },
+    "ADD-TEAM" : {
+        "addTeam": "Añadir equipo",
+        "createTeam": "Crear equipo",
+        "joinTeam": "Unirse a un equipo",
+        "editImage": "Editar imagen",
+        "teamName": "Nombre de equipo",
+        "enterTeamId": "Introduce el ID de equipo",
+        "role": "Rol"
+    },
+    "CALENDAR" : {
+        "title": "Calendario",
+        "noEvents" : "No hay eventos"
+    },
+    "SETTINGS": {
+        "title": "Configuración",
+        "help": "Ayuda",
+        "about": "Sobre nosotros",
+        "changeLanguage": "Cambiar idioma"
+    },
+    "CHAT": {
+        "title": "Chat",
+        "writeAMessage": "Escribe un mensaje..."
+    },
+    "EDIT-EVENT": {
+        "pageName": "Modificar evento",
+        "title": "Título",
+        "deleteEvent": "Eliminar evento"
+    },
+    "EVENT": {
+        "howToGet": "Cómo llegar"
+    },
+    "LOCATION-SELECT": {
+        "connectToInternet": "Parece que no tienes conexion..."
+    },
+    "LOGIN": {
+        "wrongCombination": "Usuario i/o contraseña incorrecto",
+        "user": "Usuario",
+        "password": "Contraseña",
+        "forgotPassword": "Has olvidado la contraseña? Recuperala ",
+        "submit": "Acceder",
+        "enterWithGoogle": "Entrar con Google",
+        "ifNotAccount": "Si aún no tienes cuenta, ",
+        "registerHere": " registrate aquí"
+    },
+    "REGISTER": {
+        "registerWithEmail": "Registro con correo",
+        "emailAreadyInUse": "Email ya está asociado a otra cuenta",
+        "register": "Registrarme",
+        "alreadyHaveAnAccount": "Ya tengo una cuenta"
+    },
+    "NORMATIVE": {
+        "title": "Normativa",
+        "noFile": "No hay ningun fichero de normativas. Añade un fichero existente o redactalo ahora",
+        "normativeTitle": "Titulo normativa",
+        "uploadFile": "Cargar documento",
+        "fileTitle": "Titulo del fichero",
+        "norm": "Normas",
+        "insertNorm": "Introduce cualquier norma aqui...",
+        "createDoc": "Crear documento"
+    },
+    "TACTICS": {
+        "title": "Tácticas"
+    },
+    "PROFILE": {
+        "title": "Perfil",
+        "editImage": "Editar imagen",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "changePassword": "Cambiar contraseña",
+        "updateProfile": "Actualizar perfil"
+    },
+    "TEAM-LIST": {
+        "title": "Lista de equipos"
+    },
+    "CORE" : {
+        "sport": "Deporte",
+        "sports": {
+            "basketball": "Baloncesto",
+            "handball": "Balonmano",
+            "football": "Fútbol"
+        },
+        "roles" : {
+            "physiotherapist": "Fisioterapeuta",
+            "player": "Jugador",
+            "staff": "Cuerpo técnico",
+            "admin": "Admin"
+        },
+        "events": {
+            "training": "Entrenamiento",
+            "match": "Partido"
+        },
+        "actions" : {
+            "cancel": "Cancelar",
+            "done": "Acabar",
+            "edit": "Editar",
+            "here": "aquí",
+            "delete": "Eliminar"
+        },
+        "verbs": {
+            "from": "desde",
+            "to": "hasta",
+            "or": "o"
+        },
+        "pages": {
+            "main": "Inicio",
+            "normative": "Normativa",
+            "tactics": "Tacticas",
+            "statistics": "Estadísticas",
+            "chat": "Chat",
+            "calendar": "Calendario",
+            "physiotherapist": "Fisioterapeuta",
+            "nextMatch": "Próximo partido",
+            "profile": "Perfil" 
+        }
+    }
+}

@@ -10,6 +10,7 @@ import { LocationSelectPageModule } from '../location-select/location-select.mod
 import { AddEventPageRoutingModule } from './add-event-routing.module';
 
 import { AddEventPage } from './add-event.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { AddEventPage } from './add-event.page';
     IonicModule,
     ReactiveFormsModule,
     AddEventPageRoutingModule,
-    LocationSelectPageModule
+    LocationSelectPageModule,
+    TranslateModule
   ],
   declarations: [AddEventPage],
 })

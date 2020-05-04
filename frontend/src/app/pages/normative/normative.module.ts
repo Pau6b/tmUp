@@ -13,6 +13,7 @@ import { IonicModule } from '@ionic/angular';
 import { NormativePageRoutingModule } from './normative-routing.module';
 
 import { NormativePage } from './normative.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -21,7 +22,9 @@ import { NormativePage } from './normative.page';
     IonicModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    NormativePageRoutingModule
+    NormativePageRoutingModule,
+    TranslateModule
+
   ],
   declarations: [NormativePage]
 })

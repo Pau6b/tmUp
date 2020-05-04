@@ -15,7 +15,7 @@ import { environment } from '../environments/environment';
 
 import { Camera } from '@ionic-native/camera/ngx'
 import { apiRestProvider } from '../providers/apiRest/apiRest';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { File } from '@ionic-native/file/ngx';
@@ -24,10 +24,19 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { Network } from '@ionic-native/network/ngx'
-import { Connectivity } from '../providers/connectivity/connectivity-service'
-import { googleMaps } from '../providers/googleMaps/google-maps'
+import { Network } from '@ionic-native/network/ngx';
+import { Connectivity } from '../providers/connectivity/connectivity-service';
+import { googleMaps } from '../providers/googleMaps/google-maps';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { IonicStorageModule } from '@ionic/storage';
+
+import { AngularFirestore } from '@angular/fire/firestore';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http,'/assets/translation/','.json');
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,7 +47,15 @@ import { googleMaps } from '../providers/googleMaps/google-maps'
     HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    NgCalendarModule
+    NgCalendarModule,
+    IonicStorageModule.forRoot(),
+    TranslateModule.forRoot({
+      loader:{
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     StatusBar,
@@ -52,6 +69,7 @@ import { googleMaps } from '../providers/googleMaps/google-maps'
     Network,
     Connectivity,
     googleMaps,
+    AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Perfil</ion-title>
+    <ion-title>{{ 'PROFILE.title' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -15,11 +15,11 @@
           <img src="{{ myPhoto }}" onerror=" src = '../../../assets/icon/avatar.svg'">
         </ion-avatar>
         <ion-item  lines="none" class="ion-text-center">
-          <ion-label (click)="cameraOptions()" class="smallText">Editar Imagen</ion-label>
+          <ion-label (click)="cameraOptions()" class="smallText">{{ 'PROFILE.editImage' | translate }}</ion-label>
         </ion-item>
         <br>
         <ion-item>
-          <ion-label position="floating">Nombre</ion-label>
+          <ion-label position="floating">{{ 'PROFILE.name' | translate }}</ion-label>
           <ion-input type="text" formControlName="userName" (click)="onInputClick()"></ion-input>
         </ion-item>
         <div *ngFor="let err of errorMessages.userName">
@@ -29,7 +29,7 @@
         </div>
         <br>
         <ion-item>
-          <ion-label position="floating">Correo electrónico</ion-label>
+          <ion-label position="floating">{{ 'PROFILE.email' | translate }}</ion-label>
           <ion-input type="email" formControlName="email" (click)="onInputClick()"></ion-input>
         </ion-item>
         <div *ngFor="let err of errorMessages.email">
@@ -39,11 +39,11 @@
         </div>
         <br>
         <ion-item lines="none">
-          <ion-label class="textPWD" (click)="presentConfirm()">Cambiar la contraseña</ion-label>
+          <ion-label class="textPWD" (click)="presentConfirm()">{{ 'PROFILE.changePassword' | translate }}</ion-label>
         </ion-item>
         <br>
         <div >
-          <ion-button *ngIf="InputClick" type="submit" expand="block">Actualizar Perfil</ion-button>
+          <ion-button *ngIf="InputClick" type="submit" expand="block">{{ 'PROFILE.updateProfile' | translate }}</ion-button>
         </div>
         <br>
         <br>

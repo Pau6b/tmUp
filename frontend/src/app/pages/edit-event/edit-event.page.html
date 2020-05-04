@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button [icon]="null">Cancel</ion-back-button>
+      <ion-back-button [icon]="null">{{'CORE.actions.cancel' | translate}}</ion-back-button>
     </ion-buttons>
-    <ion-title>Modificar Evento</ion-title>
+    <ion-title>{{'EDIT-EVENT.pageName' | translate}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button [disabled]="!editEventForm.valid" (click)="onDone()">Done</ion-button>
+      <ion-button [disabled]="!editEventForm.valid" (click)="onDone()">{{'CORE.actions.done' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -14,15 +14,15 @@
   <form [formGroup]="editEventForm">
     <ion-list>
       <ion-item>
-        <ion-input type="text" placeholder="Título" formControlName="title"></ion-input>
+        <ion-input type="text" placeholder="{{'EDIT-EVENT.title' | translate}}" formControlName="title"></ion-input>
       </ion-item>
 
       <ion-item *ngIf="event.type === 'match'">
-        <ion-input type="text" placeholder="Equipo rival" formControlName="rival"></ion-input>
+        <ion-input type="text" placeholder="{{'ADD-EVENT.otherTeam' | translate}}" formControlName="rival"></ion-input>
       </ion-item>
 
       <ion-item (click)="launchLocationPage()" formGroupName="location">
-        <ion-input type="search" placeholder="Localización" formControlName="name"></ion-input>
+        <ion-input type="search" placeholder="{{'ADD-EVENT.location' | translate}}" formControlName="name"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -36,11 +36,11 @@
       </ion-item>
 
       <ion-item *ngIf="event.type === 'training'">
-        <ion-textarea rows="6" placeholder="Añade los ejercicios aquí..." formControlName="description"></ion-textarea>
+        <ion-textarea rows="6" placeholder="{{'ADD-EVENT.addExercises' | translate}}" formControlName="description"></ion-textarea>
       </ion-item>
 
     </ion-list>
     
-    <ion-button class="bottomButton" expand="block" color="danger" (click)="deleteEvent()">Eliminar evento</ion-button>
+    <ion-button class="bottomButton" expand="block" color="danger" (click)="deleteEvent()">{{'EDIT-EVENT.deleteEvent' | translate}}</ion-button>
   </form>
 </ion-content>

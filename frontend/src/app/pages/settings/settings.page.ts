@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { languages } from '../../Core/Arrays'
+import { LanguageService } from 'src/providers/language/language.service';
 
 @Component({
   selector: 'app-settings',
@@ -8,11 +8,18 @@ import { languages } from '../../Core/Arrays'
 })
 export class SettingsPage implements OnInit {
 
-  arrayString = languages;
+  public languages = [];
+  public selected = '';
 
-  constructor() { }
+  constructor(private languageService: LanguageService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
+    this.languages = this.languageService.getLanguages();
+    this.selected = this.languageService.selected; 
+  }
+
+  public select(lng: string) {
+    this.languageService.setLanguage(lng);
   }
 
 }
