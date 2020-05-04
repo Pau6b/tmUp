@@ -21,3 +21,4 @@ import { TranslateModule } from '@ngx-translate/core';
   declarations: [TacticsPage]
 })
 export class TacticsPageModule {}
+
