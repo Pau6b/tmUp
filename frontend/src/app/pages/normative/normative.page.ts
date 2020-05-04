@@ -8,9 +8,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./normative.page.scss'],
 })
 export class NormativePage implements OnInit {
-  private url: string = 'gs://tmup-908e4.appspot.com/';
   fileObj: ChooserResult;
   isPDF = 0;
+
 
   public constructor(
     private http: HttpClient,
@@ -20,17 +20,17 @@ export class NormativePage implements OnInit {
 
   public ngOnInit() {
     //subir file
-    let content = "Hello Zip";
+    /*let content = "Hello Zip";
     let data = new Blob([content]);
     let arrayOfBlob = new Array<Blob>();
     arrayOfBlob.push(data);
     let applicationZip = new File(arrayOfBlob, "Mock.zip",{ type: 'application/pdf' });
     //-------------------
     const path = "/normativa/prueba3.pdf";
-    let ref = this.storage.ref;
-    let task = this.storage.upload(path,applicationZip);
-    console.log("subido");
-
+    const ref = this.storage.ref("/tactics/hoy.txt");
+    const task = ref.put(applicationZip);
+    this.uploadPercent = task.percentageChanges();
+    console.log('Image uploaded!');*/
   }
 
   public chooseFile(){
@@ -45,5 +45,11 @@ export class NormativePage implements OnInit {
 
   public pdfViewer(){
 
+  }
+
+  public upload(file:File) {
+    const path = "/normatives/"+"teamId"+"/name_file.pdf";
+    const ref = this.storage.ref;
+    const task = this.storage.upload(path,file);
   }
 }
