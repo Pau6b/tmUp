@@ -125,8 +125,20 @@ export class LiveMatchPage implements OnInit {
     console.log(this.stadisticsLog);
   }
 
+  onStoppedGoal(info) {
+
+  }
+
   onVisitorScored(points) {
     this.visitPts+=points;
+  }
+
+  onRedCard(info) {
+
+  }
+
+  onYellowCard(info) {
+
   }
 
   // Stopwatch methods

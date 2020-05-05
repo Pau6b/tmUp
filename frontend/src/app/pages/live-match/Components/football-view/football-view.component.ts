@@ -13,8 +13,11 @@ export class FootballViewComponent implements OnInit {
   @Input() listaConv;
   @Input() titulars;
 
-  @Output() localScored = new EventEmitter<any>();
-  @Output() visitorScored = new EventEmitter<any>();
+  @Output() myTeamScored = new EventEmitter<any>();
+  @Output() stoppedGoal = new EventEmitter<any>();
+  @Output() opponentScored = new EventEmitter<any>();
+  @Output() setRedCard = new EventEmitter<any>();
+  @Output() setYellowCard = new EventEmitter<any>();
 
   selectedPlayer;
   eventType;
@@ -24,19 +27,43 @@ export class FootballViewComponent implements OnInit {
   ngOnInit() {}
 
   onChange() {
-    if(this.eventType == "lclScored") {
-      this.localScored.emit({points: 1, player: this.selectedPlayer});
+    if(this.eventType == "mytmScored") {
+      this.myTeamScored.emit({points: 1, player: this.selectedPlayer});
+    }
+    else if( this.eventType == "stopGoal") {
+      this.stoppedGoal.emit({player: this.selectedPlayer});
+    }
+    else if( this.eventType == "redCard") {
+      this.setRedCard.emit({player: this.selectedPlayer, card: "red"});
+    }
+    else if( this.eventType == "yellowCard") {
+      this.setYellowCard.emit({player: this.selectedPlayer, card: "red"});
     }
     this.eventType = "";
   }
 
-  lclScored() {
-    this.eventType="lclScored"
+  myTmScored() {
+    this.eventType = "mytmScored";
     this.titularsList.open();
   }
 
-  vstScored() {
-    this.visitorScored.emit(1);
+  stopGoal() {
+    this.eventType = "stopGoal";
+    this.titularsList.open();
+  }
+
+  opScored() {
+    this.opponentScored.emit(1);
+  }
+
+  redCard() {
+    this.eventType = "redCard";
+    this.titularsList.open();
+  }
+
+  yellowCard() {
+    this.eventType = "yellowCard";
+    this.titularsList.open();
   }
 
   onChangePlayers() {
