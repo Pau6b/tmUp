@@ -20,7 +20,7 @@
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
+              <ion-label>{{ 'CORE.pages.'+p.url | translate }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
@@ -28,7 +28,7 @@
           <ion-menu-toggle auto-hide="false">
             <ion-item  (click)="gotoMatch()" lines="none" detail="false">
               <ion-icon slot="start" (click)="gotoMatch()" name="stopwatch"></ion-icon>
-              <ion-label>Próximo partido</ion-label>
+              <ion-label>{{ 'CORE.pages.nextMatch' | translate }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
@@ -36,7 +36,7 @@
         <ion-list-header>
           <ion-menu-toggle auto-hide="false">
             <ion-item (click)="selectedIndex = -12" routerLink="profile" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -12">
-              <ion-label>Perfil</ion-label>
+              <ion-label>{{ 'CORE.pages.profile' | translate }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false">

@@ -18,7 +18,6 @@ export class ChatPage implements OnInit {
   username;
 
   teamId;
-  chatId;
 
   constructor(
     private apiProv: apiRestProvider
@@ -29,7 +28,7 @@ export class ChatPage implements OnInit {
   }
 
   getMessages(){
-    this.apiProv.getMessages(this.teamId, this.chatId)
+    this.apiProv.getMessages(this.teamId)
     .subscribe(
       (data) => { 
         this.msgList = data; 
@@ -39,14 +38,16 @@ export class ChatPage implements OnInit {
   sendMessage() {
     var msg = 
       {
-      "email": this.username,
-      "teamId": this.teamId,
-      "chatId": this.chatId,
+      "email": "prueba",//this.username,
+      "teamId": "6hd6Bdym8CXKW0Sm3hDb",//this.teamId,
       "bodyMessage": this.newMessage,
-      "date": new Date().toString()
+      "date": new Date().toString(),
       };
+      console.log(msg);
     this.apiProv.createMessage(msg)
     .then( () => {
+    })
+    .catch(() => {
     });
     
     this.newMessage = '';

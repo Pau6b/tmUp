@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { NormativePageRoutingModule } from './normative-routing.module';
 
 import { NormativePage } from './normative.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    NormativePageRoutingModule
+    NormativePageRoutingModule,
+    TranslateModule
   ],
   declarations: [NormativePage]
 })

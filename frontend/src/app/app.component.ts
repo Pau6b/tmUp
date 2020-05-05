@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service';
 import { AlertController } from '@ionic/angular';
 
 import { apiRestProvider } from '../providers/apiRest/apiRest';
+import { LanguageService } from 'src/providers/language/language.service';
 import { Router } from '@angular/router';
 
 
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Estadísticas',
-      url: '',
+      url: 'statistics',
       icon: 'bar-chart'
     },
     {
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Fisioterapeuta',
-      url: '',
+      url: 'physiotherapist',
       icon: 'medkit'
     }
   ];
@@ -67,6 +68,7 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private languageService: LanguageService,
     private router: Router
   ) {
     this.initializeApp();
@@ -76,6 +78,8 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      this.languageService.setInitialAppLanguage();
     });
   }
 

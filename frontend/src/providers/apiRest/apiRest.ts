@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators'; 
 
 interface message {
   id : string
@@ -18,6 +20,7 @@ export class apiRestProvider {
 
   constructor (
     private http: HttpClient,
+    private db: AngularFirestore
   ){ }
 
   public setToken(token: string) {
@@ -101,16 +104,23 @@ export class apiRestProvider {
     return this.http.get(this.url+'chats/'+teamId, { headers: this.headers });
   }
 
-  public getMessages(chatId: string, teamId: string){
+  public getMessages(teamId: string){
     this.setHeader();
-    return this.http.get(this.url+'chats/messages/6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
+      return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/messages", ref => ref.orderBy("dateOrd", "asc")).snapshotChanges().pipe(map(mensajes => {
+        return mensajes.map(m => {
+            const data = m.payload.doc.data() as message;
+            data.id = m.payload.doc.id;
+            return data;
+        })
+    }));
+    //return this.http.get(this.url+'chats/messages/obs6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
     //return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId, { headers: this.headers });
   }
 
   public createMessage(messageInfo){
     this.setHeader();
     return new Promise(resolve => {
-      this.http.post(this.url+'chats/messages/create', JSON.stringify(messageInfo), { headers: this.headers })
+      this.http.post(this.url+'teams/messages/create', JSON.stringify(messageInfo), { headers: this.headers })
       .subscribe(data => {
           resolve(data);
       })
