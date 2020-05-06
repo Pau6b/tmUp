@@ -1,44 +1,41 @@
 <ion-header>
 </ion-header>
 
-<ion-content class="background">
-  <ion-card class="card scroll-content">
+<ion-content class="gradientBG">
+  <ion-card>
     <ion-card-header>
       <ion-img class="smallImg" src="../../../assets/icon/logotmUp.png"></ion-img>
     </ion-card-header>
 
     <ng-container *ngIf="logInError">
-      <small class="errorMessage">Usuario i/o contraseña incorrecto</small>
+      <small class="errorMessage">{{ 'LOGIN.wrongCombination' | translate }}</small>
     </ng-container>
 
     <form [formGroup]="logInForm" (ngSubmit)="logIn()">
-      <ion-list class=".list">
+      <ion-list>
         <ion-item>
-          <ion-label position="floating">Usuario</ion-label>
+          <ion-label position="floating">{{ 'LOGIN.user' | translate }}</ion-label>
           <ion-input type="email" formControlName="email"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Contraseña</ion-label>
+          <ion-label position="floating">{{ 'LOGIN.password' | translate }}</ion-label>
           <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
         
-        <ion-label class="smallText positionLeft">Has olvidado la contraseña? Recuperala <a href="#">aquí</a></ion-label>
+        <ion-label class="smallText positionLeft">{{ 'LOGIN.forgotPassword' | translate }}<a href="#"> {{ 'CORE.actions.here' | translate }}</a></ion-label>
 
-        <ion-button  expand="block" color="primary" type="submit" [disabled]="!logInForm.valid">Acceder</ion-button>
+        <ion-button  expand="block" color="primary" type="submit" [disabled]="!logInForm.valid"> {{ 'LOGIN.submit' | translate }} </ion-button>
+        
+        <p>{{ 'CORE.verbs.or' | translate }}</p>
 
-        <p>OR</p>
-
-        <ion-button class="buttonGoogle" expand="block" color="white">
-          <ion-img src="../../../assets/icon-google.png"></ion-img>
-          Entrar con Google
+        <ion-button (click)= 'logInWithGoogle()' class="buttonGoogle" expand="block" color="white">
+          <ion-img src="../../../assets/icon/icon-google.png"></ion-img>
+          {{ 'LOGIN.enterWithGoogle' | translate }}
         </ion-button>
       </ion-list>
       
-      <p class="labelRegistro smallText">Si aun no tienes cuenta, <a href="register">Registrate aquí</a></p>
+      <p class="labelRegistro smallText">{{ 'LOGIN.ifNotAccount' | translate }} <a routerLink="/register">{{ 'LOGIN.registerHere' | translate }}</a></p>
     </form>
   </ion-card>
-
-
-
 </ion-content>

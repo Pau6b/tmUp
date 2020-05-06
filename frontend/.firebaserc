@@ -1,5 +1,11 @@
 {
-  "projects": {
-    "default": "tmup-908e4"
+  "targets": {
+    "tmup-908e4": {
+      "hosting": {
+        "app": [
+          "tmup-908e4"
+        ]
+      }
+    }
   }
 }

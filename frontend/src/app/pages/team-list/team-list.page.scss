@@ -1,7 +1,7 @@
 ion-header, ion-title, ion-toolbar{
     --background: var(--ion-color-primary);
-    text-align: center;
     color: white;
+    text-align: center;
 }
 
 ion-content {
@@ -10,4 +10,14 @@ ion-content {
         #6f92f3 30%,
         var(--ion-color-primary-contrast) 100%
     );
+}
+
+ion-row > ion-label{
+    margin-bottom: auto;
+    margin-left: 0.2rem;
+    margin-top: auto;
+}
+
+ion-row > ion-img {
+    max-width: 0.8rem;
 }

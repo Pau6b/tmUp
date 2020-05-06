@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [icon]="null">{{'CORE.actions.cancel' | translate}}</ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'EDIT-EVENT.pageName' | translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="!editEventForm.valid" (click)="onDone()">{{'CORE.actions.done' | translate}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="editEventForm">
+    <ion-list>
+      <ion-item>
+        <ion-input type="text" placeholder="{{'EDIT-EVENT.title' | translate}}" formControlName="title"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="event.type === 'match'">
+        <ion-input type="text" placeholder="{{'ADD-EVENT.otherTeam' | translate}}" formControlName="rival"></ion-input>
+      </ion-item>
+
+      <ion-item (click)="launchLocationPage()" formGroupName="location">
+        <ion-input type="search" placeholder="{{'ADD-EVENT.location' | translate}}" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Empieza</ion-label>
+        <ion-datetime displayFormat="D MMM H:mm" formControlName="startTime" minuteValues="0,15,30,45,50,55" (ionChange)="dateChanged($event)"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Acaba</ion-label>
+        <ion-datetime displayFormat="H:mm" formControlName="endTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
+      </ion-item>
+
+      <ion-item *ngIf="event.type === 'training'">
+        <ion-textarea rows="6" placeholder="{{'ADD-EVENT.addExercises' | translate}}" formControlName="description"></ion-textarea>
+      </ion-item>
+
+    </ion-list>
+    
+    <ion-button class="bottomButton" expand="block" color="danger" (click)="deleteEvent()">{{'EDIT-EVENT.deleteEvent' | translate}}</ion-button>
+  </form>
+</ion-content>

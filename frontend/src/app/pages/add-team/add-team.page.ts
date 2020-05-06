@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
-import { ActionSheetController, MenuController, NavController } from '@ionic/angular';
-
+import {  MenuController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
-
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
+import { PhotoService } from '../../services/photo.service'
+import { Router } from '@angular/router';
+import { sports, rols } from '../../Core/Arrays';
 
 @Component({
   selector: 'app-add-team',
@@ -13,28 +12,26 @@ import { apiRestProvider } from '../../../providers/apiRest/apiRest'
   styleUrls: ['./add-team.page.scss'],
 })
 export class AddTeamPage implements OnInit {
-  
-  myPhoto: any;
 
-  sportsLists = ['Football', 'Basketball', 'Handball','Baseball']
-  roles = ['Fisioterapeuta', 'Jugador']
+  sportsLists = sports;
+  roles = rols;
 
   segmentModel = "create";
 
-  //create team form
   createTeamForm = this.formBuilder.group({
     teamName: ['', [Validators.required]],
-    sport: ['', [Validators.required]]
+    sport: ['', [Validators.required]],
+    teamPhoto: ['']
   });
 
-  //join team form
   joinTeamForm = this.formBuilder.group({
-    teamID: ['', [Validators.required]],
+    teamId: ['', [Validators.required]],
+    userId: [''],
     role: ['', [Validators.required]]
   });
 
 
-  public errorMessages = {
+  errorMessages = {
     teamName: [
       { type: 'required', message: 'Nombre equipo es necesario'},
       { type: 'minlength', message: 'Nombre debe tener más de 3 letras'}
@@ -45,127 +42,66 @@ export class AddTeamPage implements OnInit {
     role: [
       { type: 'required', message: 'Rol es necesario'}
     ],
-    teamID: [
-      { type: 'required', message: 'Código de equipo es  necesario'}
+    teamId: [
+      { type: 'required', message: 'Código de equipo es necesario'}
     ]
   }
 
   constructor(
-    public navCtrl: NavController,
-    public menuCtrl: MenuController,
-    private camera: Camera, 
-    public actionSheetCtrl: ActionSheetController,
-    public formBuilder: FormBuilder,
-    public api: apiRestProvider
+    private apiProv: apiRestProvider,
+    private formBuilder: FormBuilder,
+    private menuCtrl: MenuController,
+    private photoServ: PhotoService,
+    private router: Router
     ) { }
 
   ngOnInit() {
   }
 
-  //disable side menu for this page
   ionViewWillEnter() {
     this.menuCtrl.enable(false);
   }
 
-  //getters
   get teamName() {
     return this.createTeamForm.get("teamName")
   }
   get sport() {
     return this.createTeamForm.get("sport")
   }
+  get teamPhoto() {
+    return this.createTeamForm.get("teamPhoto")
+  }
   get role() {
-    return this.createTeamForm.get("role")
+    return this.joinTeamForm.get("role")
   }
-  get teamID() {
-    return this.joinTeamForm.get("teamID")
-  }
-
-  //calling api rest to create team
-  createTeam() {
-    console.log(this.createTeamForm.value);
-    this.api.createTeam(this.createTeamForm.value)
-    .then( () => {
-      //team created      
-      console.log('team created succesfully.');
-      this.navCtrl.navigateRoot("team-list");
-    },
-    (error) => {
-      //handle error
-      console.log(error.message);
-      this.navCtrl.navigateRoot("team-list");
-    });
+  get teamId() {
+    return this.joinTeamForm.get("teamId")
   }
 
-  //calling api rest to join team
-  joinTeam() {
-    console.log(this.joinTeamForm.value);
-  }
-
-  //camera options
-  async cameraOptions() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Choose image from',
-      buttons: [
-        {
-          text: 'Camera',
-          handler: () => {
-            this.takePhoto();
-          }
-        },
-        {
-          text: 'Library',
-          handler: () => {
-            this.choosePhoto();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    await actionSheet.present();
-  }
-
-  takePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.CAMERA
+  onDone() {
+    if(this.segmentModel == "create") {
+      this.apiProv.createTeam(this.createTeamForm.value)
+      .then( (data) => {
+        console.log(data);
+        this.router.navigate(['/main']);
+      },
+      (err) => {
+        console.log(err.message);
+      })
     }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.myPhoto = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-     console.log('Camera error:' + err)
-    });
+    else {
+      this.apiProv.createMembership(this.joinTeamForm.value)
+      .then( () => {
+        this.router.navigate(['/main']);
+      })
+    }
+
   }
 
-  choosePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.myPhoto = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-     console.log('Camera error:' + err)
+  cameraOptions() {
+    this.photoServ.alertSheetPictureOptions()
+    .then( (photo) => {
+      this.createTeamForm.patchValue({teamPhoto: photo});
     });
   }
 

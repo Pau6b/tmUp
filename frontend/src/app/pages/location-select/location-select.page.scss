@@ -1,0 +1,46 @@
+/* ------------------------------
+              GENERIC
+   ------------------------------ */
+
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
+
+ion-list {
+  cursor: pointer;
+  margin: 0 !important;
+}
+
+#please-connect {
+  background-color: #000;
+  height: 100%;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+#please-connect p {
+  color: #fff;
+  font-size: 1.4em;
+  font-weight: bold;
+  position: relative;
+  text-align: center;
+  top: 30%;
+}
+
+.scroll-content {
+  overflow: hidden;
+}
+
+#map {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}

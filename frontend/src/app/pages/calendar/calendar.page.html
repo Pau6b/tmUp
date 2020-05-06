@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{'CALENDAR.title' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addEvent()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    <ion-toolbar class="headerCalendar">
+      <ion-buttons slot="start">
+        <ion-button (click)="previousMonth()">
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{currentMonth}}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="nextMonth()">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <calendar class="calendar" 
+    [monthviewDisplayEventTemplate]="monthViewTemplate"
+    [monthviewEventDetailTemplate]="eventListTemplate"
+    [eventSource]="eventSource"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    [startingDayMonth] = "calendar.startingDay"
+    [queryMode] = "calendar.queryMode"
+    (onCurrentDateChanged)="onCurrentDateChanged($event)"
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"
+    step="30">
+    </calendar>
+
+    <!------------------------TEMPLATES--------------------------->
+    <ng-template #monthViewTemplate let-view="view" let-row="row" let-col="col">
+      <div class="dayBox">
+        <div *ngIf="!view.dates[row*7+col].events.length" class="noEvent" >{{view.dates[row*7+col].label}}</div>
+      </div>
+      <div *ngIf="view.dates[row*7+col].events.length">
+        <div class="dayBox">
+          <div class="dayBoxContent">
+            <span *ngIf="eventExists(view.dates[row*7+col].events, 'training')" class="eventDot" id="training"></span>
+            <span *ngIf="eventExists(view.dates[row*7+col].events, 'match')" class="eventDot" id="match"></span>
+            <span><br>{{view.dates[row*7+col].label}}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- custom event detail -->
+    <ng-template #eventListTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
+      <div class="colorKey"> 
+        <span class="dotKey" id="training"></span>
+        <span class="itemKey">{{'CORE.events.training' | translate }}</span>
+        <span class="dotKey" id="match"></span>
+        <span class="itemKey">{{'CORE.events.match' | translate }}</span>
+      </div>
+      <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
+        <ion-item class="eventItem" *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
+          <span *ngIf="!event.allDay" class="eventTime">
+            {{event.startTime|date: 'HH:mm'}}
+            -
+            {{event.endTime|date: 'HH:mm'}}
+          </span>
+          <span class="event-detail">  |  {{event.title}}</span>
+        </ion-item>
+        <ion-item *ngIf="selectedDate?.events.length==0">
+          <div class="no-events-label">{{'CALENDAR.noEvents' | translate}}</div>
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </div>
+</ion-content>

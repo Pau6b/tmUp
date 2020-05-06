@@ -12,11 +12,31 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 import { Camera } from '@ionic-native/camera/ngx'
 import { apiRestProvider } from '../providers/apiRest/apiRest';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
+import { Chooser } from '@ionic-native/chooser/ngx';
+import { File } from '@ionic-native/file/ngx';
+
+import { NgCalendarModule  } from 'ionic2-calendar';
+
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import { Connectivity } from '../providers/connectivity/connectivity-service';
+import { googleMaps } from '../providers/googleMaps/google-maps';
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { IonicStorageModule } from '@ionic/storage';
+
+import { AngularFirestore } from '@angular/fire/firestore';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http,'/assets/translation/','.json');
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,13 +46,29 @@ import { HttpClientModule } from '@angular/common/http';
     IonicModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    NgCalendarModule,
+    IonicStorageModule.forRoot(),
+    TranslateModule.forRoot({
+      loader:{
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     StatusBar,
     SplashScreen,
     AngularFireAuth,
     Camera,
+    File,
+    Chooser,
+    Geolocation,
+    InAppBrowser,
+    Network,
+    Connectivity,
+    googleMaps,
     AngularFirestore,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider

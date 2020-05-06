@@ -12,21 +12,25 @@
   }
 
   .smallImg {
-    width: 30%;
     height: 30%;
+    width: 30%;
   }
 
   .mediumImg {
-    width: 50%;
     height: 50%;
+    width: 50%;
   }
 
   .largeImg {
-    width: 70%;
     height: 70%;
+    width: 70%;
+  }
+  
+  .smallText{
+    font-size: small;
   }
 
-  .smallText{
+  .xsmallText{
     font-size: x-small;
   }
 
@@ -39,8 +43,8 @@
   }
 
   .errorMessage {
+    color: var(--ion-color-danger);
     font-size: x-small;
-    color: var(--ion-color-danger)
   }
 
   /** primary **/

@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>{{ "ADD-EVENT.newEvent" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="(!createMatchForm.valid&&!createTrainingForm.valid)" (click)="onAdd()">Añadir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment value="match" [(ngModel)]="segmentModel">
+      <ion-segment-button value="match">
+        <ion-label>{{ "CORE.events.match" | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="training">
+        <ion-label>{{ "CORE.events.training" | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="segmentModel === 'match'">
+    <form [formGroup]="createMatchForm">
+      <ion-list>
+        <ion-item>
+          <ion-input type="text" placeholder="{{ 'ADD-EVENT.title' | translate }}" formControlName="title"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="{{ 'ADD-EVENT.otherTeam' | translate }}" formControlName="rival"></ion-input>
+        </ion-item>
+
+        <ion-item (click)="launchLocationPage()" formGroupName="location">
+          <ion-input type="search" placeholder="{{ 'ADD-EVENT.location' | translate }}" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ "ADD-EVENT.starts" | translate }}</ion-label>
+          <ion-datetime displayFormat="D MMM H:mm" formControlName="startTime" minuteValues="0,15,30,45,50,55" (ionChange)="dateChanged($event)"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ "ADD-EVENT.ends" | translate }}</ion-label>
+          <ion-datetime displayFormat="H:mm" formControlName="endTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+
+  <div *ngIf="segmentModel === 'training'">
+    <form [formGroup]="createTrainingForm">
+      <ion-list>
+        <ion-item>
+          <ion-input type="text" placeholder="Título" formControlName="title"></ion-input>
+        </ion-item>
+
+        <ion-item (click)="launchLocationPage()" formGroupName="location">
+          <ion-input type="search" placeholder="Localización" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ "ADD-EVENT.starts" | translate }}</ion-label>
+          <ion-datetime displayFormat="D MMM H:mm" formControlName="startTime" minuteValues="0,15,30,45,50,55" (ionChange)="dateChanged($event)"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ "ADD-EVENT.ends" | translate }}</ion-label>
+          <ion-datetime displayFormat="H:mm" formControlName="endTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-textarea rows="6" placeholder="{{ 'ADD-EVENT.addExercises' | translate }}" formControlName="description"></ion-textarea>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController, LoadingController } from '@ionic/angular';
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
+import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-team-list',
@@ -9,18 +12,42 @@ import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 export class TeamListPage implements OnInit {
 
   teamList;
+  me;
 
-  constructor(public proveedor:apiRestProvider) { }
+  constructor(
+    public apiProv: apiRestProvider,
+    public router: Router,
+    public menuCtrl: MenuController,
+    public loadCtrl: LoadingController,
+    public appComponent: AppComponent
+    ) { }
 
+  ngOnInit() {
+    setTimeout( () => {
+      this.initialize();
+    }, 1000);
+   }
+   
+  async initialize() {
+    const loading = await this.loadCtrl.create();
 
-  ngOnInit() { 
+    loading.present();
     
-    this.proveedor.getTeams()
-    .subscribe(
-      (data) => { this.teamList = data;},
-      (error) => {console.log(error);}
-    );
+    this.apiProv.getUserTeams()
+    .subscribe( (data) => { 
+      this.teamList = data;
+      loading.dismiss();
+    });
+  }
 
+  goToaddTeam(){
+    this.router.navigate(['add-team']);
+  }
+
+  goToHomePage(team: string){
+    this.apiProv.setTeam(team);
+    this.appComponent.updateTeam();
+    this.router.navigate(['/main']);
   }
 
 }

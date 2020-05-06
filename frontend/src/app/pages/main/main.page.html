@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="welcome">
+    <ion-card class="no_noticias">
+      <ion-card-header>
+        <ion-card-title>¡Bienvenido!</ion-card-title>
+        <p>Disfruta de nuestra aplicación para gestionar tu equipo.</p> 
+        <ion-card-title>
+          Todavía no tienes eventos
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="boldText">¡¡Echa un vistazo de todo lo que puedes hacer con nuestra aplicación!!</p>
+      </ion-card-content>
+    </ion-card>
+
+    <div *ngFor="let msg of WelcomeMsgs;">
+      <ion-card [routerLink]="[msg.url]" routerDirection="root">
+        <ion-card-header>
+          <img src="../../../assets/main_images/{{msg.image}}" alt="imagen">
+        </ion-card-header>
+        <ion-card-content>
+          <p class="boldText">{{ msg.title }}</p>
+          <p class="italicText"> {{ msg.description }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ion-card class="no_noticias">
+      <ion-card-header>
+        <ion-card-title>Entre muchas otras cosas...</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="boldText">¡DESCÚBERLO TÚ MISMO!</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <p class="boldText">2020,TMUP</p>
+        ESPAÑOL ENGLISH CATALÀ
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="!welcome">
+    
+  </div>
+
+</ion-content>

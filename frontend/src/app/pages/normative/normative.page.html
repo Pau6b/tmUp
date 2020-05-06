@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ 'NORMATIVE.title' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="file">
+    <ng-container *ngIf=" isPDF===1 ; else noPDF">
+      <ion-label>{{ 'NORMATIVE.noFile' | translate }}
+      </ion-label>
+    </ng-container>
+
+    <ng-template #noPDF>    
+      <ion-item>
+          <ion-img src="../../../assets/icon/pdf.png"></ion-img>
+        <ion-label>{{ 'NORMATIVE.normativeTitle' | translate }}</ion-label>
+      </ion-item>
+    </ng-template> 
+
+    <ion-button expand="block" color="primary">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
+  </div>
+
+  <ion-item style="white-space:nowrap">
+    <ion-label position="floating">{{ 'NORMATIVE.fileTitle' | translate }}</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">{{ 'NORMATIVE.norm' | translate }}</ion-label>
+    <ion-textarea rows="7" placeholder="{{ 'NORMATIVE.insertNorm' | translate }}"></ion-textarea>
+  </ion-item>
+
+  <ion-button expand="block" color="primary">{{ 'NORMATIVE.createDoc' | translate }}</ion-button>
+  
+</ion-content>

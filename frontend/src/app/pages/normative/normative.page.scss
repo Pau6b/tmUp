@@ -1,0 +1,47 @@
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+    ion-header{
+        text-align: center;
+    }
+
+
+/* ------------------------------
+          CONTENT
+------------------------------ */
+    .file{
+        border-bottom: solid lightgrey 0.1rem;
+        padding-bottom: 1rem;
+
+        ion-item{
+            --background: lightgrey;
+            border-radius: 0.5rem;
+            border: solid grey 0.1rem;
+            cursor: pointer;
+            margin: 1rem 1rem;
+
+            ion-label{
+                margin-left: 1rem;
+            }
+        }
+    }
+
+    .title{
+        border-bottom: solid black 1px;
+    }
+
+    ion-button{
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 1rem
+    }
+
+    ion-textarea{
+        border: solid lightgrey 1px;
+        font-size: small;
+        padding-left: 0.5rem;
+        
+    }
+/* ------------------------------
+          FOOTER
+------------------------------ */

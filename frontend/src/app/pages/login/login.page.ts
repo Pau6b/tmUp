@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,6 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
 
   logInForm = this.formBuilder.group({
     email: [
@@ -25,10 +25,10 @@ export class LoginPage implements OnInit {
   logInError = false;
 
   constructor(
-    public navCtrl: NavController,
-    public menuCtrl: MenuController,
-    public formBuilder: FormBuilder,
-    public authService: AuthService
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private menuCtrl: MenuController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -47,12 +47,16 @@ export class LoginPage implements OnInit {
 
   logIn() {
     this.authService.signIn(this.logInForm.get('email').value, this.logInForm.get('password').value)
-    .then(() => {
-      this.navCtrl.navigateRoot('team-list');
-    })
-    .catch((error:firebase.FirebaseError) => {
-      this.logInError=true;
+    .then( () => {
+      this.router.navigate(['/team-list']);
+    },
+    (error) => {
+      this.logInError = true;
     });
-    
   }
+
+  logInWithGoogle() {
+    this.authService.loginGoogle();
+  }
+
 }

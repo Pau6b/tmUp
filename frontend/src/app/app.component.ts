@@ -3,9 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { AngularFireModule } from '@angular/fire';
+import { AuthService } from './services/auth.service';
+import { AlertController } from '@ionic/angular';
 
-import { AngularFireAuth } from '@angular/fire/auth';
+import { apiRestProvider } from '../providers/apiRest/apiRest';
+import { LanguageService } from 'src/providers/language/language.service';
 
 
 @Component({
@@ -13,48 +15,59 @@ import { AngularFireAuth } from '@angular/fire/auth';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
+
 export class AppComponent implements OnInit {
+
   public selectedIndex = 0;
+  data;
   public appPages = [
     {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
+      title: 'Inicio',
+      url: 'main',
+      icon: 'home'
     },
     {
-      title: 'Outbox',
-      url: '/folder/Outbox',
-      icon: 'paper-plane'
+      title: 'Normativa',
+      url: 'normative',
+      icon: 'document-text'
     },
     {
-      title: 'Favorites',
-      url: '/folder/Favorites',
-      icon: 'heart'
+      title: 'Tacticas',
+      url: 'tactics',
+      icon: 'easel'
     },
     {
-      title: 'Archived',
-      url: '/folder/Archived',
-      icon: 'archive'
+      title: 'Estadísticas',
+      url: 'statistics',
+      icon: 'bar-chart'
     },
     {
-      title: 'Trash',
-      url: '/folder/Trash',
-      icon: 'trash'
+      title: 'Chat',
+      url: 'chat',
+      icon: 'chatbubble-ellipses'
     },
     {
-      title: 'Spam',
-      url: '/folder/Spam',
-      icon: 'warning'
+      title: 'Calendario',
+      url: 'calendar',
+      icon: 'calendar'
+    },
+    {
+      title: 'Fisioterapeuta',
+      url: 'physiotherapist',
+      icon: 'medkit'
     }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
+  public team;
 
   constructor(
+    private alertCtrl: AlertController,
+    private apiProv: apiRestProvider,
+    private auth: AuthService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    public afAuth: AngularFireAuth
-    
+    private languageService: LanguageService
   ) {
     this.initializeApp();
   }
@@ -63,15 +76,43 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      this.languageService.setInitialAppLanguage();
     });
   }
 
   ngOnInit() {
-    const path = window.location.pathname.split('folder/')[1];
+    const path = window.location.pathname.split('/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
   }
 
-  
+  public updateTeam() {
+    if (this.apiProv.getTeamId() != "") {
+      this.apiProv.getCurrentTeam().subscribe((data) => {
+        this.team = data;
+      });
+    }
+  }
+
+  async presentConfirm() {
+    this.data = this.apiProv.getMe();
+    const alert = await this.alertCtrl.create({
+      message: 'Log out of' +  this.data.name +'?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Log Out',
+          handler: () => {
+            this.auth.logOut();
+          }
+        }
+      ]
+    });
+    await alert.present(); 
+  }  
 }

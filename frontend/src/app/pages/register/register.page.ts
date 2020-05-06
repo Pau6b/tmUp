@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx'
-import { ActionSheetController, NavController, MenuController } from '@ionic/angular';
+import {NavController, MenuController, AlertController } from '@ionic/angular';
 
-import { FormBuilder, Validators} from '@angular/forms'
+import { FormBuilder, Validators} from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service'
+import { PhotoService } from '../../services/photo.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,19 @@ import { AuthService } from '../../services/auth.service'
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  
+  emailUsed: boolean = false;
+  myPhoto: any;
+
+  public constructor(
+    public navCtrl: NavController,
+    public menuCtrl: MenuController,
+    public formBuilder: FormBuilder,
+    public authService: AuthService,
+    public photoService: PhotoService,
+    private alertCtrl: AlertController,
+    private router: Router
+    ) { }
  
   //declarar formulario
   registerForm = this.formBuilder.group({
@@ -26,9 +40,6 @@ export class RegisterPage implements OnInit {
     ],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
-  
-  emailUsed: boolean = false;
-  myPhoto: any;
 
   public errorMessages = {
     userName: [
@@ -45,113 +56,53 @@ export class RegisterPage implements OnInit {
     ]
   }
 
-  constructor(
-    public navCtrl: NavController,
-    public menuCtrl: MenuController,
-    public camera: Camera,
-    public actionSheetCtrl: ActionSheetController,
-    public formBuilder: FormBuilder,
-    public authService: AuthService
-    ) { }
-
-  ngOnInit() {
+  public ngOnInit() {
   }
 
   //disable side menu for this page
-  ionViewWillEnter() {
+  public ionViewWillEnter() {
     this.menuCtrl.enable(false);
   }
 
   //getters for form
-  get userName() {
+  public get userName() {
     return this.registerForm.get("userName");
   }
-  get email() {
+  public get email() {
     return this.registerForm.get("email");
   }
-  get password() {
+  public get password() {
     return this.registerForm.get("password");
   }
 
   //submit register form
-  registerUser() {
-    this.authService.signUpUser(this.registerForm.get('email').value, this.registerForm.get('password').value)
-    .then(() => {
+  public registerUser() {
+    this.authService.signUpUser(this.registerForm.value)
+    .then((user) => {
       this.emailUsed = false;
-      this.navCtrl.navigateRoot('gettingstarted');
+      this.presentAlert('¡Felicidades!', 'Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo.')
     },
     (error) => {
       this.emailUsed = true;
-      console.log(error.message);
-    }
-    )
+    });
+  }
+  
+  public cameraOptions() {
+    this.photoService.alertSheetPictureOptions();
   }
 
-  //Camera options
-  async cameraOptions() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Choose image from',
-      buttons: [
-        {
-          text: 'Camera',
-          handler: () => {
-            this.takePhoto();
-          }
-        },
-        {
-          text: 'Library',
-          handler: () => {
-            this.choosePhoto();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
+  public async presentAlert(header, message) {
+    const alert = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      buttons: [{
+        text: 'Continuar',
+        handler: () => {
+          this.router.navigate(['/add-team']);
         }
-      ]
+      }]
     });
-    await actionSheet.present();
-  }
-
-  takePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.CAMERA
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.myPhoto = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-     console.log('Camera error:' + err)
-    });
-  }
-
-  choosePhoto() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     this.myPhoto = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-     console.log('Camera error:' + err)
-    });
+    await alert.present();
   }
 
 }

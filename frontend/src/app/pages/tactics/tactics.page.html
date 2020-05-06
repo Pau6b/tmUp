@@ -1,0 +1,26 @@
+<ion-header [translucent]="true" class="ion-text-center">
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{'TACTICS.title' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list padding>
+    <ion-item lines="full" no-padding>
+      <ion-img src="../../../assets/icon/pdf.png"></ion-img>
+      <ion-label text-wrap>
+        Fichero 1
+      </ion-label>
+    </ion-item>
+  </ion-list> 
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
+    <ion-fab-button (click)="goToaddTactic(img)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
