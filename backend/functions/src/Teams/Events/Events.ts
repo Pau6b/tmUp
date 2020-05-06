@@ -242,7 +242,7 @@ app.put('/match/:id/makeCall',(req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             const existsTeam = await comprobarEquipo(jsonContent);
-            if(!existsTeam) return res.status(400).send("no existe el equipo");
+            if(!existsTeam) return res.status(400).send("TNE");
             let existeevento = false;
             const query = db.collection('teams').doc(jsonContent.teamId).collection('events');
             await query.get().then((querySnapshot: any) => {
@@ -252,7 +252,7 @@ app.put('/match/:id/makeCall',(req, res) => {
                         existeevento = true;
                 }
             });
-            if (!existeevento) return res.status(404).send("no existe el evento");
+            if (!existeevento) return res.status(404).send("ENE");
             console.log("ya todo existe");
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(req.params.id).update({
                 call: jsonContent.call
@@ -272,7 +272,7 @@ app.get('/:teamId/match/:eventId/getCall',(req, res) => {
             console.log(req.params.teamId);
             console.log(req.params.eventId);
             const existsTeam = await comprobarEquipo(req.params);
-            if(!existsTeam) return res.status(400).send("no existe el equipo");
+            if(!existsTeam) return res.status(400).send("TNE");
             let existeevento = true;
             const eventData = await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).get().then((doc: DocumentSnapshot)=> {
                 if(!doc.exists) {
@@ -284,9 +284,10 @@ app.get('/:teamId/match/:eventId/getCall',(req, res) => {
             });
             //Check that the event exists
             if (!existeevento) {
-                return res.status(400).send("no existe evento");
+                return res.status(400).send("ENE");
             }
             //return correct data
+            if (eventData.call = []) return res.status(400).send("NC");
             return res.status(200).send(eventData.call);
 
             

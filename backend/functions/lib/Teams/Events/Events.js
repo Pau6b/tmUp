@@ -282,6 +282,8 @@ app.get('/:teamId/match/:eventId/getCall', (req, res) => {
                 return res.status(400).send("no existe evento");
             }
             //return correct data
+            if (eventData.call = [])
+                return res.status(400).send("Convocatoria1");
             return res.status(200).send(eventData.call);
         }
         catch (error) {
