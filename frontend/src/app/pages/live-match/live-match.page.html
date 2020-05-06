@@ -1,9 +1,12 @@
 <ion-header>
-  <ion-toolbar color="primary" mode="ios">
-    <ion-buttons>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="finishing" routerLink="/main" routerDirection="root">Finish</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,22 +15,22 @@
   <ion-item [hidden]="true" class="transparent" lines="none" (click)="openList()">
     <ion-label>Jugadores titulares</ion-label>
     <ion-select #playersList class="transparent" multiple="true" [(ngModel)]="titulars" (ionChange)="onTitularsSelected()">
-      <ion-select-option *ngFor="let conv of listaConv" [value]="conv.name"> {{ conv.name }}</ion-select-option>
+      <ion-select-option *ngFor="let conv of listaConv" [value]="conv"> {{ conv.name }}</ion-select-option>
     </ion-select>
   </ion-item>
 
   <!--Stopwatch-->
-  <div class="stopwatch">
+  <div class="stopwatch" *ngIf="!finishing">
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-label class="title"> Local </ion-label>
+          <ion-label class="title"> MyTeam </ion-label>
         </ion-col>
         <ion-col>
           <ion-label text-center class="largeText"> {{ time }} </ion-label>
         </ion-col>
         <ion-col>
-          <ion-label class="title"> Visitor </ion-label>
+          <ion-label class="title"> Opponent </ion-label>
         </ion-col>
       </ion-row>
   
@@ -36,8 +39,8 @@
           <ion-label class="largeText"> {{ localPts }}</ion-label>
         </ion-col>
         <ion-col>
-          <ion-button class="stopwatchButton" *ngIf="!running" (click)="start()">Empezar</ion-button>
-          <ion-button class="stopwatchButton" *ngIf="running" (click)="stop()">Parar</ion-button>
+          <ion-button class="stopwatchButton" *ngIf="!running" (click)="start()">Start</ion-button>
+          <ion-button class="stopwatchButton" *ngIf="running" (click)="stop()">Stop</ion-button>
         </ion-col>
         <ion-col>
           <ion-label class="largeText"> {{ visitPts }}</ion-label>
@@ -46,30 +49,37 @@
     </ion-grid>
   </div>
 
-  <app-basketball-view *ngIf="sport=='Basketball'"
-  (localScored)="onLocalScored($event)"
-  (visitorScored)="onVisitorScored($event)"
+  <app-basketball-view *ngIf="sport=='Basketball'&&!finishing"
+  (localScored)="onMyTeamScored($event)"
+  (visitorScored)="onOpponentScored($event)"
   >
   </app-basketball-view>
 
-  <app-football-view *ngIf="sport=='Football'"
+  <app-football-view *ngIf="sport=='Football'&&!finishing"
   [listaConv]="listaConv"
   [titulars]="titulars"
-  (localScored)="onLocalScored($event)"
+  (myTeamScored)="onMyTeamScored($event)"
   (stoppedGoal)="onStoppedGoal($event)"
-  (visitorScored)="onVisitorScored($event)"
+  (opponentScored)="onOpponentScored($event)"
   (setRedCard)="onRedCard($event)"
   (setYellowCard)="onYellowCard($event)"
+  (changePlayers)="onChangePlayers($event)"
   >
   </app-football-view>
 
-  <app-handball-view *ngIf="sport=='Handball'"
-  (localScored)="onLocalScored($event)"
+  <app-handball-view *ngIf="sport=='Handball'&&!finishing"
+  (localScored)="onMyTeamScored($event)"
   (stoppedGoal)="onStoppedGoal($event)"
-  (visitorScored)="onVisitorScored($event)"
+  (visitorScored)="onOpponentScored($event)"
   >
   </app-handball-view>
 
-  <ion-button [disabled]="running" class="bottomButton">Finalizar</ion-button>
+  <ion-button [disabled]="running" class="bottomButton" *ngIf="!finishing" (click)="onFinish()">Finish</ion-button>
+
+  <app-edit-stadistics *ngIf="finishing" 
+  [eventsList]="stadisticsLog"
+  [convList]="listaConv"
+  >
+  </app-edit-stadistics>
 
 </ion-content>

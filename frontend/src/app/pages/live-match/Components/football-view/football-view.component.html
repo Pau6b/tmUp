@@ -1,14 +1,14 @@
 <ion-item [hidden]="true">
   <ion-label>Jugadores Convocados</ion-label>
   <ion-select #ConvList multiple="true" [(ngModel)]="titulars" (ionChange)="onChange()">
-    <ion-select-option *ngFor="let conv of listaConv" [value]="conv.name"> {{ conv.name }}</ion-select-option>
+    <ion-select-option *ngFor="let conv of listaConv" [value]="conv"> {{ conv.name }}</ion-select-option>
   </ion-select>
 </ion-item>
 
 <ion-item [hidden]="true">
   <ion-label>Jugadores titulares</ion-label>
   <ion-select #TitularsList [(ngModel)]="selectedPlayer" (ionChange)="onChange()">
-    <ion-select-option *ngFor="let titu of titulars" [value]="titu"> {{ titu }}</ion-select-option>
+    <ion-select-option *ngFor="let titu of titulars" [value]="titu"> {{ titu.name }}</ion-select-option>
   </ion-select>
 </ion-item>
 

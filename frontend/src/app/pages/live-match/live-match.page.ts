@@ -17,9 +17,11 @@ export class LiveMatchPage implements OnInit {
   timeStopped: any = null;
   stoppedDuration: any = null;
   started = null;
-  running = false;
   blankTime = "00:00";
   time = "00:00";
+
+  running = false;
+  finishing = false;
 
   title;
   sport: string;
@@ -29,34 +31,32 @@ export class LiveMatchPage implements OnInit {
   //testing
   listaConv = [
     {
+      id: "1",
       name: "Jugador 1"
     },
     {
+      id: "2",
       name: "Jugador 2"
     },
     {
+      id: "3",
       name: "Jugador 3"
     },
     {
+      id: "4",
       name: "Jugador 4"
     },
     {
+      id: "5",
       name: "Jugador 5"
     },
     {
+      id: "6",
       name: "Jugador 6"
     },
     {
+      id: "7",
       name: "Jugador 7"
-    },
-    {
-      name: "Jugador 8"
-    },
-    {
-      name: "Jugador 9"
-    },
-    {
-      name: "Jugador 10"
     }
   ]
 
@@ -113,32 +113,71 @@ export class LiveMatchPage implements OnInit {
   }
 
   //Methods from component's events
-  onLocalScored(event: any) {
+  onMyTeamScored(info) {
     let infoEvent = {
-      time: this.time,
       type: "scored",
-      points: event.points,
-      player: event.player
+      points: info.points,
+      player: info.player
     }
     this.stadisticsLog.push(infoEvent);
-    this.localPts += event.points;
+    this.localPts += info.points;
+    console.log(this.stadisticsLog);
+  }
+
+  onOpponentScored(pnts) {
+    this.stadisticsLog.push({type: "opScored", points: pnts});
+    this.visitPts+=pnts;
     console.log(this.stadisticsLog);
   }
 
   onStoppedGoal(info) {
-
+    let infoEvent = {
+      type: "stopped",
+      player: info.player
+    }
+    this.stadisticsLog.push(infoEvent);
+    console.log(this.stadisticsLog);
   }
 
-  onVisitorScored(points) {
-    this.visitPts+=points;
-  }
+  //FOOTBALL
 
   onRedCard(info) {
-
+    let infoEvent = {
+      type: "redCard",
+      player: info.player
+    }
+    this.stadisticsLog.push(infoEvent);
+    console.log(this.stadisticsLog);
   }
 
   onYellowCard(info) {
+    let infoEvent = {
+      type: "yellowCard",
+      player: info.player
+    }
+    this.stadisticsLog.push(infoEvent);
+    console.log(this.stadisticsLog);
+  }
 
+  onChangePlayers(info) {
+    //no hacer nada si todo son "in"
+    if (info.out.length !== 0 ) {
+      let infoEvent = {
+        type: "change",
+        playerIn: info.in[0],
+        playerOut: info.out[0]
+      }
+      this.stadisticsLog.push(infoEvent);
+    }
+    console.log(this.stadisticsLog);
+  }
+
+  //BASKETBALL
+
+  //HANDBALL
+
+  onFinish() {
+    this.finishing = true;
   }
 
   // Stopwatch methods

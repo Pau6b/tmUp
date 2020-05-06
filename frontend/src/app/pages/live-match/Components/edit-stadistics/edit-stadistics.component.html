@@ -1,0 +1,18 @@
+<ion-item [hidden]="true">
+  <ion-label>Jugadores titulares</ion-label>
+  <ion-select #playersList [(ngModel)]="selectedPlayer" (ionChange)="onChange()">
+    <ion-select-option *ngFor="let p of convList" [value]="p"> {{ p.name }}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-list>
+  <ion-item-sliding *ngFor="let item of eventsList; let i = index">
+    <ion-item (click)="selectedIndex=i; selectPlayer()" text-wrap>
+      <ion-label> {{ item.type }} {{ item.player?.name }} {{ item.points }}</ion-label>
+      <ion-label *ngIf="eventsList[i].type=='change'">{{ item.playerIn?.name }} &#60; - &#62; {{ item.playerOut?.name }}</ion-label>
+      <ion-item-options side="end">
+        <ion-item-option color="danger">Delete</ion-item-option>
+      </ion-item-options>
+    </ion-item>
+  </ion-item-sliding>
+</ion-list>

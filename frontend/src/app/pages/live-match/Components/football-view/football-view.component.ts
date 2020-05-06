@@ -12,19 +12,21 @@ export class FootballViewComponent implements OnInit {
 
   @Input() listaConv;
   @Input() titulars;
+  antTitulars = [];
 
   @Output() myTeamScored = new EventEmitter<any>();
   @Output() stoppedGoal = new EventEmitter<any>();
   @Output() opponentScored = new EventEmitter<any>();
   @Output() setRedCard = new EventEmitter<any>();
   @Output() setYellowCard = new EventEmitter<any>();
+  @Output() changePlayers = new EventEmitter<any>();
 
   selectedPlayer;
   eventType;
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onChange() {
     if(this.eventType == "mytmScored") {
@@ -38,6 +40,11 @@ export class FootballViewComponent implements OnInit {
     }
     else if( this.eventType == "yellowCard") {
       this.setYellowCard.emit({player: this.selectedPlayer, card: "red"});
+    }
+    else if( this.eventType = "changePlayers" ) {
+      let outPlayer = this.antTitulars.filter(item => this.titulars.indexOf(item)<0);
+      let inPlayer = this.titulars.filter(item => this.antTitulars.indexOf(item)<0);
+      this.changePlayers.emit({in: inPlayer, out: outPlayer});
     }
     this.eventType = "";
   }
@@ -67,6 +74,8 @@ export class FootballViewComponent implements OnInit {
   }
 
   onChangePlayers() {
+    this.antTitulars = this.titulars;
+    this.eventType = "changePlayers";
     this.convList.open();
   }
 
