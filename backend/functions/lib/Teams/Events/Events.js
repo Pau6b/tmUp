@@ -22,7 +22,8 @@ app.post('/match/create', (req, res) => {
                 endTime: jsonContent.endTime,
                 allDay: jsonContent.allDay,
                 rival: jsonContent.rival,
-                location: jsonContent.location
+                location: jsonContent.location,
+                call: []
             });
             return res.status(200).send();
         }
@@ -218,9 +219,70 @@ app.put('/match/update', (req, res) => {
                 endTime: jsonContent.endTime,
                 allDay: jsonContent.allDay,
                 rival: jsonContent.rival,
-                location: jsonContent.location
+                location: jsonContent.location,
+                call: []
             });
             return res.status(200).send();
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+//CONVOCADOS----------------------------------------
+app.put('/match/:id/makeCall', (req, res) => {
+    (async () => {
+        try {
+            const jsonContent = JSON.parse(req.body);
+            const existsTeam = await comprobarEquipo(jsonContent);
+            if (!existsTeam)
+                return res.status(400).send("no existe el equipo");
+            let existeevento = false;
+            const query = db.collection('teams').doc(jsonContent.teamId).collection('events');
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    if (doc.id === req.params.id)
+                        existeevento = true;
+                }
+            });
+            if (!existeevento)
+                return res.status(404).send("no existe el evento");
+            console.log("ya todo existe");
+            await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(req.params.id).update({
+                call: jsonContent.call
+            });
+            return res.status(200).send();
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.get('/:teamId/match/:eventId/getCall', (req, res) => {
+    (async () => {
+        try {
+            console.log(req.params.teamId);
+            console.log(req.params.eventId);
+            const existsTeam = await comprobarEquipo(req.params);
+            if (!existsTeam)
+                return res.status(400).send("no existe el equipo");
+            let existeevento = true;
+            const eventData = await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).get().then((doc) => {
+                if (!doc.exists) {
+                    existeevento = false;
+                    return;
+                }
+                else {
+                    return doc.data();
+                }
+            });
+            //Check that the event exists
+            if (!existeevento) {
+                return res.status(400).send("no existe evento");
+            }
+            //return correct data
+            return res.status(200).send(eventData.call);
         }
         catch (error) {
             return res.status(500).send(error);
@@ -238,7 +300,8 @@ function matchData(doc) {
         allDay: doc.data().allDay,
         type: doc.data().type,
         rival: doc.data().rival,
-        location: doc.data().location
+        location: doc.data().location,
+        call: doc.data().call
     };
     return selectedData;
 }
