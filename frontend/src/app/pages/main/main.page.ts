@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -9,7 +10,8 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class MainPage implements OnInit {
   
-  welcome;
+  welcome = false;
+  hora = '2020-05-03T16:40:42';
   NoticiesArray;
   public WelcomeMsgs = [
     {
@@ -38,20 +40,40 @@ export class MainPage implements OnInit {
     }
   ];
   
+  public Reminders = [
+    {
+      id: 'fWwcDX1BwHJmpzwgCGNK',
+      title: 'Próximo Partido:',
+      day: '2020-05-03T16:40:42',
+      hour: '2020-05-03T16:40:42'
+    },
+    {
+      id: 'fWwcDX1BwHJmpzwgCGNK',
+      title: 'Próximo Entrenamiento:',
+      day: '2020-05-03T16:40:42',
+      hour: '2020-05-03T16:40:42'
+    }
+  ];
+
+
   constructor(
     private menuCtrl: MenuController,
-    private apiProv: apiRestProvider
+    private apiProv: apiRestProvider,
+    private router: Router
   ) { }
 
   ngOnInit() {
     //call api to get notifications
-
-    if(this.NoticiesArray == null) this.welcome = true;
-    else this.welcome = false;
+    this.welcome = false;
   }
 
   ionViewWillEnter(){
     this.menuCtrl.enable(true);
   }
+
+  onEventSelected(event_id) {
+    this.router.navigate(['/event', event_id]);
+  }
+  
 
 }

@@ -51,7 +51,45 @@
     </ion-card>
   </div>
 
+
+
+<!------------------------------ Si que hi ha noticies -------------------------------------->
+  
+
+
   <div *ngIf="!welcome">
+
+    <!--Recordatorios-->
+    <ion-card class="no_noticias">
+      <ion-card-header class="PaddingItemHeader">
+        <ion-card-title class="Titles">Recordatorios</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="spaceBetween" *ngFor="let rmd of Reminders;">
+        <p class="RemindersText">{{ rmd.title }}</p>
+        <div *ngIf="rmd.day==null">
+          <p class="LeftText">Todabía no tienes nada programado...</p>
+        </div>
+        <div *ngIf="rmd.day!=null">
+          <ion-list class="PaddingItem">
+            <ion-item lines="none" class="PaddingItem">
+              <p class="LeftText">
+                <ion-text class="boldTextLeft"> Día:</ion-text>
+                <ion-text class="DescriptionText"> {{ rmd.day | date: 'dd/MM'}}</ion-text>
+              </p>
+              <p class="LeftText">
+                <ion-text class="boldTextLeft"> Hora:</ion-text>
+                <ion-text class="DescriptionText"> {{ rmd.hour | date: 'HH:mm'}}h</ion-text>
+              </p>
+              <ion-button class="PaddingButton" (click)="onEventSelected(rmd.id)">
+                <ion-icon name="open-outline" class="iconBigger"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!--Noticias-->
     
   </div>
 
