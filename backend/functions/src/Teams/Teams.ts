@@ -18,11 +18,10 @@ app.post('/create', (req, res) => {
             if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
-
             let email: any ="";  
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     email = user.email
-            });    
+            });  
 
             let errors: string[] = [];
             let hasErrors: boolean = false;
