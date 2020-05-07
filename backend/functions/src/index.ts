@@ -37,8 +37,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use((req,res,next)=>{
   (async () => {
-    if (req.path != '/login') {
-      if (req.headers.authorization == null) {
+    if (req.path !== '/login') {
+      if (req.headers.authorization === null) {
         return res.status(401).send("You must send a token to authentificate");
       }
       let isLogged : boolean = false;
