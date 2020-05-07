@@ -287,7 +287,7 @@ app.get('/:teamId/match/:eventId/getCall',(req, res) => {
                 return res.status(400).send("ENE");
             }
             //return correct data
-            if (eventData.call = []) return res.status(400).send("NC");
+            if (eventData.call === []) return res.status(400).send("NC");
             return res.status(200).send(eventData.call);
 
             
