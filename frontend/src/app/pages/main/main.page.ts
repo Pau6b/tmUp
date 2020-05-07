@@ -3,16 +3,15 @@ import { MenuController } from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
 })
 export class MainPage implements OnInit {
-  
+
   welcome = false;
-  hora = '2020-05-03T16:40:42';
-  NoticiesArray;
   public WelcomeMsgs = [
     {
       url: '/calendar',
@@ -55,12 +54,118 @@ export class MainPage implements OnInit {
     }
   ];
 
+  public News = [
+    {
+      type: 'calendar',
+      icon: 'calendar',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'tactics',
+      icon: 'easel',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'tactics',
+      icon: 'easel',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'normativa',
+      icon: 'document-text',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'stadistics',
+      icon: 'bar-chart',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'stadistics',
+      icon: 'bar-chart',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'calendar',
+      icon: 'calendar',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'tactics',
+      icon: 'easel',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'normativa',
+      icon: 'document-text',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'calendar',
+      icon: 'calendar',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'tactics',
+      icon: 'easel',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },
+    {
+      type: 'stadstics',
+      icon: 'bar-chart',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    },{
+      type: 'calendar',
+      icon: 'calendar',
+      date: '2020-05-03T16:40:42',
+      title: 'Titol',
+      information: "S'ha afegit un nou partit el dia 25/05 a les 8:00h",
+      url: ''
+    }
+  ];
+
 
   constructor(
     private menuCtrl: MenuController,
     private apiProv: apiRestProvider,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     //call api to get notifications

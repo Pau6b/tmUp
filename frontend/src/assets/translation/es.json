@@ -84,6 +84,30 @@
     "TEAM-LIST": {
         "title": "Lista de equipos"
     },
+    "MAIN" :{
+        "title": "Inicio",
+        "welcome": "¡Bienvenido!",
+        "info1": "Disfruta de nuestra aplicación para gestionar tu equipo.",
+        "info2": "Todavía no tienes eventos",
+        "info3": "¡¡Echa un vistazo de todo lo que puedes hacer con nuestra aplicación!!",
+        "title_calendar": "Añade y consulta eventos en tu calendario",
+        "description_calendar": "Crea un calendario con los partidos y entrenamientos de la temporada.",
+        "title_chat": "Chatea con tu equipo",
+        "description_chat": "Chatea con tu entrenador y compañeros de equipo para una mejor comunicacion.",
+        "title_tactics": "Tacticas equipo",
+        "description_tactics": "Estate informado de las tacticas de tu equipo.",
+        "title_stadistics": "Estadisticas de tu equipo y personales",
+        "description_stadistics": "Consulta las estadisticas de tu equipo y personales.",
+        "info4": "Entre muchas otras cosas...",
+        "info5": "¡DESCÚBERLO TÚ MISMO!",
+        "title_reminders": "Recordatorios",
+        "no_reminders": "Todabía no tienes nada programado...",
+        "title_next_match": "Próximo Partido:",
+        "title_next_training": "Próximo Entrenamiento:",
+        "day": "Día:",
+        "hour": "Hora:",
+        "title_news": "Noticias"
+    },
     "CORE" : {
         "sport": "Deporte",
         "sports": {

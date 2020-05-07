@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Inicio</ion-title>
+    <ion-title>{{ 'MAIN.title' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,14 +11,14 @@
   <div *ngIf="welcome">
     <ion-card class="no_noticias">
       <ion-card-header>
-        <ion-card-title>¡Bienvenido!</ion-card-title>
-        <p>Disfruta de nuestra aplicación para gestionar tu equipo.</p> 
+        <ion-card-title>{{ 'MAIN.welcome' | translate }}</ion-card-title>
+        <p>{{ 'MAIN.info1' | translate }}</p> 
         <ion-card-title>
-          Todavía no tienes eventos
+          {{ 'MAIN.info2' | translate }}
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p class="boldText">¡¡Echa un vistazo de todo lo que puedes hacer con nuestra aplicación!!</p>
+        <p class="boldText">{{ 'MAIN.info3' | translate }}</p>
       </ion-card-content>
     </ion-card>
 
@@ -36,10 +36,10 @@
 
     <ion-card class="no_noticias">
       <ion-card-header>
-        <ion-card-title>Entre muchas otras cosas...</ion-card-title>
+        <ion-card-title>{{ 'MAIN.info4' | translate }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p class="boldText">¡DESCÚBERLO TÚ MISMO!</p>
+        <p class="boldText">{{ 'MAIN.info5' | translate }}</p>
       </ion-card-content>
     </ion-card>
 
@@ -62,22 +62,22 @@
     <!--Recordatorios-->
     <ion-card class="no_noticias">
       <ion-card-header class="PaddingItemHeader">
-        <ion-card-title class="Titles">Recordatorios</ion-card-title>
+        <ion-card-title class="Titles">{{ 'MAIN.title_reminders' | translate }}</ion-card-title>
       </ion-card-header>
       <ion-card-content class="spaceBetween" *ngFor="let rmd of Reminders;">
         <p class="RemindersText">{{ rmd.title }}</p>
         <div *ngIf="rmd.day==null">
-          <p class="LeftText">Todabía no tienes nada programado...</p>
+          <p class="LeftText">{{ 'MAIN.no_reminders' | translate }}</p>
         </div>
         <div *ngIf="rmd.day!=null">
           <ion-list class="PaddingItem">
             <ion-item lines="none" class="PaddingItem">
               <p class="LeftText">
-                <ion-text class="boldTextLeft"> Día:</ion-text>
+                <ion-text class="boldTextLeft"> {{ 'MAIN.day' | translate }}</ion-text>
                 <ion-text class="DescriptionText"> {{ rmd.day | date: 'dd/MM'}}</ion-text>
               </p>
               <p class="LeftText">
-                <ion-text class="boldTextLeft"> Hora:</ion-text>
+                <ion-text class="boldTextLeft"> {{ 'MAIN.hour' | translate }}</ion-text>
                 <ion-text class="DescriptionText"> {{ rmd.hour | date: 'HH:mm'}}h</ion-text>
               </p>
               <ion-button class="PaddingButton" (click)="onEventSelected(rmd.id)">
@@ -90,6 +90,25 @@
     </ion-card>
 
     <!--Noticias-->
+    <ion-card class="no_noticias">
+      <ion-card-header class="PaddingItemHeader">
+        <ion-card-title class="Titles">{{ 'MAIN.title_news' | translate }}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <div *ngFor="let new of News;">
+      <ion-card class="cardNews" [routerLink]="[new.url]" routerDirection="root">
+        <ion-card-header class="newsHeader">
+          <ion-icon name="{{ new.icon }}"></ion-icon>
+          <ion-text> {{ new.type }}</ion-text>
+          <ion-text> {{ new.date | date: 'dd/MM' }} {{ new.date | date: 'HH:mm' }}</ion-text>
+        </ion-card-header>
+        <ion-card-content class="contentNews">
+          <p class="boldTextLeft">{{ new.title }}</p>
+          <p class="infoNew"> {{ new.information }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
     
   </div>
 

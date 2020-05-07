@@ -102,3 +102,23 @@ mark{
   --background: rgba(var(--ion-color-primary-rgb), 0.20);
 }
 
+.cardNews {
+  padding: 2px;
+  text-align: left;
+  --background: rgb(223, 230, 231);
+}
+
+.newsHeader {
+  font-size: 13px;
+  padding: 3px;
+  text-align: left;
+}
+
+.infoNew{
+  text-align: left;
+  font-style: italic;
+}
+
+.contentNews {
+  padding: 4px;
+}
