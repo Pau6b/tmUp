@@ -1,17 +1,27 @@
 <ion-item [hidden]="true">
-  <ion-label>Jugadores titulares</ion-label>
+  <ion-label>{{ "LIVE-MATCH.conv" | translate }}</ion-label>
   <ion-select #playersList [(ngModel)]="selectedPlayer" (ionChange)="onChange()">
     <ion-select-option *ngFor="let p of convList" [value]="p"> {{ p.name }}</ion-select-option>
   </ion-select>
 </ion-item>
 
-<ion-list>
+<ion-list *ngIf="teamSport=='Football'">
   <ion-item-sliding *ngFor="let item of eventsList; let i = index">
-    <ion-item (click)="selectedIndex=i; selectPlayer()" text-wrap>
-      <ion-label> {{ item.type }} {{ item.player?.name }} {{ item.points }}</ion-label>
-      <ion-label *ngIf="eventsList[i].type=='change'">{{ item.playerIn?.name }} &#60; - &#62; {{ item.playerOut?.name }}</ion-label>
+    <ion-item (click)="selectedIndex=i">
+      <ion-img *ngIf="item.type=='scored'" src="../../../../../assets/liveMatchIcons/football/myTeamGoal.png" alt="My Team Scored"></ion-img>
+      <ion-img *ngIf="item.type=='stopped'" src="../../../../../assets/liveMatchIcons/football/stoppedGoal.png" alt="Stopped"></ion-img>
+      <ion-img *ngIf="item.type=='opScored'" src="../../../../../assets/liveMatchIcons/football/opponentGoal.png" alt="Opponent Scored"></ion-img>
+      <ion-img *ngIf="item.type=='yellowCard'" src="../../../../../assets/liveMatchIcons/football/yellowCard.png" alt="Yellow Card"></ion-img>
+      <ion-img *ngIf="item.type=='redCard'" src="../../../../../assets/liveMatchIcons/football/redCard.png" alt="Red Card"></ion-img>
+      <ion-img *ngIf="item.type=='change'" src="../../../../../assets/liveMatchIcons/football/change.png" alt="Change"></ion-img>
+      <ion-col>
+        <ion-label (click)="selectPlayer()" *ngIf="item.type!='change'">{{ item.player?.name }}</ion-label>
+        <ion-label *ngIf="item.type=='opScored'"> Gol de oponente. </ion-label>
+        <ion-row *ngIf="item.type=='change'">Out: {{ item.playerOut?.name }}</ion-row>
+        <ion-row *ngIf="item.type=='change'">In: {{ item.playerIn?.name }}</ion-row>
+      </ion-col>
       <ion-item-options side="end">
-        <ion-item-option color="danger">Delete</ion-item-option>
+        <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>
       </ion-item-options>
     </ion-item>
   </ion-item-sliding>

@@ -11,6 +11,7 @@ import { BasketballViewComponent } from './Components/basketball-view/basketball
 import { FootballViewComponent } from './Components/football-view/football-view.component';
 import { HandballViewComponent } from './Components/handball-view/handball-view.component';
 import { EditStadisticsComponent } from './Components/edit-stadistics/edit-stadistics.component'
+import { TranslateModule } from '@ngx-translate/core'
 
 const PageComponents = [
   FootballViewComponent,
@@ -24,7 +25,8 @@ const PageComponents = [
     CommonModule,
     FormsModule,
     IonicModule,
-    LiveMatchPageRoutingModule
+    LiveMatchPageRoutingModule,
+    TranslateModule
   ],
   declarations: [
     LiveMatchPage,

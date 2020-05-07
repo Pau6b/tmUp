@@ -11,6 +11,7 @@ export class EditStadisticsComponent implements OnInit {
 
   @Input() eventsList;
   @Input() convList;
+  @Input() teamSport;
 
   selectedIndex;
   selectedPlayer;

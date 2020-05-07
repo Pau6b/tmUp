@@ -84,6 +84,15 @@
     "TEAM-LIST": {
         "title": "Llista d'equips"
     },
+    "LIVE-MATCH": {
+        "start": "Comença",
+        "stop": "Atura",
+        "finish": "Acaba",
+        "myTeam": "El meu equip",
+        "otherTeam": "Adversari",
+        "conv": "Jugadors Convocats",
+        "titu": "Jugadors Titulars"
+    },
     "CORE" : {
         "sport": "Esport",
         "sports": {

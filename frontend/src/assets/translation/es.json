@@ -84,6 +84,15 @@
     "TEAM-LIST": {
         "title": "Lista de equipos"
     },
+    "LIVE-MATCH": {
+        "start": "Empieza",
+        "stop": "Para",
+        "finish": "Acaba",
+        "myTeam": "Mi Equipo",
+        "otherTeam": "Oponente",
+        "conv": "Jugadores Convocados",
+        "titu": "Jugadores Titulares"
+    },
     "CORE" : {
         "sport": "Deporte",
         "sports": {
