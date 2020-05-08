@@ -15,7 +15,7 @@ app.post('/match/create', (req, res) => {
             const existsTeam = await comprobarEquipo(jsonContent);
             if (!existsTeam)
                 return res.status(400).send("no existe el equipo");
-            var dateNoticia = new Date();
+            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "match",
                 title: jsonContent.title,
