@@ -12,18 +12,16 @@ app.get('/all/:teamId', (req, res) => {
             if(!existsTeam) return res.status(400).send("no existe el equipo");
             const query = db.collection('teams').doc(req.params.teamId).collection('noticies').orderBy("dateNoticia", "desc");
             const response: any = [];
-            //let selectedData: any = [];
             return new Promise(function(resolve, reject) {
                 setTimeout(() => {
                     query.onSnapshot((snapshot: any[]) => {
                         snapshot.forEach(snap => {
                             let selectedData;
-                            //potser mirar de fer agrupacions..
                             //selectedData = NoticiamatchData(snap);
                             if (snap.data().typeNoticia === "matchAfegit") selectedData = NoticiamatchData(snap); //FET
                             if (snap.data().typeNoticia === "trainingAfegit") selectedData = NoticiatrainingData(snap); //FET
-                            if (snap.data().typeNoticia === "matchDeleted") selectedData = NoticiamatchData(snap);
-                            if (snap.data().typeNoticia === "trainingDeleted") selectedData = NoticiatrainingData(snap);
+                            if (snap.data().typeNoticia === "matchDeleted") selectedData = NoticiamatchData(snap); //FET
+                            if (snap.data().typeNoticia === "trainingDeleted") selectedData = NoticiatrainingData(snap); //FET
                             if (snap.data().typeNoticia === "matchUpdated") selectedData = NoticiamatchData(snap); // FET
                             if (snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); //FET
                             /*else if (snap.data().doc.typeNoticia === "tactiquesAfegides") selectedData = NoticiaTactiquesData(snap);
@@ -50,35 +48,6 @@ app.get('/all/:teamId', (req, res) => {
         }     
     })().then().catch(); 
 });
-
-//ADD (POST) NOTICIES EN ELS MATCHES
-/*await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
-    teamId: id,
-    typeNoticia: "matchAfegit",
-    dateNoticia: new Date(),
-    ///general de match
-    title: jsonContent.title,
-    startTime: jsonContent.startTime,
-    endTime: jsonContent.endTime,
-    allDay: jsonContent.allDay,
-    rival: jsonContent.rival,
-    location: jsonContent.location,
-    call: []
-})*/
-
-//ADD (POST) NOTICIES EN ELS TRAININGS
-/*await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
-    teamId: id,
-    typeNoticia: "trainingAfegit",
-    dateNoticia: new Date(),
-    ///general de training
-    title: jsonContent.title,
-    startTime: jsonContent.startTime,
-    endTime: jsonContent.endTime,
-    allDay: jsonContent.allDay,
-    description: jsonContent.description,
-    location: jsonContent.location
-})*/
 
 function NoticiamatchData(doc: any) {
     let selectedData;
@@ -180,9 +149,7 @@ async function comprobarEquipo(jsonContent: any) {
     return existsTeam;
 }
 
-//Create Noticies=> POST ----> a més a més dels paràmetres de cada objecte de la clase, afegir la data, també mecessitem que ens pasin el teamId
-//POTSER FER-LA DINS DE CADA CREATE O MOD DE QUALSEVOL QUE SE'N VULGUI FER NOTICIA, com membership a Teams.ts
-//NOMES SERA PER LES NORMATIVES I TACTIQUES EN PRINCIPI (per fixers)
+//Create Noticies=> POST 
 /*app.post('/create', (req, res) => {
     (async () => {
         try {
