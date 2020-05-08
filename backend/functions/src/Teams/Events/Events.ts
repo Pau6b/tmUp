@@ -28,7 +28,7 @@ app.post('/match/create', (req, res) => {
             })
             await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
                 typeNoticia: "matchAfegit",
-                dateNoticia: dateNoticia, //potser fer millor abans un today i guardar-ho be
+                dateNoticia: dateNoticia,
                 ///general de match
                 title: jsonContent.title,
                 startTime: jsonContent.startTime,
@@ -304,7 +304,7 @@ app.delete('/delete/:teamId/:eventId', (req, res) => {
             if (eventData.type == "match") {
                 await db.collection('teams').doc(req.params.teamId).collection('noticies').add({
                     typeNoticia: "matchDeleted",
-                    dateNoticia: dateNoticia, //potser fer millor abans un today i guardar-ho be
+                    dateNoticia: dateNoticia,
                     ///general de match
                     title: eventData.title,
                     startTime: eventData.startTime,
@@ -400,7 +400,7 @@ app.put('/match/update', (req, res) => {
             })
             await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
                 typeNoticia: "matchUpdated",
-                dateNoticia: dateNoticia, //potser fer millor abans un today i guardar-ho be
+                dateNoticia: dateNoticia, 
                 ///general de match
                 title: jsonContent.title,
                 startTime: jsonContent.startTime,

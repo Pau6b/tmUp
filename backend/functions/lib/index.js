@@ -80,9 +80,6 @@ const messagesHandler = require('./Teams/Messages/Messages');
 app.use('/teams/messages', messagesHandler);
 const noticiesHandler = require('./Teams/Noticies/Noticies');
 app.use('/teams/noticies', noticiesHandler);
-/*const newsHandler = require('./Teams/Noticies/Noticies');
-app.use('/news', newsHandler);*/
-/* --- end of routes --- */
 exports.app = functions.https.onRequest(app);
 const db = admin.firestore();
 exports.onUserCreate = functions.auth.user().onCreate((user) => {
