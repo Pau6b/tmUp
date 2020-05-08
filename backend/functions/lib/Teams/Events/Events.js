@@ -154,6 +154,110 @@ app.get('/bymonth/:teamId/:month', (req, res) => {
         }
     })().then().catch();
 });
+//----------------------------------------------------------NEXT MATCH AND TRAINING-----------------------------------------------------------
+//Read Next Match=> GET
+app.get('/nextevent/match/:teamId', (req, res) => {
+    (async () => {
+        try {
+            const existsTeam = await comprobarEquipo(req.params);
+            if (!existsTeam)
+                return res.status(400).send("nOO existe el equipo");
+            const query = db.collection('teams').doc(req.params.teamId).collection('events');
+            const response = [];
+            let selectedData = [];
+            let d1 = new Date();
+            let dateAct = d1.getTime();
+            let boolPrimero = 1;
+            let dateProx = d1.getTime();
+            return new Promise(function (resolve, reject) {
+                setTimeout(() => {
+                    query.onSnapshot((snapshot) => {
+                        snapshot.forEach(snap => {
+                            const d2 = new Date(snap.data().startTime);
+                            if (snap.data().type === "match") {
+                                if (boolPrimero == 1) {
+                                    dateProx = d2.getTime();
+                                    selectedData = matchData(snap);
+                                    boolPrimero = 0;
+                                }
+                                else {
+                                    if (dateAct < d2.getTime() && dateProx >= d2.getTime()) {
+                                        dateProx = d2.getTime();
+                                        selectedData = matchData(snap);
+                                    }
+                                }
+                            }
+                        });
+                        response.push(selectedData);
+                        resolve({ msg: "It works", response });
+                        return res.status(200).send(response);
+                    });
+                    if (true) {
+                        resolve({ msg: "It works", response });
+                    }
+                    else {
+                        reject({});
+                    }
+                }, 2000);
+            });
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+//Read Next Training=> GET
+app.get('/nextevent/training/:teamId', (req, res) => {
+    (async () => {
+        try {
+            const existsTeam = await comprobarEquipo(req.params);
+            if (!existsTeam)
+                return res.status(400).send("no existe el equipo");
+            const query = db.collection('teams').doc(req.params.teamId).collection('events');
+            const response = [];
+            let selectedData = [];
+            let d1 = new Date();
+            let dateAct = d1.getTime();
+            let boolPrimero = 1;
+            let dateProx = d1.getTime();
+            return new Promise(function (resolve, reject) {
+                setTimeout(() => {
+                    query.onSnapshot((snapshot) => {
+                        snapshot.forEach(snap => {
+                            const d2 = new Date(snap.data().startTime);
+                            if (snap.data().type === "training") {
+                                if (boolPrimero == 1) {
+                                    dateProx = d2.getTime();
+                                    selectedData = trainingData(snap);
+                                    boolPrimero = 0;
+                                }
+                                else {
+                                    if (dateAct < d2.getTime() && dateProx >= d2.getTime()) {
+                                        dateProx = d2.getTime();
+                                        selectedData = trainingData(snap);
+                                    }
+                                }
+                            }
+                        });
+                        response.push(selectedData);
+                        resolve({ msg: "It works", response });
+                        return res.status(200).send(response);
+                    });
+                    if (true) {
+                        resolve({ msg: "It works", response });
+                    }
+                    else {
+                        reject({});
+                    }
+                }, 2000);
+            });
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+//--------------------------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------DELETE------------------------------------------------------------------------
 //Delete event
 app.delete('/delete/:teamId/:eventId', (req, res) => {
