@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 /* --- before all requests --- */
 
 
-app.use((req,res,next)=>{
+/*app.use((req,res,next)=>{
   (async () => {
     if (req.path !== '/login') {
       if (req.headers.authorization === null) {
@@ -57,7 +57,7 @@ app.use((req,res,next)=>{
     }
     return;
   })().then().catch();
-});
+});*/
 
 
 
@@ -103,6 +103,9 @@ app.use('/chats', chatsHandler);
 
 const messagesHandler = require('./Teams/Messages/Messages');
 app.use('/teams/messages', messagesHandler);
+
+const newsHandler = require('./Teams/Noticies/Noticies');
+app.use('/news', newsHandler);
 /* --- end of routes --- */
 
 exports.app = functions.https.onRequest(app);

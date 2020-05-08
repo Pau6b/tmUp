@@ -15,8 +15,22 @@ app.post('/match/create', (req, res) => {
             const jsonContent = JSON.parse(req.body);
             const existsTeam = await comprobarEquipo(jsonContent);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
+            var dateNoticia = new Date();
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "match",
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                rival: jsonContent.rival,
+                location: jsonContent.location,
+                call: []
+            })
+            await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
+                teamId: jsonContent.teamId,
+                typeNoticia: "matchAfegit",
+                dateNoticia: dateNoticia, //potser fer millor abans un today i guardar-ho be
+                ///general de match
                 title: jsonContent.title,
                 startTime: jsonContent.startTime,
                 endTime: jsonContent.endTime,
