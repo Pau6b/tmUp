@@ -27,7 +27,6 @@ app.post('/match/create', (req, res) => {
                 call: []
             });
             await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
-                teamId: jsonContent.teamId,
                 typeNoticia: "matchAfegit",
                 dateNoticia: dateNoticia,
                 ///general de match
@@ -54,8 +53,20 @@ app.post('/training/create', (req, res) => {
             const existsTeam = await comprobarEquipo(jsonContent);
             if (!existsTeam)
                 return res.status(400).send("no existe el equipo");
+            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "training",
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                description: jsonContent.description,
+                location: jsonContent.location
+            });
+            await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
+                typeNoticia: "trainingAfegit",
+                dateNoticia: dateNoticia,
+                ///general de training
                 title: jsonContent.title,
                 startTime: jsonContent.startTime,
                 endTime: jsonContent.endTime,
@@ -283,6 +294,37 @@ app.delete('/delete/:teamId/:eventId', (req, res) => {
             const existeevento = await comprobarEvento(req.params);
             if (!existeevento)
                 return res.status(400).send("no existe el evento");
+            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            const eventData = await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).get().then((doc) => {
+                return doc.data();
+            });
+            if (eventData.type == "match") {
+                await db.collection('teams').doc(req.params.teamId).collection('noticies').add({
+                    typeNoticia: "matchDeleted",
+                    dateNoticia: dateNoticia,
+                    ///general de match
+                    title: eventData.title,
+                    startTime: eventData.startTime,
+                    endTime: eventData.endTime,
+                    allDay: eventData.allDay,
+                    rival: eventData.rival,
+                    location: eventData.location,
+                    call: eventData.call
+                });
+            }
+            else {
+                await db.collection('teams').doc(req.params.teamId).collection('noticies').add({
+                    typeNoticia: "trainingDeleted",
+                    dateNoticia: dateNoticia,
+                    ///general de training
+                    title: eventData.title,
+                    startTime: eventData.startTime,
+                    endTime: eventData.endTime,
+                    allDay: eventData.allDay,
+                    description: eventData.description,
+                    location: eventData.location
+                });
+            }
             await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).delete();
             return res.status(200).send("evento eliminado");
         }
@@ -303,8 +345,20 @@ app.put('/training/update', (req, res) => {
             const existeevento = await comprobarEvento(jsonContent);
             if (!existeevento)
                 return res.status(400).send("no existe el evento");
+            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(jsonContent.eventId).set({
                 type: "training",
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                description: jsonContent.description,
+                location: jsonContent.location
+            });
+            await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
+                typeNoticia: "trainingUpdated",
+                dateNoticia: dateNoticia,
+                ///general de training
                 title: jsonContent.title,
                 startTime: jsonContent.startTime,
                 endTime: jsonContent.endTime,
@@ -330,8 +384,21 @@ app.put('/match/update', (req, res) => {
             const existeevento = await comprobarEvento(jsonContent);
             if (!existeevento)
                 return res.status(400).send("no existe el evento");
+            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(jsonContent.eventId).set({
                 type: "match",
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                rival: jsonContent.rival,
+                location: jsonContent.location,
+                call: []
+            });
+            await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
+                typeNoticia: "matchUpdated",
+                dateNoticia: dateNoticia,
+                ///general de match
                 title: jsonContent.title,
                 startTime: jsonContent.startTime,
                 endTime: jsonContent.endTime,

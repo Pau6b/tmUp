@@ -20,14 +20,12 @@ app.get('/all/:teamId', (req, res) => {
                             let selectedData;
                             //potser mirar de fer agrupacions..
                             //selectedData = NoticiamatchData(snap);
-                            if(snap.data().typeNoticia === "nextMatch") selectedData = NoticiamatchData(snap); //FET
-                            else if (snap.data().typeNoticia === "nextTraining") selectedData = NoticiatrainingData(snap); //FET
-                            else if (snap.data().typeNoticia === "matchAfegit") selectedData = NoticiamatchData(snap); //FET
-                            else if (snap.data().typeNoticia === "trainingAfegit") selectedData = NoticiatrainingData(snap); //FET
-                            else if (snap.data().typeNoticia === "matchDeleted") selectedData = NoticiamatchData(snap);
-                            else if (snap.data().typeNoticia === "trainingDeleted") selectedData = NoticiatrainingData(snap);
-                            else if (snap.data().typeNoticia === "matchUpdated") selectedData = NoticiamatchData(snap); //FET
-                            else if (snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); //FET
+                            if (snap.data().typeNoticia === "matchAfegit") selectedData = NoticiamatchData(snap); //FET
+                            if (snap.data().typeNoticia === "trainingAfegit") selectedData = NoticiatrainingData(snap); //FET
+                            if (snap.data().typeNoticia === "matchDeleted") selectedData = NoticiamatchData(snap);
+                            if (snap.data().typeNoticia === "trainingDeleted") selectedData = NoticiatrainingData(snap);
+                            if (snap.data().typeNoticia === "matchUpdated") selectedData = NoticiamatchData(snap); // FET
+                            if (snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); //FET
                             /*else if (snap.data().doc.typeNoticia === "tactiquesAfegides") selectedData = NoticiaTactiquesData(snap);
                             else if (snap.data().doc.typeNoticia === "tactiquesDeleted") selectedData = NoticiaTactiquesData(snap);
                             else if (snap.data().doc.typeNoticia === "normativesAfegides") selectedData = NoticiaNormativaData(snap);
@@ -105,6 +103,7 @@ function NoticiatrainingData(doc: any) {
     selectedData = {
         id: doc.data().id,
         dateNoticia: doc.data().dateNoticia,
+        typeNoticia: doc.data().typeNoticia,
         title: doc.data().title,
         startTime: doc.data().startTime,
         endTime: doc.data().endTime,
