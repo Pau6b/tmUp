@@ -78,8 +78,10 @@ const chatsHandler = require('./Teams/Chats/Chats');
 app.use('/chats', chatsHandler);
 const messagesHandler = require('./Teams/Messages/Messages');
 app.use('/teams/messages', messagesHandler);
-const newsHandler = require('./Teams/Noticies/Noticies');
-app.use('/news', newsHandler);
+const noticiesHandler = require('./Teams/Noticies/Noticies');
+app.use('/teams/noticies', noticiesHandler);
+/*const newsHandler = require('./Teams/Noticies/Noticies');
+app.use('/news', newsHandler);*/
 /* --- end of routes --- */
 exports.app = functions.https.onRequest(app);
 const db = admin.firestore();

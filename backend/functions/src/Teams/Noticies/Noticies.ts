@@ -5,27 +5,29 @@ const db = admin.firestore();
 const app = express();
 
 //Read Noticies of a team => GET
-app.get('/all', (req, res) => { 
+app.get('/all/:teamId', (req, res) => { 
     (async () => {
         try {
             const existsTeam = await comprobarEquipo(req.params);
             if(!existsTeam) return res.status(400).send("no existe el equipo");
             const query = db.collection('teams').doc(req.params.teamId).collection('noticies').orderBy("dateNoticia", "desc");
             const response: any = [];
-            let selectedData: any = [];
+            //let selectedData: any = [];
             return new Promise(function(resolve, reject) {
                 setTimeout(() => {
                     query.onSnapshot((snapshot: any[]) => {
                         snapshot.forEach(snap => {
+                            let selectedData;
                             //potser mirar de fer agrupacions..
-                            if(snap.data().doc.typeNoticia === "nextMatch") selectedData = NoticiamatchData(snap); //FET
-                            else if (snap.data().doc.typeNoticia === "nextTraining") selectedData = NoticiatrainingData(snap); //FET
-                            else if (snap.data().doc.typeNoticia === "matchAfegit") selectedData = NoticiamatchData(snap); //FET
-                            else if (snap.data().doc.typeNoticia === "trainingAfegit") selectedData = NoticiatrainingData(snap); //FET
-                            else if (snap.data().doc.typeNoticia === "matchDeleted") selectedData = NoticiamatchData(snap);
-                            else if (snap.data().doc.typeNoticia === "trainingDeleted") selectedData = NoticiatrainingData(snap);
-                            else if (snap.data().doc.typeNoticia === "matchUpdated") selectedData = NoticiamatchData(snap); //FET
-                            else if (snap.data().doc.typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); //FET
+                            //selectedData = NoticiamatchData(snap);
+                            if(snap.data().typeNoticia === "nextMatch") selectedData = NoticiamatchData(snap); //FET
+                            else if (snap.data().typeNoticia === "nextTraining") selectedData = NoticiatrainingData(snap); //FET
+                            else if (snap.data().typeNoticia === "matchAfegit") selectedData = NoticiamatchData(snap); //FET
+                            else if (snap.data().typeNoticia === "trainingAfegit") selectedData = NoticiatrainingData(snap); //FET
+                            else if (snap.data().typeNoticia === "matchDeleted") selectedData = NoticiamatchData(snap);
+                            else if (snap.data().typeNoticia === "trainingDeleted") selectedData = NoticiatrainingData(snap);
+                            else if (snap.data().typeNoticia === "matchUpdated") selectedData = NoticiamatchData(snap); //FET
+                            else if (snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); //FET
                             /*else if (snap.data().doc.typeNoticia === "tactiquesAfegides") selectedData = NoticiaTactiquesData(snap);
                             else if (snap.data().doc.typeNoticia === "tactiquesDeleted") selectedData = NoticiaTactiquesData(snap);
                             else if (snap.data().doc.typeNoticia === "normativesAfegides") selectedData = NoticiaNormativaData(snap);
@@ -84,8 +86,8 @@ function NoticiamatchData(doc: any) {
     let selectedData;
     selectedData = {
         id: doc.id,
-        dateNoticia: doc.dateNoticia,
-        typeNoticia: doc.typeNoticia,
+        dateNoticia: doc.data().dateNoticia,
+        typeNoticia: doc.data().typeNoticia,
         title: doc.data().title,
         startTime: doc.data().startTime,
         endTime: doc.data().endTime,
@@ -101,8 +103,8 @@ function NoticiamatchData(doc: any) {
 function NoticiatrainingData(doc: any) {
     let selectedData;
     selectedData = {
-        id: doc.id,
-        dateNoticia: doc.dateNoticia,
+        id: doc.data().id,
+        dateNoticia: doc.data().dateNoticia,
         title: doc.data().title,
         startTime: doc.data().startTime,
         endTime: doc.data().endTime,
@@ -221,3 +223,5 @@ async function comprobarEquipo(jsonContent: any) {
 
     })().then().catch();
 });*/
+
+module.exports = app;
