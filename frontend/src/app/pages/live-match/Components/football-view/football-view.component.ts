@@ -33,7 +33,7 @@ export class FootballViewComponent implements OnInit {
       this.myTeamScored.emit({points: 1, player: this.selectedPlayer});
     }
     else if( this.eventType == "stopGoal") {
-      this.stoppedGoal.emit({player: this.selectedPlayer});
+      this.stoppedGoal.emit(this.selectedPlayer);
     }
     else if( this.eventType == "redCard") {
       this.setRedCard.emit({player: this.selectedPlayer, card: "red"});

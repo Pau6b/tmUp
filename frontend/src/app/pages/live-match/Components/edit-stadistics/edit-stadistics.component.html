@@ -47,3 +47,23 @@
     </ion-item>
   </ion-item-sliding>
 </ion-list>
+
+<ion-list *ngIf="teamSport=='Handball'">
+  <ion-item-sliding *ngFor="let item of eventsList; let i = index">
+    <ion-item (click)="selectedIndex=i">
+      <ion-img *ngIf="item.type=='goalsScored'" src="../../../../../assets/liveMatchIcons/handball/myTeamGoal.png" alt="My Team Scored"></ion-img>
+      <ion-img *ngIf="item.type=='stops'" src="../../../../../assets/liveMatchIcons/handball/stoppedGoal.png" alt="Stopped"></ion-img>
+      <ion-img *ngIf="item.type=='goalsReceived'" src="../../../../../assets/liveMatchIcons/handball/opponentGoal.png" alt="Opponent Scored"></ion-img>
+      <ion-img *ngIf="item.type=='lostBalls'" src="../../../../../assets/liveMatchIcons/handball/lostBall.png" alt="Lost Ball"></ion-img>
+      <ion-img *ngIf="item.type=='sevenMeters'" src="../../../../../assets/liveMatchIcons/handball/7m.png" alt="Seven Meters"></ion-img>
+      <ion-img *ngIf="item.type=='twoMinutes'" src="../../../../../assets/liveMatchIcons/handball/2min.png" alt="Two Minutes"></ion-img>
+      <ion-col>
+        <ion-label (click)="selectPlayer()">{{ item.player?.name }}</ion-label>
+        <ion-row *ngIf="item.type=='goalsReceived'"> {{ "LIVE-MATCH.opponentGoal" | translate }} </ion-row>
+      </ion-col>
+      <ion-item-options side="end">
+        <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>
+      </ion-item-options>
+    </ion-item>
+  </ion-item-sliding>
+</ion-list>

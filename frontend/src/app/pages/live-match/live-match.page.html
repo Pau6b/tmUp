@@ -71,9 +71,13 @@
   </app-football-view>
 
   <app-handball-view *ngIf="sport=='Handball'&&!finishing"
+  [titulars]="titulars"
   (myTeamScored)="onMyTeamScored($event)"
   (stoppedGoal)="onStoppedGoal($event)"
   (opponentScored)="onOpponentScored($event)"
+  (lostBall)="onLostBall($event)"
+  (sevenMeters)="onSevenMeters($event)"
+  (twoMinutes)="onTwoMinutes($event)"
   >
   </app-handball-view>
 

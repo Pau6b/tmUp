@@ -142,10 +142,10 @@ export class LiveMatchPage implements OnInit {
     this.visitPts+=pnts;
   }
 
-  onStoppedGoal(info) {
+  onStoppedGoal(player) {
     let infoEvent = {
       type: "stops",
-      player: info.player
+      player: player
     }
     this.stadisticsLog.push(infoEvent);
   }
@@ -198,6 +198,30 @@ export class LiveMatchPage implements OnInit {
   }
 
   //HANDBALL
+
+  onLostBall(player) {
+    let infoEvent = {
+      type: "lostBalls",
+      player: player
+    }
+    this.stadisticsLog.push(infoEvent);
+  }
+
+  onSevenMeters(player) {
+    let infoEvent = {
+      type: "sevenMeters",
+      player: player
+    }
+    this.stadisticsLog.push(infoEvent);
+  }
+
+  onTwoMinutes(player) {
+    let infoEvent = {
+      type: "twoMinutes",
+      player: player
+    }
+    this.stadisticsLog.push(infoEvent);
+  }
 
   // Stopwatch methods
   start() {

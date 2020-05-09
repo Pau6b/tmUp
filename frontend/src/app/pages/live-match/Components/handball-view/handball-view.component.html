@@ -1,25 +1,32 @@
+<ion-item [hidden]="true">
+  <ion-label>{{ "LIVE-MATCH.titu" | translate }}</ion-label>
+  <ion-select #TitularsList [(ngModel)]="selectedPlayer" (ionChange)="onChange()">
+    <ion-select-option *ngFor="let titu of titulars" [value]="titu"> {{ titu.name }}</ion-select-option>
+  </ion-select>
+</ion-item>
+
 <ion-grid>
   <ion-row>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/handball/myTeamGoal.png" alt="myTeamGoal">
+      <img src="../../../../../assets/liveMatchIcons/handball/myTeamGoal.png" (click)="onMyTeamScored()" alt="myTeamGoal">
     </ion-col>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/handball//stoppedGoal.png" alt="stoppedGoal">
+      <img src="../../../../../assets/liveMatchIcons/handball/stoppedGoal.png" (click)="onStopped()" alt="stoppedGoal">
     </ion-col>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/handball/opponentGoal.png" alt="opponentGoal">
+      <img src="../../../../../assets/liveMatchIcons/handball/opponentGoal.png" (click)="onOpScored()" alt="opponentGoal">
     </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/handball/lostBall.png" alt="lostBall">
+      <img src="../../../../../assets/liveMatchIcons/handball/lostBall.png" (click)="onLostBall()" alt="lostBall">
     </ion-col>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/handball/7m.png" alt="7 meters">
+      <img src="../../../../../assets/liveMatchIcons/handball/7m.png" (click)="onSevenM()" alt="7 meters">
     </ion-col>
     <ion-col>
-      <img src="../../../../../assets/liveMatchIcons/handball/2min.png" alt="2 minutes">
+      <img src="../../../../../assets/liveMatchIcons/handball/2min.png" (click)="onTwoMin()" alt="2 minutes">
     </ion-col>
   </ion-row>
 </ion-grid>
