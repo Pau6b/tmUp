@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+const Statistics_1 = require("../../Core/Templates/Statistics");
 //import { GetMatchStatsBySport } from "../../Core/Templates/Statistics"
 //import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
@@ -15,7 +16,27 @@ app.post('/match/create', (req, res) => {
             const existsTeam = await comprobarEquipo(jsonContent);
             if (!existsTeam)
                 return res.status(400).send("no existe el equipo");
+            let teamSport = "";
+            const team = db.collection('teams').doc(jsonContent.teamId);
+            await team.get().then((teamDoc) => {
+                teamSport = teamDoc.data().sport;
+            });
             var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            const stadistics = Statistics_1.GetMatchStatsBySport(teamSport);
+            console.log(stadistics);
+            /*const matchData :any = {
+                type: "match",
+                title: jsonContent.title,
+                startTime: jsonContent.startTime,
+                endTime: jsonContent.endTime,
+                allDay: jsonContent.allDay,
+                rival: jsonContent.rival,
+                location: jsonContent.location,
+                call: []
+            }
+            matchData.stats = GetMatchStatsBySport(teamSport)
+            await db.collection('teams').doc(jsonContent.teamId).collection("events").add(matchData);
+*/
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "match",
                 title: jsonContent.title,
@@ -24,6 +45,7 @@ app.post('/match/create', (req, res) => {
                 allDay: jsonContent.allDay,
                 rival: jsonContent.rival,
                 location: jsonContent.location,
+                stats: stadistics,
                 call: []
             });
             await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
@@ -476,6 +498,106 @@ app.get('/:teamId/match/:eventId/getCall', (req, res) => {
         }
     })().then().catch();
 });
+//ESTADISTICAS--------------------------------------------------------------------------------------------------
+app.put('/statistics/:teamId/:eventId', (req, res) => {
+    (async () => {
+        try {
+            const jsonContent = JSON.parse(req.body);
+            const existsTeam = await comprobarEquipo(req.params);
+            if (!existsTeam)
+                return res.status(400).send("no existe el equipo");
+            const existeevento = await comprobarEvento(req.params);
+            if (!existeevento)
+                return res.status(400).send("no existe el evento");
+            //tratar errores
+            let errores = [];
+            let hayErrores = false;
+            let equipoExiste = true;
+            let teamSport = "";
+            const team = await db.collection('teams').doc(req.params.teamId);
+            await team.get().then((teamDoc) => {
+                if (!teamDoc.exists)
+                    equipoExiste = false;
+                else {
+                    teamSport = teamDoc.data().sport;
+                }
+            });
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with id : [" + req.params.teamId + "] does not exist");
+            }
+            if (hayErrores) {
+                return res.status(400).send(errores);
+            }
+            let playerStatistics = {};
+            playerStatistics = Statistics_1.GetMembershipStatsBySport(teamSport);
+            console.log(playerStatistics);
+            let matchStatistics = {};
+            matchStatistics = Statistics_1.GetMatchStatsBySport(teamSport);
+            let teamStatistics = {};
+            teamStatistics = Statistics_1.GetTeamStatsBySport(teamSport);
+            console.log(teamStatistics);
+            for (const key in jsonContent) {
+                if (jsonContent.hasOwnProperty(key)) {
+                    console.log(jsonContent[key].type);
+                    for (const stat in matchStatistics) {
+                        if (matchStatistics.hasOwnProperty(stat)) {
+                            //const element = matchStatistics[stat];
+                        }
+                    }
+                }
+            }
+            //comprovarEstadisticas(Statistics,jsonContent);
+            /*let email: string = "";
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    user.email = user.email;
+            })
+            //email = "ivan@email.com"*/
+            /*const query = await db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", req.params.userId);
+            let docExists: boolean = false;
+            let isPlayer: boolean = true;
+            let docid : string = "";
+            //let stadisticsPlayer;
+            await query.get().then(async (querySnapshot: any) => {
+                for (const doc  of querySnapshot.docs) {
+                    docid = doc.id;
+                    docExists = true;
+                    playerStatistics = doc.data().stats;
+                    for (const key in jsonContent) {
+                        if (jsonContent.hasOwnProperty(key)) {
+                            for (const stat in playerStatistics) {
+                                if (playerStatistics.hasOwnProperty(key)) {
+                                    if(key === stat) playerStatistics[stat] += jsonContent[key];
+                                }
+                            }
+                            
+                        }
+                    }
+                    if (doc.data().type !== "player") {
+                        isPlayer = false;
+                    }
+                }
+            });
+
+            if (!docExists) {
+                return res.status(400).send("UMS3");
+            }
+
+            if(!isPlayer) {
+                return res.status(400).send("UMS4");
+            }
+            await db.collection('memberships').doc(docid).update({
+                stats: Statistics,
+                //state: jsonContent.state
+            })*/
+            return res.status(200).send(matchStatistics);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send();
+        }
+    })().then().catch();
+});
 module.exports = app;
 function matchData(doc) {
     let selectedData;
@@ -488,7 +610,8 @@ function matchData(doc) {
         type: doc.data().type,
         rival: doc.data().rival,
         location: doc.data().location,
-        call: doc.data().call
+        call: doc.data().call,
+        stats: doc.data().stats
     };
     return selectedData;
 }
