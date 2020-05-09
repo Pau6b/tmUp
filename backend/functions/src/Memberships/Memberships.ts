@@ -2,7 +2,6 @@ import * as express from 'express';
 import { GetMembershipStatsBySport } from '../Core/Templates/Statistics'
 import { GetDefaultPlayerState, playerStates } from '../Core/States'
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
-import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const app = express();
@@ -151,7 +150,7 @@ app.put('/updatePlayerState/:teamId', (req, res) => {
     })().then().catch();
 });
 
-app.put('/updatePlayerStatistics/:teamId', (req, res) => {
+app.put('/updatePlayerStatistics/:teamId/:userId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
@@ -181,12 +180,12 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
 
             //comprovarEstadisticas(Statistics,jsonContent);
 
-            let email: string = "";
+            /*let email: string = "";
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     user.email = user.email;
             })
-            //email = "ivan@email.com"
-            const query = await db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", email);
+            //email = "ivan@email.com"*/
+            const query = await db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", req.params.userId);
             let docExists: boolean = false;
             let isPlayer: boolean = true;
             let docid : string = "";

@@ -132,14 +132,10 @@ app.put('/updatePlayerState/:teamId', (req, res) => {
         }
     })().then().catch();
 });
-app.put('/updatePlayerStatistics/:teamId', (req, res) => {
+app.put('/updatePlayerStatistics/:teamId/:userId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            /*const email: string = "";
-            admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    user.email = user.email;
-            })*/
             //tratar errores
             let errores = [];
             let hayErrores = false;
@@ -163,12 +159,12 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
             let Statistics = {};
             Statistics = Statistics_1.GetMembershipStatsBySport(teamSport);
             //comprovarEstadisticas(Statistics,jsonContent);
-            let email = "";
-            /*await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+            /*let email: string = "";
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     user.email = user.email;
-            })*/
-            email = "ivan@email.com";
-            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId).where('userId', "==", email);
+            })
+            //email = "ivan@email.com"*/
+            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId).where('userId', "==", req.params.userId);
             let docExists = false;
             let isPlayer = true;
             let docid = "";
@@ -178,44 +174,16 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
                     docid = doc.id;
                     docExists = true;
                     Statistics = doc.data().stats;
-                    console.log(Statistics);
                     for (const key in jsonContent) {
                         if (jsonContent.hasOwnProperty(key)) {
                             for (const stat in Statistics) {
                                 if (Statistics.hasOwnProperty(key)) {
                                     if (key === stat)
                                         Statistics[stat] += jsonContent[key];
-                                    console.log(Statistics);
                                 }
                             }
                         }
                     }
-                    /*
-                                        for (const key in jsonContent) {
-                                            for (const stats in Statistics) {
-                                                if (Statistics.hasOwnProperty(key)) {
-                                                    const element = Statistics[key];
-                                                    
-                                                }
-                                            }
-                                            if (jsonContent.hasOwnProperty(key)) {
-                                                console.log(jsonContent.key);
-                                                const element = jsonContent[key];
-                                                console.log(key);
-                                                console.log(element);
-                                            }
-                                        }
-                                        for (let i = 0; i < Object.keys(jsonContent).length; i++) {
-                                            for (let index = 0; index < Statistics.key(); index++) {
-                                                //console.log(Statistics[index]);
-                                                //if(jsonContent[i] === Statistics[index]) console.log("equaalssss");
-                    
-                                                //const element = stadisticsPlayer[index];
-                                            }
-                                            //const stat = jsonContent[index];
-                                        }
-                    
-                    */
                     if (doc.data().type !== "player") {
                         isPlayer = false;
                     }
@@ -230,11 +198,6 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
             await db.collection('memberships').doc(docid).update({
                 stats: Statistics,
             });
-            let result;
-            await db.collection("membership").doc(docid).get().then((doc) => {
-                result = doc.data();
-            });
-            console.log(result);
             return res.status(200).send(Statistics);
         }
         catch (error) {
