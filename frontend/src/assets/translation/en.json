@@ -91,7 +91,12 @@
         "myTeam": "My Team",
         "otherTeam": "Opponent",
         "conv": "Called Players",
-        "titu": "Starting line-up"
+        "titu": "Starting line-up",
+        "opponentGoal": "Opponent's goal",
+        "basketball": {
+            "opponentScored": "Opponent scored",
+            "points": "point(s)"
+        }
     },
     "CORE" : {
         "sport": "Sport",

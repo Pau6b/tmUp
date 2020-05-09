@@ -50,8 +50,11 @@
   </div>
 
   <app-basketball-view *ngIf="sport=='Basketball'&&!finishing"
-  (localScored)="onMyTeamScored($event)"
-  (visitorScored)="onOpponentScored($event)"
+  [titulars]="titulars"
+  (myTeamScored)="onMyTeamScored($event)"
+  (opponentScored)="onOpponentScored($event)"
+  (assistPlayer)="onAssist($event)"
+  (reboundPlayer)="onRebound($event)"
   >
   </app-basketball-view>
 
@@ -68,9 +71,9 @@
   </app-football-view>
 
   <app-handball-view *ngIf="sport=='Handball'&&!finishing"
-  (localScored)="onMyTeamScored($event)"
+  (myTeamScored)="onMyTeamScored($event)"
   (stoppedGoal)="onStoppedGoal($event)"
-  (visitorScored)="onOpponentScored($event)"
+  (opponentScored)="onOpponentScored($event)"
   >
   </app-handball-view>
 

@@ -91,7 +91,12 @@
         "myTeam": "El meu equip",
         "otherTeam": "Adversari",
         "conv": "Jugadors Convocats",
-        "titu": "Jugadors Titulars"
+        "titu": "Jugadors Titulars",
+        "opponentGoal": "Gol de l'adversari",
+        "basketball": {
+            "opponentScored": "Anotació de l'adversari",
+            "points": "punt(s)"
+        }
     },
     "CORE" : {
         "sport": "Esport",

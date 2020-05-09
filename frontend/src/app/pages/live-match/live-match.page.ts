@@ -112,73 +112,92 @@ export class LiveMatchPage implements OnInit {
     alert.present();
   }
 
+  onFinish() {
+    this.finishing = true;
+  }
+
   //Methods from component's events
   onMyTeamScored(info) {
+    let typeEvent;
+    if(this.sport == "Football" || this.sport == "Handball") typeEvent = "goalsScored";
+    else if(this.sport == "Basketball") {
+      if(info.points == 2) typeEvent = "twoPointsShots";
+      else if(info.points == 3) typeEvent = "threePointsShots";
+      else typeEvent = "pointsScored"
+    }
     let infoEvent = {
-      type: "scored",
+      type: typeEvent,
       points: info.points,
       player: info.player
     }
     this.stadisticsLog.push(infoEvent);
     this.localPts += info.points;
-    console.log(this.stadisticsLog);
   }
 
   onOpponentScored(pnts) {
-    this.stadisticsLog.push({type: "opScored", points: pnts});
+    let typeEvent;
+    if(this.sport == "Football" || this.sport == "Handball") typeEvent = "goalsReceived";
+    else typeEvent = "pointsReceived"
+    this.stadisticsLog.push({type: typeEvent, points: pnts});
     this.visitPts+=pnts;
-    console.log(this.stadisticsLog);
   }
 
   onStoppedGoal(info) {
     let infoEvent = {
-      type: "stopped",
+      type: "stops",
       player: info.player
     }
     this.stadisticsLog.push(infoEvent);
-    console.log(this.stadisticsLog);
   }
 
   //FOOTBALL
 
   onRedCard(info) {
     let infoEvent = {
-      type: "redCard",
+      type: "redCards",
       player: info.player
     }
     this.stadisticsLog.push(infoEvent);
-    console.log(this.stadisticsLog);
   }
 
   onYellowCard(info) {
     let infoEvent = {
-      type: "yellowCard",
+      type: "yellowCards",
       player: info.player
     }
     this.stadisticsLog.push(infoEvent);
-    console.log(this.stadisticsLog);
   }
 
   onChangePlayers(info) {
-    //no hacer nada si todo son "in"
     if (info.out.length !== 0 ) {
       let infoEvent = {
-        type: "change",
+        type: "changes",
         playerIn: info.in[0],
         playerOut: info.out[0]
       }
       this.stadisticsLog.push(infoEvent);
     }
-    console.log(this.stadisticsLog);
   }
 
   //BASKETBALL
 
-  //HANDBALL
-
-  onFinish() {
-    this.finishing = true;
+  onAssist(player) {
+    let infoEvent = {
+      type: "assists",
+      player: player
+    }
+    this.stadisticsLog.push(infoEvent);
   }
+
+  onRebound(player) {
+    let infoEvent = {
+      type: "rebounds",
+      player: player
+    }
+    this.stadisticsLog.push(infoEvent);
+  }
+
+  //HANDBALL
 
   // Stopwatch methods
   start() {

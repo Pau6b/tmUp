@@ -18,7 +18,9 @@ export class EditStadisticsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.eventsList);
+  }
 
   selectPlayer() {
     this.playersList.open();
