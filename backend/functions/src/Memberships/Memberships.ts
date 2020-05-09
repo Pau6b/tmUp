@@ -168,38 +168,44 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
                     teamSport = teamDoc.data().sport;
                 }
             })
-            console.log(teamSport);
             if (!equipoExiste) {
                 hayErrores = true;
                 errores.push("The team with id : [" + req.params.teamId + "] does not exist");
             }
-
-
-
             if (hayErrores){
                 return res.status(400).send(errores);
             }
 
-            //const Statistics = GetMembershipStatsBySport(teamSport);
+            let Statistics: any = {}
+            Statistics = GetMembershipStatsBySport(teamSport);
 
             //comprovarEstadisticas(Statistics,jsonContent);
 
             let email: string = "";
-            /*await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     user.email = user.email;
-            })*/
-            email = "ivan@email.com"
-            console.log(email);
+            })
+            //email = "ivan@email.com"
             const query = await db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", email);
             let docExists: boolean = false;
             let isPlayer: boolean = true;
             let docid : string = "";
+            //let stadisticsPlayer;
             await query.get().then(async (querySnapshot: any) => {
                 for (const doc  of querySnapshot.docs) {
                     docid = doc.id;
                     docExists = true;
-                    const stadisticsPlayer = doc.data().stats;
-                    console.log(stadisticsPlayer);
+                    Statistics = doc.data().stats;
+                    for (const key in jsonContent) {
+                        if (jsonContent.hasOwnProperty(key)) {
+                            for (const stat in Statistics) {
+                                if (Statistics.hasOwnProperty(key)) {
+                                    if(key === stat) Statistics[stat] += jsonContent[key];
+                                }
+                            }
+                            
+                        }
+                    }
                     if (doc.data().type !== "player") {
                         isPlayer = false;
                     }
@@ -214,14 +220,10 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
                 return res.status(400).send("UMS4");
             }
             await db.collection('memberships').doc(docid).update({
-                stats: jsonContent,
+                stats: Statistics,
                 //state: jsonContent.state
             })
-            let result;
-            await db.collection("membership").doc(docid).get().then((doc: DocumentSnapshot)=> {
-                result = doc.data();
-            });
-            return res.status(200).send(result);
+            return res.status(200).send(Statistics);
         }
         catch (error) {
             console.log(error);
@@ -231,6 +233,7 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
 });
 
 //------------------------READ--------------------------------------
+
 app.get('/getByTeam/:teamId', (req, res) => {
     (async () => {
         try {
@@ -248,6 +251,33 @@ app.get('/getByTeam/:teamId', (req, res) => {
             })
 
             return res.status(200).send(response);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
+
+app.get('/getStats/:teamId/:userId', (req, res) => {
+    (async () => {
+        try {
+            const query = await db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", req.params.userId);
+            const response: any = [];
+
+            await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                    const selectedItem = doc.data();
+                    response.push(selectedItem);
+                }
+                return response;
+            });
+
+            return res.status(200).send(response[0].stats);
         }
         catch(error){
             console.log(error);

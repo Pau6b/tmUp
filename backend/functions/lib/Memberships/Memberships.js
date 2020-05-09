@@ -136,6 +136,10 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
+            /*const email: string = "";
+            admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    user.email = user.email;
+            })*/
             //tratar errores
             let errores = [];
             let hayErrores = false;
@@ -149,7 +153,6 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
                     teamSport = teamDoc.data().sport;
                 }
             });
-            console.log(teamSport);
             if (!equipoExiste) {
                 hayErrores = true;
                 errores.push("The team with id : [" + req.params.teamId + "] does not exist");
@@ -157,24 +160,62 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
             if (hayErrores) {
                 return res.status(400).send(errores);
             }
-            //const Statistics = GetMembershipStatsBySport(teamSport);
+            let Statistics = {};
+            Statistics = Statistics_1.GetMembershipStatsBySport(teamSport);
             //comprovarEstadisticas(Statistics,jsonContent);
             let email = "";
             /*await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     user.email = user.email;
             })*/
             email = "ivan@email.com";
-            console.log(email);
             const query = await db.collection('memberships').where('teamId', '==', req.params.teamId).where('userId', "==", email);
             let docExists = false;
             let isPlayer = true;
             let docid = "";
+            //let stadisticsPlayer;
             await query.get().then(async (querySnapshot) => {
                 for (const doc of querySnapshot.docs) {
                     docid = doc.id;
                     docExists = true;
-                    const stadisticsPlayer = doc.data().stats;
-                    console.log(stadisticsPlayer);
+                    Statistics = doc.data().stats;
+                    console.log(Statistics);
+                    for (const key in jsonContent) {
+                        if (jsonContent.hasOwnProperty(key)) {
+                            for (const stat in Statistics) {
+                                if (Statistics.hasOwnProperty(key)) {
+                                    if (key === stat)
+                                        Statistics[stat] += jsonContent[key];
+                                    console.log(Statistics);
+                                }
+                            }
+                        }
+                    }
+                    /*
+                                        for (const key in jsonContent) {
+                                            for (const stats in Statistics) {
+                                                if (Statistics.hasOwnProperty(key)) {
+                                                    const element = Statistics[key];
+                                                    
+                                                }
+                                            }
+                                            if (jsonContent.hasOwnProperty(key)) {
+                                                console.log(jsonContent.key);
+                                                const element = jsonContent[key];
+                                                console.log(key);
+                                                console.log(element);
+                                            }
+                                        }
+                                        for (let i = 0; i < Object.keys(jsonContent).length; i++) {
+                                            for (let index = 0; index < Statistics.key(); index++) {
+                                                //console.log(Statistics[index]);
+                                                //if(jsonContent[i] === Statistics[index]) console.log("equaalssss");
+                    
+                                                //const element = stadisticsPlayer[index];
+                                            }
+                                            //const stat = jsonContent[index];
+                                        }
+                    
+                    */
                     if (doc.data().type !== "player") {
                         isPlayer = false;
                     }
@@ -187,13 +228,14 @@ app.put('/updatePlayerStatistics/:teamId', (req, res) => {
                 return res.status(400).send("UMS4");
             }
             await db.collection('memberships').doc(docid).update({
-                stats: jsonContent,
+                stats: Statistics,
             });
             let result;
             await db.collection("membership").doc(docid).get().then((doc) => {
                 result = doc.data();
             });
-            return res.status(200).send(result);
+            console.log(result);
+            return res.status(200).send(Statistics);
         }
         catch (error) {
             console.log(error);
@@ -216,6 +258,27 @@ app.get('/getByTeam/:teamId', (req, res) => {
                 return response;
             });
             return res.status(200).send(response);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.get('/getStats/:teamId/:userId', (req, res) => {
+    (async () => {
+        try {
+            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId).where('userId', "==", req.params.userId);
+            const response = [];
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    const selectedItem = doc.data();
+                    response.push(selectedItem);
+                }
+                return response;
+            });
+            return res.status(200).send(response[0].stats);
         }
         catch (error) {
             console.log(error);
