@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Camera } from '@ionic-native/camera/ngx';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, Platform } from '@ionic/angular';
 
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import {
@@ -10,6 +10,8 @@ import {
 } from '@ionic-native/media-capture/ngx';
 import { File, FileEntry } from '@ionic-native/file/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+import { Chooser, ChooserResult} from '@ionic-native/chooser/ngx';
+import { StorageService } from 'src/app/services/storage.service'
 
 const MEDIA_FOLDER_NAME = "my_tactics";
 
@@ -20,27 +22,19 @@ const MEDIA_FOLDER_NAME = "my_tactics";
 export class PhotoService {
 
   files = [];
+  fileObj: ChooserResult;
 
   constructor(
     private camera: Camera,
     private actionSheetCtrl: ActionSheetController,
-
     private imagePicker: ImagePicker,
     private mediaCapture: MediaCapture,
     private file: File,
     private photoViewer: PhotoViewer,
+    private platform: Platform,
+    private chooser: Chooser,
+    private storage: StorageService
   ) { 
-    console.log("Entro en el contructor del servicio")
-    let path = this.file.dataDirectory;
-    console.log("path => "+path)
-      this.file.checkDir(path, MEDIA_FOLDER_NAME).then(
-        () => {
-          this.loadFiles();
-        },
-        (error) => {
-          this.file.createDir(path, MEDIA_FOLDER_NAME, false);
-        }
-      );
   }
 
 
@@ -116,10 +110,17 @@ export class PhotoService {
           }
         },
         {
-          text: 'Load Files',
-          icon: 'file',
+          text: 'Load image',
+          icon: 'image',
           handler: () => {
             this.pickFiles();
+          }
+        },
+        {
+          text: 'Load document',
+          icon: 'text',
+          handler: () => {
+            this.selectFiles();
           }
         },
         {
@@ -129,6 +130,7 @@ export class PhotoService {
       ]
     });
     await actionSheet.present();
+    return this.fileObj
   }
  
   pickFiles() {
@@ -156,6 +158,19 @@ export class PhotoService {
       },
       (err: CaptureError) => console.error(err)
     );
+  }
+
+  selectFiles() {
+    this.chooser.getFile('image/jpg, image/jpeg, application/pdf').then(
+      (f) => {
+        console.log("llamo al storage")
+        f.uri = "file://com.android.providers.downloads.documents/document/raw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F2.jpg"
+        console.log(f)
+      },
+      (err) =>{
+        alert(JSON.stringify(err));
+      }
+    )
   }
 
   copyFileToLocalDir(fullPath) {

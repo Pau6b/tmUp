@@ -1,0 +1,31 @@
+ion-segment{
+    background: var(--ion-color-primary-tint);
+    margin: 0 auto;
+}
+
+ion-segment-button{
+    --border-color: white;
+    color: white;
+}
+
+ion-icon{
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.segment-button-checked{
+    color: var(--ion-color-primary);
+}
+
+.positive{
+    color: #008e39;
+}
+
+.negative{
+    color: #ad0000
+}
+
+.date{
+    font-size: x-small;
+    color: gray;
+}

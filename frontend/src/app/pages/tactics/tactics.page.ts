@@ -24,7 +24,7 @@ export class TacticsPage implements OnInit {
     private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.files = this.photoService.getFiles();
+    //this.files = this.photoService.getFiles();
   }
 
 
@@ -32,11 +32,11 @@ export class TacticsPage implements OnInit {
     this.router.navigate(["/add-tactic", {img: img}]);
   }
 
-  goToaddTactic(img){
+  goToaddTactic(){
     this.photoService.selectMedia();
   }
   
-  seeImage(img){
+  seeImage(){
   }
 
   openPdf(){

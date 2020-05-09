@@ -70,10 +70,11 @@ const routes: Routes = [
   {
     path: 'edit-event',
     loadChildren: () => import('./pages/edit-event/edit-event.module').then( m => m.EditEventPageModule)
-  }
-
-
-
+  },
+  {
+    path: 'fouls',
+    loadChildren: () => import('./pages/fouls/fouls.module').then( m => m.FoulsPageModule)
+  },
 ];
 
 @NgModule({

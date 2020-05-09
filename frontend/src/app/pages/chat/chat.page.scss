@@ -5,9 +5,12 @@
   /* ------------------------------
             CONTENT
   ------------------------------ */
+  ion-content{
+    --background: url(../../../assets/chat-background65.jpg) no-repeat center center fixed;
+  }
 
-ion-list {
-  background: transparent;
+  ion-list {
+  background: transparentize;
   padding-top: 20px;
   margin-bottom: 0;
 }
@@ -64,7 +67,7 @@ ion-footer{
   .chatDiv {
     background: var(--ion-color-primary-tint);
     border-bottom-left-radius: 0;
-    border-radius: 10px;
+    border-radius: 10px 0px;
     box-shadow: -1px 1px 5px rgba(0,0,0,0.2);
     max-width: 72vw;
     padding: 1rem;
@@ -139,7 +142,7 @@ ion-footer{
   .chatDiv {
     background: var(--ion-color-secondary);
     border-bottom-right-radius: 0;
-    border-radius: 10px;
+    border-radius: 0px 10px;
     box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
     max-width: 72vw;
     padding: 1rem;
@@ -252,17 +255,14 @@ ion-col {
 
 .loading-col{
   justify-content: flex-start;
-  padding-left: 20px;
 }
 
 .right{
   justify-content: flex-start;
-  padding-left: 20px;
 }
 
 .left{
   justify-content: flex-end;
-  padding-right: 20px;
 }
 
 .clubbed {

@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
   logIn() {
     this.authService.signIn(this.logInForm.get('email').value, this.logInForm.get('password').value)
     .then( () => {
-      this.router.navigate(['/team-list']);
+      this.router.navigate(['/fouls']);
     },
     (error) => {
       this.logInError = true;
