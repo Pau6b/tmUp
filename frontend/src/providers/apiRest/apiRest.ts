@@ -194,4 +194,13 @@ export class apiRestProvider {
     return this.http.get(this.url+'teams/tactics/download');
   }
 
+  //News
+  public getNextMatch() {
+    return this.http.get(this.url+'teams/events/nextevet/match/' + this.currentTeam, {headers: this.headers});
+  }
+
+  public getNextTraining() {
+    return this.http.get(this.url+'teams/events/nextevet/training/' + this.currentTeam, {headers: this.headers});
+  }
+
 }

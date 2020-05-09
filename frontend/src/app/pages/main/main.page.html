@@ -78,7 +78,7 @@
               </p>
               <p class="LeftText">
                 <ion-text class="boldTextLeft"> {{ 'MAIN.hour' | translate }}</ion-text>
-                <ion-text class="DescriptionText"> {{ rmd.hour | date: 'HH:mm'}}h</ion-text>
+                <ion-text class="DescriptionText"> {{ rmd.day | date: 'HH:mm'}}h</ion-text>
               </p>
               <ion-button class="PaddingButton" (click)="onEventSelected(rmd.id)">
                 <ion-icon name="open-outline" class="iconBigger"></ion-icon>

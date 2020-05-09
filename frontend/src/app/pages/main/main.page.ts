@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
 export class MainPage implements OnInit {
 
   welcome = false;
+  match;
+  training;
+  reminders;
   public WelcomeMsgs = [
     {
       url: '/calendar',
@@ -41,18 +44,17 @@ export class MainPage implements OnInit {
   
   public Reminders = [
     {
-      id: 'fWwcDX1BwHJmpzwgCGNK',
+      id: '',
       title: 'Próximo Partido:',
-      day: '2020-05-03T16:40:42',
-      hour: '2020-05-03T16:40:42'
+      day: ''
     },
     {
-      id: 'fWwcDX1BwHJmpzwgCGNK',
+      id: '',
       title: 'Próximo Entrenamiento:',
-      day: '2020-05-03T16:40:42',
-      hour: '2020-05-03T16:40:42'
+      day: ''
     }
   ];
+
 
   public News = [
     {
@@ -170,6 +172,9 @@ export class MainPage implements OnInit {
   ngOnInit() {
     //call api to get notifications
     this.welcome = false;
+    this.match = this.apiProv.getNextMatch();
+    this.training = this.apiProv.getNextTraining();
+    this.arrayReminders(this.match, this.training);
   }
 
   ionViewWillEnter(){
@@ -178,6 +183,24 @@ export class MainPage implements OnInit {
 
   onEventSelected(event_id) {
     this.router.navigate(['/event', event_id]);
+  }
+
+  arrayReminders(match, training) {
+    if ( match == null ) {
+      this.Reminders[0].day = null;
+    }
+    else {
+      this.Reminders[0].id = match.id;
+      this.Reminders[0].day = match.startTime;
+    }
+
+    if ( training == null ) {
+      this.Reminders[1].day = null;
+    }
+    else {
+      this.Reminders[1].id = training.id;
+      this.Reminders[1].day = training.startTime;
+    }
   }
   
 
