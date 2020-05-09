@@ -38,7 +38,8 @@
       <ion-img *ngIf="item.type=='rebounds'" src="../../../../../assets/liveMatchIcons/basketball/rebound.png" alt="Rebound"></ion-img>
       <ion-col>
         <ion-label (click)="selectPlayer()">{{ item.player?.name }}</ion-label>
-        <ion-label *ngIf="item.type=='pointsReceived'"> {{ "LIVE-MATCH.basketball.opponentScored" | translate }} item.points {{ "LIVE-MATCH.basketball.points" | translate }} </ion-label>
+        <ion-row *ngIf="item.type=='pointsReceived'"> {{ "LIVE-MATCH.basketball.opponentScored" | translate }} </ion-row>
+        <ion-row class="smallText" *ngIf="item.type=='pointsReceived'"> {{ item.points }} {{ "LIVE-MATCH.basketball.points" | translate }}</ion-row>
       </ion-col>
       <ion-item-options side="end">
         <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>

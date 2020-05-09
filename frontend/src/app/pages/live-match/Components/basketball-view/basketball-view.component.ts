@@ -18,6 +18,7 @@ export class BasketballViewComponent implements OnInit {
   @Output() reboundPlayer = new EventEmitter<any>();
 
   opPoints;
+  myTeamPoints;
   pointsValue = [1,2,3];
   selectedPlayer;
   eventType;
@@ -31,7 +32,7 @@ export class BasketballViewComponent implements OnInit {
       this.assistPlayer.emit(this.selectedPlayer);
     }
     else if (this.eventType == "myTeamScored") {
-      this.myTeamScored.emit({player: this.selectedPlayer, points: this.opPoints});
+      this.myTeamScored.emit({player: this.selectedPlayer, points: this.myTeamPoints});
     }
     else if (this.eventType == "rebound") {
       this.reboundPlayer.emit(this.selectedPlayer);
@@ -51,8 +52,21 @@ export class BasketballViewComponent implements OnInit {
     this.pointsList.open();
   }
 
-  myTmScored() {
+  onePoint() {
     this.eventType = "myTeamScored";
+    this.myTeamPoints = 1;
+    this.titularsList.open();
+  }
+
+  twoPoints() {
+    this.eventType = "myTeamScored";
+    this.myTeamPoints = 2;
+    this.titularsList.open();
+  }
+
+  threePoints() {
+    this.eventType = "myTeamScored";
+    this.myTeamPoints = 3;
     this.titularsList.open();
   }
 
