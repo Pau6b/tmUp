@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 import { PhotoService } from 'src/app/services/photo.service';
 import { File } from '@ionic-native/file/ngx';
@@ -16,17 +15,11 @@ export class TacticsPage implements OnInit {
   tactics: File;
 
   constructor(
-    private api: apiRestProvider,
     private router: Router,
     private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.api.getTactics()
-      .subscribe(
-        (data) => {
-          console.log(data)
-        }
-      )
+
   }
 
   addImage(img){

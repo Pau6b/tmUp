@@ -110,7 +110,7 @@ app.put('/updatePlayerState/:teamId', (req, res) => {
             if (!playerStates.includes(jsonContent.state)) {
                 return res.status(400).send("UMS2");
             }
-            let email: string = "";
+            const email: string = "";
             admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     user.email = user.email;
             })
