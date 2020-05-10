@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-statistics',
@@ -8,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
 export class StatisticsPage implements OnInit {
 
   statisticsType = "self";
+  sport = "";
 
-  constructor() { }
+  constructor(private apiProv: apiRestProvider) { }
 
   ngOnInit() {
+    this.apiProv.getCurrentTeam().subscribe((data: any) => {
+      this.sport = data.sport.toLowerCase();
+    });
+
+    this.apiProv.getStatistics().subscribe((data: any) => {
+      console.log(data);
+    });
   }
 
 }

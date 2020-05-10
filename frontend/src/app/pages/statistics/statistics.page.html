@@ -18,35 +18,19 @@
 </ion-toolbar>
 <ion-content>
   <div *ngIf="statisticsType === 'self'">
-    <ion-text color="tertiary">
+    <ion-text color="primary" style="text-align: center;">
       <h3>player-name</h3>
     </ion-text>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          first stat
-        </ion-col>
-        <ion-col>
-          second stat
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          third stat
-        </ion-col>
-        <ion-col>
-          fourth stat
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          fifth stat
-        </ion-col>
-        <ion-col>
-          sixth stat
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+
+    <app-self-basketball *ngIf="sport === 'basketball'">
+    </app-self-basketball>
+
+    <app-self-handball *ngIf="sport === 'handball'">
+    </app-self-handball>
+
+    <app-self-football *ngIf="sport ==='football'">
+    </app-self-football>
+    
   </div>
   
   <div *ngIf="statisticsType === 'team'">

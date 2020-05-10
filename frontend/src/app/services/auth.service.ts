@@ -31,10 +31,6 @@ export class AuthService {
     this.afAuth.auth.onAuthStateChanged( (user) => {
       if(user) {
         this.currentUser = user;
-        this.afAuth.auth.currentUser.getIdToken(true)
-        .then( (idtoken) => {
-          apiProv.setToken(idtoken.toString());
-        })
       } else {
         this.currentUser = null;
       }

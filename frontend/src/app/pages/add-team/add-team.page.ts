@@ -27,7 +27,7 @@ export class AddTeamPage implements OnInit {
   joinTeamForm = this.formBuilder.group({
     teamId: ['', [Validators.required]],
     userId: [''],
-    role: ['', [Validators.required]]
+    type: ['', [Validators.required]]
   });
 
 

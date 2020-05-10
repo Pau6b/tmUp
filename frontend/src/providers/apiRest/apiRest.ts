@@ -17,6 +17,7 @@ export class apiRestProvider {
   private headers;
   private token: string;
   private currentTeam: string = "";
+  private currentUserId: string = "";
 
   constructor (
     private http: HttpClient,
@@ -24,11 +25,16 @@ export class apiRestProvider {
   ){ }
 
   public setToken(token: string) {
+    console.log(token);
     this.token = token;
   }
 
   public setTeam(team: string){
     this.currentTeam = team;
+  }
+
+  public setUser(user:any){
+    this.currentUserId = user;
   }
 
   public getTeamId(): string {
@@ -192,6 +198,14 @@ export class apiRestProvider {
   //Tactics
   public getTactics(){
     return this.http.get(this.url+'teams/tactics/download');
+  }
+
+  //Statistics
+  public getStatistics() {
+    this.setHeader();
+    console.log(this.currentTeam);
+    console.log(this.currentUserId);
+    return this.http.get(this.url+"getStats/"+this.currentTeam+'/'+this.currentUserId, {headers: this.headers});
   }
 
 }
