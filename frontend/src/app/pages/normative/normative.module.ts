@@ -2,6 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+//------------------------
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { environment } from '../../../environments/environment';
+//............................
+
 import { IonicModule } from '@ionic/angular';
 
 import { NormativePageRoutingModule } from './normative-routing.module';
@@ -14,8 +20,11 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     FormsModule,
     IonicModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
     NormativePageRoutingModule,
     TranslateModule
+
   ],
   declarations: [NormativePage]
 })
