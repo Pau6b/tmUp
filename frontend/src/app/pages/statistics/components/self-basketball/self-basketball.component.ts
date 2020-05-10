@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-self-basketball',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./self-basketball.component.scss'],
 })
 export class SelfBasketballComponent implements OnInit {
+
+  @Input() stats;
 
   constructor() { }
 

@@ -8,8 +8,10 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class StatisticsPage implements OnInit {
 
-  statisticsType = "self";
-  sport = "";
+  public statisticsType = "self";
+  public sport = "";
+  public userName = "";
+  public stats;
 
   constructor(private apiProv: apiRestProvider) { }
 
@@ -18,8 +20,13 @@ export class StatisticsPage implements OnInit {
       this.sport = data.sport.toLowerCase();
     });
 
+    this.apiProv.getMe().subscribe((data: any) => {
+      this.userName = data.userName;
+    });
+
     this.apiProv.getStatistics().subscribe((data: any) => {
-      console.log(data);
+      this.stats = data;
+      console.log(this.stats);
     });
   }
 

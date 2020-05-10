@@ -98,6 +98,11 @@
             "points": "point(s)"
         }
     },
+    "STATISTICS": {
+        "title": "Statistics",
+        "selfStatistics": "self statistics",
+        "teamStatistics": "team statistcs"
+    },
     "CORE" : {
         "sport": "Sport",
         "sports": {

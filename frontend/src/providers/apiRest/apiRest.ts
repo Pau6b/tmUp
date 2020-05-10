@@ -25,7 +25,6 @@ export class apiRestProvider {
   ){ }
 
   public setToken(token: string) {
-    console.log(token);
     this.token = token;
   }
 
@@ -85,6 +84,7 @@ export class apiRestProvider {
 
   public createMembership(data) {
     this.setHeader();
+    data.userId = this.currentUserId;
     return new Promise(resolve => {
       this.http.post(this.url+'memberships/create', JSON.stringify(data), { headers: this.headers })
       .subscribe(data => {
@@ -205,7 +205,9 @@ export class apiRestProvider {
     this.setHeader();
     console.log(this.currentTeam);
     console.log(this.currentUserId);
-    return this.http.get(this.url+"getStats/"+this.currentTeam+'/'+this.currentUserId, {headers: this.headers});
+    let url = this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId;
+    console.log(url);
+    return this.http.get(url, {headers: this.headers});
   }
 
 }

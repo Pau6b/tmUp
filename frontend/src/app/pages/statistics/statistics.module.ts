@@ -11,6 +11,7 @@ import { StatisticsPage } from './statistics.page';
 import {SelfBasketballComponent} from './components/self-basketball/self-basketball.component';
 import {SelfFootballComponent} from './components/self-football/self-football.component';
 import {SelfHandballComponent} from './components/self-handball/self-handball.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const SelfPageComponents = [
   SelfBasketballComponent,
@@ -23,7 +24,8 @@ const SelfPageComponents = [
     CommonModule,
     FormsModule,
     IonicModule,
-    StatisticsPageRoutingModule
+    StatisticsPageRoutingModule,
+    TranslateModule
   ],
   declarations: [
     StatisticsPage,

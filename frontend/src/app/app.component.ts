@@ -60,6 +60,7 @@ export class AppComponent implements OnInit {
   ];
 
   public team;
+  public role ="";
 
   constructor(
     private alertCtrl: AlertController,
@@ -96,6 +97,10 @@ export class AppComponent implements OnInit {
         this.team = data;
       });
     }
+  }
+
+  public setRole(role: string) {
+    this.role = role;
   }
 
   gotoMatch() {

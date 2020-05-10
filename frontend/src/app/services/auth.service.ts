@@ -58,6 +58,8 @@ export class AuthService {
       // This gives you a Google Access Token. You can use it to access the Google API.
       let token = (<any>result).credential.accessToken;
       this.apiProv.setToken(token);
+      this.apiProv.setUser(result.user.email);
+      //xa is the token
       // The signed-in user info.
       this.currentUser = result.user;
       this.router.navigate(['/team-list']);
