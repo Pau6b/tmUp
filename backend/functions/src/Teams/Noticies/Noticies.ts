@@ -21,7 +21,6 @@ app.get('/all/:teamId', (req, res) => {
                             if (snap.data().typeNoticia === "trainingAfegit" || snap.data().typeNoticia === "trainingDeleted" || snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); 
                             if (snap.data().typeNoticia === "tacticaAfegida" || snap.data().typeNoticia === "tacticaDeleted" || snap.data().typeNoticia === "normativaAfegida" || snap.data().typeNoticia === "normativaDeleted") selectedData = NoticiaFitxer(snap);
                             //else if (snap.data().doc.typeNoticia === "estadistiques") selectedData =  NoticiaEstadistiquesData(snap);
-                            //...
                             response.push(selectedData);
                         })
                         resolve({msg: "It works", response});
