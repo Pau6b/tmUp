@@ -1,0 +1,40 @@
+/* ------------------------------
+              GENERIC
+   ------------------------------ */
+
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
+
+.transparent {
+  --background: transparent;
+}
+
+.stopwatch {
+  display: block;
+  margin: 0 auto;
+  padding: 1em 0;
+  text-align: center;
+ }
+ 
+ .title {
+  font-size: 15px;
+ }
+ 
+ .largeText {
+  font-size: 30px;
+ }
+
+ ion-button {
+  width: 110px;
+ }
+
+ .bottomButton {
+   position: absolute;
+   bottom: 1em;
+   left: 30%;
+ }

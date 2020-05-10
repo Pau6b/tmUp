@@ -74,6 +74,10 @@ const routes: Routes = [
   {
     path: 'statistics',
     loadChildren: () => import('./pages/statistics/statistics.module').then( m => m.StatisticsPageModule)
+  },
+  {
+    path: 'live-match',
+    loadChildren: () => import('./pages/live-match/live-match.module').then( m => m.LiveMatchPageModule)
   }
 
 

@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="finishing" routerLink="/main" routerDirection="root">{{ "LIVE-MATCH.finish" | translate}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradientBG">
+
+  <ion-item [hidden]="true" class="transparent" lines="none" (click)="openList()">
+    <ion-label>{{ "LIVE-MATCH.conv" | translate }}</ion-label>
+    <ion-select #playersList class="transparent" multiple="true" [(ngModel)]="titulars" (ionChange)="onTitularsSelected()">
+      <ion-select-option *ngFor="let conv of listaConv" [value]="conv"> {{ conv.name }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!--Stopwatch-->
+  <div class="stopwatch" *ngIf="!finishing">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-label class="title"> {{ "LIVE-MATCH.myTeam" | translate }} </ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-label text-center class="largeText"> {{ time }} </ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-label class="title"> {{ "LIVE-MATCH.otherTeam" | translate }} </ion-label>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row>
+        <ion-col>
+          <ion-label class="largeText"> {{ localPts }}</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-button class="stopwatchButton" *ngIf="!running" (click)="start()">{{ "LIVE-MATCH.start" | translate }}</ion-button>
+          <ion-button class="stopwatchButton" *ngIf="running" (click)="stop()">{{ "LIVE-MATCH.stop" | translate }}</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-label class="largeText"> {{ visitPts }}</ion-label>
+        </ion-col>
+      </ion-row> 
+    </ion-grid>
+  </div>
+
+  <app-basketball-view *ngIf="sport=='Basketball'&&!finishing"
+  [titulars]="titulars"
+  (myTeamScored)="onMyTeamScored($event)"
+  (opponentScored)="onOpponentScored($event)"
+  (assistPlayer)="onAssist($event)"
+  (reboundPlayer)="onRebound($event)"
+  >
+  </app-basketball-view>
+
+  <app-football-view *ngIf="sport=='Football'&&!finishing"
+  [listaConv]="listaConv"
+  [titulars]="titulars"
+  (myTeamScored)="onMyTeamScored($event)"
+  (stoppedGoal)="onStoppedGoal($event)"
+  (opponentScored)="onOpponentScored($event)"
+  (setRedCard)="onRedCard($event)"
+  (setYellowCard)="onYellowCard($event)"
+  (changePlayers)="onChangePlayers($event)"
+  >
+  </app-football-view>
+
+  <app-handball-view *ngIf="sport=='Handball'&&!finishing"
+  [titulars]="titulars"
+  (myTeamScored)="onMyTeamScored($event)"
+  (stoppedGoal)="onStoppedGoal($event)"
+  (opponentScored)="onOpponentScored($event)"
+  (lostBall)="onLostBall($event)"
+  (sevenMeters)="onSevenMeters($event)"
+  (twoMinutes)="onTwoMinutes($event)"
+  >
+  </app-handball-view>
+
+  <ion-button [disabled]="running" class="bottomButton" *ngIf="!finishing" (click)="onFinish()">{{ "LIVE-MATCH.finish" | translate }}</ion-button>
+
+  <app-edit-stadistics *ngIf="finishing" 
+  [eventsList]="stadisticsLog"
+  [convList]="listaConv"
+  [teamSport]="sport"
+  >
+  </app-edit-stadistics>
+
+</ion-content>
