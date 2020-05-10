@@ -51,6 +51,7 @@
 
   <app-basketball-view *ngIf="sport=='Basketball'&&!finishing"
   [titulars]="titulars"
+  [running]="running"
   (myTeamScored)="onMyTeamScored($event)"
   (opponentScored)="onOpponentScored($event)"
   (assistPlayer)="onAssist($event)"
@@ -61,6 +62,7 @@
   <app-football-view *ngIf="sport=='Football'&&!finishing"
   [listaConv]="listaConv"
   [titulars]="titulars"
+  [running]="running"
   (myTeamScored)="onMyTeamScored($event)"
   (stoppedGoal)="onStoppedGoal($event)"
   (opponentScored)="onOpponentScored($event)"
@@ -72,6 +74,7 @@
 
   <app-handball-view *ngIf="sport=='Handball'&&!finishing"
   [titulars]="titulars"
+  [running]="running"
   (myTeamScored)="onMyTeamScored($event)"
   (stoppedGoal)="onStoppedGoal($event)"
   (opponentScored)="onOpponentScored($event)"

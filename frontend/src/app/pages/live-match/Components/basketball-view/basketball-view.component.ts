@@ -11,6 +11,7 @@ export class BasketballViewComponent implements OnInit {
   @ViewChild('pointsList', {static:false}) pointsList: any;
 
   @Input() titulars;
+  @Input() running;
 
   @Output() opponentScored = new EventEmitter<any>();
   @Output() myTeamScored = new EventEmitter<any>();
@@ -44,35 +45,47 @@ export class BasketballViewComponent implements OnInit {
   }
 
   assist() {
-    this.eventType = "assist";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "assist";
+      this.titularsList.open();
+    }
   }
 
   onOpScored() {
-    this.pointsList.open();
+    if ( this.running ) {
+      this.pointsList.open();
+    }
   }
 
   onePoint() {
-    this.eventType = "myTeamScored";
-    this.myTeamPoints = 1;
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "myTeamScored";
+      this.myTeamPoints = 1;
+      this.titularsList.open();
+    }
   }
 
   twoPoints() {
-    this.eventType = "myTeamScored";
-    this.myTeamPoints = 2;
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "myTeamScored";
+      this.myTeamPoints = 2;
+      this.titularsList.open();
+    }
   }
 
   threePoints() {
-    this.eventType = "myTeamScored";
-    this.myTeamPoints = 3;
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "myTeamScored";
+      this.myTeamPoints = 3;
+      this.titularsList.open();
+    }
   }
 
   rebound() {
-    this.eventType = "rebound";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "rebound";
+      this.titularsList.open();
+    }
   }
 
 }

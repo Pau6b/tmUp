@@ -10,6 +10,7 @@ export class HandballViewComponent implements OnInit {
   @ViewChild('TitularsList', {static:false}) titularsList: any;
 
   @Input() titulars;
+  @Input() running;
 
   @Output() myTeamScored = new EventEmitter<any>();
   @Output() stoppedGoal = new EventEmitter<any>();
@@ -45,32 +46,44 @@ export class HandballViewComponent implements OnInit {
   }
 
   onMyTeamScored() {
-    this.eventType = "mytmScored";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "mytmScored";
+      this.titularsList.open();
+    }
   }
 
   onStopped () {
-    this.eventType = "stopped";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "stopped";
+      this.titularsList.open();
+    }
   }
 
   onOpScored() {
-    this.opponentScored.emit(1);
+    if ( this.running ) {
+      this.opponentScored.emit(1);
+    }
   }
 
   onLostBall() {
-    this.eventType = "lostBall";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "lostBall";
+      this.titularsList.open();
+    }
   }
   
   onSevenM() {
-    this.eventType = "7m";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "7m";
+      this.titularsList.open();
+    }
   }
 
   onTwoMin() {
-    this.eventType = "2min";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "2min";
+      this.titularsList.open();
+    }
   }
 
 }

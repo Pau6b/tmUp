@@ -12,6 +12,7 @@ export class FootballViewComponent implements OnInit {
 
   @Input() listaConv;
   @Input() titulars;
+  @Input() running;
   antTitulars = [];
 
   @Output() myTeamScored = new EventEmitter<any>();
@@ -50,33 +51,45 @@ export class FootballViewComponent implements OnInit {
   }
 
   myTmScored() {
-    this.eventType = "mytmScored";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "mytmScored";
+      this.titularsList.open();
+    }
   }
 
   stopGoal() {
-    this.eventType = "stopGoal";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "stopGoal";
+      this.titularsList.open();
+    }
   }
 
   opScored() {
-    this.opponentScored.emit(1);
+    if ( this.running ) {
+      this.opponentScored.emit(1);
+    }
   }
 
   redCard() {
-    this.eventType = "redCard";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "redCard";
+      this.titularsList.open();
+    }
   }
 
   yellowCard() {
-    this.eventType = "yellowCard";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.eventType = "yellowCard";
+      this.titularsList.open();
+    }
   }
 
   onChangePlayers() {
-    this.antTitulars = this.titulars;
-    this.eventType = "changePlayers";
-    this.convList.open();
+    if ( this.running ) {
+      this.antTitulars = this.titulars;
+      this.eventType = "changePlayers";
+      this.convList.open();
+    }
   }
 
 }
