@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-live-match',
@@ -23,6 +24,7 @@ export class LiveMatchPage implements OnInit {
   running = false;
   finishing = false;
 
+  eventId;
   title;
   sport: string;
   localPts = 0;
@@ -36,10 +38,13 @@ export class LiveMatchPage implements OnInit {
   constructor(
     private apiProv: apiRestProvider,
     private route: ActivatedRoute,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private router: Router,
+    private translateServie: TranslateService
   ) {  }
 
   ngOnInit() {
+    this.eventId = this.route.snapshot.paramMap.get('id');
     this.getTeam();
     this.getCalledPlayers();
     this.title = this.route.snapshot.paramMap.get('title');
@@ -58,38 +63,68 @@ export class LiveMatchPage implements OnInit {
   }
 
   getCalledPlayers() {
-    let eventId = this.route.snapshot.paramMap.get('id');
-    this.apiProv.getCall(eventId).subscribe( (data) => {
+    
+    this.apiProv.getCall(this.eventId).subscribe( (data) => {
       this.listaConv = data;
       this.openList();
-    },
-    (err) => {
-      console.log(err.message);
     })
   }
 
   //confirmation for titulars
   async onTitularsSelected() {
-    let alert = await this.alertCtrl.create({
-      message: 'Has seleccionado ' + this.titulars.length + ' jugadores titulares. ¿Correcto?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            this.openList();
-          }
-        },
-        {
-          text: 'Accept'
-        }
-      ]
-    });
-    alert.present();
+    this.translateServie.get('LIVE-MATCH.selecting').subscribe(
+      async value => {
+        let selMess1 = value.selected1;
+        let selMess2 = value.selected2;
+        let alert = await this.alertCtrl.create({
+          message: selMess1 + this.titulars.length + selMess2,
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => {
+                this.openList();
+              }
+            },
+            {
+              text: 'Accept'
+            }
+          ]
+        });
+        alert.present();
+      }
+    )
   }
 
   onFinish() {
     this.finishing = true;
+  }
+
+  onDone() {
+    this.translateServie.get('LIVE-MATCH.doneConfirm').subscribe(
+      value => {
+        let confirmMess = value;
+        this.apiProv.sendStatistics(this.eventId, this.stadisticsLog)
+        .then( async () => {
+          let alert = await this.alertCtrl.create({
+            message: confirmMess,
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel'
+              },
+              {
+                text: 'OK',
+                handler: () => {
+                  this.router.navigate(['/main']);
+                }
+              }
+            ]
+          })
+          alert.present();
+        });
+      }
+    )
   }
 
   //Methods from component's events

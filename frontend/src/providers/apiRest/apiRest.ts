@@ -221,4 +221,14 @@ export class apiRestProvider {
     return this.http.get(this.url+'teams/events/'+this.currentTeam+'/match/'+eventId+'/getCall', {headers: this.headers});
   }
 
+  public sendStatistics(eventId, statsLog) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.put(this.url+'teams/events/statistics/'+this.currentTeam+'/'+eventId, JSON.stringify(statsLog), { headers: this.headers })
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
 }

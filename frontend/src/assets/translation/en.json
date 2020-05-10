@@ -120,6 +120,11 @@
         "basketball": {
             "opponentScored": "Opponent scored",
             "points": "point(s)"
+        },
+        "doneConfirm": "Are you sure?",
+        "selecting": {
+            "selected1": "You selected ",
+            "selected2": " players for starting line-up. Right?"
         }
     },
     "CORE" : {

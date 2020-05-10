@@ -120,6 +120,11 @@
         "basketball": {
             "opponentScored": "Anotació de l'adversari",
             "points": "punt(s)"
+        },
+        "doneConfirm": "Segur?",
+        "selecting": {
+            "selected1": "Has seleccionat ",
+            "selected2": " jugadors titulars. Correcte?"
         }
     },
     "CORE" : {
