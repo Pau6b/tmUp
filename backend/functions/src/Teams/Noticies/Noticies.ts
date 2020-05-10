@@ -17,18 +17,9 @@ app.get('/all/:teamId', (req, res) => {
                     query.onSnapshot((snapshot: any[]) => {
                         snapshot.forEach(snap => {
                             let selectedData;
-                            //selectedData = NoticiamatchData(snap);
-                            //agrupar per si la funció d'on agafen les dades es la mateixa
-                            if (snap.data().typeNoticia === "matchAfegit") selectedData = NoticiamatchData(snap);
-                            if (snap.data().typeNoticia === "trainingAfegit") selectedData = NoticiatrainingData(snap); 
-                            if (snap.data().typeNoticia === "matchDeleted") selectedData = NoticiamatchData(snap); 
-                            if (snap.data().typeNoticia === "trainingDeleted") selectedData = NoticiatrainingData(snap); 
-                            if (snap.data().typeNoticia === "matchUpdated") selectedData = NoticiamatchData(snap); 
-                            if (snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); 
-                            if (snap.data().typeNoticia === "tacticaAfegida") selectedData = NoticiaFitxer(snap);
-                            if (snap.data().typeNoticia === "tacticaDeleted") selectedData = NoticiaFitxer(snap);
-                            if (snap.data().typeNoticia === "normativaAfegida") selectedData = NoticiaFitxer(snap);
-                            if (snap.data().typeNoticia === "normativaDeleted") selectedData = NoticiaFitxer(snap);
+                            if (snap.data().typeNoticia === "matchAfegit" || snap.data().typeNoticia === "matchDeleted" || snap.data().typeNoticia === "matchUpdated") selectedData = NoticiamatchData(snap);
+                            if (snap.data().typeNoticia === "trainingAfegit" || snap.data().typeNoticia === "trainingDeleted" || snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); 
+                            if (snap.data().typeNoticia === "tacticaAfegida" || snap.data().typeNoticia === "tacticaDeleted" || snap.data().typeNoticia === "normativaAfegida" || snap.data().typeNoticia === "normativaDeleted") selectedData = NoticiaFitxer(snap);
                             //else if (snap.data().doc.typeNoticia === "estadistiques") selectedData =  NoticiaEstadistiquesData(snap);
                             //...
                             response.push(selectedData);
@@ -84,42 +75,6 @@ function NoticiatrainingData(doc: any) {
     };
     return selectedData;
 }
-
-/*function NoticiaNormativaData(doc: any) {
-    let selectedData;
-    selectedData = {
-        id: doc.id,
-        dateNoticia: doc.dateNoticia,
-        typeNoticia: doc.typeNoticia,
-        title: doc.data().title,
-        startTime: doc.data().startTime,
-        endTime: doc.data().endTime,
-        allDay: doc.data().allDay,
-        type: doc.data().type,
-        rival: doc.data().rival,
-        location: doc.data().location,
-        call: doc.data().call
-    };
-    return selectedData;
-}*/
-
-/*function NoticiaTactiquesData(doc: any) {
-    let selectedData;
-    selectedData = {
-        id: doc.id,
-        dateNoticia: doc.dateNoticia,
-        typeNoticia: doc.typeNoticia,
-        title: doc.data().title,
-        startTime: doc.data().startTime,
-        endTime: doc.data().endTime,
-        allDay: doc.data().allDay,
-        type: doc.data().type,
-        rival: doc.data().rival,
-        location: doc.data().location,
-        call: doc.data().call
-    };
-    return selectedData;
-}*/
 
 function NoticiaFitxer(doc: any) {
     let selectedData;

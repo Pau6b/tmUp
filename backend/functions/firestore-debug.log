@@ -5,9 +5,9 @@ If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment
 
 Dev App Server is now running.
 
-May 10, 2020 11:31:00 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+May 10, 2020 11:55:21 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
-May 10, 2020 11:31:44 PM io.netty.channel.DefaultChannelPipeline onUnhandledInboundException
+May 10, 2020 11:56:24 PM io.netty.channel.DefaultChannelPipeline onUnhandledInboundException
 WARNING: An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
 java.io.IOException: Se ha forzado la interrupción de una conexión existente por el host remoto
 	at java.base/sun.nio.ch.SocketDispatcher.read0(Native Method)
@@ -29,7 +29,7 @@ java.io.IOException: Se ha forzado la interrupción de una conexión existente por
 	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
 	at java.base/java.lang.Thread.run(Thread.java:834)
 
-May 10, 2020 11:31:53 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+May 10, 2020 11:56:35 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
 *** shutting down gRPC server since JVM is shutting down
 *** server shut down
