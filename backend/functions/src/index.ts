@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 /* --- before all requests --- */
 
 
-app.use((req,res,next)=>{
+/*app.use((req,res,next)=>{
   (async () => {
     if (req.path !== '/login') {
       if (req.headers.authorization === null) {
@@ -57,7 +57,7 @@ app.use((req,res,next)=>{
     }
     return;
   })().then().catch();
-});
+});*/
 
 
 
