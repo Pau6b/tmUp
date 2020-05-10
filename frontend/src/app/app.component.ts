@@ -100,22 +100,19 @@ export class AppComponent implements OnInit {
 
   gotoMatch() {
     this.selectedIndex = -15;
-    //call api to get next Match
-    let event = {
-      id: "RTkwlInroAEfE92irPFm",
-      title: "Match1",
-      type: "match",
-      startTime: new Date()
-    }
-    event.startTime.setMinutes(event.startTime.getMinutes() + 30);
-    if( (event.startTime.getTime()-new Date().getTime()) > 1800000 ) {
-      //if >1h to match, redirect event page
-      this.router.navigate(['event', event.id]);
-    }
-    else {
-      //if <1h to match, redirect to LiveMatch
-      this.router.navigate(['live-match', {id: event.id, title: event.title}]);
-    }
+    this.apiProv.getNextMatch().then( (data) => {
+      let event = data[0];
+      event.startTime = new Date(event.startTime);
+      //event.startTime.setMinutes(event.startTime.getMinutes() + 30);
+      if( (event.startTime.getTime()-new Date().getTime()) > 1800000 ) {
+        //if >1h to match, redirect event page
+        this.router.navigate(['event', event.id]);
+      }
+      else {
+        //if <1h to match, redirect to LiveMatch
+        this.router.navigate(['live-match', {id: event.id, title: event.title}]);
+      }
+    })
   }
 
   async presentConfirm() {

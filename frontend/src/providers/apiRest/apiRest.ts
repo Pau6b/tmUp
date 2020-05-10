@@ -196,15 +196,26 @@ export class apiRestProvider {
 
   //News
   public getNextMatch() {
-    return this.http.get(this.url+'teams/events/nextevet/match/' + this.currentTeam, {headers: this.headers});
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.get(this.url+'teams/events/nextevent/match/' + this.currentTeam, {headers: this.headers})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
   }
 
   public getNextTraining() {
-    return this.http.get(this.url+'teams/events/nextevet/training/' + this.currentTeam, {headers: this.headers});
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.get(this.url+'teams/events/nextevent/training/' + this.currentTeam, {headers: this.headers})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
   }
 
   //LIVE-MATCH
-
   public getCall(eventId) {
     this.setHeader();
     return this.http.get(this.url+'teams/events/'+this.currentTeam+'/match/'+eventId+'/getCall', {headers: this.headers});
