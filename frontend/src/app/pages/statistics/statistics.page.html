@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Statistics</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-toolbar>
+  <ion-segment value="self" [(ngModel)]="statisticsType">
+    <ion-segment-button value="self">
+      <ion-label>self statistics</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="team">
+      <ion-label>team statistics</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+<ion-content>
+  <div *ngIf="statisticsType === 'self'">
+    <ion-text color="tertiary">
+      <h3>player-name</h3>
+    </ion-text>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          first stat
+        </ion-col>
+        <ion-col>
+          second stat
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          third stat
+        </ion-col>
+        <ion-col>
+          fourth stat
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          fifth stat
+        </ion-col>
+        <ion-col>
+          sixth stat
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  
+  <div *ngIf="statisticsType === 'team'">
+    <a>ETADISTIQUES D'EQUIP</a>
+  </div>
+</ion-content>

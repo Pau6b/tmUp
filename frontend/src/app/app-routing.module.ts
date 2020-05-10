@@ -70,7 +70,12 @@ const routes: Routes = [
   {
     path: 'edit-event',
     loadChildren: () => import('./pages/edit-event/edit-event.module').then( m => m.EditEventPageModule)
+  },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./pages/statistics/statistics.module').then( m => m.StatisticsPageModule)
   }
+
 
 
 

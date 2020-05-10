@@ -24,7 +24,6 @@ export class apiRestProvider {
   ){ }
 
   public setToken(token: string) {
-    console.log(token);
     this.token = token;
   }
 
