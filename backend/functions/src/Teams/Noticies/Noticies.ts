@@ -17,18 +17,9 @@ app.get('/all/:teamId', (req, res) => {
                     query.onSnapshot((snapshot: any[]) => {
                         snapshot.forEach(snap => {
                             let selectedData;
-                            //selectedData = NoticiamatchData(snap);
-                            //agrupar per si la funció d'on agafen les dades es la mateixa
-                            if (snap.data().typeNoticia === "matchAfegit") selectedData = NoticiamatchData(snap); //FET
-                            if (snap.data().typeNoticia === "trainingAfegit") selectedData = NoticiatrainingData(snap); //FET
-                            if (snap.data().typeNoticia === "matchDeleted") selectedData = NoticiamatchData(snap); //FET
-                            if (snap.data().typeNoticia === "trainingDeleted") selectedData = NoticiatrainingData(snap); //FET
-                            if (snap.data().typeNoticia === "matchUpdated") selectedData = NoticiamatchData(snap); // FET
-                            if (snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap); //FET
-                            else if (snap.data().doc.typeNoticia === "tacticaAfegida") selectedData = NoticiaFitxer(snap);
-                            else if (snap.data().doc.typeNoticia === "tacticaDeleted") selectedData = NoticiaFitxer(snap);
-                            else if (snap.data().doc.typeNoticia === "normativaAfegida") selectedData = NoticiaFitxer(snap);
-                            else if (snap.data().doc.typeNoticia === "normativaDeleted") selectedData = NoticiaFitxer(snap);
+                            if (snap.data().typeNoticia === "matchAfegit" || snap.data().typeNoticia === "matchDeleted" || snap.data().typeNoticia === "matchUpdated" ) selectedData = NoticiamatchData(snap); 
+                            if (snap.data().typeNoticia === "trainingAfegit" || snap.data().typeNoticia === "trainingDeleted" || snap.data().typeNoticia === "trainingUpdated") selectedData = NoticiatrainingData(snap);  
+                            if (snap.data().doc.typeNoticia === "tacticaAfegida" || snap.data().doc.typeNoticia === "tacticaDeleted" || snap.data().doc.typeNoticia === "normativaAfegida" || snap.data().doc.typeNoticia === "normativaDeleted") selectedData = NoticiaFitxer(snap);
                             //else if (snap.data().doc.typeNoticia === "estadistiques") selectedData =  NoticiaEstadistiquesData(snap);
                             //...
                             response.push(selectedData);
@@ -85,49 +76,13 @@ function NoticiatrainingData(doc: any) {
     return selectedData;
 }
 
-/*function NoticiaNormativaData(doc: any) {
-    let selectedData;
-    selectedData = {
-        id: doc.id,
-        dateNoticia: doc.dateNoticia,
-        typeNoticia: doc.typeNoticia,
-        title: doc.data().title,
-        startTime: doc.data().startTime,
-        endTime: doc.data().endTime,
-        allDay: doc.data().allDay,
-        type: doc.data().type,
-        rival: doc.data().rival,
-        location: doc.data().location,
-        call: doc.data().call
-    };
-    return selectedData;
-}*/
-
-/*function NoticiaTactiquesData(doc: any) {
-    let selectedData;
-    selectedData = {
-        id: doc.id,
-        dateNoticia: doc.dateNoticia,
-        typeNoticia: doc.typeNoticia,
-        title: doc.data().title,
-        startTime: doc.data().startTime,
-        endTime: doc.data().endTime,
-        allDay: doc.data().allDay,
-        type: doc.data().type,
-        rival: doc.data().rival,
-        location: doc.data().location,
-        call: doc.data().call
-    };
-    return selectedData;
-}*/
-
 function NoticiaFitxer(doc: any) {
     let selectedData;
     selectedData = {
         id: doc.id,
         dateNoticia: doc.data().dateNoticia,
         typeNoticia: doc.data().typeNoticia,
-        nomFile: doc.data().nomFile
+        nombreFile: doc.data().nombreFile
     };
     return selectedData;
 }
@@ -143,7 +98,7 @@ async function comprobarEquipo(jsonContent: any) {
     return existsTeam;
 }
 
-//Create Noticies=> POST //pasar com a paramatre el typeNoticia, se li posarà una data i el nom del fitxer
+//Create Noticies=> POST 
 app.post('/create', (req, res) => {
     (async () => {
         try {
@@ -154,7 +109,7 @@ app.post('/create', (req, res) => {
             await db.collection('teams').doc(jsonContent.teamId).collection('noticies').add({
                 typeNoticia: jsonContent.typeNoticia,
                 dateNoticia: dateNoticia,
-                nomFile: jsonContent.nomFile
+                nombreFile: jsonContent.nombreFile
             })
             return res.status(200).send();
         }
