@@ -194,4 +194,11 @@ export class apiRestProvider {
     return this.http.get(this.url+'teams/tactics/download');
   }
 
+  //LIVE-MATCH
+
+  public getCall(eventId) {
+    this.setHeader();
+    return this.http.get(this.url+'teams/events/'+this.currentTeam+'/match/'+eventId+'/getCall', {headers: this.headers});
+  }
+
 }

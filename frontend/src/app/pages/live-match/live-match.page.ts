@@ -28,38 +28,7 @@ export class LiveMatchPage implements OnInit {
   localPts = 0;
   visitPts = 0;
 
-  //testing
-  listaConv = [
-    {
-      id: "1",
-      name: "Jugador 1"
-    },
-    {
-      id: "2",
-      name: "Jugador 2"
-    },
-    {
-      id: "3",
-      name: "Jugador 3"
-    },
-    {
-      id: "4",
-      name: "Jugador 4"
-    },
-    {
-      id: "5",
-      name: "Jugador 5"
-    },
-    {
-      id: "6",
-      name: "Jugador 6"
-    },
-    {
-      id: "7",
-      name: "Jugador 7"
-    }
-  ]
-
+  listaConv;
   titulars = [];
 
   stadisticsLog = [];
@@ -72,10 +41,8 @@ export class LiveMatchPage implements OnInit {
 
   ngOnInit() {
     this.getTeam();
+    this.getCalledPlayers();
     this.title = this.route.snapshot.paramMap.get('title');
-    setTimeout( () => {
-      this.openList();
-    }, 500);
   }
 
   openList() {
@@ -83,13 +50,22 @@ export class LiveMatchPage implements OnInit {
   }
 
   getTeam() {
-    if (this.apiProv.getTeamId() != "") {
-      this.apiProv.getCurrentTeam().subscribe((data) => {
-        let team: any;
-        team = data;
-        this.sport = team.sport;
-      });
-    }
+    this.apiProv.getCurrentTeam().subscribe((data) => {
+      let team: any;
+      team = data;
+      this.sport = team.sport;
+    });
+  }
+
+  getCalledPlayers() {
+    let eventId = this.route.snapshot.paramMap.get('id');
+    this.apiProv.getCall(eventId).subscribe( (data) => {
+      this.listaConv = data;
+      this.openList();
+    },
+    (err) => {
+      console.log(err.message);
+    })
   }
 
   //confirmation for titulars
