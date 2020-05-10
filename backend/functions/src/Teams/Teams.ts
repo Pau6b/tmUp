@@ -1,7 +1,7 @@
 import * as express from 'express';
-//import { sports } from '../Core/Core'
+import { sports } from '../Core/Core'
 import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
-//import { UserRecord } from 'firebase-functions/lib/providers/auth';
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
@@ -15,7 +15,7 @@ app.post('/create', (req, res) => {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
 
-            /*if (req.session!.user === null) {
+            if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
 
@@ -40,7 +40,7 @@ app.post('/create', (req, res) => {
             }
             if (hasErrors) {
                 return res.status(400).send(errors);
-            }*/
+            }
 
             //No errors, we proceed to creation
             let id = "invalid";
@@ -52,11 +52,11 @@ app.post('/create', (req, res) => {
                 id= ref.id;
             });
 
-            /*await db.collection('memberships').add({
+            await db.collection('memberships').add({
                 teamId: id,
                 userId: email,
                 type: "staff"
-            })*/
+            })
             return res.status(200).send(id);
         }
         catch(error){
@@ -101,6 +101,39 @@ app.get('/:teamId', (req, res) => {
     })().then().catch();
 });
 
+
+app.get('/:teamId/stadistics', (req, res) => {
+    (async () => {
+        try {
+            const document = db.collection("teams").doc(req.params.teamId);
+
+            let teamExists:boolean = true;
+            const teamData = await document.get().then((doc: DocumentSnapshot) => {
+                if(!doc.exists) {
+                    teamExists = false;
+                    return;
+                }
+                else {
+                    return doc.data()!.stats;
+                }
+            });
+
+            //Check that the user exists
+            if (!teamExists) {
+                return res.status(400).send("TG1");
+            }
+
+            //return correct data
+            return res.status(200).send(teamData);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
 //ReadAll => Get
 app.get('/', (req, res) => {
     (async () => {
@@ -114,7 +147,8 @@ app.get('/', (req, res) => {
                 for (const doc of docs) {
                     const selectedItem  = {
                         teamName: doc.data()!.teamName,
-                        sport: doc.data()!.sport
+                        sport: doc.data()!.sport,
+                        stats: doc.data()!.stats
                     };
                     response.push(selectedItem);
                 }
@@ -155,6 +189,8 @@ app.put('/:teamId', (req, res) => {
 
     })().then().catch();
 });
+
+
 
 //Delete => Delete
 /*
