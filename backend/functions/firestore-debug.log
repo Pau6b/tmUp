@@ -5,28 +5,7 @@ If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment
 
 Dev App Server is now running.
 
-May 09, 2020 8:05:49 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+May 10, 2020 4:12:51 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
-May 09, 2020 8:07:51 PM io.netty.channel.DefaultChannelPipeline onUnhandledInboundException
-WARNING: An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
-java.io.IOException: Conexión reinicializada por la máquina remota
-	at sun.nio.ch.FileDispatcherImpl.read0(Native Method)
-	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:39)
-	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
-	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
-	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:377)
-	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:253)
-	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
-	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
-	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
-	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
-	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
-	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
-	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
-	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.lang.Thread.run(Thread.java:748)
-
-May 09, 2020 8:08:02 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected HTTP/2 connection.
+*** shutting down gRPC server since JVM is shutting down
+*** server shut down

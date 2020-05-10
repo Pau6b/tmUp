@@ -42,7 +42,7 @@ exports.memberhsipStats = {
         threePointShots: 0
     },
     handball: {
-        goals: 0,
+        goalsScored: 0,
         lostBalls: 0,
         stops: 0,
         sevenMeters: 0,

@@ -114,7 +114,8 @@ app.get('/', (req, res) => {
                 for (const doc of docs) {
                     const selectedItem  = {
                         teamName: doc.data()!.teamName,
-                        sport: doc.data()!.sport
+                        sport: doc.data()!.sport,
+                        stats: doc.data()!.stats
                     };
                     response.push(selectedItem);
                 }
