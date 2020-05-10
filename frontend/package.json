@@ -40,6 +40,8 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "@types/jest": "^25.2.1",
     "angularfire2": "^5.4.2",
+    "chart.js": "^2.9.3",
+    "chartjs-plugin-datalabels": "^0.7.0",
     "com-sarriaroman-photoviewer": "^1.2.4",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-file-transfer": "^1.7.1",

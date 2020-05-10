@@ -8,9 +8,29 @@
 </ion-header>
 
 <ion-content>
+  <ion-row> 
+    <ion-radio-group value="selected" mode="md">
+      <ion-col>
+        <ion-radio value="team"></ion-radio>
+        <ion-label>Equipo</ion-label>
+      </ion-col>
+      <ion-col>
+        <ion-radio value="player"></ion-radio>
+        <ion-label>Personales</ion-label>
+      </ion-col>
+    </ion-radio-group>
+  </ion-row> 
+  <ion-card>
+    <ion-card-content>
+      <canvas #doughnutCanvas></canvas>
+      <div>
+        <ion-label>Total</ion-label>
+        <ion-label>{{totalPrice}}€</ion-label>
+      </div>
+    </ion-card-content>
+  </ion-card>
 
-
-  <div class="ion-padding">
+  <div class="margins">
     <ion-segment mode="ios" value="'total'" [(ngModel)]="foulsSegment">
       <ion-segment-button value="total">
         <ion-label>{{'FOULS.total' | translate}}</ion-label>
@@ -23,9 +43,8 @@
       </ion-segment-button>
     </ion-segment>
   </div>
-
+  
   <div [ngSwitch]="foulsSegment">
-
     <ion-list *ngSwitchCase="'total'" lines="none">
       <ion-item-sliding *ngFor="let f of total">
         <ion-item class="smallText" (click)="openModal(f)">
