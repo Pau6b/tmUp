@@ -42,7 +42,7 @@ exports.memberhsipStats = {
         threePointShots: 0
     },
     handball: {
-        goals: 0,
+        goalsScored: 0,
         lostBalls: 0,
         stops: 0,
         sevenMeters: 0,
@@ -56,8 +56,8 @@ exports.teamStats = {
         lostMatches: 0,
         goalsScored: 0,
         goalsReceived: 0,
-        yellowCard: 0,
-        redCard: 0
+        yellowCards: 0,
+        redCards: 0
     },
     basketball: {
         twoPointShots: 0,

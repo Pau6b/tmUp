@@ -101,6 +101,39 @@ app.get('/:teamId', (req, res) => {
     })().then().catch();
 });
 
+
+app.get('/:teamId/stadistics', (req, res) => {
+    (async () => {
+        try {
+            const document = db.collection("teams").doc(req.params.teamId);
+
+            let teamExists:boolean = true;
+            const teamData = await document.get().then((doc: DocumentSnapshot) => {
+                if(!doc.exists) {
+                    teamExists = false;
+                    return;
+                }
+                else {
+                    return doc.data()!.stats;
+                }
+            });
+
+            //Check that the user exists
+            if (!teamExists) {
+                return res.status(400).send("TG1");
+            }
+
+            //return correct data
+            return res.status(200).send(teamData);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
+
 //ReadAll => Get
 app.get('/', (req, res) => {
     (async () => {
@@ -114,7 +147,8 @@ app.get('/', (req, res) => {
                 for (const doc of docs) {
                     const selectedItem  = {
                         teamName: doc.data()!.teamName,
-                        sport: doc.data()!.sport
+                        sport: doc.data()!.sport,
+                        stats: doc.data()!.stats
                     };
                     response.push(selectedItem);
                 }
@@ -155,6 +189,8 @@ app.put('/:teamId', (req, res) => {
 
     })().then().catch();
 });
+
+
 
 //Delete => Delete
 /*
