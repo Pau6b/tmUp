@@ -46,6 +46,11 @@ export class apiRestProvider {
 
   //USER
 
+  public getUser(userId) {
+    this.setHeader();
+    return this.http.get(this.url+'users/'+userId, { headers: this.headers });
+  }
+
   public getMe(){
     this.setHeader();
     return this.http.get(this.url+'users/me', { headers: this.headers });
@@ -59,6 +64,7 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+'users/me/teams', { headers: this.headers });
   }
+  
 
   //TEAMS
 

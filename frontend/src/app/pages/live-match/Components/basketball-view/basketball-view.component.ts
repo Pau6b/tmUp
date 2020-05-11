@@ -29,14 +29,16 @@ export class BasketballViewComponent implements OnInit {
   ngOnInit() {}
 
   onChange() {
-    if(this.eventType == "assist") {
-      this.assistPlayer.emit(this.selectedPlayer);
-    }
-    else if (this.eventType == "myTeamScored") {
-      this.myTeamScored.emit({player: this.selectedPlayer, points: this.myTeamPoints});
-    }
-    else if (this.eventType == "rebound") {
-      this.reboundPlayer.emit(this.selectedPlayer);
+    if(this.selectedPlayer != null ) {
+      if(this.eventType == "assist") {
+        this.assistPlayer.emit(this.selectedPlayer);
+      }
+      else if (this.eventType == "myTeamScored") {
+        this.myTeamScored.emit({player: this.selectedPlayer, points: this.myTeamPoints});
+      }
+      else if (this.eventType == "rebound") {
+        this.reboundPlayer.emit(this.selectedPlayer);
+      }
     }
   }
 
@@ -46,6 +48,7 @@ export class BasketballViewComponent implements OnInit {
 
   assist() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "assist";
       this.titularsList.open();
     }
@@ -59,6 +62,7 @@ export class BasketballViewComponent implements OnInit {
 
   onePoint() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "myTeamScored";
       this.myTeamPoints = 1;
       this.titularsList.open();
@@ -67,6 +71,7 @@ export class BasketballViewComponent implements OnInit {
 
   twoPoints() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "myTeamScored";
       this.myTeamPoints = 2;
       this.titularsList.open();
@@ -75,6 +80,7 @@ export class BasketballViewComponent implements OnInit {
 
   threePoints() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "myTeamScored";
       this.myTeamPoints = 3;
       this.titularsList.open();
@@ -83,6 +89,7 @@ export class BasketballViewComponent implements OnInit {
 
   rebound() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "rebound";
       this.titularsList.open();
     }

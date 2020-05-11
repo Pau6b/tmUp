@@ -30,7 +30,7 @@ export class LiveMatchPage implements OnInit {
   localPts = 0;
   visitPts = 0;
 
-  listaConv;
+  listaConv = [];
   titulars = [];
 
   stadisticsLog = [];
@@ -63,9 +63,18 @@ export class LiveMatchPage implements OnInit {
   }
 
   getCalledPlayers() {
-    
     this.apiProv.getCall(this.eventId).subscribe( (data) => {
-      this.listaConv = data;
+      let tmp: any;
+      tmp = data;
+      tmp.forEach(element => {
+        this.apiProv.getUser(element).subscribe( (info: any) => {
+          let player = {
+            id: element,
+            name: info.userName
+          }
+          this.listaConv.push(player);
+        })
+      });
       this.openList();
     })
   }

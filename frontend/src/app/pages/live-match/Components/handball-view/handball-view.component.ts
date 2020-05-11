@@ -27,26 +27,29 @@ export class HandballViewComponent implements OnInit {
   ngOnInit() {}
 
   onChange() {
-    if(this.eventType == "mytmScored") {
-      this.myTeamScored.emit({points: 1, player: this.selectedPlayer});
+    if(this.selectedPlayer != null ) {
+      if(this.eventType == "mytmScored") {
+        this.myTeamScored.emit({points: 1, player: this.selectedPlayer});
+      }
+      else if( this.eventType == "stopped") {
+        this.stoppedGoal.emit( this.selectedPlayer);
+      }
+      else if( this.eventType == "lostBall") {
+        this.lostBall.emit(this.selectedPlayer);
+      }
+      else if( this.eventType == "7m") {
+        this.sevenMeters.emit(this.selectedPlayer);
+      }
+      else if( this.eventType = "2min") {
+        this.twoMinutes.emit(this.selectedPlayer);
+      }
+      this.eventType = "";
     }
-    else if( this.eventType == "stopped") {
-      this.stoppedGoal.emit( this.selectedPlayer);
-    }
-    else if( this.eventType == "lostBall") {
-      this.lostBall.emit(this.selectedPlayer);
-    }
-    else if( this.eventType == "7m") {
-      this.sevenMeters.emit(this.selectedPlayer);
-    }
-    else if( this.eventType = "2min") {
-      this.twoMinutes.emit(this.selectedPlayer);
-    }
-    this.eventType = "";
   }
 
   onMyTeamScored() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "mytmScored";
       this.titularsList.open();
     }
@@ -54,6 +57,7 @@ export class HandballViewComponent implements OnInit {
 
   onStopped () {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "stopped";
       this.titularsList.open();
     }
@@ -67,6 +71,7 @@ export class HandballViewComponent implements OnInit {
 
   onLostBall() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "lostBall";
       this.titularsList.open();
     }
@@ -74,6 +79,7 @@ export class HandballViewComponent implements OnInit {
   
   onSevenM() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "7m";
       this.titularsList.open();
     }
@@ -81,6 +87,7 @@ export class HandballViewComponent implements OnInit {
 
   onTwoMin() {
     if ( this.running ) {
+      this.selectedPlayer = null;
       this.eventType = "2min";
       this.titularsList.open();
     }

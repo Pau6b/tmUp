@@ -21,7 +21,7 @@
         <ion-row *ngIf="item.type=='changes'">In: {{ item.playerIn?.name }}</ion-row>
       </ion-col>
       <ion-item-options side="end">
-        <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>
+        <ion-item-option color="danger"> {{ "CORE.actions.delete" | translate }}</ion-item-option>
       </ion-item-options>
     </ion-item>
   </ion-item-sliding>
@@ -42,7 +42,7 @@
         <ion-row class="smallText" *ngIf="item.type=='pointsReceived'"> {{ item.points }} {{ "LIVE-MATCH.basketball.points" | translate }}</ion-row>
       </ion-col>
       <ion-item-options side="end">
-        <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>
+        <ion-item-option color="danger"> {{ "CORE.actions.delete" | translate }}</ion-item-option>
       </ion-item-options>
     </ion-item>
   </ion-item-sliding>
@@ -62,7 +62,7 @@
         <ion-row *ngIf="item.type=='goalsReceived'"> {{ "LIVE-MATCH.opponentGoal" | translate }} </ion-row>
       </ion-col>
       <ion-item-options side="end">
-        <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>
+        <ion-item-option color="danger"> {{ "CORE.actions.delete" | translate }}</ion-item-option>
       </ion-item-options>
     </ion-item>
   </ion-item-sliding>
