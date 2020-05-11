@@ -84,6 +84,17 @@
     "TEAM-LIST": {
         "title": "Llista d'equips"
     },
+    "FOULS":{
+        "title": "Multes",
+        "total": "Total",
+        "paid": "Pagades",
+        "pendings": "Pendents"
+    },
+    "MODAL":{
+        "email": "Email de l'usuari",
+        "date": "Data",
+        "concept": "Concepte especific"
+    },
     "LIVE-MATCH": {
         "start": "Comença",
         "stop": "Atura",

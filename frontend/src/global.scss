@@ -84,3 +84,23 @@
 span {
   margin-top: 0;
 }
+
+
+//----------------- MODAL -------------------
+.my-custom-modal-css .modal-wrapper {
+  width: 90%;
+  height: 65%;
+  top: 35%;
+  position: absolute; 
+  display: block; 
+  border-radius: 10px 10px 0px 0px; 
+  padding: 1rem;
+  app-modal{
+    justify-content: normal;
+    padding: 1rem;
+    align-items: center;
+    div{
+      text-align: center;
+    }
+  }
+}
