@@ -68,11 +68,7 @@ export class EventPage implements OnInit {
     this.getEventInfo()
     setTimeout(() => {
       this.loadMap();
-    }, 1000);
-    this.apiProv.getConvoactsPartit(this.eventId)
-    .subscribe ( (data) => {
-      this.ListConv1 = data;
-    });
+    }, 1000);    
   }
 
   async getEventInfo() {
@@ -86,6 +82,12 @@ export class EventPage implements OnInit {
           this.event = data;
           loading.dismiss();
         })
+        this.apiProv.getCall(this.eventId)
+        .subscribe ( (data) => {
+          console.log(data);
+          if ( data == null ) this.ListConv = null;
+          else this.ListConv1 = data;
+        });
       }
     });
   }
@@ -97,7 +99,7 @@ export class EventPage implements OnInit {
         evId: this.eventId,
         ev: this.event,
         segmentModel: this.segmentModel,
-        listConv: this.ListConv
+        listConv: this.ListConv1
       }
     };
     this.router.navigate(['/edit-event'], navigationExtras);

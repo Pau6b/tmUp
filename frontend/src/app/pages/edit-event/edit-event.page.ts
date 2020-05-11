@@ -14,10 +14,13 @@ import { AlertController } from '@ionic/angular';
 export class EditEventPage implements OnInit {
 
   event: any;
+  evId: any;
   segmentModel: any;
   anySelected = false;
   ListConv: any[];
   numConv = 0;
+  convocats = [];
+
   membersTeam = [
     {
       id: "1",
@@ -98,12 +101,12 @@ export class EditEventPage implements OnInit {
     private alertCtrl: AlertController
   ) { 
     this.route.queryParams.subscribe(params => {
-      let evId = this.router.getCurrentNavigation().extras.state.evId;
+      this.evId = this.router.getCurrentNavigation().extras.state.evId;
       this.event = this.router.getCurrentNavigation().extras.state.ev;
       this.segmentModel = this.router.getCurrentNavigation().extras.state.segmentModel;
       this.ListConv = this.router.getCurrentNavigation().extras.state.listConv;
       this.editEventForm.patchValue({
-        eventId: evId,
+        eventId: this.evId,
         type: this.event.type,
         title: this.event.title,
         location: this.event.location,
@@ -116,11 +119,11 @@ export class EditEventPage implements OnInit {
       else{
         this.editEventForm.patchValue({description: this.event.description});
       }
-      if ( this.ListConv.length != 0 ) {
+      if ( this.ListConv != null ) {
         this.anySelected = true;
         for ( let mem of this.membersTeam ) {
           for ( let conv of this.ListConv ) {
-            if ( mem.id === conv.id ) mem.isChecked = true;
+            if ( mem.name == conv ) mem.isChecked = true;
           }
         }
       }
@@ -147,7 +150,8 @@ export class EditEventPage implements OnInit {
   }
 
   deleteEvent() {
-    this.apiProv.deleteEvent(this.event.id)
+    console.log(this.evId);
+    this.apiProv.deleteEvent(this.evId)
     .then(() => {
       this.router.navigate(['/calendar']);
     });
@@ -192,7 +196,11 @@ export class EditEventPage implements OnInit {
         {
           text: 'Si', 
           handler : () => {
-            this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
+            console.log(this.evId);
+            this.apiProv.createCall(this.evId, this.convocats)
+            .then(() => {
+              this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
+            });
           }
         }
       ]
@@ -205,7 +213,7 @@ export class EditEventPage implements OnInit {
     for (let member of this.membersTeam) {
       if (member.isChecked) {
         ++this.numConv;
-        console.log(member.name);
+        this.convocats.push(member.name);
       }
     }
     this.presentAlert();

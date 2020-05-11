@@ -182,15 +182,21 @@ export class apiRestProvider {
   public deleteEvent(eId) {
     this.setHeader();
     return new Promise(resolve => {
-      this.http.delete(this.url+'teams/events/delete/'+ this.currentTeam + '/' + eId, { headers: this.headers })
+      this.http.delete(this.url+'teams/events/delete/'+ this.currentTeam + '/' + eId, { headers: this.headers, responseType:'text'})
       .subscribe(data => {
           resolve(data);
       })
     });
   }
 
-  public getConvoactsPartit(eventId) {
-    return this.http.get(this.url+'teams/events/' + this.currentTeam + '/match/' + eventId + '/getCall', {headers: this.headers})
+  public createCall(eventId, listConv) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.put(this.url+'teams/events/match/' + eventId + '/makeCall', JSON.stringify({teamId: this.currentTeam, call: listConv}), { headers: this.headers })
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
   }
 
   //Tactics

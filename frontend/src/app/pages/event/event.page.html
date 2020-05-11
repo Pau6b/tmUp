@@ -57,22 +57,16 @@
 
   <div *ngIf="segmentModel === 'players'">
     <div class="ion-padding">
-      <div *ngIf="ListConv1 != null">
+      <div *ngIf="ListConv1.length != 0">
         <ion-list>
           <ion-item *ngFor="let conv of ListConv1">
-            <ion-label> {{ conv.name }} </ion-label>
+            <ion-label> {{ conv }} </ion-label>
           </ion-item>
         </ion-list>
-
-        <!--Mirar si el usuari es cos tecnic amb *ngIf-->
-        <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="danger">
-          <ion-fab-button (click)="presentAlert()">
-            <ion-icon name="trash"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-
       </div>
-      <div *ngIf="ListConv1 == null">
+
+
+      <div *ngIf="ListConv1.length == 0">
         <div class="centerText">
           <p>{{ 'EVENT.message_no_convocados' | translate }}</p>
         </div>
