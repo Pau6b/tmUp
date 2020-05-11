@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { sports } from '../Core/Core'
 import { GetTeamStatsBySport } from '../Core/Templates/Statistics'
-import { UserRecord } from 'firebase-functions/lib/providers/auth';
+//import { UserRecord } from 'firebase-functions/lib/providers/auth';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
@@ -18,11 +18,11 @@ app.post('/create', (req, res) => {
             if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
-            
+            /*
             let email: any ="";  
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     email = user.email
-            });  
+            });  */
 
             let errors: string[] = [];
             let hasErrors: boolean = false;
@@ -54,7 +54,7 @@ app.post('/create', (req, res) => {
 
             await db.collection('memberships').add({
                 teamId: id,
-                userId: email,
+                userId: "ivan@ivan.com",
                 type: "staff"
             })
             return res.status(200).send(id);

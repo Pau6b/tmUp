@@ -228,6 +228,132 @@ app.get('/teamFines', (req, res) => {
         }
     })().then().catch();
 });
+app.get('/sumMembership', (req, res) => {
+    (async () => {
+        try {
+            let errores = [];
+            let hayErrores = false;
+            let equipoExiste = true;
+            let usuarioExiste = true;
+            let miembroExiste = true;
+            const team = db.collection('teams').doc(req.query.teamId);
+            await team.get().then((teamDoc) => {
+                if (!teamDoc.exists)
+                    equipoExiste = false;
+            });
+            const user = db.collection('users').doc(req.query.userId);
+            await user.get().then((userDoc) => {
+                if (!userDoc.exists)
+                    usuarioExiste = false;
+            });
+            const membership = db.collection('memberships').where('userId', '==', req.query.userId).where('teamId', '==', req.query.teamId);
+            let idMembership = "undefined";
+            await membership.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    idMembership = doc.id;
+                }
+            });
+            if (idMembership === "undefined")
+                miembroExiste = false;
+            if (!miembroExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + req.query.userId + "] is not member of the team: [" + req.query.teamId + "]");
+            }
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with id : [" + req.query.teamId + "] does not exist");
+            }
+            if (!usuarioExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + req.query.userId + "] does not exist");
+            }
+            if (hayErrores) {
+                return res.status(400).send(errores);
+            }
+            const fines = db.collection('memberships').doc(idMembership).collection("fines");
+            let precios = {
+                total: 0,
+                pending: 0,
+                paid: 0
+            };
+            await fines.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    precios.total += doc.data().money;
+                    if (doc.data().isPaid)
+                        precios.paid += doc.data().money;
+                    else if (!doc.data().isPaid)
+                        precios.pending += doc.data().money;
+                }
+                return precios;
+            });
+            return res.status(200).send(precios);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.get('/sumTeam', (req, res) => {
+    (async () => {
+        try {
+            let errores = [];
+            let hayErrores = false;
+            let equipoExiste = true;
+            const team = db.collection('teams').doc(req.query.teamId);
+            await team.get().then((teamDoc) => {
+                if (!teamDoc.exists)
+                    equipoExiste = false;
+            });
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with id : [" + req.query.teamId + "] does not exist");
+            }
+            if (hayErrores) {
+                return res.status(400).send(errores);
+            }
+            const response = [];
+            const members = [];
+            const teamMemberships = db.collection('memberships').where('teamId', '==', req.query.teamId);
+            await teamMemberships.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    const info = {
+                        userId: doc.data().userId,
+                        membershipId: doc.id
+                    };
+                    members.push(info);
+                }
+                return response;
+            });
+            let precios = {
+                total: 0,
+                pending: 0,
+                paid: 0,
+            };
+            for (const member of members) {
+                const membership = db.collection('memberships').doc(member.membershipId).collection("fines");
+                await membership.get().then((finesSnapshot) => {
+                    const fines = finesSnapshot.docs;
+                    for (const fine of fines) {
+                        precios.total += fine.data().money;
+                        if (fine.data().isPaid)
+                            precios.paid += fine.data().money;
+                        else if (!fine.data().isPaid)
+                            precios.pending += fine.data().money;
+                    }
+                });
+            }
+            return res.status(200).send(precios);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
 app.put('/payFine', (req, res) => {
     (async () => {
         try {
