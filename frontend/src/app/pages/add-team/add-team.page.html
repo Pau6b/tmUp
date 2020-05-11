@@ -45,7 +45,7 @@
           <ion-item>
             <ion-label>{{'CORE.sport' | translate}}</ion-label>
             <ion-select interface="popover" formControlName="sport">
-            <ion-select-option *ngFor="let s of sportsLists;" [value]="s.charAt(0).toUpperCase()+s.slice(1)">{{ 'CORE.sports.'+s | translate }}</ion-select-option>
+            <ion-select-option *ngFor="let s of sportsLists;" [value]="s">{{ 'CORE.sports.'+s | translate }}</ion-select-option>
             </ion-select>
           </ion-item>
           <div *ngFor="let err of errorMessages.sport">
@@ -72,12 +72,12 @@
 
           <ion-item>
             <ion-label>{{'ADD-TEAM.role' | translate}}</ion-label>
-            <ion-select interface="popover" formControlName="role">
+            <ion-select interface="popover" formControlName="type">
               <ion-select-option *ngFor="let jr of roles;" [value]="jr" >{{ 'CORE.roles.'+jr | translate }}</ion-select-option>
             </ion-select>
           </ion-item>
-          <div *ngFor="let err of errorMessages.role">
-            <ng-container *ngIf="role.hasError(err.type) && role.touched">
+          <div *ngFor="let err of errorMessages.type">
+            <ng-container *ngIf="type.hasError(err.type) && type.touched">
               <small class="errorMessage">{{ err.message }}</small>
             </ng-container>
           </div>

@@ -28,7 +28,7 @@ export class AddTeamPage implements OnInit {
   joinTeamForm = this.formBuilder.group({
     teamId: ['', [Validators.required]],
     userId: [''],
-    role: ['', [Validators.required]]
+    type: ['', [Validators.required]]
   });
 
 
@@ -66,24 +66,29 @@ export class AddTeamPage implements OnInit {
   }
 
   get teamName() {
-    return this.createTeamForm.get("teamName")
+    return this.createTeamForm.get("teamName");
   }
   get sport() {
-    return this.createTeamForm.get("sport")
+    return this.createTeamForm.get("sport");
   }
   get teamPhoto() {
-    return this.createTeamForm.get("teamPhoto")
+    return this.createTeamForm.get("teamPhoto");
   }
   get role() {
-    return this.joinTeamForm.get("role")
+    return this.joinTeamForm.get("role");
   }
   get teamId() {
-    return this.joinTeamForm.get("teamId")
+    return this.joinTeamForm.get("teamId");
   }
 
   onDone() {
     if(this.segmentModel == "create") {
-      this.apiProv.createTeam(this.createTeamForm.value)
+      let params = this.createTeamForm.value;
+      const capitalize =(str:string) => {
+        return str.charAt(0).toUpperCase() + str.slice(1)
+      }
+      params.sport = capitalize(params.sport);
+      this.apiProv.createTeam(params)
       .then( (data) => {
         let teamID = data;
         this.translService.get('ADD-TEAM.IDInform').subscribe(
@@ -106,8 +111,10 @@ export class AddTeamPage implements OnInit {
       })
     }
     else {
+      console.log(this.joinTeamForm.value);
       this.apiProv.createMembership(this.joinTeamForm.value)
       .then( () => {
+        this.apiProv.setTeam(this.teamId.toString());
         this.router.navigate(['/main']);
       })
     }

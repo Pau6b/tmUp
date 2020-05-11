@@ -1,0 +1,54 @@
+
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
+
+.top-left {
+    border-top-left-radius: 0.5em;
+}
+
+.top-right {
+    border-top-right-radius: 0.5em;
+}
+
+.bottom-left {
+    border-bottom-left-radius: 0.5em;
+}
+
+.bottom-right{
+    border-bottom-right-radius: 0.5em;
+}
+
+/* ------------------------------
+              GENERIC
+   ------------------------------ */
+img {
+    background-color: white;
+    border-radius: 20%;
+    max-width: 50%;
+    max-height: 50%;
+    height: auto;
+    padding: 0.2em;
+}
+
+ion-col {
+    text-align: center;
+    border: 1px;
+    border-style: solid;
+    border-color: var(--ion-color-secondary);
+    height : 80%;
+}
+
+ion-row {
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+}
+
+h5 {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}

@@ -128,6 +128,11 @@
             "selected2": " jugadores titulares. ¿Correcto?"
         }
     },
+    "STATISTICS": {
+        "title": "Estadísticas",
+        "selfStatistics": "Propias",
+        "teamStatistics": "Del equipo"
+    },
     "CORE" : {
         "sport": "Deporte",
         "sports": {

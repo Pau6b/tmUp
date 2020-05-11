@@ -72,9 +72,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/edit-event/edit-event.module').then( m => m.EditEventPageModule)
   },
   {
+    path: 'statistics',
+    loadChildren: () => import('./pages/statistics/statistics.module').then( m => m.StatisticsPageModule)
+  },
+  {
     path: 'live-match',
     loadChildren: () => import('./pages/live-match/live-match.module').then( m => m.LiveMatchPageModule)
   }
+
 
 
 
