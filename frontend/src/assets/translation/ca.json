@@ -36,10 +36,19 @@
     "EDIT-EVENT": {
         "pageName": "Modificar esdeveniment",
         "title": "Títol",
-        "deleteEvent": "Esborrar esdeveniment"
+        "deleteEvent": "Esborrar esdeveniment",
+        "list": "Llista Convocats",
+        "start": "Comença",
+        "end": "Final"
     },
     "EVENT": {
-        "howToGet": "Com arribar"
+        "howToGet": "Com arribar",
+        "info": "Informació",
+        "convocados":"Convocats",
+        "analisi": "Anàlisi",
+        "fotos": "Fotos",
+        "message_no_convocados": "No hi ha convcats encara",
+        "new_list": "Crear llista"
     },
     "LOCATION-SELECT": {
         "connectToInternet": "Sembla que no tens connexió..."

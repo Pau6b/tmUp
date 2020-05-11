@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 declare var google;
 
@@ -19,6 +19,39 @@ export class EventPage implements OnInit {
   eventId: string;
   event: any;
   currentLoc: any;
+  segmentModel = "info";
+
+  ListConv1: any;
+  ListConv = [
+    {
+      id: "1",
+      name: "Jugador 1"
+    },
+    {
+      id: "2",
+      name: "Jugador 2"
+    },
+    {
+      id: "3",
+      name: "Jugador 3"
+    },
+    {
+      id: "4",
+      name: "Jugador 4"
+    },
+    {
+      id: "5",
+      name: "Jugador 5"
+    },
+    {
+      id: "6",
+      name: "Jugador 6"
+    },
+    {
+      id: "7",
+      name: "Jugador 7"
+    }
+  ];
 
   constructor(
     private geolocation: Geolocation,
@@ -26,7 +59,8 @@ export class EventPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private apiProv: apiRestProvider,
-    private loadCtrl: LoadingController
+    private loadCtrl: LoadingController,
+    private alertCtrl: AlertController
   ) { 
   }
 
@@ -35,6 +69,10 @@ export class EventPage implements OnInit {
     setTimeout(() => {
       this.loadMap();
     }, 1000);
+    this.apiProv.getConvoactsPartit(this.eventId)
+    .subscribe ( (data) => {
+      this.ListConv1 = data;
+    });
   }
 
   async getEventInfo() {
@@ -57,7 +95,9 @@ export class EventPage implements OnInit {
       relativeTo: this.route,
       state: {
         evId: this.eventId,
-        ev: this.event
+        ev: this.event,
+        segmentModel: this.segmentModel,
+        listConv: this.ListConv
       }
     };
     this.router.navigate(['/edit-event'], navigationExtras);
@@ -93,6 +133,27 @@ export class EventPage implements OnInit {
         map: map
       });
     });
+  }
+
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Eliminar',
+      message: '¿Seguro que quieres eliminar la lista de jugadores convocados?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'no'
+        },
+        {
+          text: 'Si', 
+          handler : () => {
+            //cridar api amb la funcio eliminar llista convocats
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }

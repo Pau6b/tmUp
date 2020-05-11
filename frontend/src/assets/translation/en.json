@@ -36,10 +36,19 @@
     "EDIT-EVENT": {
         "pageName": "Edit event",
         "title": "Title",
-        "deleteEvent": "Delete event"
+        "deleteEvent": "Delete event",
+        "list": "Players list",
+        "start": "Starts",
+        "end": "Finishes"
     },
     "EVENT": {
-        "howToGet": "How to get"
+        "howToGet": "How to get",
+        "info": "Information",
+        "convocados":"Players",
+        "analisi": "Analysis",
+        "fotos": "Photos",
+        "message_no_convocados": "No list created with players yet",
+        "new_list": "Create list"
     },
     "LOCATION-SELECT": {
         "connectToInternet": "It seems that you have no Interent connection..."

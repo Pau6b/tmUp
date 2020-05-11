@@ -36,10 +36,19 @@
     "EDIT-EVENT": {
         "pageName": "Modificar evento",
         "title": "Título",
-        "deleteEvent": "Eliminar evento"
+        "deleteEvent": "Eliminar evento",
+        "list": "Lista Convocados",
+        "start": "Empieza",
+        "end": "Acaba"
     },
     "EVENT": {
-        "howToGet": "Cómo llegar"
+        "howToGet": "Cómo llegar",
+        "info": "Información",
+        "convocados":"Convocados",
+        "analisi": "Analisis",
+        "fotos": "Fotos",
+        "message_no_convocados": "No hay convocados todabía",
+        "new_list": "Crear lista"
     },
     "LOCATION-SELECT": {
         "connectToInternet": "Parece que no tienes conexion..."

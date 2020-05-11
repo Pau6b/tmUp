@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, LoadingController } from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-main',
@@ -12,9 +11,6 @@ import { Router } from '@angular/router';
 export class MainPage implements OnInit {
 
   welcome = false;
-  match;
-  training;
-  reminders;
   public WelcomeMsgs = [
     {
       url: '/calendar',
@@ -166,15 +162,16 @@ export class MainPage implements OnInit {
   constructor(
     private menuCtrl: MenuController,
     private apiProv: apiRestProvider,
-    private router: Router
-  ) {}
+    private router: Router,
+    private loadCtrl: LoadingController
+  ) {
+    this.welcome = false;
+  }
 
   ngOnInit() {
     //call api to get notifications
-    this.welcome = false;
-    this.match = this.apiProv.getNextMatch();
-    this.training = this.apiProv.getNextTraining();
-    this.arrayReminders(this.match, this.training);
+    this.getWelcome();
+    this.getReminders();
   }
 
   ionViewWillEnter(){
@@ -185,23 +182,28 @@ export class MainPage implements OnInit {
     this.router.navigate(['/event', event_id]);
   }
 
-  arrayReminders(match, training) {
-    if ( match == null ) {
-      this.Reminders[0].day = null;
-    }
-    else {
-      this.Reminders[0].id = match.id;
-      this.Reminders[0].day = match.startTime;
-    }
+  getWelcome() {
+    this.welcome = false;
+  }
 
-    if ( training == null ) {
-      this.Reminders[1].day = null;
-    }
-    else {
-      this.Reminders[1].id = training.id;
-      this.Reminders[1].day = training.startTime;
-    }
+  async getReminders() {
+    const loading = await this.loadCtrl.create();
+    loading.present();
+    this.apiProv.getNextMatch().then( (data) => {
+      if ( data[0].length == 0 ) this.Reminders[0].day = null;
+      else {
+        this.Reminders[0].id = data[0].id;
+        this.Reminders[0].day = data[0].startTime;
+      }
+    })
+    this.apiProv.getNextTraining().then( (data) => {
+      if ( data[0].length == 0 ) this.Reminders[1].day = null;
+      else {
+        this.Reminders[1].id = data[0].id;
+        this.Reminders[1].day = data[0].startTime;
+      }
+    })
+    loading.dismiss();
   }
   
-
 }
