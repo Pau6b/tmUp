@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 import { PhotoService } from 'src/app/services/photo.service';
 import { Router } from '@angular/router';
@@ -18,7 +17,6 @@ export class TacticsPage implements OnInit {
   files = [];
 
   constructor(
-    private api: apiRestProvider,
     private router: Router,
     private file: File,
     private photoService: PhotoService) { }

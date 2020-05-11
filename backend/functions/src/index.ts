@@ -37,8 +37,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use((req,res,next)=>{
   (async () => {
-    if (req.path != '/login') {
-      if (req.headers.authorization == null) {
+    if (req.path !== '/login') {
+      if (req.headers.authorization === null) {
         return res.status(401).send("You must send a token to authentificate");
       }
       let isLogged : boolean = false;
@@ -78,7 +78,7 @@ const teamsHandler = require('./Teams/Teams');
 app.use('/teams', teamsHandler);
 
 const eventsHandler = require('./Teams/Events/Events');
-app.use('/:teamId/events', eventsHandler);
+app.use('/teams/events', eventsHandler);
 
 const photosHandler = require('./Teams/Events/Photos/Photos');
 app.use('/teams/events/photos', photosHandler);
@@ -103,7 +103,9 @@ app.use('/chats', chatsHandler);
 
 const messagesHandler = require('./Teams/Messages/Messages');
 app.use('/teams/messages', messagesHandler);
-/* --- end of routes --- */
+
+const noticiesHandler = require('./Teams/Noticies/Noticies');
+app.use('/teams/noticies', noticiesHandler);
 
 exports.app = functions.https.onRequest(app);
 

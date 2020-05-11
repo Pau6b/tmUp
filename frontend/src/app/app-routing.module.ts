@@ -75,6 +75,14 @@ const routes: Routes = [
     path: 'fouls',
     loadChildren: () => import('./pages/fouls/fouls.module').then( m => m.FoulsPageModule)
   },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./pages/statistics/statistics.module').then( m => m.StatisticsPageModule)
+  },
+  {
+    path: 'live-match',
+    loadChildren: () => import('./pages/live-match/live-match.module').then( m => m.LiveMatchPageModule)
+  }
 ];
 
 @NgModule({

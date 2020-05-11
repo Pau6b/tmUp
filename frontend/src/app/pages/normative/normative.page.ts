@@ -14,11 +14,22 @@ export class NormativePage implements OnInit {
   isPDF = 0;
   promise: Promise<string>;
 
+
   public constructor(
     private chooser: Chooser
     ) {}
 
   public ngOnInit() {
+    //subir file
+    /*let content = "Hello Zip";
+    let data = new Blob([content]);
+    let arrayOfBlob = new Array<Blob>();
+    arrayOfBlob.push(data);
+    //-------------------
+    const path = "/normatives/file.pdf";
+    const ref = this.storage.ref;
+    const task = this.storage.upload(path,data);
+    console.log('Image uploaded!');*/
   }
 
   public chooseFile(){
