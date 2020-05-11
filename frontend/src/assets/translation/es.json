@@ -117,6 +117,20 @@
         "hour": "Hora:",
         "title_news": "Noticias"
     },
+    "LIVE-MATCH": {
+        "start": "Empieza",
+        "stop": "Para",
+        "finish": "Acaba",
+        "myTeam": "Mi Equipo",
+        "otherTeam": "Oponente",
+        "conv": "Jugadores Convocados",
+        "titu": "Jugadores Titulares",
+        "opponentGoal": "Gol de oponente",
+        "basketball": {
+            "opponentScored": "Anotación de opponente",
+            "points": "punto(s)"
+        }
+    },
     "CORE" : {
         "sport": "Deporte",
         "sports": {
