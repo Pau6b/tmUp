@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
-const Core_1 = require("../Core/Core");
+//import { sports } from '../Core/Core'
 const Statistics_1 = require("../Core/Templates/Statistics");
 const admin = require("firebase-admin");
 const db = admin.firestore();
@@ -12,9 +12,10 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-            if (req.session.user === null) {
+            /*if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
+<<<<<<< HEAD
             //hardcode
             /*let email: any ="";
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
@@ -22,6 +23,16 @@ app.post('/create', (req, res) => {
             });  */
             let errors = [];
             let hasErrors = false;
+=======
+
+            let email: any ="";
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    email = user.email
+            });
+
+            let errors: string[] = [];
+            let hasErrors: boolean = false;
+>>>>>>> 6dec0efa631e37e1350927bfb6aa205dda7dcb58
             if (!jsonContent.hasOwnProperty("teamName")) {
                 errors.push("TC2");
                 hasErrors = true;
@@ -30,13 +41,13 @@ app.post('/create', (req, res) => {
                 errors.push("TC3");
                 hasErrors = true;
             }
-            if (!Core_1.sports.includes(jsonContent.sport)) {
+            if (!sports.includes(jsonContent.sport)) {
                 errors.push("TC4");
                 hasErrors = true;
             }
             if (hasErrors) {
                 return res.status(400).send(errors);
-            }
+            }*/
             //No errors, we proceed to creation
             let id = "invalid";
             await db.collection('teams').add({
@@ -46,12 +57,12 @@ app.post('/create', (req, res) => {
             }).then((ref) => {
                 id = ref.id;
             });
-            await db.collection('memberships').add({
+            /*await db.collection('memberships').add({
                 teamId: id,
                 //hardcode
                 userId: "ivan@ivan.com",
                 type: "staff"
-            });
+            })*/
             return res.status(200).send(id);
         }
         catch (error) {
@@ -88,6 +99,33 @@ app.get('/:teamId', (req, res) => {
         }
     })().then().catch();
 });
+app.get('/:teamId/stadistics', (req, res) => {
+    (async () => {
+        try {
+            const document = db.collection("teams").doc(req.params.teamId);
+            let teamExists = true;
+            const teamData = await document.get().then((doc) => {
+                if (!doc.exists) {
+                    teamExists = false;
+                    return;
+                }
+                else {
+                    return doc.data().stats;
+                }
+            });
+            //Check that the user exists
+            if (!teamExists) {
+                return res.status(400).send("TG1");
+            }
+            //return correct data
+            return res.status(200).send(teamData);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
 //ReadAll => Get
 app.get('/', (req, res) => {
     (async () => {
@@ -99,7 +137,8 @@ app.get('/', (req, res) => {
                 for (const doc of docs) {
                     const selectedItem = {
                         teamName: doc.data().teamName,
-                        sport: doc.data().sport
+                        sport: doc.data().sport,
+                        stats: doc.data().stats
                     };
                     response.push(selectedItem);
                 }

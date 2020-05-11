@@ -103,7 +103,9 @@ app.use('/chats', chatsHandler);
 
 const messagesHandler = require('./Teams/Messages/Messages');
 app.use('/teams/messages', messagesHandler);
-/* --- end of routes --- */
+
+const noticiesHandler = require('./Teams/Noticies/Noticies');
+app.use('/teams/noticies', noticiesHandler);
 
 exports.app = functions.https.onRequest(app);
 
