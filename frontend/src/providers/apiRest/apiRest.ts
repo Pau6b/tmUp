@@ -70,7 +70,7 @@ export class apiRestProvider {
   public createTeam(teamData) {
     this.setHeader();
     return new Promise(resolve => {
-      this.http.post(this.url+'teams/create', JSON.stringify(teamData), { headers: this.headers })
+      this.http.post(this.url+'teams/create', JSON.stringify(teamData), { headers: this.headers, responseType: 'text' })
       .subscribe(data => {
           resolve(data);
       })

@@ -45,7 +45,7 @@
           <ion-item>
             <ion-label>{{'CORE.sport' | translate}}</ion-label>
             <ion-select interface="popover" formControlName="sport">
-            <ion-select-option *ngFor="let s of sportsLists;" [value]="s">{{ 'CORE.sports.'+s | translate }}</ion-select-option>
+            <ion-select-option *ngFor="let s of sportsLists;" [value]="s.charAt(0).toUpperCase()+s.slice(1)">{{ 'CORE.sports.'+s | translate }}</ion-select-option>
             </ion-select>
           </ion-item>
           <div *ngFor="let err of errorMessages.sport">

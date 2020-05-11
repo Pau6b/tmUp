@@ -17,7 +17,8 @@
         "editImage": "Edit image",
         "teamName": "Team name",
         "enterTeamId": "Insert team ID",
-        "role": "Role"
+        "role": "Role",
+        "IDInform": "Team created. This is your team's ID: "
     },
     "CALENDAR" : {
         "title": "Calendar",

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {  MenuController } from '@ionic/angular';
+import {  MenuController, AlertController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
 import { sports, rols } from '../../Core/Arrays';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-team',
@@ -52,7 +53,9 @@ export class AddTeamPage implements OnInit {
     private formBuilder: FormBuilder,
     private menuCtrl: MenuController,
     private photoServ: PhotoService,
-    private router: Router
+    private router: Router,
+    private alertCtrl: AlertController,
+    private translService: TranslateService
     ) { }
 
   ngOnInit() {
@@ -82,11 +85,24 @@ export class AddTeamPage implements OnInit {
     if(this.segmentModel == "create") {
       this.apiProv.createTeam(this.createTeamForm.value)
       .then( (data) => {
-        console.log(data);
-        this.router.navigate(['/main']);
-      },
-      (err) => {
-        console.log(err.message);
+        let teamID = data;
+        this.translService.get('ADD-TEAM.IDInform').subscribe(
+          async value => {
+            let alert = await this.alertCtrl.create({
+              message: value + teamID,
+              buttons: [
+                {
+                  text: 'OK',
+                  handler: () => {
+                    this.apiProv.setTeam(teamID.toString());
+                    this.router.navigate(['/main']);
+                  }
+                }
+              ]
+            });
+            alert.present();
+          }
+        )
       })
     }
     else {

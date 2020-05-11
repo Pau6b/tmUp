@@ -17,7 +17,8 @@
         "editImage": "Editar imatge",
         "teamName": "Nom de l'equip",
         "enterTeamId": "Introdueix el ID de l'equip",
-        "role": "Rol"
+        "role": "Rol",
+        "IDInform": "Equip creat. Aquest és el teu ID d'equip: "
     },
     "CALENDAR" : {
         "title": "Calendari",

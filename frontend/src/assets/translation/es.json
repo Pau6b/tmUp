@@ -17,7 +17,8 @@
         "editImage": "Editar imagen",
         "teamName": "Nombre de equipo",
         "enterTeamId": "Introduce el ID de equipo",
-        "role": "Rol"
+        "role": "Rol",
+        "IDInform": "Equipo creado. Este es tu ID de equipo: "
     },
     "CALENDAR" : {
         "title": "Calendario",
