@@ -153,10 +153,10 @@ app.get('/membershipFines', (req, res) => {
                 for (const doc of docs) {
                     const selectedItem  = {
                         fineId: doc.id,
-                        issue: doc.data()!.issue,
-                        money: doc.data()!.money,
-                        isPaid:  doc.data()!.isPaid,
-                        date: doc.data()!.date
+                        issue: doc.data().issue,
+                        money: doc.data().money,
+                        isPaid:  doc.data().isPaid,
+                        date: doc.data().date
                     };
                     if (req.query.fineState === "paid" && selectedItem.isPaid) response.push(selectedItem);
                     else if (req.query.fineState === "noPaid" && !selectedItem.isPaid) response.push(selectedItem);
@@ -200,7 +200,7 @@ app.get('/teamFines', (req, res) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
                     const info = {
-                        userId: doc.data()!.userId,
+                        userId: doc.data().userId,
                         membershipId: doc.id
                     }
                    members.push(info);
@@ -216,10 +216,10 @@ app.get('/teamFines', (req, res) => {
                         const selectedItem  = {
                             fineId: fine.id,
                             userId: member.userId,
-                            issue: fine.data()!.issue,
-                            money: fine.data()!.money,
-                            isPaid:  fine.data()!.isPaid,
-                            date: fine.data()!.date
+                            issue: fine.data().issue,
+                            money: fine.data().money,
+                            isPaid:  fine.data().isPaid,
+                            date: fine.data().date
                         };
                         if (req.query.fineState === "paid" && selectedItem.isPaid) response.push(selectedItem);
                         else if (req.query.fineState === "noPaid" && !selectedItem.isPaid) response.push(selectedItem);
@@ -292,9 +292,9 @@ app.get('/sumMembership', (req, res) => {
             await fines.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
-                    precios.total += doc.data()!.money;
-                    if (doc.data()!.isPaid) precios.paid += doc.data()!.money;
-                    else if (!doc.data().isPaid) precios.pending += doc.data()!.money;
+                    precios.total += doc.data().money;
+                    if (doc.data().isPaid) precios.paid += doc.data().money;
+                    else if (!doc.data().isPaid) precios.pending += doc.data().money;
 
                 }
                 return precios;
@@ -334,7 +334,7 @@ app.get('/sumTeam', (req, res) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
                     const info = {
-                        userId: doc.data()!.userId,
+                        userId: doc.data().userId,
                         membershipId: doc.id
                     }
                    members.push(info);
@@ -352,9 +352,9 @@ app.get('/sumTeam', (req, res) => {
                 await membership.get().then((finesSnapshot: any) => {
                     const fines  = finesSnapshot.docs;
                     for (const fine of fines) {
-                        precios.total += fine.data()!.money;
-                        if (fine.data()!.isPaid) precios.paid += fine.data()!.money;
-                        else if (!fine.data().isPaid) precios.pending += fine.data()!.money;
+                        precios.total += fine.data().money;
+                        if (fine.data().isPaid) precios.paid += fine.data().money;
+                        else if (!fine.data().isPaid) precios.pending += fine.data().money;
                     }
                 })
             }
