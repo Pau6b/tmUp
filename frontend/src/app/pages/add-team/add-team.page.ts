@@ -40,7 +40,7 @@ export class AddTeamPage implements OnInit {
     sport: [
       { type:'required', message: 'Deporte es necesario' }
     ],
-    role: [
+    type: [
       { type: 'required', message: 'Rol es necesario'}
     ],
     teamId: [
@@ -74,8 +74,8 @@ export class AddTeamPage implements OnInit {
   get teamPhoto() {
     return this.createTeamForm.get("teamPhoto");
   }
-  get role() {
-    return this.joinTeamForm.get("role");
+  get type() {
+    return this.joinTeamForm.get("type");
   }
   get teamId() {
     return this.joinTeamForm.get("teamId");
@@ -111,10 +111,9 @@ export class AddTeamPage implements OnInit {
       })
     }
     else {
-      console.log(this.joinTeamForm.value);
       this.apiProv.createMembership(this.joinTeamForm.value)
       .then( () => {
-        this.apiProv.setTeam(this.teamId.toString());
+        this.apiProv.setTeam(this.joinTeamForm.get('teamId').value);
         this.router.navigate(['/main']);
       })
     }
