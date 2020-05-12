@@ -520,16 +520,16 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
             for (const key in jsonContent) {
                 if (jsonContent.hasOwnProperty(key)) {
                     console.log(jsonContent[key].type);
-                    if(jsonContent[key].type != ("goalsReceived" || "pointsReceived"))await updatePlayerStats(req.params.teamId, jsonContent[key].player.id, jsonContent[key].type);
+                    if(jsonContent[key].type != "goalsReceived" && jsonContent[key].type != "pointsReceived") await updatePlayerStats(req.params.teamId, jsonContent[key].player.id, jsonContent[key].type);
                     for (const stat in matchStadistics) {
                         if (matchStadistics.hasOwnProperty(stat)) {
                             if(jsonContent[key].type === stat) {
                                 //mirar si tiene points y sumar points o sino sumar 1
-                                if(matchStadistics[stat] === ("twoPointShots" || "threePointShots")) {
-                                    matchStadistics["pointsScored"] += jsonContent[key].points;
+                                if(jsonContent[key].type === "twoPointShots" || jsonContent[key].type === "threePointShots") {
+                                    matchStadistics["pointsScored"] += parseInt(jsonContent[key].points, 10);
                                     matchStadistics[stat] += 1;
                                 }
-                                else if(matchStadistics[stat] === "pointsReceived") matchStadistics["pointsReceived"] += jsonContent[key].points;
+                                else if(jsonContent[key].type === "pointsReceived") matchStadistics["pointsReceived"] += parseInt(jsonContent[key].points, 10);
                                 else matchStadistics[stat] += 1;
                             }
                         }
@@ -537,8 +537,11 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
                     for (const stat in teamStadistics) {
                         if (teamStadistics.hasOwnProperty(stat)) {
                             if(jsonContent[key].type === stat){
-                                if(teamStadistics[stat] === ("twoPointShots" || "threePointShots")) teamStadistics["pointsScored"] += jsonContent[key].points;
-                                else if(teamStadistics[stat] === "pointsReceived") teamStadistics["pointsReceived"] += jsonContent[key].points;
+                                if(jsonContent[key].type === "twoPointShots" || jsonContent[key].type === "threePointShots") {
+                                    teamStadistics["pointsScored"] += parseInt(jsonContent[key].points, 10);
+                                    teamStadistics[stat] += 1;
+                                }                                
+                                else if(jsonContent[key].type === "pointsReceived") teamStadistics["pointsReceived"] += parseInt(jsonContent[key].points, 10);
                                 else teamStadistics[stat] += 1;
                             } //teamStadistics[stat] += 1;                            
                         }
