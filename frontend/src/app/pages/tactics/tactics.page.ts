@@ -4,7 +4,7 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { PhotoService } from 'src/app/services/photo.service';
 import { Router } from '@angular/router';
 
-import { File, FileEntry } from '@ionic-native/file/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 const MEDIA_FOLDER_NAME = "my_tactics";
 
@@ -24,27 +24,25 @@ export class TacticsPage implements OnInit {
     private photoService: PhotoService) { }
 
   ngOnInit() {
-    //this.files = this.photoService.getFiles();
+    this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
+    console.log(this.files);
   }
 
-
-  addImage(img){
-    this.router.navigate(["/add-tactic", {img: img}]);
+  doRefresh(event) {
+    setTimeout(() => {
+      this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
+      event.target.complete();
+    }, 2000);
   }
 
   goToaddTactic(){
-    this.photoService.selectMedia();
-  }
-  
-  seeImage(){
+    this.photoService.selectMedia('tactics', '6hd6Bdym8CXKW0Sm3hDb');
+    setTimeout(() => {}, 2000);
+    this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
   }
 
-  openPdf(){
-
-  }
-  
-  downloadPdf(){
-    
+  openFile(file){
+    this.photoService.openFile(file);
   }
 
 }

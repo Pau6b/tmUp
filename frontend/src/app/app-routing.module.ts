@@ -75,6 +75,11 @@ const routes: Routes = [
     path: 'fouls',
     loadChildren: () => import('./pages/fouls/fouls.module').then( m => m.FoulsPageModule)
   },
+  {
+    path: 'add-fine',
+    loadChildren: () => import('./pages/add-fine/add-fine.module').then( m => m.AddFinePageModule)
+  },
+
 ];
 
 @NgModule({

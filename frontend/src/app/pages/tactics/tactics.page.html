@@ -9,12 +9,16 @@
 
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list padding>
     <ion-item-sliding *ngFor="let f of files">
-      <ion-item (click)="openPdf()">
-        <ion-icon name="image" slot="start" *ngIf="f.name.endsWith('jpg') || f.name.endsWith('jpeg')"></ion-icon>
-        <ion-icon name="document-text" slot="start" *ngIf="f.name.endsWith('.txt') || f.name.endsWith('.pdf') || f.name.endsWith('.doc')"></ion-icon>
- 
+      <ion-item (click)="openFile(f)">
+        <ion-img src="../../../assets/icon/img.png" slot="start" *ngIf="f.name.endsWith('jpg') || f.name.endsWith('jpeg') || f.name.endsWith('png')"></ion-img>
+        <ion-img src="../../../assets/icon/doc.png" slot="start" *ngIf="f.name.endsWith('.txt') ||  f.name.endsWith('.doc') ||  f.name.endsWith('.docx')"></ion-img>
+        <ion-img src="../../../assets/icon/pdf.png" slot="start" *ngIf="f.name.endsWith('.pdf')"></ion-img>
+
         <ion-label class="ion-text-wrap">
           {{ f.name }}
           <p>{{ f.fullPath }}</p>

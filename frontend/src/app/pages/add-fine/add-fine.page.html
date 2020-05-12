@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+    <ion-button slot="start">
+      <ion-back-button color="light"></ion-back-button>
+    </ion-button>
+    <ion-title>addFine</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-list>
+      <ion-item class="ion-margin">
+        <ion-label>Miembros</ion-label>
+          <ion-select value="members" multiple="true" placeholder="select members" >
+            <ion-select-option *ngFor="let m of members" value="{{m.id}}">{{m.name}}</ion-select-option>
+          </ion-select>
+      </ion-item>
+      <ion-item class="ion-margin">
+          <ion-label>Fecha</ion-label>
+          <ion-datetime placeholder="Select date"></ion-datetime>
+      </ion-item>
+      <ion-item class="ion-margin">
+        <ion-label>Concepto</ion-label>
+        <ion-select value="concept" placeholder="Select concept">
+          <ion-select-option *ngFor="let c of concepts" value="{{c.name}}">{{c.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="ion-margin">
+        <ion-input placeholder="Description"></ion-input>
+      </ion-item>
+      <ion-item class="ion-margin">
+        <ion-label>Precio</ion-label>
+        <ion-input required class="ion-text-right" type="number" placeholder="€"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button class="ion-padding" expand="block" color="primary" type="submit" (click)="onAdd()">Añadir</ion-button>
+  </form>
+
+  
+</ion-content>

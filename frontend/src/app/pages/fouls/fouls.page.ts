@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../components/modal/modal.component';
 
-import Chart from 'chart.js';
-import 'chartjs-plugin-datalabels';
+import * as Chart from 'chart.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-fouls',
@@ -63,12 +63,14 @@ export class FoulsPage implements OnInit {
       "concepto": "concepto de la multa"
     }
   ];
-  @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild('doughnutCanvas', {static: false}) doughnutCanvas;
   
   doughnutChart: any;
   colorsArray: any;
   totalPrice = 155;
-  constructor(private modalController: ModalController) { }
+  constructor(
+    private modalController: ModalController,
+    private router: Router) { }
 
   ngOnInit() {
   }
@@ -93,6 +95,7 @@ export class FoulsPage implements OnInit {
   }
 
   goToAddFoul(){
+    this.router.navigate(['add-fine']);
 
   }
   createSemicircleChart(){

@@ -38,6 +38,10 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'/assets/translation/','.json');
 }
@@ -78,7 +82,10 @@ export function createTranslateLoader(http: HttpClient) {
     ImagePicker,
     MediaCapture,
     File,
+    FilePath,
+    FileOpener,
     PhotoViewer,
+    InAppBrowser,
     NavParams,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider

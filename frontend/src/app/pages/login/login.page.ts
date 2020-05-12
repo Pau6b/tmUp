@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { FormBuilder, Validators} from '@angular/forms'
+import { FormBuilder, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
   logIn() {
     this.authService.signIn(this.logInForm.get('email').value, this.logInForm.get('password').value)
     .then( () => {
-      this.router.navigate(['/fouls']);
+      this.router.navigate(['/tactics']);
     },
     (error) => {
       this.logInError = true;
