@@ -81,9 +81,6 @@ export class RegisterPage implements OnInit {
   public registerUser() {
     this.authService.signUpUser(this.registerForm.value)
     .then((user) => {
-      user.user.updateProfile({
-        displayName: this.registerForm.get('userName')
-      });
       this.emailUsed = false;
       this.apiProv.setUser(user.user.email);
       //xa is the token

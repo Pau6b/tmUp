@@ -39,6 +39,11 @@ export class AuthService {
 
   signUpUser(data): Promise<any> {
     return this.afAuth.auth.createUserWithEmailAndPassword(data.email, data.password)
+    .then( (user) => {
+      user.user.updateProfile ({
+        displayName: data.userName
+      });
+    })
   }
 
   signIn(email: string, password: string): Promise<any> {

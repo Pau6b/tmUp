@@ -141,8 +141,8 @@ export class LiveMatchPage implements OnInit {
     let typeEvent;
     if(this.sport == "Football" || this.sport == "Handball") typeEvent = "goalsScored";
     else if(this.sport == "Basketball") {
-      if(info.points == 2) typeEvent = "twoPointsShots";
-      else if(info.points == 3) typeEvent = "threePointsShots";
+      if(info.points == 2) typeEvent = "twoPointShots";
+      else if(info.points == 3) typeEvent = "threePointShots";
       else typeEvent = "pointsScored"
     }
     let infoEvent = {
