@@ -5,18 +5,9 @@ If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment
 
 Dev App Server is now running.
 
-May 12, 2020 11:22:43 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+May 12, 2020 11:47:17 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
-May 12, 2020 11:23:10 AM com.google.cloud.datastore.emulator.impl.util.WrappedStreamObserver onError
-INFO: operation failed: entity already exists: app: "dev~tmup-908e4"
-path <
-  Element {
-    type: "users"
-    name: "lucas@email.com"
-  }
->
-
-May 12, 2020 11:26:31 AM io.netty.channel.DefaultChannelPipeline onUnhandledInboundException
+May 12, 2020 11:47:53 AM io.netty.channel.DefaultChannelPipeline onUnhandledInboundException
 WARNING: An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
 java.io.IOException: Conexión reinicializada por la máquina remota
 	at sun.nio.ch.FileDispatcherImpl.read0(Native Method)
@@ -37,7 +28,5 @@ java.io.IOException: Conexión reinicializada por la máquina remota
 	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
 	at java.lang.Thread.run(Thread.java:748)
 
-May 12, 2020 11:27:21 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+May 12, 2020 11:48:23 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
-*** shutting down gRPC server since JVM is shutting down
-*** server shut down
