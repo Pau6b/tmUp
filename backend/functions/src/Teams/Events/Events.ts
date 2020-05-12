@@ -527,6 +527,7 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
                                 //mirar si tiene points y sumar points o sino sumar 1
                                 if(matchStadistics[stat] === ("goalsScored" || "goalsReceived" || "pointsScored" || "pointsReceived")) matchStadistics[stat] += jsonContent[key].points;
                                 else matchStadistics[stat] += 1;
+                            }
                         }
                     }
                     for (const stat in teamStadistics) {
