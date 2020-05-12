@@ -512,17 +512,35 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
             for (const key in jsonContent) {
                 if (jsonContent.hasOwnProperty(key)) {
                     console.log(jsonContent[key].type);
-                    await updatePlayerStats(req.params.teamId, jsonContent[key].player, jsonContent[key].type);
+                    if (jsonContent[key].type != "goalsReceived" && jsonContent[key].type != "pointsReceived")
+                        await updatePlayerStats(req.params.teamId, jsonContent[key].player.id, jsonContent[key]);
                     for (const stat in matchStadistics) {
                         if (matchStadistics.hasOwnProperty(stat)) {
-                            if (jsonContent[key].type === stat)
-                                matchStadistics[stat] += 1;
+                            if (jsonContent[key].type === stat) {
+                                //mirar si tiene points y sumar points o sino sumar 1
+                                if (jsonContent[key].type === "twoPointShots" || jsonContent[key].type === "threePointShots") {
+                                    matchStadistics["pointsScored"] += parseInt(jsonContent[key].points, 10);
+                                    matchStadistics[stat] += 1;
+                                }
+                                else if (jsonContent[key].type === "pointsReceived")
+                                    matchStadistics["pointsReceived"] += parseInt(jsonContent[key].points, 10);
+                                else
+                                    matchStadistics[stat] += 1;
+                            }
                         }
                     }
                     for (const stat in teamStadistics) {
                         if (teamStadistics.hasOwnProperty(stat)) {
-                            if (jsonContent[key].type === stat)
-                                teamStadistics[stat] += 1;
+                            if (jsonContent[key].type === stat) {
+                                if (jsonContent[key].type === "twoPointShots" || jsonContent[key].type === "threePointShots") {
+                                    teamStadistics["pointsScored"] += parseInt(jsonContent[key].points, 10);
+                                    teamStadistics[stat] += 1;
+                                }
+                                else if (jsonContent[key].type === "pointsReceived")
+                                    teamStadistics["pointsReceived"] += parseInt(jsonContent[key].points, 10);
+                                else
+                                    teamStadistics[stat] += 1;
+                            } //teamStadistics[stat] += 1;                            
                         }
                     }
                 }
@@ -536,6 +554,7 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
                     teamStadistics["drawedMatches"] += 1;
             }
             else {
+                //matchStadistics["pointsScored"] += (matchStadistics["twoPointShots"] + matchStadistics["threePointShots"]);
                 if (matchStadistics["pointsScored"] > matchStadistics["pointsReceived"])
                     teamStadistics["wonMatches"] += 1;
                 else if (matchStadistics["pointsScored"] < matchStadistics["pointsReceived"])
@@ -551,51 +570,6 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
             await db.collection('teams').doc(req.params.teamId).update({
                 stats: teamStadistics
             });
-            //updateTeamStats(req.params.teamId, teamStatistics);
-            //desde team actualizar sus estadisticas cogiendo las del partido.
-            //comprovarEstadisticas(Statistics,jsonContent);
-            /*let email: string = "";
-            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    user.email = user.email;
-            })
-            //email = "ivan@email.com"*/
-            /*const query = await db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", req.params.userId);
-            let docExists: boolean = false;
-            let isPlayer: boolean = true;
-            let docid : string = "";
-            //let stadisticsPlayer;
-            await query.get().then(async (querySnapshot: any) => {
-                for (const doc  of querySnapshot.docs) {
-                    docid = doc.id;
-                    docExists = true;
-                    playerStatistics = doc.data().stats;
-                    for (const key in jsonContent) {
-                        if (jsonContent.hasOwnProperty(key)) {
-                            for (const stat in playerStatistics) {
-                                if (playerStatistics.hasOwnProperty(key)) {
-                                    if(key === stat) playerStatistics[stat] += jsonContent[key];
-                                }
-                            }
-                            
-                        }
-                    }
-                    if (doc.data().type !== "player") {
-                        isPlayer = false;
-                    }
-                }
-            });
-
-            if (!docExists) {
-                return res.status(400).send("UMS3");
-            }
-
-            if(!isPlayer) {
-                return res.status(400).send("UMS4");
-            }
-            await db.collection('memberships').doc(docid).update({
-                stats: Statistics,
-                //state: jsonContent.state
-            })*/
             return res.status(200).send(matchStadistics);
         }
         catch (error) {
@@ -673,8 +647,16 @@ async function updatePlayerStats(teamId, userId, stat) {
             //  if (jsonContent.hasOwnProperty(key)) {
             for (const key in Statistics) {
                 if (Statistics.hasOwnProperty(key)) {
-                    if (key === stat)
-                        Statistics[key] += 1;
+                    if (key === stat.type) {
+                        if (stat.type === "twoPointShots" || stat.type === "threePointShots") {
+                            Statistics["pointsScored"] += parseInt(stat.points, 10);
+                            Statistics[key] += 1;
+                        }
+                        else if (stat.type === "pointsReceived")
+                            Statistics["pointsReceived"] += parseInt(stat.points, 10);
+                        else
+                            Statistics[key] += 1;
+                    }
                 }
             }
             //}
