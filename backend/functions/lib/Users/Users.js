@@ -47,7 +47,6 @@ app.get('/me', (req, res) => {
 });
 //Read => Get
 app.get('/:userEmail', (req, res) => {
-    console.log("userEmail");
     (async () => {
         try {
             let userExists = true;

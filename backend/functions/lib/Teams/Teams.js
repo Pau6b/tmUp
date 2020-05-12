@@ -15,11 +15,10 @@ app.post('/create', (req, res) => {
             if (req.session.user === null) {
                 res.status(400).send("T1");
             }
-            /*
-            let email: any ="";
-            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    email = user.email
-            });  */
+            let email = "";
+            await admin.auth().getUser(req.session.user).then((user) => {
+                email = user.email;
+            });
             let errors = [];
             let hasErrors = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
@@ -48,7 +47,7 @@ app.post('/create', (req, res) => {
             });
             await db.collection('memberships').add({
                 teamId: id,
-                userId: "ivan@ivan.com",
+                userId: email,
                 type: "staff"
             });
             return res.status(200).send(id);
