@@ -17,6 +17,7 @@ export class apiRestProvider {
   private headers;
   private token: string;
   private currentTeam: string = "";
+  private currentUserId: string = "";
 
   constructor (
     private http: HttpClient,
@@ -24,12 +25,15 @@ export class apiRestProvider {
   ){ }
 
   public setToken(token: string) {
-    console.log(token);
     this.token = token;
   }
 
   public setTeam(team: string){
     this.currentTeam = team;
+  }
+
+  public setUser(user:any){
+    this.currentUserId = user;
   }
 
   public getTeamId(): string {
@@ -41,6 +45,11 @@ export class apiRestProvider {
   }
 
   //USER
+
+  public getUser(userId) {
+    this.setHeader();
+    return this.http.get(this.url+'users/'+userId, { headers: this.headers });
+  }
 
   public getMe(){
     this.setHeader();
@@ -55,6 +64,7 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+'users/me/teams', { headers: this.headers });
   }
+  
 
   //TEAMS
 
@@ -71,7 +81,7 @@ export class apiRestProvider {
   public createTeam(teamData) {
     this.setHeader();
     return new Promise(resolve => {
-      this.http.post(this.url+'teams/create', JSON.stringify(teamData), { headers: this.headers })
+      this.http.post(this.url+'teams/create', JSON.stringify(teamData), { headers: this.headers, responseType: 'text' })
       .subscribe(data => {
           resolve(data);
       })
@@ -80,6 +90,7 @@ export class apiRestProvider {
 
   public createMembership(data) {
     this.setHeader();
+    data.userId = this.currentUserId;
     return new Promise(resolve => {
       this.http.post(this.url+'memberships/create', JSON.stringify(data), { headers: this.headers })
       .subscribe(data => {
@@ -193,6 +204,53 @@ export class apiRestProvider {
   //Tactics
   public getTactics(){
     return this.http.get(this.url+'teams/tactics/download');
+  }
+
+  //News
+  public getNextMatch() {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.get(this.url+'teams/events/nextevent/match/' + this.currentTeam, {headers: this.headers})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
+  public getNextTraining() {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.get(this.url+'teams/events/nextevent/training/' + this.currentTeam, {headers: this.headers})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
+  //LIVE-MATCH
+  public getCall(eventId) {
+    this.setHeader();
+    return this.http.get(this.url+'teams/events/'+this.currentTeam+'/match/'+eventId+'/getCall', {headers: this.headers});
+  }
+
+  public sendStatistics(eventId, statsLog) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.put(this.url+'teams/events/statistics/'+this.currentTeam+'/'+eventId, JSON.stringify(statsLog), { headers: this.headers })
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
+  //Statistics
+  public getStatistics() {
+    this.setHeader();
+    console.log(this.currentTeam);
+    console.log(this.currentUserId);
+    let url = this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId;
+    console.log(url);
+    return this.http.get(url, {headers: this.headers});
   }
 
 }

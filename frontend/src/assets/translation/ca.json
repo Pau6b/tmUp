@@ -17,7 +17,8 @@
         "editImage": "Editar imatge",
         "teamName": "Nom de l'equip",
         "enterTeamId": "Introdueix el ID de l'equip",
-        "role": "Rol"
+        "role": "Rol",
+        "IDInform": "Equip creat. Aquest és el teu ID d'equip: "
     },
     "CALENDAR" : {
         "title": "Calendari",
@@ -64,7 +65,7 @@
         "title": "Normativa",
         "noFile": "No hi ha cap fitxer de normatives. Puja un fitxer o crea'n un de noy",
         "normativeTitle": "Títol",
-        "uploadFile": "Pujar documento",
+        "uploadFile": "Pujar document",
         "fileTitle": "Títol del fitxer",
         "norm": "Normes",
         "insertNorm": "Introdueix normes aqui...",
@@ -83,6 +84,54 @@
     },
     "TEAM-LIST": {
         "title": "Llista d'equips"
+    },
+    "MAIN" :{
+        "title": "Inici",
+        "welcome": "Benvingut!",
+        "info1": "Disfruta de la nostra aplicació per gestionar el teu equip.",
+        "info2": "Encara no tens notícies.",
+        "info3": "Fes un cop d'ull a tot el que pots fer amb la nostra aplicació!!",
+        "title_calendar": "Afegeix i consulta events al teu calendari",
+        "description_calendar": "Crea un calendari amb els partits i entrenaments de la temporada.",
+        "title_chat": "Xateja amb el teu equip",
+        "description_chat": "Xateja amb el teu entrenador i els teus companys d'equip per una millor comunicació.",
+        "title_tactics": "Tàctiques d'equip",
+        "description_tactics": "Estigues informat de les tàctiques del teu equip.",
+        "title_stadistics": "Estadístiques del teu equip i personals",
+        "description_stadistics": "Consulta les estadístiques del teu equip i personals.",
+        "info4": "Entre moltes coses més...",
+        "info5": "Descobreix-ho tu mateix!",
+        "title_reminders": "Recordatoris",
+        "no_reminders": "Encara no tens res programat...",
+        "title_next_match": "Pròxim Partit:",
+        "title_next_training": "Pròxim Entrenament:",
+        "day": "Dia:",
+        "hour": "Hora:",
+        "title_news": "Notícies"
+    },
+    "LIVE-MATCH": {
+        "start": "Comença",
+        "stop": "Atura",
+        "finish": "Acaba",
+        "myTeam": "El meu equip",
+        "otherTeam": "Adversari",
+        "conv": "Jugadors Convocats",
+        "titu": "Jugadors Titulars",
+        "opponentGoal": "Gol de l'adversari",
+        "basketball": {
+            "opponentScored": "Anotació de l'adversari",
+            "points": "punt(s)"
+        },
+        "doneConfirm": "Segur?",
+        "selecting": {
+            "selected1": "Has seleccionat ",
+            "selected2": " jugadors titulars. Correcte?"
+        }
+    },
+    "STATISTICS": {
+        "title": "Estadístiques",
+        "selfStatistics": "propies",
+        "teamStatistics": "De l'equip"
     },
     "CORE" : {
         "sport": "Esport",

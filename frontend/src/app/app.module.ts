@@ -34,6 +34,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'/assets/translation/','.json');
 }
