@@ -66,12 +66,11 @@ export class LiveMatchPage implements OnInit {
     this.apiProv.getCall(this.eventId).subscribe( (data) => {
       let tmp: any;
       tmp = data;
-      tmp = ["dani4@tmup.com"];
       tmp.forEach(element => {
         this.apiProv.getUser(element).subscribe( (info: any) => {
           let player = {
             id: element,
-            name: "dani4" //info.userName
+            name: info.userName
           }
           this.listaConv.push(player);
         })

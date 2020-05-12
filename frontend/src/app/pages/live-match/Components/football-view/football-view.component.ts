@@ -41,7 +41,7 @@ export class FootballViewComponent implements OnInit {
         this.setRedCard.emit({player: this.selectedPlayer, card: "red"});
       }
       else if( this.eventType == "yellowCard") {
-        this.setYellowCard.emit({player: this.selectedPlayer, card: "red"});
+        this.setYellowCard.emit({player: this.selectedPlayer, card: "yellow"});
       }
       else if( this.eventType = "changePlayers" ) {
         let outPlayer = this.antTitulars.filter(item => this.titulars.indexOf(item)<0);
