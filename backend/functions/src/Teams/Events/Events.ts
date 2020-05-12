@@ -520,15 +520,21 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
             for (const key in jsonContent) {
                 if (jsonContent.hasOwnProperty(key)) {
                     console.log(jsonContent[key].type);
-                    await updatePlayerStats(req.params.teamId, jsonContent[key].player.id, jsonContent[key].type);
+                    if(jsonContent[key].type != ("goalsReceived" || "pointsReceived"))await updatePlayerStats(req.params.teamId, jsonContent[key].player.id, jsonContent[key].type);
                     for (const stat in matchStadistics) {
                         if (matchStadistics.hasOwnProperty(stat)) {
-                            if(jsonContent[key].type === stat) matchStadistics[stat] += 1;
+                            if(jsonContent[key].type === stat) {
+                                //mirar si tiene points y sumar points o sino sumar 1
+                                if(matchStadistics[stat] === ("goalsScored" || "goalsReceived" || "pointsScored" || "pointsReceived")) matchStadistics[stat] += jsonContent[key].points;
+                                else matchStadistics[stat] += 1;
                         }
                     }
                     for (const stat in teamStadistics) {
                         if (teamStadistics.hasOwnProperty(stat)) {
-                            if(jsonContent[key].type === stat) teamStadistics[stat] += 1;                            
+                            if(jsonContent[key].type === stat){
+                                if(teamStadistics[stat] === ("goalsScored" || "goalsReceived" || "pointsScored" || "pointsReceived")) teamStadistics[stat] += jsonContent[key].points;
+                                else teamStadistics[stat] += 1;
+                            } //teamStadistics[stat] += 1;                            
                         }
                     }                    
                 }

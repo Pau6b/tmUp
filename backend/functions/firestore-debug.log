@@ -30,3 +30,5 @@ java.io.IOException: Conexión reinicializada por la máquina remota
 
 May 12, 2020 11:48:23 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
+*** shutting down gRPC server since JVM is shutting down
+*** server shut down
