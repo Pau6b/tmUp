@@ -512,7 +512,7 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
             for (const key in jsonContent) {
                 if (jsonContent.hasOwnProperty(key)) {
                     console.log(jsonContent[key].type);
-                    await updatePlayerStats(req.params.teamId, jsonContent[key].player, jsonContent[key].type);
+                    await updatePlayerStats(req.params.teamId, jsonContent[key].player.id, jsonContent[key].type);
                     for (const stat in matchStadistics) {
                         if (matchStadistics.hasOwnProperty(stat)) {
                             if (jsonContent[key].type === stat)
