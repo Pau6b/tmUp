@@ -113,6 +113,51 @@ app.get('/:teamId/stadistics', (req, res) => {
         }
     })().then().catch();
 });
+app.get('/:teamId/ranking', (req, res) => {
+    (async () => {
+        try {
+            const document = db.collection("teams").doc(req.params.teamId);
+            let teamExists = true;
+            await document.get().then((doc) => {
+                if (!doc.exists) {
+                    teamExists = false;
+                }
+                return;
+            });
+            //Check that the user exists
+            if (!teamExists) {
+                return res.status(400).send("TG1");
+            }
+            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId);
+            //const response: any = [];
+            let maxscore = {
+                id: 0,
+                points: 0
+            };
+            const categoria = req.query.categoria;
+            console.log(categoria);
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    //const selectedItem = doc.data();
+                    if ((doc.data().type === "player") && (doc.data().stats.categoria > maxscore.points)) {
+                        maxscore.points = doc.data().stats.categoria;
+                        maxscore.id = doc.data().userId;
+                    }
+                }
+                return maxscore;
+            });
+            if (maxscore.points === 0)
+                res.status(400).send("No team stats available for the category: " + categoria);
+            return res.status(200).send(maxscore);
+            //return correct data
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
 //ReadAll => Get
 app.get('/', (req, res) => {
     (async () => {
