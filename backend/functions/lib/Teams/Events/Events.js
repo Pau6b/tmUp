@@ -524,97 +524,94 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
                                     matchStadistics[stat] += 1;
                             }
                         }
-                        for (const stat in teamStadistics) {
-                            if (teamStadistics.hasOwnProperty(stat)) {
-                                if (jsonContent[key].type === stat) {
-                                    if (teamStadistics[stat] === ("goalsScored" || "goalsReceived" || "pointsScored" || "pointsReceived"))
-                                        teamStadistics[stat] += jsonContent[key].points;
-                                    else
-                                        teamStadistics[stat] += 1;
-                                } //teamStadistics[stat] += 1;                            
-                            }
+                    }
+                    for (const stat in teamStadistics) {
+                        if (teamStadistics.hasOwnProperty(stat)) {
+                            if (jsonContent[key].type === stat) {
+                                if (teamStadistics[stat] === ("goalsScored" || "goalsReceived" || "pointsScored" || "pointsReceived"))
+                                    teamStadistics[stat] += jsonContent[key].points;
+                                else
+                                    teamStadistics[stat] += 1;
+                            } //teamStadistics[stat] += 1;                            
                         }
                     }
                 }
-                if (teamSport != "Basketball") {
-                    if (matchStadistics["goalsScored"] > matchStadistics["goalsReceived"])
-                        teamStadistics["wonMatches"] += 1;
-                    else if (matchStadistics["goalsScored"] < matchStadistics["goalsReceived"])
-                        teamStadistics["lostMatches"] += 1;
-                    else
-                        teamStadistics["drawedMatches"] += 1;
-                }
-                else {
-                    if (matchStadistics["pointsScored"] > matchStadistics["pointsReceived"])
-                        teamStadistics["wonMatches"] += 1;
-                    else if (matchStadistics["pointsScored"] < matchStadistics["pointsReceived"])
-                        teamStadistics["lostMatches"] += 1;
-                    else
-                        teamStadistics["drawedMatches"] += 1;
-                }
-                console.log(matchStadistics);
-                console.log(teamStadistics);
-                await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).update({
-                    stats: matchStadistics,
-                });
-                await db.collection('teams').doc(req.params.teamId).update({
-                    stats: teamStadistics
-                });
-                //updateTeamStats(req.params.teamId, teamStatistics);
-                //desde team actualizar sus estadisticas cogiendo las del partido.
-                //comprovarEstadisticas(Statistics,jsonContent);
-                /*let email: string = "";
-                await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                        user.email = user.email;
-                })
-                //email = "ivan@email.com"*/
-                /*const query = await db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", req.params.userId);
-                let docExists: boolean = false;
-                let isPlayer: boolean = true;
-                let docid : string = "";
-                //let stadisticsPlayer;
-                await query.get().then(async (querySnapshot: any) => {
-                    for (const doc  of querySnapshot.docs) {
-                        docid = doc.id;
-                        docExists = true;
-                        playerStatistics = doc.data().stats;
-                        for (const key in jsonContent) {
-                            if (jsonContent.hasOwnProperty(key)) {
-                                for (const stat in playerStatistics) {
-                                    if (playerStatistics.hasOwnProperty(key)) {
-                                        if(key === stat) playerStatistics[stat] += jsonContent[key];
-                                    }
+            }
+            if (teamSport != "Basketball") {
+                if (matchStadistics["goalsScored"] > matchStadistics["goalsReceived"])
+                    teamStadistics["wonMatches"] += 1;
+                else if (matchStadistics["goalsScored"] < matchStadistics["goalsReceived"])
+                    teamStadistics["lostMatches"] += 1;
+                else
+                    teamStadistics["drawedMatches"] += 1;
+            }
+            else {
+                if (matchStadistics["pointsScored"] > matchStadistics["pointsReceived"])
+                    teamStadistics["wonMatches"] += 1;
+                else if (matchStadistics["pointsScored"] < matchStadistics["pointsReceived"])
+                    teamStadistics["lostMatches"] += 1;
+                else
+                    teamStadistics["drawedMatches"] += 1;
+            }
+            console.log(matchStadistics);
+            console.log(teamStadistics);
+            await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).update({
+                stats: matchStadistics,
+            });
+            await db.collection('teams').doc(req.params.teamId).update({
+                stats: teamStadistics
+            });
+            //updateTeamStats(req.params.teamId, teamStatistics);
+            //desde team actualizar sus estadisticas cogiendo las del partido.
+            //comprovarEstadisticas(Statistics,jsonContent);
+            /*let email: string = "";
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    user.email = user.email;
+            })
+            //email = "ivan@email.com"*/
+            /*const query = await db.collection('memberships').where('teamId','==',req.params.teamId).where('userId', "==", req.params.userId);
+            let docExists: boolean = false;
+            let isPlayer: boolean = true;
+            let docid : string = "";
+            //let stadisticsPlayer;
+            await query.get().then(async (querySnapshot: any) => {
+                for (const doc  of querySnapshot.docs) {
+                    docid = doc.id;
+                    docExists = true;
+                    playerStatistics = doc.data().stats;
+                    for (const key in jsonContent) {
+                        if (jsonContent.hasOwnProperty(key)) {
+                            for (const stat in playerStatistics) {
+                                if (playerStatistics.hasOwnProperty(key)) {
+                                    if(key === stat) playerStatistics[stat] += jsonContent[key];
                                 }
-                                
                             }
-                        }
-                        if (doc.data().type !== "player") {
-                            isPlayer = false;
+                            
                         }
                     }
-                });
-    
-                if (!docExists) {
-                    return res.status(400).send("UMS3");
+                    if (doc.data().type !== "player") {
+                        isPlayer = false;
+                    }
                 }
-    
-                if(!isPlayer) {
-                    return res.status(400).send("UMS4");
-                }
-                await db.collection('memberships').doc(docid).update({
-                    stats: Statistics,
-                    //state: jsonContent.state
-                })*/
-                return res.status(200).send(matchStadistics);
+            });
+
+            if (!docExists) {
+                return res.status(400).send("UMS3");
             }
-            try {
+
+            if(!isPlayer) {
+                return res.status(400).send("UMS4");
             }
-            catch (error) {
-                console.log(error);
-                return res.status(500).send();
-            }
+            await db.collection('memberships').doc(docid).update({
+                stats: Statistics,
+                //state: jsonContent.state
+            })*/
+            return res.status(200).send(matchStadistics);
         }
-        finally { }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send();
+        }
     })().then().catch();
 });
 module.exports = app;
