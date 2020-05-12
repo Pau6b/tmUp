@@ -525,7 +525,8 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
                         if (matchStadistics.hasOwnProperty(stat)) {
                             if(jsonContent[key].type === stat) {
                                 //mirar si tiene points y sumar points o sino sumar 1
-                                if(matchStadistics[stat] === ("goalsScored" || "goalsReceived" || "pointsScored" || "pointsReceived")) matchStadistics[stat] += jsonContent[key].points;
+                                if(matchStadistics[stat] === ("twoPointShots" || "threePointShots")) matchStadistics["pointsScored"] += jsonContent[key].points;
+                                else if(matchStadistics[stat] === "pointsReceived") matchStadistics["pointsReceived"] += jsonContent[key].points;
                                 else matchStadistics[stat] += 1;
                             }
                         }
@@ -533,7 +534,8 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
                     for (const stat in teamStadistics) {
                         if (teamStadistics.hasOwnProperty(stat)) {
                             if(jsonContent[key].type === stat){
-                                if(teamStadistics[stat] === ("goalsScored" || "goalsReceived" || "pointsScored" || "pointsReceived")) teamStadistics[stat] += jsonContent[key].points;
+                                if(teamStadistics[stat] === ("twoPointShots" || "threePointShots")) teamStadistics["pointsScored"] += jsonContent[key].points;
+                                else if(teamStadistics[stat] === "pointsReceived") teamStadistics["pointsReceived"] += jsonContent[key].points;
                                 else teamStadistics[stat] += 1;
                             } //teamStadistics[stat] += 1;                            
                         }
@@ -545,6 +547,7 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
                 else if(matchStadistics["goalsScored"] < matchStadistics["goalsReceived"]) teamStadistics["lostMatches"] +=1;
                 else teamStadistics["drawedMatches"] += 1;
             }else {
+                //matchStadistics["pointsScored"] += (matchStadistics["twoPointShots"] + matchStadistics["threePointShots"]);
                 if(matchStadistics["pointsScored"] > matchStadistics["pointsReceived"]) teamStadistics["wonMatches"] +=1;
                 else if(matchStadistics["pointsScored"] < matchStadistics["pointsReceived"]) teamStadistics["lostMatches"] +=1;
                 else teamStadistics["drawedMatches"] += 1;

@@ -546,6 +546,7 @@ app.put('/statistics/:teamId/:eventId', (req, res) => {
                     teamStadistics["drawedMatches"] += 1;
             }
             else {
+                matchStadistics["pointsScored"] += (matchStadistics["twoPointShots"] + matchStadistics["threePointShots"]);
                 if (matchStadistics["pointsScored"] > matchStadistics["pointsReceived"])
                     teamStadistics["wonMatches"] += 1;
                 else if (matchStadistics["pointsScored"] < matchStadistics["pointsReceived"])
