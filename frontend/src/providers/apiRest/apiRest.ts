@@ -17,6 +17,7 @@ export class apiRestProvider {
   private headers;
   private token: string;
   private currentTeam: string = "";
+  private currentUserId: string = "";
 
   constructor (
     private http: HttpClient,
@@ -29,6 +30,10 @@ export class apiRestProvider {
 
   public setTeam(team: string){
     this.currentTeam = team;
+  }
+
+  public setUser(user:any){
+    this.currentUserId = user;
   }
 
   public getTeamId(): string {
@@ -79,6 +84,7 @@ export class apiRestProvider {
 
   public createMembership(data) {
     this.setHeader();
+    data.userId = this.currentUserId;
     return new Promise(resolve => {
       this.http.post(this.url+'memberships/create', JSON.stringify(data), { headers: this.headers })
       .subscribe(data => {
@@ -192,6 +198,16 @@ export class apiRestProvider {
   //Tactics
   public getTactics(){
     return this.http.get(this.url+'teams/tactics/download');
+  }
+
+  //Statistics
+  public getStatistics() {
+    this.setHeader();
+    console.log(this.currentTeam);
+    console.log(this.currentUserId);
+    let url = this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId;
+    console.log(url);
+    return this.http.get(url, {headers: this.headers});
   }
 
 }

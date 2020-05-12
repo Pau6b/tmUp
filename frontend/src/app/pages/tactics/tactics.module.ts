@@ -9,6 +9,7 @@ import { TacticsPageRoutingModule } from './tactics-routing.module';
 import { TacticsPage } from './tactics.page';
 import { TranslateModule } from '@ngx-translate/core';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,3 +21,4 @@ import { TranslateModule } from '@ngx-translate/core';
   declarations: [TacticsPage]
 })
 export class TacticsPageModule {}
+

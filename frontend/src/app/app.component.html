@@ -26,8 +26,8 @@
         </ion-list>
         <ion-list id="inbox-list">
           <ion-menu-toggle auto-hide="false">
-            <ion-item  (click)="selectedIndex = -1" routerLink="" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -1">
-              <ion-icon slot="start" routerLink="" name="stopwatch"></ion-icon>
+            <ion-item  (click)="gotoMatch()" lines="none" detail="false">
+              <ion-icon slot="start" (click)="gotoMatch()" name="stopwatch"></ion-icon>
               <ion-label>{{ 'CORE.pages.nextMatch' | translate }}</ion-label>
             </ion-item>
           </ion-menu-toggle>

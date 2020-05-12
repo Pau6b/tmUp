@@ -1,0 +1,39 @@
+<ion-item [hidden]="true">
+  <ion-label>{{ "LIVE-MATCH.conv" | translate }}</ion-label>
+  <ion-select #ConvList multiple="true" [(ngModel)]="titulars" (ionChange)="onChange()">
+    <ion-select-option *ngFor="let conv of listaConv" [value]="conv"> {{ conv.name }}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item [hidden]="true">
+  <ion-label>{{ "LIVE-MATCH.titu" | translate }}</ion-label>
+  <ion-select #TitularsList [(ngModel)]="selectedPlayer" (ionChange)="onChange()">
+    <ion-select-option *ngFor="let titu of titulars" [value]="titu"> {{ titu.name }}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/football/myTeamGoal.png" alt="myTeamGoal" (click)="myTmScored()">
+    </ion-col>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/football/stoppedGoal.png" alt="stoppedGoal" (click)="stopGoal()">
+    </ion-col>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/football/opponentGoal.png" alt="opponentGoal" (click)="opScored()">
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/football/yellowCard.png" alt="yellowCard" (click)="redCard()">
+    </ion-col>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/football/redCard.png" alt="redCard" (click)="yellowCard()">
+    </ion-col>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/football/change.png" alt="changePlayers" (click)="onChangePlayers()">
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -7,6 +7,7 @@ import { FormBuilder, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service'
 import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,8 @@ export class RegisterPage implements OnInit {
     public authService: AuthService,
     public photoService: PhotoService,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    private apiProv: apiRestProvider
     ) { }
  
   //declarar formulario
@@ -80,6 +82,9 @@ export class RegisterPage implements OnInit {
     this.authService.signUpUser(this.registerForm.value)
     .then((user) => {
       this.emailUsed = false;
+      this.apiProv.setUser(user.user.email);
+      //xa is the token
+      this.apiProv.setToken(user.user.xa);
       this.presentAlert('¡Felicidades!', 'Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo.')
     },
     (error) => {

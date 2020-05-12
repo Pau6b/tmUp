@@ -8,6 +8,7 @@ import { AlertController } from '@ionic/angular';
 
 import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { LanguageService } from 'src/providers/language/language.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit {
   ];
 
   public team;
+  public role ="";
 
   constructor(
     private alertCtrl: AlertController,
@@ -67,7 +69,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -93,6 +96,30 @@ export class AppComponent implements OnInit {
       this.apiProv.getCurrentTeam().subscribe((data) => {
         this.team = data;
       });
+    }
+  }
+
+  public setRole(role: string) {
+    this.role = role;
+  }
+
+  gotoMatch() {
+    this.selectedIndex = -15;
+    //call api to get next Match
+    let event = {
+      id: "RTkwlInroAEfE92irPFm",
+      title: "Match1",
+      type: "match",
+      startTime: new Date()
+    }
+    event.startTime.setMinutes(event.startTime.getMinutes() + 30);
+    if( (event.startTime.getTime()-new Date().getTime()) > 1800000 ) {
+      //if >1h to match, redirect event page
+      this.router.navigate(['event', event.id]);
+    }
+    else {
+      //if <1h to match, redirect to LiveMatch
+      this.router.navigate(['live-match', {id: event.id, title: event.title}]);
     }
   }
 
