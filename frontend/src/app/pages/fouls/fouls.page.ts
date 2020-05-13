@@ -21,6 +21,8 @@ export class FoulsPage implements OnInit {
   register: any;
   paids;
   noPaids;
+  segment="total";
+  radioButton="team";
 
   constructor(
     private modalController: ModalController,
@@ -32,6 +34,18 @@ export class FoulsPage implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout( () => {
+      this.initialize();
+    }, 1000);
+    this.register = this.apiProv.getTeamRegister().subscribe(
+      (value) => {
+        this.register = value;
+        this.createSemicircleChart();
+      }
+    );
+  }
+  
+  ionViewDidEnter(){
     setTimeout( () => {
       this.initialize();
     }, 1000);
@@ -82,8 +96,8 @@ export class FoulsPage implements OnInit {
 
   goToAddFoul(){
     this.router.navigate(['add-fine']);
-
   }
+
   createSemicircleChart(){
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
@@ -123,6 +137,11 @@ export class FoulsPage implements OnInit {
     });
 
   }
+
+  payFine(f){
+    this.apiProv.payFine(f);
+  }
+
 
   radioGroupChange(event){
     

@@ -44,7 +44,7 @@
     </ion-segment>
   </div>
   
-  <div [ngSwitch]="foulsSegment">
+  <div [ngSwitch]="foulsSegment" value="total">
     <ion-list *ngSwitchCase="'total'" lines="none">
       <ion-item-sliding *ngFor="let f of total">
         <ion-item class="smallText" (click)="openModal(f)">
@@ -61,11 +61,19 @@
             <ion-label *ngIf="f.money < 0" class="negative">{{f.money}} €</ion-label>
           </ion-col>
         </ion-item>
+        
         <ion-item-options side="start">
-          <ion-item-option color="danger">
+          <ion-item-option color="success">
+            <ion-icon name="cash" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="payFine(f)">
             <ion-icon name="trash" slot="icon-only"></ion-icon>
           </ion-item-option>
         </ion-item-options>
+          
+        
       </ion-item-sliding>
     </ion-list>
 
@@ -112,15 +120,12 @@
 
       <ion-item-options side="start">
         <ion-item-option color="success">
-          <ion-icon name="cash" slot="icon-only"></ion-icon>
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
         </ion-item-option>
-      </ion-item-options>
-      <ion-item-options>
         <ion-item-option color="danger">
           <ion-icon name="trash" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-      
       </ion-item-sliding>
     </ion-list>
   </div>
