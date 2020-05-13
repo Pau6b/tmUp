@@ -7,22 +7,6 @@
             MAIN CONTENT
    ------------------------------ */
 
-.top-left {
-    border-top-left-radius: 0.5em;
-}
-
-.top-right {
-    border-top-right-radius: 0.5em;
-}
-
-.bottom-left {
-    border-bottom-left-radius: 0.5em;
-}
-
-.bottom-right{
-    border-bottom-right-radius: 0.5em;
-}
-
 /* ------------------------------
               GENERIC
    ------------------------------ */
@@ -37,9 +21,6 @@ img {
 
 ion-col {
     text-align: center;
-    border: 1px;
-    border-style: solid;
-    border-color: var(--ion-color-secondary);
     height : 80%;
 }
 
@@ -51,4 +32,28 @@ ion-row {
 h5 {
     margin-top: 0.2em;
     margin-bottom: 0.2em;
+}
+
+[cards] {
+    .grid-full ion-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0px 0;
+    }
+    ion-card {
+        margin: 2px;
+        padding: 3px;
+    }
+    .row {
+        padding: 0;
+    }
+    .col {
+        padding: 5px 0;
+    }
+    .card {
+        margin: 0 0 0 0px;
+        padding: 14px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+        border-radius: 4px;
+    }
 }
