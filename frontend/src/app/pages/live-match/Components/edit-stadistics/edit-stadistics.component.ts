@@ -19,7 +19,6 @@ export class EditStadisticsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.eventsList);
   }
 
   selectPlayer() {
@@ -30,6 +29,10 @@ export class EditStadisticsComponent implements OnInit {
     if(this.eventsList[this.selectedIndex].type != "change") {
       this.eventsList[this.selectedIndex].player = this.selectedPlayer;
     }
+  }
+
+  deleteStatistic(index) {
+    this.eventsList.splice(index, 1);
   }
 
 }

@@ -17,7 +17,8 @@
         "editImage": "Edit image",
         "teamName": "Team name",
         "enterTeamId": "Insert team ID",
-        "role": "Role"
+        "role": "Role",
+        "IDInform": "Team created. This is your team's ID: "
     },
     "CALENDAR" : {
         "title": "Calendar",
@@ -95,6 +96,30 @@
         "date": "Date",
         "concept": "Specific concept"
     },
+    "MAIN" :{
+        "title": "Home",
+        "welcome": "Welcome!",
+        "info1": "Enjoy our app for manage your team.",
+        "info2": "You don't have news yet",
+        "info3": "Take a look to the plenty of things you can do with our app!!",
+        "title_calendar": "Add and check events in your calendar",
+        "description_calendar": "Create a calendar with the matches and trainings for the season.",
+        "title_chat": "Chat with your team",
+        "description_chat": "Chat wih your coach and teamplayers to improve your communication.",
+        "title_tactics": "Team tactics",
+        "description_tactics": "Be informed about the tactics of your team.",
+        "title_stadistics": "Statistics of your team and personals",
+        "description_stadistics": "Check the statistics of your team and of yourself.",
+        "info4": "And more things you can do...",
+        "info5": "DISCOVER IT YOURSELF!",
+        "title_reminders": "Reminders",
+        "no_reminders": "You don't have anything programmed yet...",
+        "title_next_match": "Next Match:",
+        "title_next_training": "Next Training:",
+        "day": "Day:",
+        "hour": "Hour:",
+        "title_news": "News"
+    },
     "LIVE-MATCH": {
         "start": "Start",
         "stop": "Stop",
@@ -107,6 +132,11 @@
         "basketball": {
             "opponentScored": "Opponent scored",
             "points": "point(s)"
+        },
+        "doneConfirm": "Are you sure?",
+        "selecting": {
+            "selected1": "You selected ",
+            "selected2": " players for starting line-up. Right?"
         }
     },
     "STATISTICS": {

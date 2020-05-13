@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-live-match',
@@ -23,43 +24,13 @@ export class LiveMatchPage implements OnInit {
   running = false;
   finishing = false;
 
+  eventId;
   title;
   sport: string;
   localPts = 0;
   visitPts = 0;
 
-  //testing
-  listaConv = [
-    {
-      id: "1",
-      name: "Jugador 1"
-    },
-    {
-      id: "2",
-      name: "Jugador 2"
-    },
-    {
-      id: "3",
-      name: "Jugador 3"
-    },
-    {
-      id: "4",
-      name: "Jugador 4"
-    },
-    {
-      id: "5",
-      name: "Jugador 5"
-    },
-    {
-      id: "6",
-      name: "Jugador 6"
-    },
-    {
-      id: "7",
-      name: "Jugador 7"
-    }
-  ]
-
+  listaConv = [];
   titulars = [];
 
   stadisticsLog = [];
@@ -67,15 +38,16 @@ export class LiveMatchPage implements OnInit {
   constructor(
     private apiProv: apiRestProvider,
     private route: ActivatedRoute,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private router: Router,
+    private translateServie: TranslateService
   ) {  }
 
   ngOnInit() {
+    this.eventId = this.route.snapshot.paramMap.get('id');
     this.getTeam();
+    this.getCalledPlayers();
     this.title = this.route.snapshot.paramMap.get('title');
-    setTimeout( () => {
-      this.openList();
-    }, 500);
   }
 
   openList() {
@@ -83,37 +55,85 @@ export class LiveMatchPage implements OnInit {
   }
 
   getTeam() {
-    if (this.apiProv.getTeamId() != "") {
-      this.apiProv.getCurrentTeam().subscribe((data) => {
-        let team: any;
-        team = data;
-        this.sport = team.sport;
+    this.apiProv.getCurrentTeam().subscribe((data) => {
+      let team: any;
+      team = data;
+      this.sport = team.sport;
+    });
+  }
+
+  getCalledPlayers() {
+    this.apiProv.getCall(this.eventId).subscribe( (data) => {
+      let tmp: any;
+      tmp = data;
+      tmp.forEach(element => {
+        this.apiProv.getUser(element).subscribe( (info: any) => {
+          let player = {
+            id: element,
+            name: info.userName
+          }
+          this.listaConv.push(player);
+        })
       });
-    }
+      this.openList();
+    })
   }
 
   //confirmation for titulars
   async onTitularsSelected() {
-    let alert = await this.alertCtrl.create({
-      message: 'Has seleccionado ' + this.titulars.length + ' jugadores titulares. ¿Correcto?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            this.openList();
-          }
-        },
-        {
-          text: 'Accept'
-        }
-      ]
-    });
-    alert.present();
+    this.translateServie.get('LIVE-MATCH.selecting').subscribe(
+      async value => {
+        let selMess1 = value.selected1;
+        let selMess2 = value.selected2;
+        let alert = await this.alertCtrl.create({
+          message: selMess1 + this.titulars.length + selMess2,
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => {
+                this.openList();
+              }
+            },
+            {
+              text: 'Accept'
+            }
+          ]
+        });
+        alert.present();
+      }
+    )
   }
 
   onFinish() {
     this.finishing = true;
+  }
+
+  onDone() {
+    this.translateServie.get('LIVE-MATCH.doneConfirm').subscribe(
+      value => {
+        let confirmMess = value;
+        this.apiProv.sendStatistics(this.eventId, this.stadisticsLog)
+        .then( async () => {
+          let alert = await this.alertCtrl.create({
+            message: confirmMess,
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel'
+              },
+              {
+                text: 'OK',
+                handler: () => {
+                  this.router.navigate(['/main']);
+                }
+              }
+            ]
+          })
+          alert.present();
+        });
+      }
+    )
   }
 
   //Methods from component's events
@@ -121,8 +141,8 @@ export class LiveMatchPage implements OnInit {
     let typeEvent;
     if(this.sport == "Football" || this.sport == "Handball") typeEvent = "goalsScored";
     else if(this.sport == "Basketball") {
-      if(info.points == 2) typeEvent = "twoPointsShots";
-      else if(info.points == 3) typeEvent = "threePointsShots";
+      if(info.points == 2) typeEvent = "twoPointShots";
+      else if(info.points == 3) typeEvent = "threePointShots";
       else typeEvent = "pointsScored"
     }
     let infoEvent = {

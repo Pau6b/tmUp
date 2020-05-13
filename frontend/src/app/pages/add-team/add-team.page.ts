@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {  MenuController } from '@ionic/angular';
+import {  MenuController, AlertController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
 import { sports, rols } from '../../Core/Arrays';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-team',
@@ -39,7 +40,7 @@ export class AddTeamPage implements OnInit {
     sport: [
       { type:'required', message: 'Deporte es necesario' }
     ],
-    role: [
+    type: [
       { type: 'required', message: 'Rol es necesario'}
     ],
     teamId: [
@@ -52,7 +53,9 @@ export class AddTeamPage implements OnInit {
     private formBuilder: FormBuilder,
     private menuCtrl: MenuController,
     private photoServ: PhotoService,
-    private router: Router
+    private router: Router,
+    private alertCtrl: AlertController,
+    private translService: TranslateService
     ) { }
 
   ngOnInit() {
@@ -71,8 +74,8 @@ export class AddTeamPage implements OnInit {
   get teamPhoto() {
     return this.createTeamForm.get("teamPhoto");
   }
-  get role() {
-    return this.joinTeamForm.get("role");
+  get type() {
+    return this.joinTeamForm.get("type");
   }
   get teamId() {
     return this.joinTeamForm.get("teamId");
@@ -87,18 +90,30 @@ export class AddTeamPage implements OnInit {
       params.sport = capitalize(params.sport);
       this.apiProv.createTeam(params)
       .then( (data) => {
-        console.log(data);
-        this.router.navigate(['/main']);
-      },
-      (err) => {
-        console.log(err.message);
+        let teamID = data;
+        this.translService.get('ADD-TEAM.IDInform').subscribe(
+          async value => {
+            let alert = await this.alertCtrl.create({
+              message: value + teamID,
+              buttons: [
+                {
+                  text: 'OK',
+                  handler: () => {
+                    this.apiProv.setTeam(teamID.toString());
+                    this.router.navigate(['/main']);
+                  }
+                }
+              ]
+            });
+            alert.present();
+          }
+        )
       })
     }
     else {
-      console.log(this.joinTeamForm.value);
       this.apiProv.createMembership(this.joinTeamForm.value)
       .then( () => {
-        this.apiProv.setTeam(this.teamId.toString());
+        this.apiProv.setTeam(this.joinTeamForm.get('teamId').value);
         this.router.navigate(['/main']);
       })
     }

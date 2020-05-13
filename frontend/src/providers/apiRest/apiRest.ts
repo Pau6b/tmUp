@@ -46,6 +46,11 @@ export class apiRestProvider {
 
   //USER
 
+  public getUser(userId) {
+    this.setHeader();
+    return this.http.get(this.url+'users/'+userId, { headers: this.headers });
+  }
+
   public getMe(){
     this.setHeader();
     return this.http.get(this.url+'users/me', { headers: this.headers });
@@ -59,6 +64,7 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+'users/me/teams', { headers: this.headers });
   }
+  
 
   //TEAMS
 
@@ -75,7 +81,7 @@ export class apiRestProvider {
   public createTeam(teamData) {
     this.setHeader();
     return new Promise(resolve => {
-      this.http.post(this.url+'teams/create', JSON.stringify(teamData), { headers: this.headers })
+      this.http.post(this.url+'teams/create', JSON.stringify(teamData), { headers: this.headers, responseType: 'text' })
       .subscribe(data => {
           resolve(data);
       })
@@ -198,6 +204,43 @@ export class apiRestProvider {
   //Tactics
   public getTactics(){
     return this.http.get(this.url+'teams/tactics/download');
+  }
+
+  //News
+  public getNextMatch() {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.get(this.url+'teams/events/nextevent/match/' + this.currentTeam, {headers: this.headers})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
+  public getNextTraining() {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.get(this.url+'teams/events/nextevent/training/' + this.currentTeam, {headers: this.headers})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
+  //LIVE-MATCH
+  public getCall(eventId) {
+    this.setHeader();
+    return this.http.get(this.url+'teams/events/'+this.currentTeam+'/match/'+eventId+'/getCall', {headers: this.headers});
+  }
+
+  public sendStatistics(eventId, statsLog) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.put(this.url+'teams/events/statistics/'+this.currentTeam+'/'+eventId, JSON.stringify(statsLog), { headers: this.headers })
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
   }
 
   //Statistics

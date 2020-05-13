@@ -21,7 +21,7 @@
     </ion-item>
 
     <ion-item class="subTime">
-      <ion-label class="smallText"> {{ 'CORE.verbs.from' | translate }} {{ event.startTime | date: 'HH:mm' }} {{ 'CORE.verbs.to' | translate }} {{ event.endTime | date: 'HH:mm' }}</ion-label>
+      <ion-label class="smallText"> {{ 'CORE.verbs.from' | translate }} {{ event?.startTime | date: 'HH:mm' }} {{ 'CORE.verbs.to' | translate }} {{ event?.endTime | date: 'HH:mm' }}</ion-label>
     </ion-item>
 
     <ion-item *ngIf="event?.type === 'training'" >

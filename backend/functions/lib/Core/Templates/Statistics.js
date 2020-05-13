@@ -29,20 +29,20 @@ exports.matchStats = {
 exports.memberhsipStats = {
     football: {
         assists: 0,
-        goals: 0,
+        goalsScored: 0,
         minPlayed: 0,
         redCards: 0,
         yellowCards: 0
     },
     basketball: {
         assists: 0,
-        points: 0,
+        pointsScored: 0,
         rebounds: 0,
         twoPointShots: 0,
         threePointShots: 0
     },
     handball: {
-        goals: 0,
+        goalsScored: 0,
         lostBalls: 0,
         stops: 0,
         sevenMeters: 0,
@@ -56,8 +56,8 @@ exports.teamStats = {
         lostMatches: 0,
         goalsScored: 0,
         goalsReceived: 0,
-        yellowCard: 0,
-        redCard: 0
+        yellowCards: 0,
+        redCards: 0
     },
     basketball: {
         twoPointShots: 0,

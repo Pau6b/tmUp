@@ -10,6 +10,7 @@ export class HandballViewComponent implements OnInit {
   @ViewChild('TitularsList', {static:false}) titularsList: any;
 
   @Input() titulars;
+  @Input() running;
 
   @Output() myTeamScored = new EventEmitter<any>();
   @Output() stoppedGoal = new EventEmitter<any>();
@@ -26,51 +27,70 @@ export class HandballViewComponent implements OnInit {
   ngOnInit() {}
 
   onChange() {
-    if(this.eventType == "mytmScored") {
-      this.myTeamScored.emit({points: 1, player: this.selectedPlayer});
+    if(this.selectedPlayer != null ) {
+      if(this.eventType == "mytmScored") {
+        this.myTeamScored.emit({points: 1, player: this.selectedPlayer});
+      }
+      else if( this.eventType == "stopped") {
+        this.stoppedGoal.emit( this.selectedPlayer);
+      }
+      else if( this.eventType == "lostBall") {
+        this.lostBall.emit(this.selectedPlayer);
+      }
+      else if( this.eventType == "7m") {
+        this.sevenMeters.emit(this.selectedPlayer);
+      }
+      else if( this.eventType = "2min") {
+        this.twoMinutes.emit(this.selectedPlayer);
+      }
+      this.eventType = "";
     }
-    else if( this.eventType == "stopped") {
-      this.stoppedGoal.emit( this.selectedPlayer);
-    }
-    else if( this.eventType == "lostBall") {
-      this.lostBall.emit(this.selectedPlayer);
-    }
-    else if( this.eventType == "7m") {
-      this.sevenMeters.emit(this.selectedPlayer);
-    }
-    else if( this.eventType = "2min") {
-      this.twoMinutes.emit(this.selectedPlayer);
-    }
-    this.eventType = "";
   }
 
   onMyTeamScored() {
-    this.eventType = "mytmScored";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "mytmScored";
+      this.titularsList.open();
+    }
   }
 
   onStopped () {
-    this.eventType = "stopped";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "stopped";
+      this.titularsList.open();
+    }
   }
 
   onOpScored() {
-    this.opponentScored.emit(1);
+    if ( this.running ) {
+      this.opponentScored.emit(1);
+    }
   }
 
   onLostBall() {
-    this.eventType = "lostBall";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "lostBall";
+      this.titularsList.open();
+    }
   }
   
   onSevenM() {
-    this.eventType = "7m";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "7m";
+      this.titularsList.open();
+    }
   }
 
   onTwoMin() {
-    this.eventType = "2min";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "2min";
+      this.titularsList.open();
+    }
   }
 
 }
