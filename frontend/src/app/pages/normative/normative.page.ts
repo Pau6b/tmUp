@@ -3,6 +3,8 @@ import { Chooser, ChooserResult } from '@ionic-native/chooser/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/services/storage.service';
 import { FormBuilder, Validators} from '@angular/forms';
+import { PhotoService } from 'src/app/services/photo.service';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-normative',
@@ -16,39 +18,22 @@ export class NormativePage implements OnInit {
     content: ['', [Validators.required] ]
   });
 
-  file: File = new File();
-  fileObj: ChooserResult;
-  isPDF = 0;
+  file;
+  hayNormativa:Boolean = false;
   promise: Promise<string>;
 
 
   public constructor(
     private chooser: Chooser,
-    private storage: StorageService,
     private formBuilder: FormBuilder,
-    ) {}
+    private apiProv: apiRestProvider,
+    private storage: StorageService,
+    private photoService: PhotoService) {}
 
   public ngOnInit() {
-    //subir file
-    /*let content = "Hello Zip";
-    let data = new Blob([content]);
-    let arrayOfBlob = new Array<Blob>();
-    arrayOfBlob.push(data);
-    //-------------------
-    const path = "/normatives/file.pdf";
-    const ref = this.storage.ref;
-    const task = this.storage.upload(path,data);
-    console.log('Image uploaded!');*/
-  }
-
-  public chooseFile(){
-    this.chooser.getFile()
-      .then( (value: ChooserResult) => {
-        this.fileObj = value;
-      },
-      (err) => {
-        alert(JSON.stringify(err));
-      })
+    this.file = this.photoService.getFiles('normative', this.apiProv.getTeamId());
+    if (this.file.size) this.hayNormativa = true;
+    else this.hayNormativa = false;
   }
 
   public createPdf(){

@@ -23,7 +23,7 @@ app.post('/create', (req, res) => {
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     email = user.email
             });  
-
+            
             let errors: string[] = [];
             let hasErrors: boolean = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
