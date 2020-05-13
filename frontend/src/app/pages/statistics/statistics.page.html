@@ -39,8 +39,10 @@
     <app-team-handball *ngIf="sport === 'handball'">
     </app-team-handball>
 
-    <app-team-football *ngIf="sport ==='football'">
+    <app-team-football #TeamFootball *ngIf="sport ==='football'">
     </app-team-football>
-    <ion-button (click)='goToRanking()'> Ranking </ion-button>
+    <div style="text-align: center; margin-top: 3px">
+      <ion-button (click)='goToRanking()' style="text-align: center;"> {{ "STATISTICS.ranking" | translate }} </ion-button>
+    </div>
   </div>
 </ion-content>
