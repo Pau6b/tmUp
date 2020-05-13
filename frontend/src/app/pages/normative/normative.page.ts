@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/services/storage.service';
 import { FormBuilder, Validators} from '@angular/forms';
 import { PhotoService } from 'src/app/services/photo.service';

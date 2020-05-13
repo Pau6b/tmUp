@@ -105,7 +105,7 @@ export class FoulsPage implements OnInit {
             formatter: (value) => {
               return value + '€'
             }
-          }   
+          }
         },
         rotation: 1 * Math.PI,
         circumference: 1 * Math.PI,
@@ -121,7 +121,7 @@ export class FoulsPage implements OnInit {
         animation: { animateScale: true, animateRotate: true }
       }
     });
-    
+
   }
 
   radioGroupChange(event){

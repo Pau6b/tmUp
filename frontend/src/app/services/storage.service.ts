@@ -49,6 +49,11 @@ export class StorageService {
 
   }
 
+  deleteFile(full) {
+    const ref = this.storage.ref(full);
+    ref.delete();
+  }
+
   createPdf(title: string, content: string, teamId: string){
     let path = "/normatives/"+teamId+'/'+title;
     const ref = this.storage.ref;

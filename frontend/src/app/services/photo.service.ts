@@ -192,9 +192,5 @@ export class PhotoService {
   openFile(f) {
     this.iab.create(f.url);
   }
- 
-  deleteFile(f) {
-    
-  }
   
 }

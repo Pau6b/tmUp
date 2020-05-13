@@ -4,6 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { ModalController } from '@ionic/angular';
 import { LocationSelectPage } from '../location-select/location-select.page';
+import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-event',
@@ -13,6 +15,13 @@ import { LocationSelectPage } from '../location-select/location-select.page';
 export class EditEventPage implements OnInit {
 
   event: any;
+  evId: any;
+  segmentModel: any;
+  anySelected = false;
+  ListConv: any[];
+  numConv = 0;
+  convocats = [];
+  membershipTeam;
 
   locationForm = this.formBuilder.group({
     latitude: [null, [Validators.required]],
@@ -37,13 +46,17 @@ export class EditEventPage implements OnInit {
     private formBuilder: FormBuilder,
     private modalCtrl: ModalController,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private alertCtrl: AlertController,
+    private translateService: TranslateService
   ) { 
     this.route.queryParams.subscribe(params => {
-      let evId = this.router.getCurrentNavigation().extras.state.evId;
+      this.evId = this.router.getCurrentNavigation().extras.state.evId;
       this.event = this.router.getCurrentNavigation().extras.state.ev;
+      this.segmentModel = this.router.getCurrentNavigation().extras.state.segmentModel;
+      this.ListConv = this.router.getCurrentNavigation().extras.state.listConv;
       this.editEventForm.patchValue({
-        eventId: evId,
+        eventId: this.evId,
         type: this.event.type,
         title: this.event.title,
         location: this.event.location,
@@ -60,6 +73,7 @@ export class EditEventPage implements OnInit {
   }
 
   ngOnInit() {
+    this.listPlayers();
   }
 
   dateChanged(date) {
@@ -79,7 +93,8 @@ export class EditEventPage implements OnInit {
   }
 
   deleteEvent() {
-    this.apiProv.deleteEvent(this.event.id)
+    console.log(this.evId);
+    this.apiProv.deleteEvent(this.evId)
     .then(() => {
       this.router.navigate(['/calendar']);
     });
@@ -97,6 +112,87 @@ export class EditEventPage implements OnInit {
       .then(() => {
         this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
       });
+    }
+  }
+
+  anySelectedItem() {
+    var count = 0;
+    for (let member of this.membershipTeam) {
+      if (member.isChecked) {
+        ++count;
+        if ( count > 1) this.anySelected = true;
+      }
+    }
+    if ( count == 1 ) this.anySelected = false;
+  }
+
+  async presentAlert() {
+    this.translateService.get('EDIT-EVENT').subscribe(
+      async value => {
+        let val1 = value.called_players;
+        let val2 = value.selected;
+        let val3 = value.players;
+        let val4 = value.confirmation;
+        const alert = await this.alertCtrl.create({
+          header: val1,
+          subHeader: val2 + this.numConv + val3,
+          message: val4,
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'no'
+            },
+            {
+              text: 'Accept', 
+              handler : () => {
+                console.log(this.evId);
+                this.apiProv.createCall(this.evId, this.convocats)
+                .then(() => {
+                  this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
+                });
+              }
+            }
+          ]
+        });
+        await alert.present();
+      }
+    )
+  }
+
+  onDoneList() {
+    for (let member of this.membershipTeam) {
+      if (member.isChecked) {
+        ++this.numConv;
+        this.convocats.push(member.name);
+      }
+    }
+    this.presentAlert();
+  }
+
+  getMembersTeam() {
+    this.apiProv.getMembers()
+      .then((data) => {
+        this.membershipTeam = data;
+        if (this.membershipTeam.length == 0) this.membershipTeam = null;
+        else {
+          for ( let mem of this.membershipTeam ) {
+            mem.isChecked = false;
+          }
+        }
+      });
+  }
+
+  listPlayers() {
+    this.getMembersTeam();
+    if ( this.membershipTeam != null ) {
+      if ( this.ListConv != null ) {
+        this.anySelected = true;
+        for ( let mem of this.membershipTeam ) {
+          for ( let conv of this.ListConv ) {
+            if ( mem.name == conv ) mem.isChecked = true;
+          }
+        }
+      }
     }
   }
 

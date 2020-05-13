@@ -199,7 +199,27 @@ export class apiRestProvider {
   public deleteEvent(eId) {
     this.setHeader();
     return new Promise(resolve => {
-      this.http.delete(this.url+'teams/events/delete/'+ this.currentTeam + '/' + eId, { headers: this.headers })
+      this.http.delete(this.url+'teams/events/delete/'+ this.currentTeam + '/' + eId, { headers: this.headers, responseType:'text'})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
+  public createCall(eventId, listConv) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.put(this.url+'teams/events/match/' + eventId + '/makeCall', JSON.stringify({teamId: this.currentTeam, call: listConv}), { headers: this.headers })
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
+  public getMembers() {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.get(this.url+'memberships/getByTeam/' + this.currentTeam, {headers: this.headers})
       .subscribe(data => {
           resolve(data);
       })
@@ -232,6 +252,16 @@ export class apiRestProvider {
     });
   }
 
+  public getNews() {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.get(this.url+'teams/noticies/all/' + this.currentTeam, {headers: this.headers})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
   //LIVE-MATCH
   public getCall(eventId) {
     this.setHeader();
@@ -249,13 +279,14 @@ export class apiRestProvider {
   }
 
   //Statistics
-  public getStatistics() {
+  public getCurrentUserStatistics() {
     this.setHeader();
-    console.log(this.currentTeam);
-    console.log(this.currentUserId);
-    let url = this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId;
-    console.log(url);
-    return this.http.get(url, {headers: this.headers});
+    return this.http.get(this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId, {headers: this.headers});
+  }
+
+  public getCurrentTeamStatistics() {
+    this.setHeader();
+    return this.http.get(this.url+"teams/"+this.currentTeam+"/stadistics", {headers: this.headers})
   }
 
   //Fines

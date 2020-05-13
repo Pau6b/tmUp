@@ -8,7 +8,7 @@
 </ion-header>
 <ion-toolbar>
   <ion-segment value="self" [(ngModel)]="statisticsType">
-    <ion-segment-button value="self">
+    <ion-segment-button (ionChange)="onPageChanged(value)" value="self">
       <ion-label>{{ "STATISTICS.selfStatistics" | translate }}</ion-label>
     </ion-segment-button>
     <ion-segment-button value="team">
@@ -22,17 +22,25 @@
         <h3>{{userName}}</h3>
       </ion-text>
 
-      <app-self-basketball *ngIf="sport === 'basketball'" [stats]="stats">
+      <app-self-basketball *ngIf="sport === 'basketball'" [stats]="userStats">
       </app-self-basketball>
 
-      <app-self-handball *ngIf="sport === 'handball'" [stats]="stats">
+      <app-self-handball *ngIf="sport === 'handball'" [stats]="userStats">
       </app-self-handball>
 
-      <app-self-football *ngIf="sport ==='football'" [stats]="stats">
+      <app-self-football *ngIf="sport ==='football'" [stats]="userStats">
       </app-self-football>
       
     </div>
   <div *ngIf="statisticsType === 'team'">
-    <a>ETADISTIQUES D'EQUIP</a>
+    <app-team-basketball *ngIf="sport === 'basketball'">
+    </app-team-basketball>
+
+    <app-team-handball *ngIf="sport === 'handball'">
+    </app-team-handball>
+
+    <app-team-football *ngIf="sport ==='football'">
+    </app-team-football>
+    <ion-button (click)='goToRanking()'> Ranking </ion-button>
   </div>
 </ion-content>

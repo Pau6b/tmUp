@@ -23,42 +23,47 @@ export class AppComponent implements OnInit {
   data;
   public appPages = [
     {
-      title: 'Inicio',
+      title: 'main',
       url: 'main',
       icon: 'home'
     },
     {
-      title: 'Normativa',
+      title: 'normative',
       url: 'normative',
       icon: 'document-text'
     },
     {
-      title: 'Tacticas',
+      title: 'tactics',
       url: 'tactics',
       icon: 'easel'
     },
     {
-      title: 'Estadísticas',
+      title: 'statistics',
       url: 'statistics',
       icon: 'bar-chart'
     },
     {
-      title: 'Chat',
+      title: 'chat',
       url: 'chat',
       icon: 'chatbubble-ellipses'
     },
     {
-      title: 'Calendario',
+      title: 'calendar',
       url: 'calendar',
       icon: 'calendar'
     },
     {
-      title: 'Fisioterapeuta',
+      title: 'physiotherapist',
       url: 'physiotherapist',
       icon: 'medkit'
     },
     {
-      title: 'Multas',
+      title: 'photos',
+      url: 'photos',
+      icon: 'images'
+    },
+    {
+      title: 'fines',
       url: 'fouls',
       icon: 'cash'
     }
