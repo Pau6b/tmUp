@@ -244,13 +244,14 @@ export class apiRestProvider {
   }
 
   //Statistics
-  public getStatistics() {
+  public getCurrentUserStatistics() {
     this.setHeader();
-    console.log(this.currentTeam);
-    console.log(this.currentUserId);
-    let url = this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId;
-    console.log(url);
-    return this.http.get(url, {headers: this.headers});
+    return this.http.get(this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId, {headers: this.headers});
+  }
+
+  public getCurrentTeamStatistics() {
+    this.setHeader();
+    return this.http.get(this.url+"teams/"+this.currentTeam+"/stadistics", {headers: this.headers})
   }
 
 }

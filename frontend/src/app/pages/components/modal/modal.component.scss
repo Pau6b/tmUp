@@ -1,0 +1,32 @@
+.centro{
+    text-align: center;
+    margin-bottom: 0.2rem;
+    .largeText{
+        margin-top: 0.5rem;
+        font-weight: bold;
+    }
+}
+
+ion-list{
+    width: 100%;
+}
+
+ion-item{
+    margin-bottom: 0.3rem;
+}
+
+.title{
+    color: black;
+    font-size: small;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.subtitle{
+    color: lightgrey;
+    font-size: small;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}

@@ -11,7 +11,7 @@ export class ChatPage implements OnInit {
 
   @ViewChild(IonContent, {static: false}) content: IonContent;
 
-  User;
+  User = "prueba";
   msgList :any = [];
   newMessage='';
   start_typing: any;

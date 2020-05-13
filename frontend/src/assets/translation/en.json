@@ -85,6 +85,17 @@
     "TEAM-LIST": {
         "title": "Team list"
     },
+    "FOULS":{
+        "title": "Fines",
+        "total": "Total",
+        "paid": "Paids",
+        "pendings": "Pendings"
+    },
+    "MODAL":{
+        "email": "User email",
+        "date": "Date",
+        "concept": "Specific concept"
+    },
     "MAIN" :{
         "title": "Home",
         "welcome": "Welcome!",
