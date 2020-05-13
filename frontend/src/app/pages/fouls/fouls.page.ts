@@ -90,7 +90,7 @@ export class FoulsPage implements OnInit {
       data: {
         labels: ["Pagadas", "Pendientes"],
         datasets: [{
-          labels: ["Pagadas", "Pendientes"],
+          label: "Grafico Multas",
           data: [this.register.paid, this.register.pending],
           backgroundColor: ['rgba(51, 204, 51, 0.7)','rgba(255, 99, 133, 0.7)'], // array should have same number of elements as number of dataset
           hoverBackgroundColor: ['rgba(51, 204, 51, 1)','rgba(255, 99, 133, 1)'],// array should have same number of elements as number of dataset

@@ -123,15 +123,13 @@ export class apiRestProvider {
 
   public getMessages(teamId: string){
     this.setHeader();
-      return this.db.collection("teams/6hd6Bdym8CXKW0Sm3hDb/messages", ref => ref.orderBy("dateOrd", "asc")).snapshotChanges().pipe(map(mensajes => {
+      return this.db.collection("teams/"+teamId+"/messages", ref => ref.orderBy("dateOrd", "asc")).snapshotChanges().pipe(map(mensajes => {
         return mensajes.map(m => {
             const data = m.payload.doc.data() as message;
             data.id = m.payload.doc.id;
             return data;
         })
     }));
-    //return this.http.get(this.url+'chats/messages/obs6hd6Bdym8CXKW0Sm3hDb/t8qtEbMEcFbflhKlHGsQ', { headers: this.headers });
-    //return this.http.get(this.url+'chats/messages/'+teamId+'/'+chatId, { headers: this.headers });
   }
 
   public createMessage(messageInfo){
