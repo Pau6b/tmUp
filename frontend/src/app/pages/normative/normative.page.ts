@@ -19,9 +19,7 @@ export class NormativePage implements OnInit {
   });
 
   file;
-  hayNormativa;
-  fileObj: ChooserResult;
-  isPDF = 0;
+  hayNormativa:Boolean = false;
   promise: Promise<string>;
 
 
@@ -34,18 +32,8 @@ export class NormativePage implements OnInit {
 
   public ngOnInit() {
     this.file = this.photoService.getFiles('normative', this.apiProv.getTeamId());
-    if (this.file.size == 1) this.hayNormativa = true;
+    if (this.file.size) this.hayNormativa = true;
     else this.hayNormativa = false;
-  }
-
-  public chooseFile(){
-    this.chooser.getFile()
-      .then( (value: ChooserResult) => {
-        this.fileObj = value;
-      },
-      (err) => {
-        alert(JSON.stringify(err));
-      })
   }
 
   public createPdf(){

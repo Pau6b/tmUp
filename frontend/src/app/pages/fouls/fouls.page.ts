@@ -88,7 +88,7 @@ export class FoulsPage implements OnInit {
     this.paids = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'paid');
     this.noPaids = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'noPaid');
     this.register = this.apiProv.getMemberRegister("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com");
-    this.createSemicircleChart();
+    //this.createSemicircleChart();
     //this.noPaids = this.apiProv.getFines(this.apiProv.getTeamId(), 'noPaid');
   }
 
@@ -111,14 +111,14 @@ export class FoulsPage implements OnInit {
     this.router.navigate(['add-fine']);
 
   }
-  createSemicircleChart(){
+  /*createSemicircleChart(){
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
       data: {
         labels: ["Pagadas", "Pendientes"],
         datasets: [{
           labels: ["Pagadas", "Pendientes"],
-          data: [this.register.paid, this.register.pendig],
+          data: [this.register.paid, this.register.pending],
           backgroundColor: ['rgba(51, 204, 51, 0.7)','rgba(255, 99, 133, 0.7)'], // array should have same number of elements as number of dataset
           hoverBackgroundColor: ['rgba(51, 204, 51, 1)','rgba(255, 99, 133, 1)'],// array should have same number of elements as number of dataset
           borderWidth: 1,
@@ -132,7 +132,7 @@ export class FoulsPage implements OnInit {
             formatter: (value) => {
               return value + '€'
             }
-          }   
+          }
         },
         rotation: 1 * Math.PI,
         circumference: 1 * Math.PI,
@@ -148,8 +148,8 @@ export class FoulsPage implements OnInit {
         animation: { animateScale: true, animateRotate: true }
       }
     });
-    
-  }
+
+  }*/
 
   radioGroupChange(event){
     
