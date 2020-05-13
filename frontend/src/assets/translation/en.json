@@ -173,11 +173,38 @@
         }
     },
     "STATISTICS": {
+        "ranking": "Ranking",
         "title": "Statistics",
         "selfStatistics": "self statistics",
-        "teamStatistics": "team statistcs"
+        "teamStatistics": "team statistcs",
+        "basketballTeamStats": {
+            "scoredPoints": "Pts scored: ",
+            "receivedPoints": "Pts received: ",
+            "threePointShots": "Three pts: ",
+            "twoPointShots": "Two pts: ",
+            "pointsPerMatch": "points/match"
+        },
+        "footballTeamStats": {
+            "scoredGoals": "Gls scored: ",
+            "receivedGoals": "Gls received: ",
+            "yellowCards": "Yellow cards: ",
+            "redCards": "Red cards: ",
+            "goalsPerMatch": "goals/match",
+            "cardsPerMatch": "cards/match"
+        },
+        "handballTeamStats": {
+            "stops": "Stops: ",
+            "lostBalls": "Lost balls: ",
+            "stopsPerMatch": "stops/match",
+            "ballsPerMatch": "stops/match"
+        }
     },
     "CORE" : {
+        "result": {
+            "won": "Won",
+            "drawed": "Drawed",
+            "lost": "Lost"
+        },
         "sport": "Sport",
         "sports": {
             "basketball": "Basketball",

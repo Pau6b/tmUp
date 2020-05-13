@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { Router } from '@angular/router';
+import { TeamFootballComponent } from './components/team-football/team-football.component';
 
 @Component({
   selector: 'app-statistics',
@@ -15,6 +16,7 @@ export class StatisticsPage implements OnInit {
   public userStats;
   public teamStats;
   public playedMatches = "";
+  @ViewChild('TeamFootball', {static: false}) footballChild:TeamFootballComponent;
 
   constructor(private apiProv: apiRestProvider,
               private router: Router) { }
@@ -31,11 +33,6 @@ export class StatisticsPage implements OnInit {
     this.apiProv.getCurrentUserStatistics().subscribe((data: any) => {
       this.userStats = data;
     });
-
-    this.apiProv.getCurrentTeamStatistics().subscribe((data: any) => {
-      console.log(data);
-      this.teamStats = data;
-    })
   }
 
   public goToRanking() {
