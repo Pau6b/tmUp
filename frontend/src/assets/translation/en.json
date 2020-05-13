@@ -17,7 +17,8 @@
         "editImage": "Edit image",
         "teamName": "Team name",
         "enterTeamId": "Insert team ID",
-        "role": "Role"
+        "role": "Role",
+        "IDInform": "Team created. This is your team's ID: "
     },
     "CALENDAR" : {
         "title": "Calendar",
@@ -138,6 +139,19 @@
         "location": "h. Location: ",
         "rival": " Rival: "
     },
+    "FOULS":{
+        "title": "Fines",
+        "total": "Total",
+        "paid": "Paids",
+        "pendings": "Pendings",
+        "team": "Team",
+        "personal": "Selfs"
+    },
+    "MODAL":{
+        "email": "User email",
+        "date": "Date",
+        "concept": "Specific concept"
+    },
     "LIVE-MATCH": {
         "start": "Start",
         "stop": "Stop",
@@ -150,7 +164,17 @@
         "basketball": {
             "opponentScored": "Opponent scored",
             "points": "point(s)"
+        },
+        "doneConfirm": "Are you sure?",
+        "selecting": {
+            "selected1": "You selected ",
+            "selected2": " players for starting line-up. Right?"
         }
+    },
+    "STATISTICS": {
+        "title": "Statistics",
+        "selfStatistics": "self statistics",
+        "teamStatistics": "team statistcs"
     },
     "CORE" : {
         "sport": "Sport",

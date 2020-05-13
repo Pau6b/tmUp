@@ -61,10 +61,16 @@ export class AppComponent implements OnInit {
       title: 'Fotos',
       url: 'photos',
       icon: 'images'
+    },
+    {
+      title: 'Multas',
+      url: 'fouls',
+      icon: 'cash'
     }
   ];
 
   public team;
+  public role ="";
 
   constructor(
     private alertCtrl: AlertController,
@@ -103,12 +109,15 @@ export class AppComponent implements OnInit {
     }
   }
 
+  public setRole(role: string) {
+    this.role = role;
+  }
+
   gotoMatch() {
     this.selectedIndex = -15;
     this.apiProv.getNextMatch().then( (data) => {
       let event = data[0];
       event.startTime = new Date(event.startTime);
-      //event.startTime.setMinutes(event.startTime.getMinutes() + 30);
       if( (event.startTime.getTime()-new Date().getTime()) > 3600000 ) {
         //if >1h to match, redirect event page
         this.router.navigate(['event', event.id]);

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { FormBuilder, Validators} from '@angular/forms'
+import { FormBuilder, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginPage implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private menuCtrl: MenuController,
-    private router: Router
+    private router: Router,
+    private apiProv: apiRestProvider
   ) { }
 
   ngOnInit() {
@@ -47,7 +49,10 @@ export class LoginPage implements OnInit {
 
   logIn() {
     this.authService.signIn(this.logInForm.get('email').value, this.logInForm.get('password').value)
-    .then( () => {
+    .then( (data) => {
+      this.apiProv.setUser(data.user.email);
+      //xa is the token
+      this.apiProv.setToken(data.user.xa);
       this.router.navigate(['/team-list']);
     },
     (error) => {

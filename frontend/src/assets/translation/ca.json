@@ -17,7 +17,8 @@
         "editImage": "Editar imatge",
         "teamName": "Nom de l'equip",
         "enterTeamId": "Introdueix el ID de l'equip",
-        "role": "Rol"
+        "role": "Rol",
+        "IDInform": "Equip creat. Aquest és el teu ID d'equip: "
     },
     "CALENDAR" : {
         "title": "Calendari",
@@ -81,7 +82,7 @@
         "title": "Normativa",
         "noFile": "No hi ha cap fitxer de normatives. Puja un fitxer o crea'n un de noy",
         "normativeTitle": "Títol",
-        "uploadFile": "Pujar documento",
+        "uploadFile": "Pujar document",
         "fileTitle": "Títol del fitxer",
         "norm": "Normes",
         "insertNorm": "Introdueix normes aqui...",
@@ -138,6 +139,19 @@
         "location": "h. Localització: ",
         "rival": " Rival: "
     },
+    "FOULS":{
+        "title": "Multes",
+        "total": "Total",
+        "paid": "Pagades",
+        "pendings": "Pendents",
+        "team": "Equip",
+        "personal": "Personals"
+    },
+    "MODAL":{
+        "email": "Email de l'usuari",
+        "date": "Data",
+        "concept": "Concepte especific"
+    },
     "LIVE-MATCH": {
         "start": "Comença",
         "stop": "Atura",
@@ -150,7 +164,17 @@
         "basketball": {
             "opponentScored": "Anotació de l'adversari",
             "points": "punt(s)"
+        },
+        "doneConfirm": "Segur?",
+        "selecting": {
+            "selected1": "Has seleccionat ",
+            "selected2": " jugadors titulars. Correcte?"
         }
+    },
+    "STATISTICS": {
+        "title": "Estadístiques",
+        "selfStatistics": "propies",
+        "teamStatistics": "De l'equip"
     },
     "CORE" : {
         "sport": "Esport",

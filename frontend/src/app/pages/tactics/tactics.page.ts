@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { StorageService } from 'src/app/services/storage.service';
 
 import { PhotoService } from 'src/app/services/photo.service';
-import { File } from '@ionic-native/file/ngx';
 import { Router } from '@angular/router';
+
+import { File } from '@ionic-native/file/ngx';
+
+const MEDIA_FOLDER_NAME = "my_tactics";
 
 @Component({
   selector: 'app-tactics',
@@ -11,41 +15,41 @@ import { Router } from '@angular/router';
   styleUrls: ['./tactics.page.scss'],
 })
 export class TacticsPage implements OnInit {
-
-  img;
-  tactics: File;
+  
+  files = [];
 
   constructor(
-    private api: apiRestProvider,
     private router: Router,
+    private file: File,
+    private apiProv: apiRestProvider,
+    private storage: StorageService,
     private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.api.getTactics()
-      .subscribe(
-        (data) => {
-          console.log(data)
-        }
-      )
+    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
+    console.log(this.files);
   }
 
-  addImage(img){
-    this.router.navigate(["/add-tactic", {img: img}]);
+  doRefresh(event) {
+    setTimeout(() => {
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
+      event.target.complete();
+    }, 2000);
   }
 
-  goToaddTactic(img){
-    this.photoService.alertSheetPictureOptions();
-  }
-  
-  seeImage(img){
+  goToaddTactic(){
+    this.photoService.selectMedia('tactics', '6hd6Bdym8CXKW0Sm3hDb').finally(()=>{
+      setTimeout(() => {}, 10000);
+    });
+    this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
   }
 
-  openPdf(){
-
-  }
-  
-  downloadPdf(){
-    
+  deleteFile(file){
+    //console.log(file);
+    this.storage.deleteFile(file.full);
+    setTimeout(() => {
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
+    }, 500);
   }
 
 }

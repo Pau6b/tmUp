@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
@@ -74,7 +75,8 @@ const routes: Routes = [
   {
     path: 'live-match',
     loadChildren: () => import('./pages/live-match/live-match.module').then( m => m.LiveMatchPageModule)
-  },  {
+  },
+  {
     path: 'photos',
     loadChildren: () => import('./pages/photos/photos.module').then( m => m.PhotosPageModule)
   }
