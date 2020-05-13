@@ -110,11 +110,38 @@
         }
     },
     "STATISTICS": {
+        "ranking": "Ránking",
         "title": "Estadísticas",
         "selfStatistics": "Propias",
-        "teamStatistics": "Del equipo"
+        "teamStatistics": "Del equipo",
+        "basketballTeamStats": {
+            "scoredPoints": "Pts a favor: ",
+            "receivedPoints": "Pts en contra: ",
+            "threePointShots": "Triples: ",
+            "twoPointShots": "Puntos de dos: ",
+            "pointsPerMatch": "puntos/partido"
+        },
+        "footballTeamStats": {
+            "scoredGoals": "Gls a favor: ",
+            "receivedGoals": "Gls en contra: ",
+            "yellowCards": "Tjts amarillas: ",
+            "redCards": "Tjts rojas: ",
+            "goalsPerMatch": "goles/partido",
+            "cardsPerMatch": "tarjetas/partido"
+        },
+        "handballTeamStats": {
+            "stops": "Paradas: ",
+            "lostBalls": "Pelotas perdidas: ",
+            "stopsPerMatch": "paradas/partido",
+            "ballsPerMatch": "pelotas/partido"
+        }
     },
     "CORE" : {
+        "result": {
+            "won": "Ganados",
+            "drawed": "Empatados",
+            "lost": "Perdidos"
+        },
         "sport": "Deporte",
         "sports": {
             "basketball": "Baloncesto",

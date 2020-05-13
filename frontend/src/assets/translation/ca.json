@@ -110,11 +110,38 @@
         }
     },
     "STATISTICS": {
+        "ranking": "Rànquing",
         "title": "Estadístiques",
-        "selfStatistics": "propies",
-        "teamStatistics": "De l'equip"
+        "selfStatistics": "pròpies",
+        "teamStatistics": "De l'equip",
+        "basketballTeamStats": {
+            "scoredPoints": "Pts a favor: ",
+            "receivedPoints": "Pts en contra: ",
+            "threePointShots": "Triples: ",
+            "twoPointShots": "Punts de dos: ",
+            "pointsPerMatch": "punts/partit"
+        },
+        "footballTeamStats": {
+            "scoredGoals": "Gls a favor: ",
+            "receivedGoals": "Gls en contra: ",
+            "yellowCards": "Tjts grogues: ",
+            "redCards": "Tjts vermelles: ",
+            "goalsPerMatch": "gols/partit",
+            "cardsPerMatch": "gols/partit"
+        },
+        "handballTeamStats": {
+            "stops": "Parades: ",
+            "lostBalls": "Pilotes perdudes: ",
+            "stopsPerMatch": "parades/partit",
+            "ballsPerMatch": "pilotes/partit"
+        }
     },
     "CORE" : {
+        "result": {
+            "won": "Guanyats",
+            "drawed": "Empatats",
+            "lost": "Perduts"
+        },
         "sport": "Esport",
         "sports": {
             "basketball": "Basketball",
