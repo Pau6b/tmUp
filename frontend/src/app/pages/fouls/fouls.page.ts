@@ -13,57 +13,6 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class FoulsPage implements OnInit {
 
-  /*total = [
-    {
-    "user": "Juanjo",
-    "userId": "kdsixzbnvkjafznkvfd",
-    "date": "02/01/2020",
-    "price": 10,
-    "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Ivan",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "12/01/2020",
-      "price": 100,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Carles",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "20/01/2020",
-      "price": 50,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Cena de Cumpleaños",
-      "userId": "",
-      "date": "28/01/2020",
-      "price": -300,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Clara",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "10/04/2020",
-      "price": 5,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Pau",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "15/04/2020",
-      "price": 40,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Daniela",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "11/05/2020",
-      "price": 30,
-      "concepto": "concepto de la multa"
-    }
-  ];*/
   @ViewChild('doughnutCanvas', {static: false}) doughnutCanvas;
   
   doughnutChart: any;

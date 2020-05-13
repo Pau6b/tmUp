@@ -83,6 +83,7 @@
         "noFile": "No hay ningun fichero de normativas. Añade un fichero existente o redactalo ahora",
         "normativeTitle": "Titulo normativa",
         "uploadFile": "Cargar documento",
+        "deleteFile": "Eliminar documento",
         "fileTitle": "Titulo del fichero",
         "norm": "Normas",
         "insertNorm": "Introduce cualquier norma aqui...",

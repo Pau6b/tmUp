@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Chooser, ChooserResult } from '@ionic-native/chooser/ngx';
-import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/services/storage.service';
 import { FormBuilder, Validators} from '@angular/forms';
 import { PhotoService } from 'src/app/services/photo.service';
@@ -18,32 +16,33 @@ export class NormativePage implements OnInit {
     content: ['', [Validators.required] ]
   });
 
-  file;
-  hayNormativa:Boolean = false;
-  promise: Promise<string>;
-
+  hasNormative = true;
+  f;
 
   public constructor(
-    private chooser: Chooser,
-    private formBuilder: FormBuilder,
-    private apiProv: apiRestProvider,
+    private photoService: PhotoService,
     private storage: StorageService,
-    private photoService: PhotoService) {}
+    private formBuilder: FormBuilder,
+    private apiRestProv:  apiRestProvider
+    ) {}
 
   public ngOnInit() {
-    this.file = this.photoService.getFiles('normative', this.apiProv.getTeamId());
-    if (this.file.size) this.hayNormativa = true;
-    else this.hayNormativa = false;
+    this.getFile();
   }
 
   public createPdf(){
-    this.storage.createPdf(this.createPdfForm.get('title').value, this.createPdfForm.get('content').value, '6hd6Bdym8CXKW0Sm3hDb');
+    this.storage.createPdf(this.createPdfForm.get('title').value, this.createPdfForm.get('content').value, this.apiRestProv.getTeamId());
   }
 
   async uploadFile(){
-      this.promise = this.file.readAsText(this.file.dataDirectory, "newFile");
-      await this.promise.then(value => {
-        console.log(value);
-      });
+    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId());
+    this.getFile();
+  }
+
+  getFile(){
+    this.f = this.photoService.getFiles('normatives', this.apiRestProv.getTeamId());
+    console.log(this.f);
+    if(this.f.forEach.length > 0) this.hasNormative = true;
+    else this.hasNormative = false
   }
 }
