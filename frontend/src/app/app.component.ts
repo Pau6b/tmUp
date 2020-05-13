@@ -58,6 +58,11 @@ export class AppComponent implements OnInit {
       icon: 'medkit'
     },
     {
+      title: 'Fotos',
+      url: 'photos',
+      icon: 'images'
+    },
+    {
       title: 'Multas',
       url: 'fouls',
       icon: 'cash'

@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-
+import {NavController} from '@ionic/angular';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
-import { LoadingController } from '@ionic/angular';
+import { LoadingController} from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { File } from '@ionic-native/file/ngx';
+
+import { Chooser } from '@ionic-native/chooser/ngx';
+//import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { PhotoService } from 'src/app/services/photo.service';
+
 declare var google;
 
 @Component({
@@ -19,6 +25,12 @@ export class EventPage implements OnInit {
   eventId: string;
   event: any;
   currentLoc: any;
+  segmentModel = "info";
+  file_name = "Rival1";
+  ListConv: any;
+  img;
+  file: File = new File();
+  promise: Promise<string>; 
 
   constructor(
     private geolocation: Geolocation,
@@ -26,7 +38,10 @@ export class EventPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private apiProv: apiRestProvider,
-    private loadCtrl: LoadingController
+    private loadCtrl: LoadingController,
+    private photoService: PhotoService,
+    //private photoViewer: PhotoViewer,
+    private navCtrl: NavController
   ) { 
   }
 
@@ -34,7 +49,7 @@ export class EventPage implements OnInit {
     this.getEventInfo()
     setTimeout(() => {
       this.loadMap();
-    }, 1000);
+    }, 1000);    
   }
 
   async getEventInfo() {
@@ -48,6 +63,12 @@ export class EventPage implements OnInit {
           this.event = data;
           loading.dismiss();
         })
+        this.apiProv.getCall(this.eventId)
+        .subscribe ( (data) => {
+          console.log(data);
+          this.ListConv = data;
+          if ( this.ListConv.length == 0) this.ListConv = null;
+        });
       }
     });
   }
@@ -57,7 +78,9 @@ export class EventPage implements OnInit {
       relativeTo: this.route,
       state: {
         evId: this.eventId,
-        ev: this.event
+        ev: this.event,
+        segmentModel: this.segmentModel,
+        listConv: this.ListConv
       }
     };
     this.router.navigate(['/edit-event'], navigationExtras);
@@ -93,6 +116,33 @@ export class EventPage implements OnInit {
         map: map
       });
     });
+  }
+
+  async uploadFile(){
+    console.log("Entro en uploadFile");
+    console.log("dataDirectory: "+ this.file.dataDirectory);
+    this.promise = this.file.readAsText(this.file.dataDirectory, "newFile");
+    console.log("He creado la promise => "+(await this.promise).toString);
+    await this.promise.then(value => {
+    console.log(value);
+    });
+}
+
+  updateFile() {
+    //cridar api per modificar el fitxer
+  }
+
+  deleteFile() {
+    //cridar api per eliminar el fitxer
+  }
+
+
+  goToaddTactic(img){
+    this.photoService.alertSheetPictureOptions();
+  }
+
+  seeImage(img){
+    //this.photoViewer.show('https://wallpaperplay.com/walls/full/3/b/4/268610.jpg');
   }
 
 }
