@@ -80,14 +80,16 @@ export class FoulsPage implements OnInit {
     private apiProv: apiRestProvider) { }
 
   ngOnInit() {
+    //this.apiProv.getMemberFines()
   }
 
   ionViewDidEnter() {
-    this.total = this.apiProv.getFines(this.apiProv.getTeamId(), 'all');
-    this.paids = this.apiProv.getFines(this.apiProv.getTeamId(), 'paid');
-    this.noPaids = this.apiProv.getFines(this.apiProv.getTeamId(), 'noPaid');
-    this.register = this.apiProv.getRegister(this.apiProv.getTeamId());
+    this.total = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'all');
+    this.paids = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'paid');
+    this.noPaids = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'noPaid');
+    this.register = this.apiProv.getMemberRegister("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com");
     this.createSemicircleChart();
+    //this.noPaids = this.apiProv.getFines(this.apiProv.getTeamId(), 'noPaid');
   }
 
   async openModal(f) {
