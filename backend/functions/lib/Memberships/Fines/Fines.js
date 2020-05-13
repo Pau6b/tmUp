@@ -440,5 +440,70 @@ app.put('/payFine', (req, res) => {
         }
     })().then().catch();
 });
+app.delete('/delete', (req, res) => {
+    (async () => {
+        try {
+            let errores = [];
+            let hayErrores = false;
+            let equipoExiste = true;
+            let usuarioExiste = true;
+            let miembroExiste = true;
+            let multaExiste = true;
+            const team = db.collection('teams').doc(req.query.teamId);
+            await team.get().then((teamDoc) => {
+                if (!teamDoc.exists)
+                    equipoExiste = false;
+            });
+            const user = db.collection('users').doc(req.query.userId);
+            await user.get().then((userDoc) => {
+                if (!userDoc.exists)
+                    usuarioExiste = false;
+            });
+            const membership = db.collection('memberships').where('userId', '==', req.query.userId).where('teamId', '==', req.query.teamId);
+            let idMembership = "undefined";
+            await membership.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    idMembership = doc.id;
+                }
+            });
+            if (idMembership === "undefined")
+                miembroExiste = false;
+            let fine;
+            if (idMembership !== "undefined") {
+                fine = db.collection('memberships').doc(idMembership).collection("fines").doc(req.query.fineId);
+                await fine.get().then((fineDoc) => {
+                    if (!fineDoc.exists)
+                        multaExiste = false;
+                });
+            }
+            if (!miembroExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + req.query.userId + "] is not member of the team: [" + req.query.teamId + "]");
+            }
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with id : [" + req.query.teamId + "] does not exist");
+            }
+            if (!usuarioExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + req.query.userId + "] does not exist");
+            }
+            if (!multaExiste) {
+                hayErrores = true;
+                errores.push("The fine not exists");
+            }
+            if (hayErrores) {
+                return res.status(400).send(errores);
+            }
+            fine.delete();
+            return res.status(200).send();
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
 module.exports = app;
 //# sourceMappingURL=Fines.js.map

@@ -38,8 +38,9 @@ export class TacticsPage implements OnInit {
   }
 
   goToaddTactic(){
-    this.photoService.selectMedia('tactics', '6hd6Bdym8CXKW0Sm3hDb');
-    setTimeout(() => {}, 2000);
+    this.photoService.selectMedia('tactics', '6hd6Bdym8CXKW0Sm3hDb').finally(()=>{
+      setTimeout(() => {}, 10000);
+    });
     this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
   }
 

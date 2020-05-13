@@ -8,12 +8,12 @@
 </ion-header>
 
 <ion-content>
-  <form>
+  <form [formGroup]="addFineGroup" (ngSubmit)="onAdd()">
     <ion-list>
       <ion-item class="ion-margin">
         <ion-label>Miembros</ion-label>
           <ion-select value="members" multiple="true" placeholder="select members" >
-            <ion-select-option *ngFor="let m of members" value="{{m.id}}">{{m.name}}</ion-select-option>
+            <ion-select-option *ngFor="let m of members" value="{{m.id}}" formControlName="members">{{m.name}}</ion-select-option>
           </ion-select>
       </ion-item>
       <ion-item class="ion-margin">
@@ -21,13 +21,8 @@
           <ion-datetime placeholder="Select date"></ion-datetime>
       </ion-item>
       <ion-item class="ion-margin">
-        <ion-label>Concepto</ion-label>
-        <ion-select value="concept" placeholder="Select concept">
-          <ion-select-option *ngFor="let c of concepts" value="{{c.name}}">{{c.name}}</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item class="ion-margin">
-        <ion-input placeholder="Description"></ion-input>
+        <ion-label position="floating">Concepto</ion-label>
+        <ion-input></ion-input>
       </ion-item>
       <ion-item class="ion-margin">
         <ion-label>Precio</ion-label>
@@ -35,7 +30,7 @@
       </ion-item>
     </ion-list>
 
-    <ion-button class="ion-padding" expand="block" color="primary" type="submit" (click)="onAdd()">Añadir</ion-button>
+    <ion-button class="ion-padding" expand="block" color="primary" type="submit">Añadir</ion-button>
   </form>
 
   

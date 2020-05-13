@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { ModalComponent } from '../components/modal/modal.component';
 
 import * as Chart from 'chart.js';
@@ -68,28 +68,52 @@ export class FoulsPage implements OnInit {
   
   doughnutChart: any;
   colorsArray: any;
-  totalPrice: number;
   total;
-  register;
+  register: any;
   paids;
   noPaids;
 
   constructor(
     private modalController: ModalController,
     private router: Router,
-    private apiProv: apiRestProvider) { }
-
-  ngOnInit() {
-    //this.apiProv.getMemberFines()
+    private apiProv: apiRestProvider,
+    public loadCtrl: LoadingController) 
+  {
+    
   }
 
-  ionViewDidEnter() {
-    this.total = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'all');
-    this.paids = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'paid');
-    this.noPaids = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'noPaid');
-    this.register = this.apiProv.getMemberRegister("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com");
-    //this.createSemicircleChart();
-    //this.noPaids = this.apiProv.getFines(this.apiProv.getTeamId(), 'noPaid');
+  ngOnInit() {
+    setTimeout( () => {
+      this.initialize();
+    }, 1000);
+    this.register = this.apiProv.getTeamRegister().subscribe(
+      (value) => {
+        this.register = value;
+        this.createSemicircleChart();
+      }
+    );
+  }
+
+  async initialize(){
+    const loading = await this.loadCtrl.create();
+
+    loading.present();
+    this.apiProv.getTeamFines('all').subscribe(
+      (data) => {
+        this.total = data;
+        loading.dismiss();
+      }
+    );
+    this.apiProv.getTeamFines('paid').subscribe(
+      (data) => {
+        this.paids = data;
+      }
+    );
+    this.apiProv.getTeamFines('noPaid').subscribe(
+      (data) => {
+        this.noPaids = data;
+      }
+    );
   }
 
   async openModal(f) {
@@ -111,7 +135,7 @@ export class FoulsPage implements OnInit {
     this.router.navigate(['add-fine']);
 
   }
-  /*createSemicircleChart(){
+  createSemicircleChart(){
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
       data: {
@@ -149,7 +173,7 @@ export class FoulsPage implements OnInit {
       }
     });
 
-  }*/
+  }
 
   radioGroupChange(event){
     
