@@ -31,10 +31,6 @@ export class AuthService {
     this.afAuth.auth.onAuthStateChanged( (user) => {
       if(user) {
         this.currentUser = user;
-        this.afAuth.auth.currentUser.getIdToken(true)
-        .then( (idtoken) => {
-          apiProv.setToken(idtoken.toString());
-        })
       } else {
         this.currentUser = null;
       }
@@ -44,12 +40,10 @@ export class AuthService {
   signUpUser(data): Promise<any> {
     return this.afAuth.auth.createUserWithEmailAndPassword(data.email, data.password)
     .then( (user) => {
-      if (user) {
-        user.user.updateProfile({
-          displayName: data.userName
-        });
-      }
-    });
+      user.user.updateProfile ({
+        displayName: data.userName
+      });
+    })
   }
 
   signIn(email: string, password: string): Promise<any> {
@@ -62,7 +56,8 @@ export class AuthService {
       // This gives you a Google Access Token. You can use it to access the Google API.
       let token = (<any>result).credential.accessToken;
       this.apiProv.setToken(token);
-      console.log(token);
+      this.apiProv.setUser(result.user.email);
+      //xa is the token
       // The signed-in user info.
       this.currentUser = result.user;
       this.router.navigate(['/team-list']);

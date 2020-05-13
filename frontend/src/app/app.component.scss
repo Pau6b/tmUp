@@ -29,6 +29,7 @@ ion-menu.md ion-note {
 
 ion-menu.md ion-list#inbox-list {
   border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
+  cursor: pointer;
 }
 
 ion-menu.md ion-list#inbox-list ion-list-header {

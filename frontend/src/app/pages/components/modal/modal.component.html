@@ -1,0 +1,31 @@
+<ion-row class="centro">
+  <ion-avatar>
+    <img src="../../../../assets/images/2.jpg">
+  </ion-avatar>
+</ion-row>
+<ion-row class="centro">
+  <ion-label>{{ userName }}</ion-label>
+</ion-row>
+<ion-row class="centro">
+  <ion-label class="largeText">{{price}}€</ion-label>
+</ion-row>
+<ion-list>
+  <ion-item class="ion-text-left" *ngIf="userId != '' ">
+    <ion-row>
+      <ion-label class="title">{{'MODAL.email' | translate}}</ion-label>
+      <ion-label class="subtitle">{{userId}}</ion-label>
+    </ion-row>
+  </ion-item>
+  <ion-item>
+    <ion-row>
+      <ion-label class="title">{{'MODAL.date' | translate}}</ion-label>
+      <ion-label class="subtitle"> {{date}}</ion-label>
+    </ion-row>
+  </ion-item>
+  <ion-item>
+    <ion-row>
+      <ion-label class="title">{{'MODAL.concept' | translate}}</ion-label>
+      <ion-label class="subtitle">{{concept}}</ion-label>
+    </ion-row>
+  </ion-item>
+</ion-list>

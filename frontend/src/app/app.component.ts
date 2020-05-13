@@ -8,6 +8,7 @@ import { AlertController } from '@ionic/angular';
 
 import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { LanguageService } from 'src/providers/language/language.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -55,10 +56,16 @@ export class AppComponent implements OnInit {
       title: 'Fisioterapeuta',
       url: 'physiotherapist',
       icon: 'medkit'
+    },
+    {
+      title: 'Multas',
+      url: 'fouls',
+      icon: 'cash'
     }
   ];
 
   public team;
+  public role ="";
 
   constructor(
     private alertCtrl: AlertController,
@@ -67,7 +74,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -94,6 +102,26 @@ export class AppComponent implements OnInit {
         this.team = data;
       });
     }
+  }
+
+  public setRole(role: string) {
+    this.role = role;
+  }
+
+  gotoMatch() {
+    this.selectedIndex = -15;
+    this.apiProv.getNextMatch().then( (data) => {
+      let event = data[0];
+      event.startTime = new Date(event.startTime);
+      if( (event.startTime.getTime()-new Date().getTime()) > 3600000 ) {
+        //if >1h to match, redirect event page
+        this.router.navigate(['event', event.id]);
+      }
+      else {
+        //if <1h to match, redirect to LiveMatch
+        this.router.navigate(['live-match', {id: event.id, title: event.title}]);
+      }
+    })
   }
 
   async presentConfirm() {

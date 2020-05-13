@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, NavParams } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -19,6 +19,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
@@ -33,6 +34,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
+
+import { FilePath } from '@ionic-native/file-path/ngx';
+
+
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'/assets/translation/','.json');
@@ -70,6 +76,12 @@ export function createTranslateLoader(http: HttpClient) {
     Connectivity,
     googleMaps,
     AngularFirestore,
+    AngularFireStorage,
+    MediaCapture,
+    File,
+    FilePath,
+    InAppBrowser,
+    NavParams,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],

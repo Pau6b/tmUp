@@ -1,63 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import { Chooser, ChooserResult } from '@ionic-native/chooser/ngx';
-import { AngularFireStorage } from 'angularfire2/storage';
-import { HttpClient} from '@angular/common/http';
+import { File } from '@ionic-native/file/ngx';
+import { StorageService } from 'src/app/services/storage.service';
+import { FormBuilder, Validators} from '@angular/forms';
+import { PhotoService } from 'src/app/services/photo.service';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+
 @Component({
   selector: 'app-normative',
   templateUrl: './normative.page.html',
   styleUrls: ['./normative.page.scss'],
 })
 export class NormativePage implements OnInit {
-  fileObj: ChooserResult;
-  isPDF = 0;
+
+  createPdfForm = this.formBuilder.group({
+    title: ['', [Validators.required] ],
+    content: ['', [Validators.required] ]
+  });
+
+  file;
+  hayNormativa:Boolean = false;
+  promise: Promise<string>;
 
 
   public constructor(
-    private http: HttpClient,
-    private storage: AngularFireStorage,
-    private chooser: Chooser
-    ) { }
+    private chooser: Chooser,
+    private formBuilder: FormBuilder,
+    private apiProv: apiRestProvider,
+    private storage: StorageService,
+    private photoService: PhotoService) {}
 
   public ngOnInit() {
-    //subir file
-    /*let content = "Hello Zip";
-    let data = new Blob([content]);
-    let arrayOfBlob = new Array<Blob>();
-    arrayOfBlob.push(data);
-    //-------------------
-    const path = "/normatives/file.pdf";
-    const ref = this.storage.ref;
-    const task = this.storage.upload(path,data);
-    console.log('Image uploaded!');*/
+    this.file = this.photoService.getFiles('normative', this.apiProv.getTeamId());
+    if (this.file.size) this.hayNormativa = true;
+    else this.hayNormativa = false;
   }
 
-  public chooseFile(){
-    this.chooser.getFile()
-      .then( (value: ChooserResult) => {
-        this.fileObj = value;
-      },
-      (err) => {
-        alert(JSON.stringify(err));
-      })
+  public createPdf(){
+    this.storage.createPdf(this.createPdfForm.get('title').value, this.createPdfForm.get('content').value, '6hd6Bdym8CXKW0Sm3hDb');
   }
 
-  public pdfViewer(){
-
-  }
-
-  public uploadFile(files: FileList) {
-    let results = [];
-    if (files && files.length > 0) {
-      const file: File = files.item(0);//assuming only one file is uploaded
-      console.log('Uplaoded file, Filename:' + file.name + 'Filesize:' + file.size + 'Filetype:' + file.type);
-      const reader: FileReader = new FileReader();
-      reader.readAsText(file);
-      reader.onload = (e) => {
-        const fileContent: string = reader.result as string;
-        console.log('fileContent:' + fileContent);
-        const lines: string[] = fileContent.split('\n'); //this depends on your line end character, I'm using \n in general
-        //lines is an array of string, such as "Sham went to school", loop over it and process as you like
-      };
-    }
+  async uploadFile(){
+      this.promise = this.file.readAsText(this.file.dataDirectory, "newFile");
+      await this.promise.then(value => {
+        console.log(value);
+      });
   }
 }
