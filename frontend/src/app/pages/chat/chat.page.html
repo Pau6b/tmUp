@@ -7,23 +7,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content #IonContent fullscreen="true">
+<ion-content #ionContent fullscreen="true">
   <ion-list>
-    <div *ngFor="let chat of msgList; let i = index; ">
-      <ion-row *ngIf="chat.email !== User">
-        <ion-col class="right" no-padding [ngClass]="{'clubbed':((msgList[i+1] && msgList[i+1].email != chat.email)|| !msgList[i+1])}">
+    <div *ngFor="let message of msgList; let i = index; ">
+      <ion-row *ngIf="message.email !== user">
+        <ion-col class="right" no-padding [ngClass]="{'clubbed':((msgList[i+1] && msgList[i+1].email != message.email)|| !msgList[i+1])}">
           <div class="imageAvatarRight">
             <div class="imageAvatarBottom">
-              <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == chat.email)?'hidden':''">
+              <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == message.email)?'hidden':''">
                 <ion-img [src]="'../assets/images/1.jpg'"></ion-img>
               </ion-avatar>
             </div>
             <ion-label color="light">
-              <div class="chatDiv" [ngClass]="{'sharper':((msgList[i+1] && msgList[i+1].email == chat.email) && 
-              (msgList[i-1] && msgList[i-1].email == chat.email)),
-              'sharper-top':(msgList[i-1] && msgList[i-1].email == chat.email),
-              'sharper-bottom':(msgList[i+1] && msgList[i+1].email == chat.email)}">
-                <p text-wrap padding> {{ chat.bodyMessage }} </p>
+              <div class="chatDiv" [ngClass]="{'sharper':((msgList[i+1] && msgList[i+1].email == message.email) && 
+              (msgList[i-1] && msgList[i-1].email == message.email)),
+              'sharper-top':(msgList[i-1] && msgList[i-1].email == message.email),
+              'sharper-bottom':(msgList[i+1] && msgList[i+1].email == message.email)}">
+                <p text-wrap padding> {{ message.bodyMessage }} </p>
                 <div class="corner-parent-right">
                   <div class="corner-child-right"> </div>
                 </div>
@@ -33,31 +33,31 @@
         </ion-col>
       </ion-row>
 
-      <ion-row *ngIf="chat.email === User">
-        <ion-col class="left" no-padding [ngClass]="{'clubbed':((msgList[i+1] && msgList[i+1].email != chat.email)|| !msgList[i+1])}">
+      <ion-row *ngIf="message.email === user">
+        <ion-col class="left" no-padding [ngClass]="{'clubbed':((msgList[i+1] && msgList[i+1].email != message.email)|| !msgList[i+1])}">
           <div class="imageAvatarLeft">
             <ion-label color="light">
-              <div class="chatDiv" [ngClass]="{'sharper':((msgList[i+1] && msgList[i+1].email == chat.email) && 
-              (msgList[i-1] && msgList[i-1].email == chat.email)),
-              'sharper-top':(msgList[i-1] && msgList[i-1].email == chat.email),
-              'sharper-bottom':(msgList[i+1] && msgList[i+1].email == chat.email)}">
-                <p text-wrap padding> {{ chat.bodyMessage }} </p>
+              <div class="chatDiv" [ngClass]="{'sharper':((msgList[i+1] && msgList[i+1].email == message.email) && 
+              (msgList[i-1] && msgList[i-1].email == message.email)),
+              'sharper-top':(msgList[i-1] && msgList[i-1].email == message.email),
+              'sharper-bottom':(msgList[i+1] && msgList[i+1].email == message.email)}">
+                <p text-wrap padding> {{ message.bodyMessage }} </p>
                 <div class="corner-parent-left">
                   <div class="corner-child-left"> </div>
                 </div>
               </div>
             </ion-label>
             <div class="imageAvatarBottom">
-              <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == chat.email)?'hidden':''">
-                <ion-img [src]="'../assets/images/7.jpg'"></ion-img>-->
+              <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == message.email)?'hidden':''">
+                <ion-img [src]="'../assets/images/7.jpg'"></ion-img>
               </ion-avatar>
             </div>
           </div>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="((msgList[i+1] && msgList[i+1].email != chat.email)|| !msgList[i+1])">
+      <ion-row *ngIf="((msgList[i+1] && msgList[i+1].email != message.email)|| !msgList[i+1])">
         <ion-col>
-          <ion-text>{{ chat.date | date:"dd/MM HH:mm" }}  {{ chat.email }}</ion-text>
+          <ion-text>{{ message.date | date:"dd/MM HH:mm" }}  {{ message.email }}</ion-text>
         </ion-col>
       </ion-row>
     </div>
