@@ -85,17 +85,6 @@
     "TEAM-LIST": {
         "title": "Lista de equipos"
     },
-    "FOULS":{
-        "title": "Multas",
-        "total": "Total",
-        "paid": "Pagadas",
-        "pendings": "Pendientes"
-    },
-    "MODAL":{
-        "email": "Email del usuario",
-        "date": "Fecha",
-        "concept": "Concepto especifico"
-    },
     "MAIN" :{
         "title": "Inicio",
         "welcome": "¡Bienvenido!",
@@ -119,6 +108,19 @@
         "day": "Día:",
         "hour": "Hora:",
         "title_news": "Noticias"
+    },
+    "FOULS":{
+        "title": "Multas",
+        "total": "Total",
+        "paid": "Pagadas",
+        "pendings": "Pendientes",
+        "team": "Equipo",
+        "personal": "Personales"
+    },
+    "MODAL":{
+        "email": "Email del usuario",
+        "date": "Fecha",
+        "concept": "Concepto especifico"
     },
     "LIVE-MATCH": {
         "start": "Empieza",

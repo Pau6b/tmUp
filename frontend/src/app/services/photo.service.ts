@@ -2,18 +2,14 @@ import { Injectable } from '@angular/core';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ActionSheetController, Platform } from '@ionic/angular';
 
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
-import {
-  MediaCapture,
-  MediaFile,
-  CaptureError
-} from '@ionic-native/media-capture/ngx';
-import { File, FileEntry } from '@ionic-native/file/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import { Chooser, ChooserResult} from '@ionic-native/chooser/ngx';
-import { StorageService } from 'src/app/services/storage.service'
+import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { Chooser} from '@ionic-native/chooser/ngx';
+import { StorageService } from 'src/app/services/storage.service';
 
-const MEDIA_FOLDER_NAME = "my_tactics";
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,18 +18,17 @@ const MEDIA_FOLDER_NAME = "my_tactics";
 export class PhotoService {
 
   files = [];
-  fileObj: ChooserResult;
 
   constructor(
     private camera: Camera,
     private actionSheetCtrl: ActionSheetController,
-    private imagePicker: ImagePicker,
     private mediaCapture: MediaCapture,
     private file: File,
-    private photoViewer: PhotoViewer,
     private platform: Platform,
     private chooser: Chooser,
-    private storage: StorageService
+    private storage: StorageService,
+    private filePath: FilePath,
+    private iab: InAppBrowser
   ) { 
   }
 
@@ -85,20 +80,11 @@ export class PhotoService {
   //-------------------------------------------------------------------------------------
   //                                    PRUEBA
   //-------------------------------------------------------------------------------------
-  getFiles(){
-    return this.files;
+  getFiles(page, teamId){
+    return this.storage.getFiles(page, teamId);
   }
 
-  loadFiles() {
-    this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
-      res => {
-        this.files = res;
-      },
-      err => console.log('error loading files: ', err)
-    );
-  }
-
-  async selectMedia() {
+  async selectMedia(page, teamId) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'What would you like to add?',
       buttons: [
@@ -106,21 +92,14 @@ export class PhotoService {
           text: 'Capture Image',
           icon: 'camera',
           handler: () => {
-            this.captureImage();
+            this.captureImage(page, teamId);
           }
         },
         {
-          text: 'Load image',
-          icon: 'image',
+          text: 'Load File',
+          icon: 'document',
           handler: () => {
-            this.pickFiles();
-          }
-        },
-        {
-          text: 'Load document',
-          icon: 'text',
-          handler: () => {
-            this.selectFiles();
+            this.selectFiles(page, teamId);
           }
         },
         {
@@ -130,42 +109,79 @@ export class PhotoService {
       ]
     });
     await actionSheet.present();
-    return this.fileObj
+    return this.getFiles(page, teamId);
   }
  
-  pickFiles() {
-    this.imagePicker.getPictures({}).then(
-      results => {
-        for (var i = 0; i < results.length; i++) {
-          this.copyFileToLocalDir(results[i]);
-        }
-      }
-    );
- 
-    // If you get problems on Android, try to ask for Permission first
-    // this.imagePicker.requestReadPermission().then(result => {
-    //   console.log('requestReadPermission: ', result);
-    //   this.selectMultiple();
-    // });
-  }
- 
-  captureImage() {
+  captureImage(page, teamId) {
     this.mediaCapture.captureImage().then(
       (data: MediaFile[]) => {
         if (data.length > 0) {
-          this.copyFileToLocalDir(data[0].fullPath);
+          //this.storage.uploadFileToStorage(data, 'tactics_picture', page, teamId, 'image/jpg');
+          let dirPath = data[0].fullPath;
+          //Borramos el nombre del fichero de la uri
+          let dirPathSegments = dirPath.split('/');
+          dirPathSegments.pop();
+          dirPath = dirPathSegments.join('/')
+          
+          this.file.readAsArrayBuffer(dirPath, data[0].name).then(
+            (buffer) => {
+              this.storage.uploadFileToStorage(buffer, data[0].name, page, teamId, data[0].type);
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
         }
       },
       (err: CaptureError) => console.error(err)
     );
   }
 
-  selectFiles() {
+  selectFiles(page, teamId) {
     this.chooser.getFile('image/jpg, image/jpeg, application/pdf').then(
-      (f) => {
-        console.log("llamo al storage")
-        f.uri = "file://com.android.providers.downloads.documents/document/raw%3A%2Fstorage%2Femulated%2F0%2FDownload%2F2.jpg"
-        console.log(f)
+      (result) => {
+        if(this.platform.is('ios')){
+          this.file.resolveLocalFilesystemUrl(result.uri).then(
+            (newURL) => {
+              let dirPath = newURL.nativeURL;
+
+              //Borramos el nombre del fichero de la uri
+              let dirPathSegments = dirPath.split('/');
+              dirPathSegments.pop();
+              dirPath = dirPathSegments.join('/')
+              
+              this.file.readAsArrayBuffer(dirPath, newURL.name).then(
+                (buffer) => {
+                  console.log("Leemos los datos del fichero -> "+buffer);
+                  this.storage.uploadFileToStorage(buffer, newURL.name, page, teamId, result.mediaType);
+                },
+                (err) => {
+                  console.log(err);
+                }
+              );
+            }
+          )
+        } else if(this.platform.is('android')){
+          this.filePath.resolveNativePath(result.uri).then(
+            (newURL) => {
+              let dirPath = newURL;
+              //Borramos el nombre del fichero de la uri
+              let dirPathSegments = dirPath.split('/');
+              dirPathSegments.pop();
+              dirPath = dirPathSegments.join('/')
+              
+              this.file.readAsArrayBuffer(dirPath, result.name).then(
+                (buffer) => {
+                  this.storage.uploadFileToStorage(buffer, result.name, page, teamId, result.mediaType);
+                },
+                (err) => {
+                  console.log(err);
+                }
+              );
+            }
+          )
+        }
+        
       },
       (err) =>{
         alert(JSON.stringify(err));
@@ -173,60 +189,8 @@ export class PhotoService {
     )
   }
 
-  copyFileToLocalDir(fullPath) {
-    console.log("-----------------Entro en el copyFile------------------");
-    let myPath = fullPath;
-    console.log(myPath);
-    // Make sure we copy from the right location
-    if (fullPath.indexOf('file://') < 0) {
-      myPath = 'file://' + fullPath;
-    }
-    
-    const newName = myPath.split('.').pop();
-
-    console.log(newName);
-
-    const name = myPath.substr(myPath.lastIndexOf('/') + 1);
-
-    console.log(name);
-
-    const copyFrom = myPath.substr(0, myPath.lastIndexOf('/') + 1);
-
-    console.log(copyFrom);
-
-    const copyTo = this.file.dataDirectory + MEDIA_FOLDER_NAME;
-
-    console.log(copyTo);
- 
-    this.file.copyFile(copyFrom, name, copyTo, newName).then(
-      success => {
-        this.loadFiles();
-      },
-      error => {
-        console.log('error: ', error);
-      }
-    );
-    console.log("-----------------Acabo el copyFile------------------");
+  openFile(f) {
+    this.iab.create(f.url);
   }
- 
-  openFile(f: FileEntry) {
-    if (f.name.indexOf('.pdf') > -1 || f.name.indexOf('.doc') > -1) {
-      
-
-    } else if (f.name.indexOf('.jpg') > -1 || f.name.indexOf('.jpeg') > -1) {
-      // E.g: Use the Photoviewer to present an Image
-      this.photoViewer.show(f.nativeURL, 'MY awesome image');
-    }else{
-      console.log("no se reconoce el tipo de fichero. Recuerde solo ['.doc', '.pdf', '.jpg', '.jpeg']")
-    }
-  }
- 
-  deleteFile(f: FileEntry) {
-    const path = f.nativeURL.substr(0, f.nativeURL.lastIndexOf('/') + 1);
-    this.file.removeFile(path, f.name).then(() => {
-      this.loadFiles();
-    }, err => console.log('error remove: ', err));
-  }
-
   
 }

@@ -85,17 +85,6 @@
     "TEAM-LIST": {
         "title": "Llista d'equips"
     },
-    "FOULS":{
-        "title": "Multes",
-        "total": "Total",
-        "paid": "Pagades",
-        "pendings": "Pendents"
-    },
-    "MODAL":{
-        "email": "Email de l'usuari",
-        "date": "Data",
-        "concept": "Concepte especific"
-    },
     "MAIN" :{
         "title": "Inici",
         "welcome": "Benvingut!",
@@ -119,6 +108,19 @@
         "day": "Dia:",
         "hour": "Hora:",
         "title_news": "Notícies"
+    },
+    "FOULS":{
+        "title": "Multes",
+        "total": "Total",
+        "paid": "Pagades",
+        "pendings": "Pendents",
+        "team": "Equip",
+        "personal": "Personals"
+    },
+    "MODAL":{
+        "email": "Email de l'usuari",
+        "date": "Data",
+        "concept": "Concepte especific"
     },
     "LIVE-MATCH": {
         "start": "Comença",

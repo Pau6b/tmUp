@@ -26,6 +26,7 @@ export class apiRestProvider {
 
   public setToken(token: string) {
     this.token = token;
+    //console.log(token);
   }
 
   public setTeam(team: string){
@@ -253,5 +254,40 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+"teams/"+this.currentTeam+"/stadistics", {headers: this.headers})
   }
+
+  //Fines
+  public createFine(fineInfo) {
+    return this.http.post(this.url+'memberships/fines/create',JSON.stringify(fineInfo),{headers: this.headers} );
+  }
+
+  public payFine(fineInfo) {
+    return this.http.put(this.url+'memberships/fines/payFine', JSON.stringify(fineInfo), {headers: this.headers});
+  }
+  public getMemberFines(teamId, userId, fineState){
+    return this.http.get(this.url+'memberships/fines/membershipFines', {headers: this.headers, params: {
+      teamId: teamId,
+      userId: userId,
+      fineState: fineState
+    }});
+  }
+
+  public getTeamFines(teamId, fineState){
+    return this.http.get(this.url+'memberships/fines/teamFines', {headers: this.headers, params: {
+      teamId: teamId,
+      fineState: fineState
+    }});
+  }
+  public getMemberRegister(teamId, userId){
+    return this.http.get(this.url+'memberships/fines/sumMembership', {headers: this.headers, params: {
+      teamId: teamId,
+      userId: userId
+    }});
+  }
+  public getTeamRegister(teamId){
+    return this.http.get(this.url+'memberships/fines/sumTeam', {headers: this.headers, params: {
+      teamId: teamId
+    }});
+  }
+  
 
 }

@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../components/modal/modal.component';
 
-import { Chart } from 'chart.js';
-import 'chartjs-plugin-datalabels';
+import * as Chart from 'chart.js';
+import { Router } from '@angular/router';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-fouls',
@@ -12,7 +13,7 @@ import 'chartjs-plugin-datalabels';
 })
 export class FoulsPage implements OnInit {
 
-  total = [
+  /*total = [
     {
     "user": "Juanjo",
     "userId": "kdsixzbnvkjafznkvfd",
@@ -62,19 +63,33 @@ export class FoulsPage implements OnInit {
       "price": 30,
       "concepto": "concepto de la multa"
     }
-  ];
-  @ViewChild('doughnutCanvas' , {static: false}) doughnutCanvas;
+  ];*/
+  @ViewChild('doughnutCanvas', {static: false}) doughnutCanvas;
   
   doughnutChart: any;
   colorsArray: any;
-  totalPrice = 155;
-  constructor(private modalController: ModalController) { }
+  totalPrice: number;
+  total;
+  register;
+  paids;
+  noPaids;
+
+  constructor(
+    private modalController: ModalController,
+    private router: Router,
+    private apiProv: apiRestProvider) { }
 
   ngOnInit() {
+    //this.apiProv.getMemberFines()
   }
 
   ionViewDidEnter() {
+    this.total = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'all');
+    this.paids = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'paid');
+    this.noPaids = this.apiProv.getMemberFines("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com", 'noPaid');
+    this.register = this.apiProv.getMemberRegister("6hd6Bdym8CXKW0Sm3hDb","juanjo@tmup.com");
     this.createSemicircleChart();
+    //this.noPaids = this.apiProv.getFines(this.apiProv.getTeamId(), 'noPaid');
   }
 
   async openModal(f) {
@@ -93,6 +108,7 @@ export class FoulsPage implements OnInit {
   }
 
   goToAddFoul(){
+    this.router.navigate(['add-fine']);
 
   }
   createSemicircleChart(){
@@ -101,8 +117,8 @@ export class FoulsPage implements OnInit {
       data: {
         labels: ["Pagadas", "Pendientes"],
         datasets: [{
-          //labels: ["Pagadas", "Pendientes"],
-          data: [100, 55],
+          labels: ["Pagadas", "Pendientes"],
+          data: [this.register.paid, this.register.pendig],
           backgroundColor: ['rgba(51, 204, 51, 0.7)','rgba(255, 99, 133, 0.7)'], // array should have same number of elements as number of dataset
           hoverBackgroundColor: ['rgba(51, 204, 51, 1)','rgba(255, 99, 133, 1)'],// array should have same number of elements as number of dataset
           borderWidth: 1,
@@ -132,6 +148,10 @@ export class FoulsPage implements OnInit {
         animation: { animateScale: true, animateRotate: true }
       }
     });
+    
+  }
+
+  radioGroupChange(event){
     
   }
 }
