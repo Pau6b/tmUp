@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-
+import {NavController} from '@ionic/angular';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController} from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { File } from '@ionic-native/file/ngx';
+
+import { Chooser } from '@ionic-native/chooser/ngx';
+//import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { PhotoService } from 'src/app/services/photo.service';
+
 declare var google;
 
 @Component({
@@ -20,38 +26,11 @@ export class EventPage implements OnInit {
   event: any;
   currentLoc: any;
   segmentModel = "info";
-
-  ListConv1: any;
-  ListConv = [
-    {
-      id: "1",
-      name: "Jugador 1"
-    },
-    {
-      id: "2",
-      name: "Jugador 2"
-    },
-    {
-      id: "3",
-      name: "Jugador 3"
-    },
-    {
-      id: "4",
-      name: "Jugador 4"
-    },
-    {
-      id: "5",
-      name: "Jugador 5"
-    },
-    {
-      id: "6",
-      name: "Jugador 6"
-    },
-    {
-      id: "7",
-      name: "Jugador 7"
-    }
-  ];
+  file_name = "Rival1";
+  ListConv: any;
+  img;
+  file: File = new File();
+  promise: Promise<string>; 
 
   constructor(
     private geolocation: Geolocation,
@@ -60,7 +39,9 @@ export class EventPage implements OnInit {
     private router: Router,
     private apiProv: apiRestProvider,
     private loadCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private photoService: PhotoService,
+    //private photoViewer: PhotoViewer,
+    private navCtrl: NavController
   ) { 
   }
 
@@ -85,8 +66,8 @@ export class EventPage implements OnInit {
         this.apiProv.getCall(this.eventId)
         .subscribe ( (data) => {
           console.log(data);
-          if ( data == null ) this.ListConv = null;
-          else this.ListConv1 = data;
+          this.ListConv = data;
+          if ( this.ListConv.length == 0) this.ListConv = null;
         });
       }
     });
@@ -99,7 +80,7 @@ export class EventPage implements OnInit {
         evId: this.eventId,
         ev: this.event,
         segmentModel: this.segmentModel,
-        listConv: this.ListConv1
+        listConv: this.ListConv
       }
     };
     this.router.navigate(['/edit-event'], navigationExtras);
@@ -137,25 +118,31 @@ export class EventPage implements OnInit {
     });
   }
 
-  async presentAlert() {
-    const alert = await this.alertCtrl.create({
-      header: 'Eliminar',
-      message: '¿Seguro que quieres eliminar la lista de jugadores convocados?',
-      buttons: [
-        {
-          text: 'No',
-          role: 'no'
-        },
-        {
-          text: 'Si', 
-          handler : () => {
-            //cridar api amb la funcio eliminar llista convocats
-          }
-        }
-      ]
+  async uploadFile(){
+    console.log("Entro en uploadFile");
+    console.log("dataDirectory: "+ this.file.dataDirectory);
+    this.promise = this.file.readAsText(this.file.dataDirectory, "newFile");
+    console.log("He creado la promise => "+(await this.promise).toString);
+    await this.promise.then(value => {
+    console.log(value);
     });
+}
 
-    await alert.present();
+  updateFile() {
+    //cridar api per modificar el fitxer
+  }
+
+  deleteFile() {
+    //cridar api per eliminar el fitxer
+  }
+
+
+  goToaddTactic(img){
+    this.photoService.alertSheetPictureOptions();
+  }
+
+  seeImage(img){
+    //this.photoViewer.show('https://wallpaperplay.com/walls/full/3/b/4/268610.jpg');
   }
 
 }

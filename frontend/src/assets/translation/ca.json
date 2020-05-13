@@ -39,7 +39,12 @@
         "deleteEvent": "Esborrar esdeveniment",
         "list": "Llista Convocats",
         "start": "Comença",
-        "end": "Final"
+        "end": "Final",
+        "called_players": "Jugadors Convocats",
+        "selected": "Has seleccionat ",
+        "players": "jugadors",
+        "confirmation": "Estàs d'acord?",
+        "no_players": "No hi ha jugadors a aquest equip encara"
     },
     "EVENT": {
         "howToGet": "Com arribar",
@@ -48,7 +53,10 @@
         "analisi": "Anàlisi",
         "fotos": "Fotos",
         "message_no_convocados": "No hi ha convcats encara",
-        "new_list": "Crear llista"
+        "new_list": "Crear llista",
+        "inform": "Informe Anàlisi Rival",
+        "no_inform": "Encara no ens cap Informe d'Anàlisi Rival",
+        "uploadfile": "Pujar fitxer"
     },
     "LOCATION-SELECT": {
         "connectToInternet": "Sembla que no tens connexió..."
@@ -115,7 +123,20 @@
         "title_next_training": "Pròxim Entrenament:",
         "day": "Dia:",
         "hour": "Hora:",
-        "title_news": "Notícies"
+        "title_news": "Notícies",
+        "no_news": "No tens cap notíia encara",
+        "matchAdded": "Nou partit el dia ",
+        "machDeleted": "S'ha eliminat el partit del dia ",
+        "matchUpdated": "S'ha modificat el partit del dia ",
+        "trainingAdded": "S'ha afegit un entrenament eld dia ",
+        "trainingDeleted": "S'ha elimnat un entrenament del dia ",
+        "tacticaAdded": "S'ha afegit la tàctica ", 
+        "tacticaDeleted" : "S'ha eliminat la tàctica ", 
+        "normativaAdded": "S'ha afegit la normativa ",
+        "normativaDeleted": "S'ha eliminat la normativa ",
+        "at": " a les ", 
+        "location": "h. Localització: ",
+        "rival": " Rival: "
     },
     "LIVE-MATCH": {
         "start": "Comença",
@@ -153,7 +174,9 @@
             "done": "Acabar",
             "edit": "Editar",
             "here": "aqui",
-            "delete": "Eliminar"
+            "delete": "Eliminar",
+            "yes": "Si",
+            "no": "No"
         },
         "verbs": {
             "from": "des de",
@@ -169,7 +192,8 @@
             "calendar": "Calendari",
             "physiotherapist": "Fisioterapeuta",
             "nextMatch": "Següent partit",
-            "profile": "Perfil" 
+            "profile": "Perfil" ,
+            "photos": "Fotos"
         }
     }
 }

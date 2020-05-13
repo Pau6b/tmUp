@@ -39,7 +39,12 @@
         "deleteEvent": "Eliminar evento",
         "list": "Lista Convocados",
         "start": "Empieza",
-        "end": "Acaba"
+        "end": "Acaba",
+        "called_players": "Jugadores convocados",
+        "selected": "Has seleccionado ",
+        "players": "jugadores",
+        "confirmation": "De acuerdo?",
+        "no_players": "No hay jugadores todavía en este equipo."
     },
     "EVENT": {
         "howToGet": "Cómo llegar",
@@ -48,7 +53,10 @@
         "analisi": "Analisis",
         "fotos": "Fotos",
         "message_no_convocados": "No hay convocados todabía",
-        "new_list": "Crear lista"
+        "new_list": "Crear lista",
+        "inform": "Informe Análisis Rival",
+        "no_inform": "Todavía no hay ningún Informe de Análisis Rival",
+        "uploadfile": "Subir fichero"
     },
     "LOCATION-SELECT": {
         "connectToInternet": "Parece que no tienes conexion..."
@@ -115,7 +123,20 @@
         "title_next_training": "Próximo Entrenamiento:",
         "day": "Día:",
         "hour": "Hora:",
-        "title_news": "Noticias"
+        "title_news": "Noticias",
+        "no_news": "No tienes ninguna notícia todavía",
+        "matchAdded": "Nuevo partido el día ",
+        "machDeleted": "Se ha eliminado el partido del día ",
+        "matchUpdated": "Se ha modificado el partido del día ",
+        "trainingAdded": "Se ha añadido un entrenamiento del día ",
+        "trainingDeleted": "Se ha eliminado el entrenamiento del día ",
+        "tacticaAdded": "Se ha añadido la tactica ", 
+        "tacticaDeleted" : "Se ha eliminado la tactica ", 
+        "normativaAdded": "Se ha añadido la normativa ",
+        "normativaDeleted": "Se ha eliminado la normativa ",
+        "at": " a las ", 
+        "location": "h. Localizacion: ",
+        "rival": " Rival: "
     },
     "LIVE-MATCH": {
         "start": "Empieza",
@@ -153,7 +174,9 @@
             "done": "Acabar",
             "edit": "Editar",
             "here": "aquí",
-            "delete": "Eliminar"
+            "delete": "Eliminar",
+            "yes": "Si",
+            "no": "No"
         },
         "verbs": {
             "from": "desde",
@@ -169,7 +192,8 @@
             "calendar": "Calendario",
             "physiotherapist": "Fisioterapeuta",
             "nextMatch": "Próximo partido",
-            "profile": "Perfil" 
+            "profile": "Perfil",
+            "photos": "Fotos" 
         }
     }
 }

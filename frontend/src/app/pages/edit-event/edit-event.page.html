@@ -58,11 +58,23 @@
 
   <div *ngIf="segmentModel === 'players'">
     <ion-list>
-      <ion-item *ngFor="let member of membersTeam">
-        <ion-label>{{member.name}}</ion-label>
-        <ion-checkbox slot="end" [(ngModel)]="member.isChecked" (click)="anySelectedItem()"></ion-checkbox>
-      </ion-item>
+      <div *ngIf="membershipTeam == null">
+        <div class="centerText">
+          <p> {{ 'EDIT-EVENT.no_players' | translate }}</p>
+        </div>
+      </div>
+      <div *ngIf="membershipTeam != null">
+        <ion-item *ngFor="let member of membershipTeam">
+          <ion-label>{{member.userId}}</ion-label>
+          <ion-checkbox slot="end" [(ngModel)]="member.isChecked" (click)="anySelectedItem()"></ion-checkbox>
+        </ion-item>
+      </div>
     </ion-list>
+  </div>
+
+
+  <div *ngIf="segmentModel === 'analisi'">
+
   </div>
 
   

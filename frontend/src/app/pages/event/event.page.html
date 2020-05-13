@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>{{ event?.title }}</ion-title>
     <!--Mirar si el usuari es cos tecnic amb *ngIf-->
-    <ion-buttons *ngIf="ListConv != null" slot="end">
+    <ion-buttons *ngIf="(ListConv != null && segmentModel !== 'analisi')" slot="end">
       <ion-button (click)="editEvent()">{{ 'CORE.actions.edit' | translate }}</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -29,6 +29,7 @@
 
 <ion-content>
   <div *ngIf="segmentModel === 'info'">
+    <ion-text class="title">Información evento</ion-text>
     <div class="ion-padding">
       <ion-item *ngIf="event?.type === 'match'" class="rivalInfo">
         <ion-label>Rival: {{ event?.rival }}</ion-label>
@@ -56,17 +57,18 @@
   </div>
 
   <div *ngIf="segmentModel === 'players'">
+    <ion-text class="title">Lista Convocados</ion-text>
     <div class="ion-padding">
-      <div *ngIf="ListConv1.length != 0">
+      <div *ngIf="ListConv != null">
         <ion-list>
-          <ion-item *ngFor="let conv of ListConv1">
+          <ion-item *ngFor="let conv of ListConv">
             <ion-label> {{ conv }} </ion-label>
           </ion-item>
         </ion-list>
       </div>
 
 
-      <div *ngIf="ListConv1.length == 0">
+      <div *ngIf="ListConv == null">
         <div class="centerText">
           <p>{{ 'EVENT.message_no_convocados' | translate }}</p>
         </div>
@@ -79,10 +81,49 @@
   </div> 
 
   <div *ngIf="segmentModel === 'analisi'">
-    
+    <ion-text class="title">{{ 'EVENT.inform' | translate }}</ion-text>
+
+    <div *ngIf="file">
+      <ion-item class="paddingLabel">
+        <ion-img src="../../../assets/icon/pdf.png"></ion-img>
+        <ion-label> {{ file_name }}</ion-label>
+      </ion-item>
+
+      <ion-fab class="buttons" vertical="bottom" slot="fixed" color="primary">
+        <ion-button (click)="updateFile()">{{ 'CORE.actions.edit' | translate }}</ion-button>
+        <ion-button (click)="deleteFile()" class="separation">{{ 'CORE.actions.delete' | translate }}</ion-button>
+      </ion-fab>
+
+    </div>
+
+    <div *ngIf="!file">
+      <div class="centerText">
+        <p> {{ 'EVENT.no_inform' | translate }}</p>
+      </div>
+      <!--Mirar si el usuari és cos tecnic amb *ngIf-->
+      <div class="centerButton">
+        <ion-button (click)="uploadFile()"> {{ 'EVENT.uploadfile' | translate }} </ion-button>
+      </div>
+    </div>
+
   </div> 
 
   <div *ngIf="segmentModel === 'fotos'">
-    
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let img of [1,2,3,4]; let i=index;">
+            <ion-thumbnail item-center (click)="seeImage(img)"> 
+              <ion-img [src]="'../assets/match_images/'+img+'.jpg'"></ion-img>
+            </ion-thumbnail>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
+      <ion-fab-button (click)="goToaddTactic(img)">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
   </div> 
 </ion-content>

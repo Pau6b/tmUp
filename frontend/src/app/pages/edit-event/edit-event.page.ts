@@ -5,6 +5,7 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { ModalController } from '@ionic/angular';
 import { LocationSelectPage } from '../location-select/location-select.page';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-event',
@@ -20,59 +21,7 @@ export class EditEventPage implements OnInit {
   ListConv: any[];
   numConv = 0;
   convocats = [];
-
-  membersTeam = [
-    {
-      id: "1",
-      name: "Jugador 1",
-      isChecked: false
-    },
-    {
-      id: "2",
-      name: "Jugador 2",
-      isChecked: false
-    },
-    {
-      id: "3",
-      name: "Jugador 3",
-      isChecked: false
-    },
-    {
-      id: "4",
-      name: "Jugador 4",
-      isChecked: false
-    },
-    {
-      id: "5",
-      name: "Jugador 5",
-      isChecked: false
-    },
-    {
-      id: "6",
-      name: "Jugador 6",
-      isChecked: false
-    },
-    {
-      id: "7",
-      name: "Jugador 7",
-      isChecked: false
-    },
-    {
-      id: "8",
-      name: "Jugador 8",
-      isChecked: false
-    },
-    {
-      id: "9",
-      name: "Jugador 9",
-      isChecked: false
-    },
-    {
-      id: "10",
-      name: "Jugador 10",
-      isChecked: false
-    }
-  ];
+  membershipTeam;
 
   locationForm = this.formBuilder.group({
     latitude: [null, [Validators.required]],
@@ -98,7 +47,8 @@ export class EditEventPage implements OnInit {
     private modalCtrl: ModalController,
     private route: ActivatedRoute,
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private translateService: TranslateService
   ) { 
     this.route.queryParams.subscribe(params => {
       this.evId = this.router.getCurrentNavigation().extras.state.evId;
@@ -119,18 +69,11 @@ export class EditEventPage implements OnInit {
       else{
         this.editEventForm.patchValue({description: this.event.description});
       }
-      if ( this.ListConv != null ) {
-        this.anySelected = true;
-        for ( let mem of this.membersTeam ) {
-          for ( let conv of this.ListConv ) {
-            if ( mem.name == conv ) mem.isChecked = true;
-          }
-        }
-      }
     });
   }
 
   ngOnInit() {
+    this.listPlayers();
   }
 
   dateChanged(date) {
@@ -174,7 +117,7 @@ export class EditEventPage implements OnInit {
 
   anySelectedItem() {
     var count = 0;
-    for (let member of this.membersTeam) {
+    for (let member of this.membershipTeam) {
       if (member.isChecked) {
         ++count;
         if ( count > 1) this.anySelected = true;
@@ -184,39 +127,73 @@ export class EditEventPage implements OnInit {
   }
 
   async presentAlert() {
-    const alert = await this.alertCtrl.create({
-      header: 'Jugadores Convocados',
-      subHeader: 'Has seleccionado ' + this.numConv + ' jugadores',
-      message: 'De acuerdo?',
-      buttons: [
-        {
-          text: 'No',
-          role: 'no'
-        },
-        {
-          text: 'Si', 
-          handler : () => {
-            console.log(this.evId);
-            this.apiProv.createCall(this.evId, this.convocats)
-            .then(() => {
-              this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
-            });
-          }
-        }
-      ]
-    });
-
-    await alert.present();
+    this.translateService.get('EDIT-EVENT').subscribe(
+      async value => {
+        let val1 = value.called_players;
+        let val2 = value.selected;
+        let val3 = value.players;
+        let val4 = value.confirmation;
+        const alert = await this.alertCtrl.create({
+          header: val1,
+          subHeader: val2 + this.numConv + val3,
+          message: val4,
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'no'
+            },
+            {
+              text: 'Accept', 
+              handler : () => {
+                console.log(this.evId);
+                this.apiProv.createCall(this.evId, this.convocats)
+                .then(() => {
+                  this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
+                });
+              }
+            }
+          ]
+        });
+        await alert.present();
+      }
+    )
   }
 
   onDoneList() {
-    for (let member of this.membersTeam) {
+    for (let member of this.membershipTeam) {
       if (member.isChecked) {
         ++this.numConv;
         this.convocats.push(member.name);
       }
     }
     this.presentAlert();
+  }
+
+  getMembersTeam() {
+    this.apiProv.getMembers()
+      .then((data) => {
+        this.membershipTeam = data;
+        if (this.membershipTeam.length == 0) this.membershipTeam = null;
+        else {
+          for ( let mem of this.membershipTeam ) {
+            mem.isChecked = false;
+          }
+        }
+      });
+  }
+
+  listPlayers() {
+    this.getMembersTeam();
+    if ( this.membershipTeam != null ) {
+      if ( this.ListConv != null ) {
+        this.anySelected = true;
+        for ( let mem of this.membershipTeam ) {
+          for ( let conv of this.ListConv ) {
+            if ( mem.name == conv ) mem.isChecked = true;
+          }
+        }
+      }
+    }
   }
 
 }
