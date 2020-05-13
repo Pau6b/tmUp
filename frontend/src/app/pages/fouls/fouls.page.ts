@@ -82,8 +82,8 @@ export class FoulsPage implements OnInit {
 
   goToAddFoul(){
     this.router.navigate(['add-fine']);
-
   }
+  
   createSemicircleChart(){
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
