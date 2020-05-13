@@ -11,6 +11,7 @@ export class BasketballViewComponent implements OnInit {
   @ViewChild('pointsList', {static:false}) pointsList: any;
 
   @Input() titulars;
+  @Input() running;
 
   @Output() opponentScored = new EventEmitter<any>();
   @Output() myTeamScored = new EventEmitter<any>();
@@ -28,14 +29,16 @@ export class BasketballViewComponent implements OnInit {
   ngOnInit() {}
 
   onChange() {
-    if(this.eventType == "assist") {
-      this.assistPlayer.emit(this.selectedPlayer);
-    }
-    else if (this.eventType == "myTeamScored") {
-      this.myTeamScored.emit({player: this.selectedPlayer, points: this.myTeamPoints});
-    }
-    else if (this.eventType == "rebound") {
-      this.reboundPlayer.emit(this.selectedPlayer);
+    if(this.selectedPlayer != null ) {
+      if(this.eventType == "assist") {
+        this.assistPlayer.emit(this.selectedPlayer);
+      }
+      else if (this.eventType == "myTeamScored") {
+        this.myTeamScored.emit({player: this.selectedPlayer, points: this.myTeamPoints});
+      }
+      else if (this.eventType == "rebound") {
+        this.reboundPlayer.emit(this.selectedPlayer);
+      }
     }
   }
 
@@ -44,35 +47,52 @@ export class BasketballViewComponent implements OnInit {
   }
 
   assist() {
-    this.eventType = "assist";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "assist";
+      this.titularsList.open();
+    }
   }
 
   onOpScored() {
-    this.pointsList.open();
+    if ( this.running ) {
+      this.pointsList.open();
+    }
   }
 
   onePoint() {
-    this.eventType = "myTeamScored";
-    this.myTeamPoints = 1;
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "myTeamScored";
+      this.myTeamPoints = 1;
+      this.titularsList.open();
+    }
   }
 
   twoPoints() {
-    this.eventType = "myTeamScored";
-    this.myTeamPoints = 2;
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "myTeamScored";
+      this.myTeamPoints = 2;
+      this.titularsList.open();
+    }
   }
 
   threePoints() {
-    this.eventType = "myTeamScored";
-    this.myTeamPoints = 3;
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "myTeamScored";
+      this.myTeamPoints = 3;
+      this.titularsList.open();
+    }
   }
 
   rebound() {
-    this.eventType = "rebound";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "rebound";
+      this.titularsList.open();
+    }
   }
 
 }

@@ -53,17 +53,16 @@ app.get('/me', (req, res) => {
 
 //Read => Get
 app.get('/:userEmail', (req, res) => {
-    console.log("userEmail");
     (async () => {
         try {
             let userExists: boolean = true;
 
             let userData : any = "";
             await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {
-                    userData = {
-                        email: user.email,
-                        userName: user.displayName
-                    }
+                userData = {
+                    email: user.email,
+                    userName: user.displayName
+                }
             }).catch(() => {
                 userExists = false;
             });

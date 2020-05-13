@@ -12,6 +12,7 @@ export class FootballViewComponent implements OnInit {
 
   @Input() listaConv;
   @Input() titulars;
+  @Input() running;
   antTitulars = [];
 
   @Output() myTeamScored = new EventEmitter<any>();
@@ -29,54 +30,73 @@ export class FootballViewComponent implements OnInit {
   ngOnInit() { }
 
   onChange() {
-    if(this.eventType == "mytmScored") {
-      this.myTeamScored.emit({points: 1, player: this.selectedPlayer});
+    if(this.selectedPlayer != null ) {
+      if(this.eventType == "mytmScored") {
+        this.myTeamScored.emit({points: 1, player: this.selectedPlayer});
+      }
+      else if( this.eventType == "stopGoal") {
+        this.stoppedGoal.emit(this.selectedPlayer);
+      }
+      else if( this.eventType == "redCard") {
+        this.setRedCard.emit({player: this.selectedPlayer, card: "red"});
+      }
+      else if( this.eventType == "yellowCard") {
+        this.setYellowCard.emit({player: this.selectedPlayer, card: "yellow"});
+      }
+      else if( this.eventType = "changePlayers" ) {
+        let outPlayer = this.antTitulars.filter(item => this.titulars.indexOf(item)<0);
+        let inPlayer = this.titulars.filter(item => this.antTitulars.indexOf(item)<0);
+        this.changePlayers.emit({in: inPlayer, out: outPlayer});
+      }
+      this.eventType = "";
     }
-    else if( this.eventType == "stopGoal") {
-      this.stoppedGoal.emit(this.selectedPlayer);
-    }
-    else if( this.eventType == "redCard") {
-      this.setRedCard.emit({player: this.selectedPlayer, card: "red"});
-    }
-    else if( this.eventType == "yellowCard") {
-      this.setYellowCard.emit({player: this.selectedPlayer, card: "red"});
-    }
-    else if( this.eventType = "changePlayers" ) {
-      let outPlayer = this.antTitulars.filter(item => this.titulars.indexOf(item)<0);
-      let inPlayer = this.titulars.filter(item => this.antTitulars.indexOf(item)<0);
-      this.changePlayers.emit({in: inPlayer, out: outPlayer});
-    }
-    this.eventType = "";
   }
 
   myTmScored() {
-    this.eventType = "mytmScored";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "mytmScored";
+      this.titularsList.open();
+    }
   }
 
   stopGoal() {
-    this.eventType = "stopGoal";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "stopGoal";
+      this.titularsList.open();
+    }
   }
 
   opScored() {
-    this.opponentScored.emit(1);
+    if ( this.running ) {
+      this.opponentScored.emit(1);
+    }
   }
 
   redCard() {
-    this.eventType = "redCard";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "redCard";
+      this.titularsList.open();
+    }
   }
 
   yellowCard() {
-    this.eventType = "yellowCard";
-    this.titularsList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.eventType = "yellowCard";
+      this.titularsList.open();
+    }
   }
 
   onChangePlayers() {
-    this.antTitulars = this.titulars;
-    this.eventType = "changePlayers";
-    this.convList.open();
+    if ( this.running ) {
+      this.selectedPlayer = null;
+      this.antTitulars = this.titulars;
+      this.eventType = "changePlayers";
+      this.convList.open();
+    }
   }
 
 }

@@ -20,10 +20,10 @@
         <ion-row *ngIf="item.type=='changes'">Out: {{ item.playerOut?.name }}</ion-row>
         <ion-row *ngIf="item.type=='changes'">In: {{ item.playerIn?.name }}</ion-row>
       </ion-col>
-      <ion-item-options side="end">
-        <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>
-      </ion-item-options>
     </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteStatistic(i)"> {{ "CORE.actions.delete" | translate }}</ion-item-option>
+      </ion-item-options>
   </ion-item-sliding>
 </ion-list>
 
@@ -33,18 +33,18 @@
       <ion-img *ngIf="item.type=='pointsScored'" src="../../../../../assets/liveMatchIcons/basketball/1point.png" alt="1 point scored"></ion-img>
       <ion-img *ngIf="item.type=='assists'" src="../../../../../assets/liveMatchIcons/basketball/assists.png" alt="Assists"></ion-img>
       <ion-img *ngIf="item.type=='pointsReceived'" src="../../../../../assets/liveMatchIcons/basketball/opponentScored.png" alt="Opponent Scored"></ion-img>
-      <ion-img *ngIf="item.type=='twoPointsShots'" src="../../../../../assets/liveMatchIcons/basketball/2points.png" alt="2 points scored"></ion-img>
-      <ion-img *ngIf="item.type=='threePointsShots'" src="../../../../../assets/liveMatchIcons/basketball/3points.png" alt="Triple scored"></ion-img>
+      <ion-img *ngIf="item.type=='twoPointShots'" src="../../../../../assets/liveMatchIcons/basketball/2points.png" alt="2 points scored"></ion-img>
+      <ion-img *ngIf="item.type=='threePointShots'" src="../../../../../assets/liveMatchIcons/basketball/3points.png" alt="Triple scored"></ion-img>
       <ion-img *ngIf="item.type=='rebounds'" src="../../../../../assets/liveMatchIcons/basketball/rebound.png" alt="Rebound"></ion-img>
       <ion-col>
         <ion-label (click)="selectPlayer()">{{ item.player?.name }}</ion-label>
         <ion-row *ngIf="item.type=='pointsReceived'"> {{ "LIVE-MATCH.basketball.opponentScored" | translate }} </ion-row>
         <ion-row class="smallText" *ngIf="item.type=='pointsReceived'"> {{ item.points }} {{ "LIVE-MATCH.basketball.points" | translate }}</ion-row>
       </ion-col>
-      <ion-item-options side="end">
-        <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>
-      </ion-item-options>
     </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteStatistic(i)"> {{ "CORE.actions.delete" | translate }}</ion-item-option>
+      </ion-item-options>
   </ion-item-sliding>
 </ion-list>
 
@@ -61,9 +61,9 @@
         <ion-label (click)="selectPlayer()">{{ item.player?.name }}</ion-label>
         <ion-row *ngIf="item.type=='goalsReceived'"> {{ "LIVE-MATCH.opponentGoal" | translate }} </ion-row>
       </ion-col>
-      <ion-item-options side="end">
-        <ion-item-option color="danger"> {{ "CORE.delete" | translate }}</ion-item-option>
-      </ion-item-options>
     </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option color="danger" (click)="deleteStatistic(i)"> {{ "CORE.actions.delete" | translate }}</ion-item-option>
+    </ion-item-options>
   </ion-item-sliding>
 </ion-list>

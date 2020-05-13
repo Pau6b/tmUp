@@ -236,15 +236,34 @@ app.put('/updatePlayerStatistics/:teamId/:userId', (req, res) => {
 app.get('/getByTeam/:teamId', (req, res) => {
     (async () => {
         try {
+            let equipoExiste: boolean = true;
+            const team = db.collection('teams').doc(req.params.teamId);
+            await team.get().then((teamDoc:any) => {
+                if (!teamDoc.exists) equipoExiste=false;
+            })
+            let errores: string[] = [];
+            let hayErrores: boolean = false;
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with this teamId doesn't exists");
+            }
+            if (hayErrores){
+                return res.status(400).send(errores);
+            }
             const query = db.collection('memberships').where('teamId','==',req.params.teamId);
             const response: any = [];
+
 
             await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
 
                 for (const doc of docs) {
-                    const selectedItem = doc.data();
-                    response.push(selectedItem);
+                    const selectedItem = {
+                        userId: doc.data().userId,
+                        type: doc.data().type
+                    }
+                    if (req.query.type === selectedItem.type) response.push(selectedItem);
+                    else if (req.query.type === "all") response.push(selectedItem);
                 }
                 return response;
             })
