@@ -66,6 +66,7 @@
         "noFile": "There are no normative filew. Add an existing file or write it down",
         "normativeTitle": "Normative title",
         "uploadFile": "Upload a file",
+        "deleteFile": "Delete document",
         "fileTitle": "File title",
         "norm": "Rules",
         "insertNorm": "Insert rules here...",

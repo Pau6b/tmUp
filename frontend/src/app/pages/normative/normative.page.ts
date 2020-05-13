@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Chooser, ChooserResult } from '@ionic-native/chooser/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/services/storage.service';
 import { FormBuilder, Validators} from '@angular/forms';
+import { PhotoService } from 'src/app/services/photo.service';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-normative',
@@ -16,49 +17,33 @@ export class NormativePage implements OnInit {
     content: ['', [Validators.required] ]
   });
 
-  file: File = new File();
-  fileObj: ChooserResult;
-  isPDF = 0;
-  promise: Promise<string>;
-
+  hasNormative = true;
+  f;
 
   public constructor(
-    private chooser: Chooser,
+    private photoService: PhotoService,
     private storage: StorageService,
     private formBuilder: FormBuilder,
+    private apiRestProv:  apiRestProvider
     ) {}
 
   public ngOnInit() {
-    //subir file
-    /*let content = "Hello Zip";
-    let data = new Blob([content]);
-    let arrayOfBlob = new Array<Blob>();
-    arrayOfBlob.push(data);
-    //-------------------
-    const path = "/normatives/file.pdf";
-    const ref = this.storage.ref;
-    const task = this.storage.upload(path,data);
-    console.log('Image uploaded!');*/
-  }
-
-  public chooseFile(){
-    this.chooser.getFile()
-      .then( (value: ChooserResult) => {
-        this.fileObj = value;
-      },
-      (err) => {
-        alert(JSON.stringify(err));
-      })
+    this.getFile();
   }
 
   public createPdf(){
-    this.storage.createPdf(this.createPdfForm.get('title').value, this.createPdfForm.get('content').value, '6hd6Bdym8CXKW0Sm3hDb');
+    this.storage.createPdf(this.createPdfForm.get('title').value, this.createPdfForm.get('content').value, this.apiRestProv.getTeamId());
   }
 
   async uploadFile(){
-      this.promise = this.file.readAsText(this.file.dataDirectory, "newFile");
-      await this.promise.then(value => {
-        console.log(value);
-      });
+    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId());
+    this.getFile();
+  }
+
+  getFile(){
+    this.f = this.photoService.getFiles('normatives', this.apiRestProv.getTeamId());
+    console.log(this.f);
+    if(this.f.forEach.length > 0) this.hasNormative = true;
+    else this.hasNormative = false
   }
 }

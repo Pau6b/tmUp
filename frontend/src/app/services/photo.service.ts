@@ -83,7 +83,7 @@ export class PhotoService {
   getFiles(page, teamId){
     return this.storage.getFiles(page, teamId);
   }
-
+  
   async selectMedia(page, teamId) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'What would you like to add?',
