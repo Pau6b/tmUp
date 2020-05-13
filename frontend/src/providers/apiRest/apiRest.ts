@@ -41,6 +41,10 @@ export class apiRestProvider {
     return this.currentTeam;
   }
 
+  public getCurrentUserId(): string {
+    return this.currentUserId;
+  }
+
   private setHeader() {
     this.headers = new HttpHeaders({ 'Authorization' : this.token });
   }
@@ -256,35 +260,41 @@ export class apiRestProvider {
 
   //Fines
   public createFine(fineInfo) {
+    this.setHeader();
     return this.http.post(this.url+'memberships/fines/create',JSON.stringify(fineInfo),{headers: this.headers} );
   }
 
   public payFine(fineInfo) {
+    this.setHeader();
     return this.http.put(this.url+'memberships/fines/payFine', JSON.stringify(fineInfo), {headers: this.headers});
   }
-  public getMemberFines(teamId, userId, fineState){
+  public getMemberFines(fineState){
+    this.setHeader();
     return this.http.get(this.url+'memberships/fines/membershipFines', {headers: this.headers, params: {
-      teamId: teamId,
-      userId: userId,
+      teamId: this.currentTeam,
+      userId: this.currentUserId,
       fineState: fineState
     }});
   }
 
-  public getTeamFines(teamId, fineState){
+  public getTeamFines(fineState){
+    this.setHeader();
     return this.http.get(this.url+'memberships/fines/teamFines', {headers: this.headers, params: {
-      teamId: teamId,
+      teamId: this.currentTeam,
       fineState: fineState
     }});
   }
-  public getMemberRegister(teamId, userId){
+  public getMemberRegister(){
+    this.setHeader();
     return this.http.get(this.url+'memberships/fines/sumMembership', {headers: this.headers, params: {
-      teamId: teamId,
-      userId: userId
+      teamId: this.currentTeam,
+      userId: this.currentUserId
     }});
   }
-  public getTeamRegister(teamId){
+  public getTeamRegister(){
+    this.setHeader();
     return this.http.get(this.url+'memberships/fines/sumTeam', {headers: this.headers, params: {
-      teamId: teamId
+      teamId: this.currentTeam
     }});
   }
   

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-fine',
@@ -33,8 +34,13 @@ export class AddFinePage implements OnInit {
       "name": "Daniela"
     }
   ]
-  constructor() { }
+  constructor(
+    public formBuilder: FormBuilder) { }
 
+    addFineForm = this.formBuilder.group({
+      nombreAtributo: ['', [Validators.required]]
+    });
+    
   ngOnInit() {
   }
 
