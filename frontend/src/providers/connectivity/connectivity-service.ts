@@ -10,7 +10,7 @@ export class Connectivity {
   onDevice: boolean;
 
   constructor(public platform: Platform, public network: Network){
-    this.onDevice = this.platform.is('desktop') || this.platform.is('ios') || this.platform.is('android') || this.platform.is('cordova');
+    this.onDevice = this.platform.is('desktop') || this.platform.is('ios') || this.platform.is('android') || this.platform.is('cordova') || this.platform.is('mobile') || this.platform.is('hybrid');
   }
 
   isOnline(): boolean {

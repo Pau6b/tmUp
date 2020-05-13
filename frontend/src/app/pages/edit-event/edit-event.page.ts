@@ -145,7 +145,6 @@ export class EditEventPage implements OnInit {
             {
               text: 'Accept', 
               handler : () => {
-                console.log(this.evId);
                 this.apiProv.createCall(this.evId, this.convocats)
                 .then(() => {
                   this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
@@ -163,7 +162,7 @@ export class EditEventPage implements OnInit {
     for (let member of this.membershipTeam) {
       if (member.isChecked) {
         ++this.numConv;
-        this.convocats.push(member.name);
+        this.convocats.push(member.userId);
       }
     }
     this.presentAlert();
@@ -179,7 +178,7 @@ export class EditEventPage implements OnInit {
             mem.isChecked = false;
           }
         }
-      });
+      }); 
   }
 
   listPlayers() {
