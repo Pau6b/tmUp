@@ -217,7 +217,8 @@
             "physiotherapist": "Physiotherapist",
             "nextMatch": "Next match",
             "profile": "Profile" ,
-            "photos": "Pictures"
+            "photos": "Pictures",
+            "fouls": "Fines"
         }
     }
 }

@@ -217,7 +217,8 @@
             "physiotherapist": "Fisioterapeuta",
             "nextMatch": "Següent partit",
             "profile": "Perfil" ,
-            "photos": "Fotos"
+            "photos": "Fotos",
+            "fouls": "Multes"
         }
     }
 }

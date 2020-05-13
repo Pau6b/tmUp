@@ -53,7 +53,7 @@
         "convocados":"Convocados",
         "analisi": "Analisis",
         "fotos": "Fotos",
-        "message_no_convocados": "No hay convocados todabía",
+        "message_no_convocados": "No hay convocados todavía",
         "new_list": "Crear lista",
         "inform": "Informe Análisis Rival",
         "no_inform": "Todavía no hay ningún Informe de Análisis Rival",
@@ -119,7 +119,7 @@
         "info4": "Entre muchas otras cosas...",
         "info5": "¡DESCÚBERLO TÚ MISMO!",
         "title_reminders": "Recordatorios",
-        "no_reminders": "Todabía no tienes nada programado...",
+        "no_reminders": "Todavía no tienes nada programado...",
         "title_next_match": "Próximo Partido:",
         "title_next_training": "Próximo Entrenamiento:",
         "day": "Día:",
@@ -217,7 +217,8 @@
             "physiotherapist": "Fisioterapeuta",
             "nextMatch": "Próximo partido",
             "profile": "Perfil",
-            "photos": "Fotos" 
+            "photos": "Fotos",
+            "fouls": "Multas"
         }
     }
 }
