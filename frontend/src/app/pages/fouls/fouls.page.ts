@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../components/modal/modal.component';
 
-import Chart from 'chart.js';
+import { Chart } from 'chart.js';
 import 'chartjs-plugin-datalabels';
 
 @Component({
@@ -63,7 +63,7 @@ export class FoulsPage implements OnInit {
       "concepto": "concepto de la multa"
     }
   ];
-  @ViewChild('doughnutCanvas') doughnutCanvas;
+  @ViewChild('doughnutCanvas' , {static: false}) doughnutCanvas;
   
   doughnutChart: any;
   colorsArray: any;
@@ -101,7 +101,7 @@ export class FoulsPage implements OnInit {
       data: {
         labels: ["Pagadas", "Pendientes"],
         datasets: [{
-          labels: ["Pagadas", "Pendientes"],
+          //labels: ["Pagadas", "Pendientes"],
           data: [100, 55],
           backgroundColor: ['rgba(51, 204, 51, 0.7)','rgba(255, 99, 133, 0.7)'], // array should have same number of elements as number of dataset
           hoverBackgroundColor: ['rgba(51, 204, 51, 1)','rgba(255, 99, 133, 1)'],// array should have same number of elements as number of dataset
