@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { StorageService } from 'src/app/services/storage.service';
 
 import { PhotoService } from 'src/app/services/photo.service';
 import { Router } from '@angular/router';
@@ -19,16 +21,18 @@ export class TacticsPage implements OnInit {
   constructor(
     private router: Router,
     private file: File,
+    private apiProv: apiRestProvider,
+    private storage: StorageService,
     private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
+    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
     console.log(this.files);
   }
 
   doRefresh(event) {
     setTimeout(() => {
-      this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
       event.target.complete();
     }, 2000);
   }
@@ -39,8 +43,12 @@ export class TacticsPage implements OnInit {
     this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
   }
 
-  openFile(file){
-    this.photoService.openFile(file);
+  deleteFile(file){
+    //console.log(file);
+    this.storage.deleteFile(file.full);
+    setTimeout(() => {
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
+    }, 500);
   }
 
 }
