@@ -113,6 +113,135 @@ app.get('/:teamId/stadistics', (req, res) => {
         }
     })().then().catch();
 });
+app.get('/:teamId/ranking', (req, res) => {
+    (async () => {
+        try {
+            const document = db.collection("teams").doc(req.params.teamId);
+            let teamExists = true;
+            await document.get().then((doc) => {
+                if (!doc.exists) {
+                    teamExists = false;
+                }
+                return;
+            });
+            //Check that the user exists
+            if (!teamExists) {
+                return res.status(400).send("TG1");
+            }
+            let teamSport = "";
+            const team = await db.collection('teams').doc(req.params.teamId);
+            await team.get().then((teamDoc) => {
+                teamSport = teamDoc.data().sport;
+            });
+            let Statistics = {};
+            Statistics = Statistics_1.GetMembershipStatsBySport(teamSport);
+            let maxscore = Statistics;
+            for (const key in maxscore) {
+                if (maxscore.hasOwnProperty(key)) {
+                    maxscore[key] = {
+                        id: 0,
+                        points: 0
+                    };
+                }
+            }
+            console.log(maxscore);
+            //comprovarEstadisticas(Statistics,jsonContent);
+            /*let email: string = "";
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    user.email = user.email;
+            })
+            //email = "ivan@email.com"*/
+            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId);
+            let docExists = false;
+            //let stadisticsPlayer;
+            await query.get().then(async (querySnapshot) => {
+                for (const doc of querySnapshot.docs) {
+                    docExists = true;
+                    if (doc.data().type === "player") {
+                        Statistics = doc.data().stats;
+                        console.log(Statistics);
+                        for (const key in Statistics) {
+                            if (Statistics.hasOwnProperty(key)) {
+                                for (const i in maxscore) {
+                                    if (maxscore.hasOwnProperty(i)) {
+                                        console.log(maxscore[i]);
+                                        if ((key === i) && (Statistics[key] > maxscore[i].points)) {
+                                            maxscore[i].id = doc.data().userId;
+                                            maxscore[i].points = Statistics[key];
+                                            console.log("maxscore:");
+                                            console.log(maxscore);
+                                        } //maxscore[i] += Statistics[key];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    /*if (doc.data().type !== "player") {
+                        isPlayer = false;
+                    }*/
+                }
+            });
+            if (!docExists) {
+                return res.status(400).send("UMS3");
+            }
+            //const query = await db.collection('memberships').where('teamId','==',req.params.teamId);
+            //const response: any = [];
+            //const categoria = req.query.categoria;
+            //console.log(categoria);
+            //let i = 0;
+            /*
+                        await query.get().then((querySnapshot: any) => {
+                            const docs = querySnapshot.docs;
+            
+            
+                            for (const doc of docs) {
+                                //const selectedItem = doc.data();
+                                //iterar por todas las estadisticas para rellenar el maxscore.
+                                const stats = doc.data().stats;
+                                console.log(Object.keys(stats).length);
+                                console.log(maxscore.length);
+                                let i = 0;
+                                for (const key in stats) {
+                                    if (stats.hasOwnProperty(key)) {
+                                        const element = stats[key];
+                                        console.log(key)
+                                        console.log(element);
+                                        if((doc.data().type === "player") && (stats[key] > maxscore[i].points)) {
+                                            //console.log(doc.data().stats.categoria);
+                                            maxscore[i].points = stats[key];
+                                            maxscore[i].id = doc.data().userId;
+                                            console.log(maxscore);
+                                        }
+                                    }
+                                    i++;
+                                }
+                                /*for (let i = 0; i < Object.keys(stats).length; i++) {
+                                    const element = maxscore[i];
+                                    console.log(element);
+                                    console.log(doc.data().stats[i]);
+                                    if((doc.data().type === "player") && (doc.data().stats[i] > maxscore[i].points)) {
+                                        //console.log(doc.data().stats.categoria);
+                                        maxscore[i].points = doc.data().stats[i];
+                                        maxscore[i].id = doc.data().userId;
+                                    }
+                                    
+                                }
+            
+            
+                            }
+                            return maxscore;
+                        });
+            */
+            //if(maxscore.points === 0) res.status(400).send("No team stats available for the category: "+ categoria);
+            return res.status(200).send(maxscore);
+            //return correct data
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
 //ReadAll => Get
 app.get('/', (req, res) => {
     (async () => {
