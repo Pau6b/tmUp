@@ -4,6 +4,7 @@ import { ModalComponent } from '../components/modal/modal.component';
 
 import * as Chart from 'chart.js';
 import { Router } from '@angular/router';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 
 @Component({
   selector: 'app-fouls',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class FoulsPage implements OnInit {
 
-  total = [
+  /*total = [
     {
     "user": "Juanjo",
     "userId": "kdsixzbnvkjafznkvfd",
@@ -62,20 +63,30 @@ export class FoulsPage implements OnInit {
       "price": 30,
       "concepto": "concepto de la multa"
     }
-  ];
+  ];*/
   @ViewChild('doughnutCanvas', {static: false}) doughnutCanvas;
   
   doughnutChart: any;
   colorsArray: any;
-  totalPrice = 155;
+  totalPrice: number;
+  total;
+  register;
+  paids;
+  noPaids;
+
   constructor(
     private modalController: ModalController,
-    private router: Router) { }
+    private router: Router,
+    private apiProv: apiRestProvider) { }
 
   ngOnInit() {
   }
 
   ionViewDidEnter() {
+    this.total = this.apiProv.getFines(this.apiProv.getTeamId(), 'all');
+    this.paids = this.apiProv.getFines(this.apiProv.getTeamId(), 'paid');
+    this.noPaids = this.apiProv.getFines(this.apiProv.getTeamId(), 'noPaid');
+    this.register = this.apiProv.getRegister(this.apiProv.getTeamId());
     this.createSemicircleChart();
   }
 
@@ -105,7 +116,7 @@ export class FoulsPage implements OnInit {
         labels: ["Pagadas", "Pendientes"],
         datasets: [{
           labels: ["Pagadas", "Pendientes"],
-          data: [100, 55],
+          data: [this.register.paid, this.register.pendig],
           backgroundColor: ['rgba(51, 204, 51, 0.7)','rgba(255, 99, 133, 0.7)'], // array should have same number of elements as number of dataset
           hoverBackgroundColor: ['rgba(51, 204, 51, 1)','rgba(255, 99, 133, 1)'],// array should have same number of elements as number of dataset
           borderWidth: 1,
@@ -135,6 +146,10 @@ export class FoulsPage implements OnInit {
         animation: { animateScale: true, animateRotate: true }
       }
     });
+    
+  }
+
+  radioGroupChange(event){
     
   }
 }

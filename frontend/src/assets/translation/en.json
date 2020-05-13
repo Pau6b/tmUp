@@ -88,7 +88,9 @@
         "title": "Fines",
         "total": "Total",
         "paid": "Paids",
-        "pendings": "Pendings"
+        "pendings": "Pendings",
+        "team": "Team",
+        "personal": "Selfs"
     },
     "MODAL":{
         "email": "User email",

@@ -210,4 +210,13 @@ export class apiRestProvider {
     return this.http.get(url, {headers: this.headers});
   }
 
+  //Fines
+  public getFines(teamId, group){
+    return this.http.get(this.url+'/memberships/fines/teamFines');
+  }
+
+  public getRegister(teamId){
+    return this.http.get(this.url+'/memberships/fines/sumTeam');
+  }
+
 }

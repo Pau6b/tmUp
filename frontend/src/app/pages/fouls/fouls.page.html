@@ -9,14 +9,14 @@
 
 <ion-content>
   <ion-row> 
-    <ion-radio-group value="selected" mode="md">
+    <ion-radio-group value="selected" mode="md" (ionChange)=radioGroupChange($event)>
       <ion-col>
         <ion-radio value="team"></ion-radio>
-        <ion-label>Equipo</ion-label>
+        <ion-label>{{'FOULS.team' | translate}}</ion-label>
       </ion-col>
       <ion-col>
         <ion-radio value="player"></ion-radio>
-        <ion-label>Personales</ion-label>
+        <ion-label>{{'FOULS.personal' | translate}}</ion-label>
       </ion-col>
     </ion-radio-group>
   </ion-row> 
@@ -24,8 +24,8 @@
     <ion-card-content>
       <canvas #doughnutCanvas></canvas>
       <div>
-        <ion-label>Total</ion-label>
-        <ion-label>{{totalPrice}}€</ion-label>
+        <ion-label>{{'FOULS.total' | translate}}</ion-label>
+        <ion-label>{{register.total}}€</ion-label>
       </div>
     </ion-card-content>
   </ion-card>
@@ -35,10 +35,10 @@
       <ion-segment-button value="total">
         <ion-label>{{'FOULS.total' | translate}}</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="pagadas">
+      <ion-segment-button value="paid">
         <ion-label>{{'FOULS.paid' | translate}}</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="pendientes">
+      <ion-segment-button value="noPaid">
         <ion-label>{{'FOULS.pendings' | translate}}</ion-label>
       </ion-segment-button>
     </ion-segment>
@@ -69,7 +69,7 @@
       </ion-item-sliding>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'pagadas'">
+    <ion-list *ngSwitchCase="'paid'">
       <ion-item-sliding *ngFor="let f of paids">
         <ion-item class="smallText" (click)="openModal(f)">
         <ion-col size="2">
@@ -93,8 +93,8 @@
       </ion-item-sliding>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'pendientes'">
-      <ion-item-sliding *ngFor="let f of pendings">
+    <ion-list *ngSwitchCase="'noPaid'">
+      <ion-item-sliding *ngFor="let f of noPaids">
         <ion-item class="smallText" (click)="openModal(f)">
         <ion-col size="2">
           <ion-icon *ngIf="f.price > 0" name="arrow-forward-circle-outline" color="success"></ion-icon>

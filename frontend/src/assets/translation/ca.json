@@ -88,7 +88,9 @@
         "title": "Multes",
         "total": "Total",
         "paid": "Pagades",
-        "pendings": "Pendents"
+        "pendings": "Pendents",
+        "team": "Equip",
+        "personal": "Personals"
     },
     "MODAL":{
         "email": "Email de l'usuari",
