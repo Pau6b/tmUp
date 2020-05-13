@@ -109,6 +109,19 @@
         "hour": "Hora:",
         "title_news": "Notícies"
     },
+    "FOULS":{
+        "title": "Multes",
+        "total": "Total",
+        "paid": "Pagades",
+        "pendings": "Pendents",
+        "team": "Equip",
+        "personal": "Personals"
+    },
+    "MODAL":{
+        "email": "Email de l'usuari",
+        "date": "Data",
+        "concept": "Concepte especific"
+    },
     "LIVE-MATCH": {
         "start": "Comença",
         "stop": "Atura",

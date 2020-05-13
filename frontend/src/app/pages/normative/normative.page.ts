@@ -1,22 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { Chooser, ChooserResult } from '@ionic-native/chooser/ngx';
-import { AngularFireStorage } from 'angularfire2/storage';
-import { HttpClient} from '@angular/common/http';
+import { File } from '@ionic-native/file/ngx';
+import { StorageService } from 'src/app/services/storage.service';
+import { FormBuilder, Validators} from '@angular/forms';
+
 @Component({
   selector: 'app-normative',
   templateUrl: './normative.page.html',
   styleUrls: ['./normative.page.scss'],
 })
 export class NormativePage implements OnInit {
+
+  createPdfForm = this.formBuilder.group({
+    title: ['', [Validators.required] ],
+    content: ['', [Validators.required] ]
+  });
+
+  file: File = new File();
   fileObj: ChooserResult;
   isPDF = 0;
+  promise: Promise<string>;
 
 
   public constructor(
-    private http: HttpClient,
-    private storage: AngularFireStorage,
-    private chooser: Chooser
-    ) { }
+    private chooser: Chooser,
+    private storage: StorageService,
+    private formBuilder: FormBuilder,
+    ) {}
 
   public ngOnInit() {
     //subir file
@@ -41,23 +51,14 @@ export class NormativePage implements OnInit {
       })
   }
 
-  public pdfViewer(){
-
+  public createPdf(){
+    this.storage.createPdf(this.createPdfForm.get('title').value, this.createPdfForm.get('content').value, '6hd6Bdym8CXKW0Sm3hDb');
   }
 
-  public uploadFile(files: FileList) {
-    let results = [];
-    if (files && files.length > 0) {
-      const file: File = files.item(0);//assuming only one file is uploaded
-      console.log('Uplaoded file, Filename:' + file.name + 'Filesize:' + file.size + 'Filetype:' + file.type);
-      const reader: FileReader = new FileReader();
-      reader.readAsText(file);
-      reader.onload = (e) => {
-        const fileContent: string = reader.result as string;
-        console.log('fileContent:' + fileContent);
-        const lines: string[] = fileContent.split('\n'); //this depends on your line end character, I'm using \n in general
-        //lines is an array of string, such as "Sham went to school", loop over it and process as you like
-      };
-    }
+  async uploadFile(){
+      this.promise = this.file.readAsText(this.file.dataDirectory, "newFile");
+      await this.promise.then(value => {
+        console.log(value);
+      });
   }
 }

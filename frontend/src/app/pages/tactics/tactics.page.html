@@ -9,17 +9,33 @@
 
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list padding>
-    <ion-item lines="full" no-padding>
-      <ion-img src="../../../assets/icon/pdf.png"></ion-img>
-      <ion-label text-wrap>
-        Fichero 1
-      </ion-label>
-    </ion-item>
+    <ion-item-sliding *ngFor="let f of files">
+      <ion-item (click)="openFile(f)">
+        <ion-img src="../../../assets/icon/img.png" slot="start" *ngIf="f.name.endsWith('jpg') || f.name.endsWith('jpeg') || f.name.endsWith('png')"></ion-img>
+        <ion-img src="../../../assets/icon/doc.png" slot="start" *ngIf="f.name.endsWith('.txt') ||  f.name.endsWith('.doc') ||  f.name.endsWith('.docx')"></ion-img>
+        <ion-img src="../../../assets/icon/pdf.png" slot="start" *ngIf="f.name.endsWith('.pdf')"></ion-img>
+
+        <ion-label class="ion-text-wrap">
+          {{ f.name }}
+          <p>{{ f.fullPath }}</p>
+        </ion-label>
+      </ion-item>
+ 
+      <ion-item-options side="start">
+        <ion-item-option (click)="openPdf()" color="danger">
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+ 
+    </ion-item-sliding>
   </ion-list> 
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
-    <ion-fab-button (click)="goToaddTactic(img)">
+    <ion-fab-button (click)="goToaddTactic()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

@@ -109,6 +109,19 @@
         "hour": "Hour:",
         "title_news": "News"
     },
+    "FOULS":{
+        "title": "Fines",
+        "total": "Total",
+        "paid": "Paids",
+        "pendings": "Pendings",
+        "team": "Team",
+        "personal": "Selfs"
+    },
+    "MODAL":{
+        "email": "User email",
+        "date": "Date",
+        "concept": "Specific concept"
+    },
     "LIVE-MATCH": {
         "start": "Start",
         "stop": "Stop",
