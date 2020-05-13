@@ -8,25 +8,25 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="addFineGroup" (ngSubmit)="onAdd()">
+  <form [formGroup]="addFineForm" (ngSubmit)="onAdd()">
     <ion-list>
       <ion-item class="ion-margin">
         <ion-label>Miembros</ion-label>
-          <ion-select value="members" multiple="true" placeholder="select members" >
-            <ion-select-option *ngFor="let m of members" value="{{m.id}}" formControlName="members">{{m.name}}</ion-select-option>
+          <ion-select value="members" multiple="true" placeholder="select members">
+            <ion-select-option *ngFor="let m of members" value="{{m.id}}" >{{m.userId}}</ion-select-option>
           </ion-select>
       </ion-item>
       <ion-item class="ion-margin">
           <ion-label>Fecha</ion-label>
-          <ion-datetime placeholder="Select date"></ion-datetime>
+          <ion-datetime placeholder="Select date" formControlName="date"></ion-datetime>
       </ion-item>
       <ion-item class="ion-margin">
         <ion-label position="floating">Concepto</ion-label>
-        <ion-input></ion-input>
+        <ion-input formControlName="issue"></ion-input>
       </ion-item>
       <ion-item class="ion-margin">
         <ion-label>Precio</ion-label>
-        <ion-input required class="ion-text-right" type="number" placeholder="€"></ion-input>
+        <ion-input required class="ion-text-right" type="number" placeholder="€" formControlName="money"></ion-input>
       </ion-item>
     </ion-list>
 

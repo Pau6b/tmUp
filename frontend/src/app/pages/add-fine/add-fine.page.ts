@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-fine',
@@ -8,40 +10,35 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class AddFinePage implements OnInit {
 
-  members = [
-    {
-      "id": "1",
-      "name": "Juanjo"
-    },
-    {
-      "id": "2",
-      "name": "Pau"
-    },
-    {
-      "id": "3",
-      "name": "Ivan"
-    },
-    {
-      "id": "4",
-      "name": "Lucas"
-    },
-    {
-      "id": "5",
-      "name": "Clara"
-    },
-    {
-      "id": "6",
-      "name": "Daniela"
-    }
-  ]
+  members;
+
   constructor(
-    public formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private apiProv: apiRestProvider,
+    private router: Router) { }
 
     addFineForm = this.formBuilder.group({
-      nombreAtributo: ['', [Validators.required]]
+      date: [new Date(), [Validators.required]],
+      userId: ['jugador@jugador.com', [Validators.required]],
+      money: ['', [Validators.required]],
+      issue: ['', [Validators.required]],
+      teamId: [this.apiProv.getTeamId()]
     });
     
   ngOnInit() {
+    this.apiProv.getMembers().then(
+      (data) => {
+        this.members = data;
+        console.log("---->"+this.members);
+      }
+    );
+  }
+
+  onAdd(){
+    this.apiProv.createFine(this.addFineForm.value).subscribe(
+      () => {
+        this.router.navigate(['fouls']);
+      });
   }
 
 }
