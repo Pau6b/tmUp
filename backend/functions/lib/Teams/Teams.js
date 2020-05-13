@@ -128,27 +128,111 @@ app.get('/:teamId/ranking', (req, res) => {
             if (!teamExists) {
                 return res.status(400).send("TG1");
             }
-            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId);
-            //const response: any = [];
-            let maxscore = {
-                id: 0,
-                points: 0
-            };
-            const categoria = req.query.categoria;
-            console.log(categoria);
-            await query.get().then((querySnapshot) => {
-                const docs = querySnapshot.docs;
-                for (const doc of docs) {
-                    //const selectedItem = doc.data();
-                    if ((doc.data().type === "player") && (doc.data().stats.categoria > maxscore.points)) {
-                        maxscore.points = doc.data().stats.categoria;
-                        maxscore.id = doc.data().userId;
-                    }
-                }
-                return maxscore;
+            let teamSport = "";
+            const team = await db.collection('teams').doc(req.params.teamId);
+            await team.get().then((teamDoc) => {
+                teamSport = teamDoc.data().sport;
             });
-            if (maxscore.points === 0)
-                res.status(400).send("No team stats available for the category: " + categoria);
+            let Statistics = {};
+            Statistics = Statistics_1.GetMembershipStatsBySport(teamSport);
+            let maxscore = Statistics;
+            for (const key in maxscore) {
+                if (maxscore.hasOwnProperty(key)) {
+                    maxscore[key] = {
+                        id: 0,
+                        points: 0
+                    };
+                }
+            }
+            console.log(maxscore);
+            //comprovarEstadisticas(Statistics,jsonContent);
+            /*let email: string = "";
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    user.email = user.email;
+            })
+            //email = "ivan@email.com"*/
+            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId);
+            let docExists = false;
+            //let stadisticsPlayer;
+            await query.get().then(async (querySnapshot) => {
+                for (const doc of querySnapshot.docs) {
+                    docExists = true;
+                    if (doc.data().type === "player") {
+                        Statistics = doc.data().stats;
+                        console.log(Statistics);
+                        for (const key in Statistics) {
+                            if (Statistics.hasOwnProperty(key)) {
+                                for (const i in maxscore) {
+                                    if (maxscore.hasOwnProperty(i)) {
+                                        console.log(maxscore[i]);
+                                        if ((key === i) && (Statistics[key] > maxscore[i].points)) {
+                                            maxscore[i].id = doc.data().userId;
+                                            maxscore[i].points = Statistics[key];
+                                            console.log("maxscore:");
+                                            console.log(maxscore);
+                                        } //maxscore[i] += Statistics[key];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    /*if (doc.data().type !== "player") {
+                        isPlayer = false;
+                    }*/
+                }
+            });
+            if (!docExists) {
+                return res.status(400).send("UMS3");
+            }
+            //const query = await db.collection('memberships').where('teamId','==',req.params.teamId);
+            //const response: any = [];
+            //const categoria = req.query.categoria;
+            //console.log(categoria);
+            //let i = 0;
+            /*
+                        await query.get().then((querySnapshot: any) => {
+                            const docs = querySnapshot.docs;
+            
+            
+                            for (const doc of docs) {
+                                //const selectedItem = doc.data();
+                                //iterar por todas las estadisticas para rellenar el maxscore.
+                                const stats = doc.data().stats;
+                                console.log(Object.keys(stats).length);
+                                console.log(maxscore.length);
+                                let i = 0;
+                                for (const key in stats) {
+                                    if (stats.hasOwnProperty(key)) {
+                                        const element = stats[key];
+                                        console.log(key)
+                                        console.log(element);
+                                        if((doc.data().type === "player") && (stats[key] > maxscore[i].points)) {
+                                            //console.log(doc.data().stats.categoria);
+                                            maxscore[i].points = stats[key];
+                                            maxscore[i].id = doc.data().userId;
+                                            console.log(maxscore);
+                                        }
+                                    }
+                                    i++;
+                                }
+                                /*for (let i = 0; i < Object.keys(stats).length; i++) {
+                                    const element = maxscore[i];
+                                    console.log(element);
+                                    console.log(doc.data().stats[i]);
+                                    if((doc.data().type === "player") && (doc.data().stats[i] > maxscore[i].points)) {
+                                        //console.log(doc.data().stats.categoria);
+                                        maxscore[i].points = doc.data().stats[i];
+                                        maxscore[i].id = doc.data().userId;
+                                    }
+                                    
+                                }
+            
+            
+                            }
+                            return maxscore;
+                        });
+            */
+            //if(maxscore.points === 0) res.status(400).send("No team stats available for the category: "+ categoria);
             return res.status(200).send(maxscore);
             //return correct data
         }
