@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { AddFinePageRoutingModule } from './add-fine-routing.module';
 
 import { AddFinePage } from './add-fine.page';
+import { ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AddFinePageRoutingModule
+    AddFinePageRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [AddFinePage]
 })

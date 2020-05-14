@@ -13,57 +13,6 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class FoulsPage implements OnInit {
 
-  /*total = [
-    {
-    "user": "Juanjo",
-    "userId": "kdsixzbnvkjafznkvfd",
-    "date": "02/01/2020",
-    "price": 10,
-    "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Ivan",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "12/01/2020",
-      "price": 100,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Carles",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "20/01/2020",
-      "price": 50,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Cena de Cumpleaños",
-      "userId": "",
-      "date": "28/01/2020",
-      "price": -300,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Clara",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "10/04/2020",
-      "price": 5,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Pau",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "15/04/2020",
-      "price": 40,
-      "concepto": "concepto de la multa"
-    },
-    {
-      "user": "Daniela",
-      "userId": "kdsixzbnvkjafznkvfd",
-      "date": "11/05/2020",
-      "price": 30,
-      "concepto": "concepto de la multa"
-    }
-  ];*/
   @ViewChild('doughnutCanvas', {static: false}) doughnutCanvas;
   
   doughnutChart: any;
@@ -72,6 +21,8 @@ export class FoulsPage implements OnInit {
   register: any;
   paids;
   noPaids;
+  segment="total";
+  radioButton="team";
 
   constructor(
     private modalController: ModalController,
@@ -83,6 +34,18 @@ export class FoulsPage implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout( () => {
+      this.initialize();
+    }, 1000);
+    this.register = this.apiProv.getTeamRegister().subscribe(
+      (value) => {
+        this.register = value;
+        this.createSemicircleChart();
+      }
+    );
+  }
+  
+  ionViewDidEnter(){
     setTimeout( () => {
       this.initialize();
     }, 1000);
@@ -133,15 +96,15 @@ export class FoulsPage implements OnInit {
 
   goToAddFoul(){
     this.router.navigate(['add-fine']);
-
   }
+
   createSemicircleChart(){
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
       data: {
         labels: ["Pagadas", "Pendientes"],
         datasets: [{
-          labels: ["Pagadas", "Pendientes"],
+          label: "Grafico Multas",
           data: [this.register.paid, this.register.pending],
           backgroundColor: ['rgba(51, 204, 51, 0.7)','rgba(255, 99, 133, 0.7)'], // array should have same number of elements as number of dataset
           hoverBackgroundColor: ['rgba(51, 204, 51, 1)','rgba(255, 99, 133, 1)'],// array should have same number of elements as number of dataset
@@ -174,6 +137,11 @@ export class FoulsPage implements OnInit {
     });
 
   }
+
+  payFine(f){
+    this.apiProv.payFine(f);
+  }
+
 
   radioGroupChange(event){
     

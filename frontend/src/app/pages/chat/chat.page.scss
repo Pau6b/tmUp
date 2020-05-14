@@ -10,7 +10,7 @@
   }
 
   ion-list {
-  background: transparentize;
+  background: transparent;
   padding-top: 20px;
   margin-bottom: 0;
 }
@@ -67,7 +67,7 @@ ion-footer{
   .chatDiv {
     background: var(--ion-color-primary-tint);
     border-bottom-left-radius: 0;
-    border-radius: 10px 0px;
+    border-radius: 10px 10px 10px 0px;
     box-shadow: -1px 1px 5px rgba(0,0,0,0.2);
     max-width: 72vw;
     padding: 1rem;
@@ -142,7 +142,7 @@ ion-footer{
   .chatDiv {
     background: var(--ion-color-secondary);
     border-bottom-right-radius: 0;
-    border-radius: 0px 10px;
+    border-radius: 10px 10px 0px 10px;
     box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
     max-width: 72vw;
     padding: 1rem;
@@ -229,7 +229,8 @@ ion-input {
 }
 
 ion-text {
-  color: gray;
+  color: black;
+  background: white;
   font-size: 12px;
 }
 

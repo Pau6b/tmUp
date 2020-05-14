@@ -52,7 +52,6 @@ export class PhotoService {
         },{
           text: 'Cancel',
           role: 'cancel',
-          icon: 'undo',
         }
         ]
     });
