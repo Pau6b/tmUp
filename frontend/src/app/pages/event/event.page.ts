@@ -12,6 +12,7 @@ import { File } from '@ionic-native/file/ngx';
 import { Chooser } from '@ionic-native/chooser/ngx';
 //import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { PhotoService } from 'src/app/services/photo.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 declare var google;
 
@@ -26,11 +27,11 @@ export class EventPage implements OnInit {
   event: any;
   currentLoc: any;
   segmentModel = "info";
-  file_name = "Rival1";
   ListConv: any;
-  img;
-  file: File = new File();
-  promise: Promise<string>; 
+
+  hasInform = false;
+  f;
+  files = [];
 
   constructor(
     private geolocation: Geolocation,
@@ -41,7 +42,8 @@ export class EventPage implements OnInit {
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
     //private photoViewer: PhotoViewer,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private storage: StorageService
   ) { 
   }
 
@@ -49,7 +51,9 @@ export class EventPage implements OnInit {
     this.getEventInfo()
     setTimeout(() => {
       this.loadMap();
-    }, 1000);    
+    }, 1000);
+    this.getFile();
+    this.files = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'event_images');    
   }
 
   async getEventInfo() {
@@ -118,31 +122,35 @@ export class EventPage implements OnInit {
     });
   }
 
-  async uploadFile(){
-    console.log("Entro en uploadFile");
-    console.log("dataDirectory: "+ this.file.dataDirectory);
-    this.promise = this.file.readAsText(this.file.dataDirectory, "newFile");
-    console.log("He creado la promise => "+(await this.promise).toString);
-    await this.promise.then(value => {
-    console.log(value);
+  //INFORME RIVAL
+
+  async uploadFile() {
+    this.photoService.selectFiles('events', this.apiProv.getTeamId(), this.eventId, 'rivalInform');
+    this.getFile();
+  }
+
+  getFile() {
+    this.f = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'rivalInform');
+    console.log(this.f);
+    if(this.f.length > 0) this.hasInform = true;
+    else this.hasInform = true;
+  }
+
+  deleteFile(file) {
+    this.storage.deleteFile(file.full);
+    setTimeout(() => {
+      this.files = this.photoService.getFiles('events',this.apiProv.getTeamId(), this.eventId, 'rivalInform');
+    }, 500);
+  }
+
+  //EVENT IMAGES
+
+  addEventImage(){
+    this.photoService.selectMedia('events', this.apiProv.getTeamId(), this.eventId, 'event_images').finally(()=>{
+      setTimeout(() => {}, 10000);
     });
-}
-
-  updateFile() {
-    //cridar api per modificar el fitxer
+    this.files = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'event_images');
   }
 
-  deleteFile() {
-    //cridar api per eliminar el fitxer
-  }
-
-
-  goToaddTactic(img){
-    this.photoService.alertSheetPictureOptions();
-  }
-
-  seeImage(img){
-    //this.photoViewer.show('https://wallpaperplay.com/walls/full/3/b/4/268610.jpg');
-  }
 
 }

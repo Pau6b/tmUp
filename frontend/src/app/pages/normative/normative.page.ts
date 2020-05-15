@@ -35,12 +35,12 @@ export class NormativePage implements OnInit {
   }
 
   async uploadFile(){
-    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId());
+    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId(), null, null);
     this.getFile();
   }
 
   getFile(){
-    this.f = this.photoService.getFiles('normatives', this.apiRestProv.getTeamId());
+    this.f = this.photoService.getFiles('normatives', this.apiRestProv.getTeamId(), null, null);
     console.log(this.f);
     if(this.f.forEach.length > 0) this.hasNormative = true;
     else this.hasNormative = false

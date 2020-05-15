@@ -26,29 +26,29 @@ export class TacticsPage implements OnInit {
     private photoService: PhotoService) { }
 
   ngOnInit() {
-    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
+    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId(), null, null);
     console.log(this.files);
   }
 
   doRefresh(event) {
     setTimeout(() => {
-      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId(), null, null);
       event.target.complete();
     }, 2000);
   }
 
   goToaddTactic(){
-    this.photoService.selectMedia('tactics', '6hd6Bdym8CXKW0Sm3hDb').finally(()=>{
+    this.photoService.selectMedia('tactics', '6hd6Bdym8CXKW0Sm3hDb', null, null).finally(()=>{
       setTimeout(() => {}, 10000);
     });
-    this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
+    this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb', null, null);
   }
 
   deleteFile(file){
     //console.log(file);
     this.storage.deleteFile(file.full);
     setTimeout(() => {
-      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId(), null, null);
     }, 500);
   }
 
