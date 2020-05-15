@@ -8,22 +8,28 @@
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let d of data" class="category-block">
-    <ion-row no-padding class="category-banner">
-      <ion-col text-left button tappable (click)="d.expanded = !d.expanded" align-self-center>
-        {{ d.category }}
-      </ion-col>
-    </ion-row>
- 
-    <ion-slides [options]="sliderConfig">
-      <ion-slide *ngFor="let img of d.photos">
-        <div *ngIf="d.expanded">
-          <ion-card>
-            <ion-img [src]="'../assets/match_images/'+img.img+'.jpg'"></ion-img>
-          </ion-card>
-          <ion-text>Imagen {{img.img}}</ion-text>
-        </div>
-      </ion-slide>
-    </ion-slides>
+  <div *ngIf="hasEvents">
+    <div *ngFor="let d of events" class="category-block">
+      <ion-row no-padding class="category-banner">
+        <ion-col text-left button tappable (click)="d.expanded = !d.expanded" align-self-center>
+          {{ d.category }}
+        </ion-col>
+      </ion-row>
+   
+      <ion-slides [options]="sliderConfig">
+        <ion-slide *ngFor="let img of d.photos">
+          <div *ngIf="d.expanded">
+            <ion-card>
+              <ion-img [src]=""></ion-img>
+            </ion-card>
+            <ion-text>Imagen {{img.img}}</ion-text>
+          </div>
+        </ion-slide>
+      </ion-slides>
+    </div>
   </div>
+  <div *ngIf="!hasEvents">
+    <ion-text>No hi ha events amb imatges encara</ion-text>
+  </div>
+  
 </ion-content>
