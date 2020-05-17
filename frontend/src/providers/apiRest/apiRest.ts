@@ -287,6 +287,11 @@ export class apiRestProvider {
     return this.http.get(this.url+"teams/"+this.currentTeam+"/stadistics", {headers: this.headers})
   }
 
+  public getCurrentTeamRanking() {
+    this.setHeader();
+    return this.http.get(this.url+"teams/"+this.currentTeam+"/ranking", { headers: this.headers });
+  }
+
   //Fines
   public createFine(fineInfo) {
     this.setHeader();
