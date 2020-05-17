@@ -18,9 +18,11 @@
 </ion-toolbar>
 <ion-content>
     <div *ngIf="statisticsType === 'self'">
-      <ion-text color="primary" style="text-align: center;">
-        <h3>{{userName}}</h3>
-      </ion-text>
+      <ion-select placeholder="{{userName}}">
+        <ion-select-option *ngFor="let player of teamPlayers">
+          {{jugador.userName}}
+        </ion-select-option>
+      </ion-select>
 
       <app-self-basketball *ngIf="sport === 'basketball'" [stats]="userStats">
       </app-self-basketball>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { File } from '@ionic-native/file/ngx';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { ChooserResult } from '@ionic-native/chooser/ngx';
+import * as firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +13,29 @@ export class StorageService {
     private file: File,
     private storage: AngularFireStorage) { }
 
-
-  uploadFileToStorage(file: ChooserResult, page: string){
-    let teamId = "6hd6Bdym8CXKW0Sm3hDb";
-    let path = '/'+page+'/'+teamId+'/'+file.name;
+  getFiles(page, teamId){
+    const storageRef = firebase.storage().ref(page+'/'+teamId);
+    let files = [];
+    storageRef.listAll().then(result => {
+      result.items.forEach(async ref => {
+        files.push({
+          name: ref.name,
+          full: ref.fullPath,
+          url: await ref.getDownloadURL(),
+          ref: ref
+        });
+      });
+    },
+      (err) => {
+        console.log(err);
+      }
+    );
+    return files;
+  }
+  async uploadFileToStorage(buffer, name, page, teamId, _type){
+    let path = '/'+page+'/'+teamId+'/'+name;
     const ref = this.storage.ref;
-    let data = this.dataURItoBlob(file.dataURI);
-    console.log(data);
-    console.log("--------------------------------");
+    let data = new Blob([buffer], {type: _type});
     const task = this.storage.upload(path,data);
 
     task.percentageChanges().subscribe( changes => {
@@ -34,23 +49,22 @@ export class StorageService {
 
   }
 
-  dataURItoBlob(dataURI) {
-    // convert base64 to raw binary data held in a string
-    var byteString = atob(dataURI.split(',')[1]);
+  deleteFile(full) {
+    const ref = this.storage.ref(full);
+    ref.delete();
+  }
 
-    // separate out the mime component
-    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  createPdf(title: string, content: string, teamId: string){
+    let path = "/normatives/"+teamId+'/'+title;
+    const ref = this.storage.ref;
+    let data = new Blob([content], {type: 'text/plain'});
+    let arrayOfBlob = new Array<Blob>();
+    arrayOfBlob.push(data);
+    const task = this.storage.upload(path,data);
 
-    // write the bytes of the string to an ArrayBuffer
-    var arrayBuffer = new ArrayBuffer(byteString.length);
-    var _ia = new Uint8Array(arrayBuffer);
-    for (var i = 0; i < byteString.length; i++) {
-        _ia[i] = byteString.charCodeAt(i);
-    }
+    task.percentageChanges().subscribe( changes => {
+      console.log("percentatge= "+changes);
+    })
 
-    var dataView = new DataView(arrayBuffer);
-    var blob = new Blob([dataView], { type: mimeString });
-    return blob;
-}
-
+  }
 }

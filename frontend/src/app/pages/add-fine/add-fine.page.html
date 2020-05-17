@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+    <ion-button slot="start">
+      <ion-back-button color="light"></ion-back-button>
+    </ion-button>
+    <ion-title>addFine</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addFineForm" (ngSubmit)="onAdd()">
+    <ion-list>
+      <ion-item class="ion-margin">
+        <ion-label>Miembros</ion-label>
+          <ion-select value="members" multiple="true" placeholder="select members">
+            <ion-select-option *ngFor="let m of members" value="{{m.id}}" >{{m.userId}}</ion-select-option>
+          </ion-select>
+      </ion-item>
+      <ion-item class="ion-margin">
+          <ion-label>Fecha</ion-label>
+          <ion-datetime placeholder="Select date" formControlName="date"></ion-datetime>
+      </ion-item>
+      <ion-item class="ion-margin">
+        <ion-label position="floating">Concepto</ion-label>
+        <ion-input formControlName="issue"></ion-input>
+      </ion-item>
+      <ion-item class="ion-margin">
+        <ion-label>Precio</ion-label>
+        <ion-input required class="ion-text-right" type="number" placeholder="€" formControlName="money"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button class="ion-padding" expand="block" color="primary" type="submit">Añadir</ion-button>
+  </form>
+
+  
+</ion-content>

@@ -18,10 +18,8 @@ import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { Chooser } from '@ionic-native/chooser/ngx';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
-import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
@@ -37,6 +35,9 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
+
+import { FilePath } from '@ionic-native/file-path/ngx';
+
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -76,10 +77,10 @@ export function createTranslateLoader(http: HttpClient) {
     googleMaps,
     AngularFirestore,
     AngularFireStorage,
-    ImagePicker,
     MediaCapture,
     File,
-    PhotoViewer,
+    FilePath,
+    InAppBrowser,
     NavParams,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider

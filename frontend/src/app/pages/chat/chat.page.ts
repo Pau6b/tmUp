@@ -9,14 +9,12 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class ChatPage implements OnInit {
 
-  @ViewChild(IonContent, {static: false}) content: IonContent;
-
-  User = "prueba";
+  @ViewChild('ionContent', {static: false}) content;
+  
+  user;
   msgList :any = [];
   newMessage='';
   start_typing: any;
-  username;
-
   teamId;
 
   constructor(
@@ -25,6 +23,8 @@ export class ChatPage implements OnInit {
 
   
   ngOnInit() {
+    this.user = this.apiProv.getCurrentUserId();
+    this.teamId = this.apiProv.getTeamId();
   }
 
   getMessages(){
@@ -38,8 +38,8 @@ export class ChatPage implements OnInit {
   sendMessage() {
     var msg = 
       {
-      "email": "prueba",//this.username,
-      "teamId": "6hd6Bdym8CXKW0Sm3hDb",//this.teamId,
+      "email": this.user,
+      "teamId": this.teamId,
       "bodyMessage": this.newMessage,
       "date": new Date().toString(),
       };

@@ -37,10 +37,27 @@
     "EDIT-EVENT": {
         "pageName": "Edit event",
         "title": "Title",
-        "deleteEvent": "Delete event"
+        "deleteEvent": "Delete event",
+        "list": "Players list",
+        "start": "Starts",
+        "end": "Finishes",
+        "called_players": "Players",
+        "selected": "You have selected ",
+        "players": "players",
+        "confirmation": "OK?",
+        "no_players": "There's any players in this team yet"
     },
     "EVENT": {
-        "howToGet": "How to get"
+        "howToGet": "How to get",
+        "info": "Information",
+        "convocados":"Players",
+        "analisi": "Analysis",
+        "fotos": "Photos",
+        "message_no_convocados": "No list created with players yet",
+        "new_list": "Create list",
+        "inform": "Rival Analysis Report",
+        "no_inform": "You don't have a Rival Analysis Report",
+        "uploadfile": "Upload file"
     },
     "LOCATION-SELECT": {
         "connectToInternet": "It seems that you have no Interent connection..."
@@ -66,6 +83,7 @@
         "noFile": "There are no normative filew. Add an existing file or write it down",
         "normativeTitle": "Normative title",
         "uploadFile": "Upload a file",
+        "deleteFile": "Delete document",
         "fileTitle": "File title",
         "norm": "Rules",
         "insertNorm": "Insert rules here...",
@@ -84,17 +102,6 @@
     },
     "TEAM-LIST": {
         "title": "Team list"
-    },
-    "FOULS":{
-        "title": "Fines",
-        "total": "Total",
-        "paid": "Paids",
-        "pendings": "Pendings"
-    },
-    "MODAL":{
-        "email": "User email",
-        "date": "Date",
-        "concept": "Specific concept"
     },
     "MAIN" :{
         "title": "Home",
@@ -118,7 +125,33 @@
         "title_next_training": "Next Training:",
         "day": "Day:",
         "hour": "Hour:",
-        "title_news": "News"
+        "title_news": "News",
+        "no_news": "You don't have news yet",
+        "matchAdded": "New match on the day ",
+        "machDeleted": "A match has been removed on ",
+        "matchUpdated": "A match have been updated on ",
+        "trainingAdded": "A training has been added on ",
+        "trainingDeleted": "A training has been removed on ",
+        "tacticaAdded": "A new tactic has been added: ", 
+        "tacticaDeleted" : "A tactic has been removed: ", 
+        "normativaAdded": "A new normative has been added: ",
+        "normativaDeleted": "A normativa has been removed: ",
+        "at": " a les ", 
+        "location": "h. Location: ",
+        "rival": " Rival: "
+    },
+    "FOULS":{
+        "title": "Fines",
+        "total": "Total",
+        "paid": "Paids",
+        "pendings": "Pendings",
+        "team": "Team",
+        "personal": "Selfs"
+    },
+    "MODAL":{
+        "email": "User email",
+        "date": "Date",
+        "concept": "Specific concept"
     },
     "LIVE-MATCH": {
         "start": "Start",
@@ -193,7 +226,9 @@
             "done": "Done",
             "edit": "Edit",
             "here": "Here",
-            "delete": "Delete"
+            "delete": "Delete",
+            "yes": "Yes",
+            "no": "No"
         },
         "verbs": {
             "from": "From",
@@ -209,7 +244,9 @@
             "calendar": "Calendar",
             "physiotherapist": "Physiotherapist",
             "nextMatch": "Next match",
-            "profile": "Profile" 
+            "profile": "Profile" ,
+            "photos": "Pictures",
+            "fouls": "Fines"
         }
     }
 }

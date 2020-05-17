@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
@@ -72,17 +73,29 @@ const routes: Routes = [
     loadChildren: () => import('./pages/edit-event/edit-event.module').then( m => m.EditEventPageModule)
   },
   {
+    path: 'live-match',
+    loadChildren: () => import('./pages/live-match/live-match.module').then( m => m.LiveMatchPageModule)
+  },
+  {
+    path: 'photos',
+    loadChildren: () => import('./pages/photos/photos.module').then( m => m.PhotosPageModule)
+  },
+  {
     path: 'fouls',
     loadChildren: () => import('./pages/fouls/fouls.module').then( m => m.FoulsPageModule)
   },
   {
-    path: 'statistics',
-    loadChildren: () => import('./pages/statistics/statistics.module').then( m => m.StatisticsPageModule)
+    path: 'add-fine',
+    loadChildren: () => import('./pages/add-fine/add-fine.module').then( m => m.AddFinePageModule)
   },
   {
-    path: 'live-match',
-    loadChildren: () => import('./pages/live-match/live-match.module').then( m => m.LiveMatchPageModule)
+    path: 'statistics',
+    loadChildren: () => import('./pages/statistics/statistics.module').then( m => m.StatisticsPageModule)
+  },  {
+    path: 'ranking',
+    loadChildren: () => import('./pages/ranking/ranking.module').then( m => m.RankingPageModule)
   }
+
 ];
 
 @NgModule({
