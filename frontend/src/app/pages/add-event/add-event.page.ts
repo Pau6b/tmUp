@@ -20,9 +20,9 @@ export class AddEventPage implements OnInit {
   endTime = new Date(new Date().setMinutes(this.startdate.getMinutes()+60));
 
   locationForm = this.formBuilder.group({
-    latitude: [null, [Validators.required]],
-    longitude: [null, [Validators.required]],
-    name: ['', [Validators.required]]
+    latitude: [null],
+    longitude: [null],
+    name: ['']
   });
   
   createMatchForm = this.formBuilder.group({

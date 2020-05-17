@@ -217,7 +217,7 @@ export class apiRestProvider {
   public getMembers() {
     this.setHeader();
     return new Promise(resolve => {
-      this.http.get(this.url+'memberships/getByTeam/' + this.currentTeam, {headers: this.headers})
+      this.http.get(this.url+'memberships/getByTeam/' + this.currentTeam, {headers: this.headers, params: {type: 'all'}})
       .subscribe(data => {
           resolve(data);
       })
@@ -295,6 +295,7 @@ export class apiRestProvider {
   //Fines
   public createFine(fineInfo) {
     this.setHeader();
+    console.log(fineInfo)
     return this.http.post(this.url+'memberships/fines/create',JSON.stringify(fineInfo),{headers: this.headers} );
   }
 
