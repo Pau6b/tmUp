@@ -29,7 +29,6 @@
 
 <ion-content>
   <div *ngIf="segmentModel === 'info'">
-    <ion-text class="title">Información evento</ion-text>
     <div class="ion-padding">
       <ion-item *ngIf="event?.type === 'match'" class="rivalInfo">
         <ion-label>Rival: {{ event?.rival }}</ion-label>
@@ -52,12 +51,11 @@
       </ion-item>
     </div>
 
-    <div id="map"></div>
-    <ion-button class="directionsButton" (click)="GoogleDirections()" color="primary" expand="block">{{ 'EVENT.howToGet' | translate }}</ion-button>
+    <ion-button *ngIf="this.event?.location?.name!=''" class="directionsButton" (click)="GoogleDirections()" color="primary" expand="block">{{ 'EVENT.howToGet' | translate }}</ion-button>
+    <div *ngIf="this.event?.location?.name!=''" #map id="map"></div>
   </div>
 
   <div *ngIf="segmentModel === 'players'">
-    <ion-text class="title">Lista Convocados</ion-text>
     <div class="ion-padding">
       <div *ngIf="ListConv != null">
         <ion-list>
@@ -81,7 +79,6 @@
   </div> 
 
   <div *ngIf="segmentModel === 'analisi'">
-    <ion-text class="title">{{ 'EVENT.inform' | translate }}</ion-text>
 
     <div *ngIf="file">
       <ion-item class="paddingLabel">

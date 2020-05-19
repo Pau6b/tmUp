@@ -33,7 +33,7 @@ export class LocationSelectPage implements OnInit {
   }
 
   ngOnInit() {
-    this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement).then(() => {
+    this.maps.init(this.mapElement.nativeElement).then(() => {
       this.autocompleteService = new google.maps.places.AutocompleteService();
       this.placesService = new google.maps.places.PlacesService(this.maps.map);
       this.searchDisabled = false;

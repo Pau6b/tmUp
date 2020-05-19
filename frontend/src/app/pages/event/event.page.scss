@@ -19,14 +19,16 @@
 }
 
 #map {
+  position: absolute;
+  overflow: hidden;
   border-radius: 1em;
   height: 40%;
-  margin: 0 auto;
+  margin: 5%;
   width: 90%;
 }
 
 .directionsButton {
-  margin: 1em auto;
+  margin: auto;
   width: 90%;
 }
 

@@ -29,7 +29,7 @@
     "@ionic-native/geolocation": "^5.23.0",
     "@ionic-native/in-app-browser": "^5.25.0",
     "@ionic-native/media-capture": "^5.24.0",
-    "@ionic-native/network": "^5.23.0",
+    "@ionic-native/network": "^5.26.0",
     "@ionic-native/photo-viewer": "^5.25.0",
     "@ionic-native/splash-screen": "^5.0.0",
     "@ionic-native/status-bar": "^5.0.0",
@@ -46,7 +46,9 @@
     "chartjs-plugin-labels": "^1.1.0",
     "com-sarriaroman-photoviewer": "^1.2.4",
     "cordova-android": "8.1.0",
+    "cordova-ios": "5.1.1",
     "cordova-plugin-actionsheet": "^2.3.3",
+    "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-android-permissions": "^1.0.2",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-chooser": "^1.3.1",
@@ -58,6 +60,7 @@
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.2.1",
     "cordova-plugin-media-capture": "^3.0.3",
+    "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
@@ -113,11 +116,13 @@
       "cordova-plugin-chooser": {},
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-filepath": {},
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-network-information": {}
     },
     "platforms": [
       "browser",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

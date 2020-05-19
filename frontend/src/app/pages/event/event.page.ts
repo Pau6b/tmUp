@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {NavController} from '@ionic/angular';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 
@@ -12,8 +12,7 @@ import { File } from '@ionic-native/file/ngx';
 import { Chooser } from '@ionic-native/chooser/ngx';
 //import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { PhotoService } from 'src/app/services/photo.service';
-
-declare var google;
+import { googleMaps } from 'src/providers/googleMaps/google-maps';
 
 @Component({
   selector: 'app-event',
@@ -21,6 +20,8 @@ declare var google;
   styleUrls: ['./event.page.scss'],
 })
 export class EventPage implements OnInit {
+
+  @ViewChild('map', {static: true}) mapElement: ElementRef;
 
   eventId: string;
   event: any;
@@ -40,15 +41,18 @@ export class EventPage implements OnInit {
     private apiProv: apiRestProvider,
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
+    private maps: googleMaps,
     //private photoViewer: PhotoViewer,
-    private navCtrl: NavController
   ) { 
   }
 
   ngOnInit() { 
-    this.getEventInfo()
+    this.getEventInfo();
     setTimeout(() => {
-      this.loadMap();
+      const mapEle: HTMLElement = document.getElementById('map');
+      this.maps.init(mapEle).then(() => {
+        this.loadMap();
+      });
     }, 1000);    
   }
 
@@ -92,15 +96,21 @@ export class EventPage implements OnInit {
       currLat: currentLoc.coords.latitude,
       currLng: currentLoc.coords.longitude
     };
-    this.iab.create('https://www.google.com/maps/dir/?api=1&origin='+currentLatLng.currLat+
+    let browser = this.iab.create('https://www.google.com/maps/dir/?api=1&origin='+currentLatLng.currLat+
       ','+currentLatLng.currLng+'&destination='+this.event.location.latitude+','+this.event.location.longitude);
+    browser.show();
   }
 
   loadMap() {
-    const myLatLng = {
+    let myLatLng = {
       lat: this.event.location.latitude,
-      lng: this.event.location.longitude
+      lng: this.event.location.longitude,
+      name: this.event.location.name
     };
+
+    this.maps.map.setCenter({lat: myLatLng.lat, lng: myLatLng.lng});
+    this.maps.addMarker(myLatLng);
+    /*
     const mapEle: HTMLElement = document.getElementById('map');
     const map = new google.maps.Map(mapEle, {
       center: myLatLng,
@@ -116,6 +126,7 @@ export class EventPage implements OnInit {
         map: map
       });
     });
+    */
   }
 
   async uploadFile(){
