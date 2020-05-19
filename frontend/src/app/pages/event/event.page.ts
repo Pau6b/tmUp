@@ -48,12 +48,6 @@ export class EventPage implements OnInit {
 
   ngOnInit() { 
     this.getEventInfo();
-    setTimeout(() => {
-      const mapEle: HTMLElement = document.getElementById('map');
-      this.maps.init(mapEle).then(() => {
-        this.loadMap();
-      });
-    }, 1000);    
   }
 
   async getEventInfo() {
@@ -65,13 +59,13 @@ export class EventPage implements OnInit {
         this.apiProv.getEventById(this.eventId)
         .subscribe( (data) => {
           this.event = data;
-          loading.dismiss();
+          this.loadMap();
         })
         this.apiProv.getCall(this.eventId)
         .subscribe ( (data) => {
-          console.log(data);
           this.ListConv = data;
           if ( this.ListConv.length == 0) this.ListConv = null;
+          loading.dismiss();
         });
       }
     });
@@ -104,12 +98,10 @@ export class EventPage implements OnInit {
   loadMap() {
     let myLatLng = {
       lat: this.event.location.latitude,
-      lng: this.event.location.longitude,
-      name: this.event.location.name
+      lng: this.event.location.longitude
     };
-
-    this.maps.map.setCenter({lat: myLatLng.lat, lng: myLatLng.lng});
-    this.maps.addMarker(myLatLng);
+    let mapEl: HTMLElement = document.getElementById('map');
+    this.maps.initMap(mapEl, myLatLng);
     /*
     const mapEle: HTMLElement = document.getElementById('map');
     const map = new google.maps.Map(mapEle, {

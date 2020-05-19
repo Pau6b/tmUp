@@ -25,6 +25,12 @@
   height: 40%;
   margin: 5%;
   width: 90%;
+  opacity: 0;
+  transition: opacity 150ms ease-in;
+  display: block;
+  &.show-map{
+    opacity: 1;
+  }
 }
 
 .directionsButton {
