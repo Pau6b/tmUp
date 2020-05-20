@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {NavController} from '@ionic/angular';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -9,10 +8,9 @@ import { LoadingController} from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { File } from '@ionic-native/file/ngx';
 
-import { Chooser } from '@ionic-native/chooser/ngx';
 //import { PhotoViewer } from '@ionic-native/photo-viewer';
-import { PhotoService } from 'src/app/services/photo.service';
-import { googleMaps } from 'src/providers/googleMaps/google-maps';
+import { PhotoService } from '../../../app/services/photo.service';
+import { googleMaps } from '../../../providers/googleMaps/google-maps';
 
 @Component({
   selector: 'app-event',
@@ -50,6 +48,16 @@ export class EventPage implements OnInit {
     this.getEventInfo();
   }
 
+  onInfoSegment() {
+    if(this.event.location.name!="") {
+      this.loadMap();
+    }
+  }
+
+  onCallSegment() {
+    this.getEventCall();
+  }
+
   async getEventInfo() {
     const loading = await this.loadCtrl.create();
     loading.present();
@@ -59,15 +67,21 @@ export class EventPage implements OnInit {
         this.apiProv.getEventById(this.eventId)
         .subscribe( (data) => {
           this.event = data;
-          this.loadMap();
+          if(this.event.location.name!="") {
+            this.loadMap();
+          }
         })
-        this.apiProv.getCall(this.eventId)
-        .subscribe ( (data) => {
-          this.ListConv = data;
-          if ( this.ListConv.length == 0) this.ListConv = null;
-          loading.dismiss();
-        });
+        this.getEventCall();
+        loading.dismiss();
       }
+    });
+  }
+
+  getEventCall() {
+    this.apiProv.getCall(this.eventId)
+    .subscribe ( (data) => {
+      this.ListConv = data;
+      if ( this.ListConv.length == 0) this.ListConv = null;
     });
   }
 
@@ -102,23 +116,7 @@ export class EventPage implements OnInit {
     };
     let mapEl: HTMLElement = document.getElementById('map');
     this.maps.initMap(mapEl, myLatLng);
-    /*
-    const mapEle: HTMLElement = document.getElementById('map');
-    const map = new google.maps.Map(mapEle, {
-      center: myLatLng,
-      zoom: 12
-    });
-    google.maps.event
-    .addListenerOnce(map, 'idle', () => {
-      let marker = new google.maps.Marker({
-        position: {
-          lat: myLatLng.lat,
-          lng: myLatLng.lng
-        },
-        map: map
-      });
-    });
-    */
+
   }
 
   async uploadFile(){

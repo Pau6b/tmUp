@@ -10,11 +10,11 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-segment value="info" [(ngModel)]="segmentModel">
-      <ion-segment-button value="info">
+    <ion-segment value="info" [(ngModel)]="segmentModel" >
+      <ion-segment-button value="info" (click)="onInfoSegment()">
         <ion-label> {{ 'EVENT.info' | translate }} </ion-label>
       </ion-segment-button>
-      <ion-segment-button *ngIf="event?.type === 'match'" value="players">
+      <ion-segment-button *ngIf="event?.type === 'match'" value="players" (click)="onCallSegment()">
         <ion-label>{{ 'EVENT.convocados' | translate }}</ion-label>
       </ion-segment-button>
       <ion-segment-button *ngIf="event?.type === 'match'" value="analisi">
