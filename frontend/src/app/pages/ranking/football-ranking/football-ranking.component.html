@@ -1,3 +1,165 @@
-<p>
-  football-ranking works!
-</p>
+<div *ngIf='stats.assists.id != 0'>
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/football/stoppedGoal.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostAssists" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/football/stoppedGoal.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.assists.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.assists.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.goalsScored.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/football/myTeamGoal.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostGoalsScored" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/football/myTeamGoal.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.goalsScored.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.goalsScored.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.minutesPlayed.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo" >
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/football/change.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostMinutesPlayed" | RANKING }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/football/change.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.minutesPlayed.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.minutesPlayed.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.redCards.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/football/redCard.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{"RANKING.mostRedCards" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/basketball/redCard.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.redCards.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.redCards.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.yellowCards.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/basketball/yellowCard.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostYellowCars" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/basketball/yellowCard.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.yellowCards.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.yellowCards.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
