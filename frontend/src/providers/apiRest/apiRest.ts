@@ -61,8 +61,14 @@ export class apiRestProvider {
     return this.http.get(this.url+'users/me', { headers: this.headers });
   }
 
-  public updateProfileInfo(name, email) {
+  public updateProfileInfo(user, email) {
     this.setHeader();      
+    return new Promise(resolve => {
+      this.http.put(this.url+'users/' + email, JSON.stringify({userName: user}), { headers: this.headers })
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
   }
 
   public getUserTeams(){
