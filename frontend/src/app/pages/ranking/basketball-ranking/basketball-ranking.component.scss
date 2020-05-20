@@ -1,0 +1,25 @@
+ion-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+ion-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    font-size: 3em;
+}
+
+img {
+    background-color: white;
+    max-width: 70%;
+    height: auto;
+    padding: 0.2em;
+}
+
+.number {
+    flex: 0.8 0 5px;
+}

@@ -1,0 +1,140 @@
+<div *ngif="{{stats.assists.id}} != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h1>
+            Most assists
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <img src="../../../../../assets/liveMatchIcons/basketball/assists.png">
+        </ion-col>
+        <ion-col>
+          <a>
+            {{stats.assists.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number">
+          <h2>
+            {{stats.assists.points}}
+          </h2>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngif="{{stats.pointsScored.id}} != 0">
+<ion-card>
+  <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <h1>
+          Most points scored
+        </h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img src="../../../../../assets/liveMatchIcons/basketball/1point.png">
+      </ion-col>
+      <ion-col>
+        <a>
+          {{stats.pointsScored.userName}}
+        </a>
+      </ion-col>
+      <ion-col class="number">
+        <h2>
+          {{stats.pointsScored.points}}
+        </h2>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+</div>
+<div *ngif="{{stats.rebounds.id}} != 0">
+<ion-card>
+  <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <h1>
+          Most rebounds
+        </h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img src="../../../../../assets/liveMatchIcons/basketball/rebound.png">
+      </ion-col>
+      <ion-col>
+        <a>
+          {{stats.rebounds.userName}}
+        </a>
+      </ion-col>
+      <ion-col class="number">
+        <h2>
+          {{stats.rebounds.points}}
+        </h2>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+</div>
+<div *ngif="{{stats.threePointShots.id}} != 0">
+<ion-card>
+  <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <h1>
+          Most three point shots
+        </h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img src="../../../../../assets/liveMatchIcons/basketball/3points.png">
+      </ion-col>
+      <ion-col>
+        <a>
+          {{stats.threePointShots.userName}}
+        </a>
+      </ion-col>
+      <ion-col class="number">
+        <h2>
+          {{stats.threePointShots.points}}
+        </h2>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+</div>
+<div *ngif="{{stats.twoPointShots.id}} != 0">
+<ion-card>
+  <ion-card-content>
+    <ion-row>
+      <ion-col>
+        <h1>
+          Most two point shots
+        </h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <img src="../../../../../assets/liveMatchIcons/basketball/2points.png">
+      </ion-col>
+      <ion-col>
+        <a>
+          {{stats.twoPointShots.userName}}
+        </a>
+      </ion-col>
+      <ion-col class="number">
+        <h2>
+          {{stats.twoPointShots.points}}
+        </h2>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+</div>
