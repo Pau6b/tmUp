@@ -13,6 +13,10 @@ export class StorageService {
     private file: File,
     private storage: AngularFireStorage) { }
 
+  getAFile(page, teamId): Promise<any>{
+    const storageRef = firebase.storage().ref(page+'/'+teamId);
+    return storageRef.listAll();
+  }
   getFiles(page, teamId){
     const storageRef = firebase.storage().ref(page+'/'+teamId);
     let files = [];

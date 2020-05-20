@@ -137,7 +137,7 @@ export class PhotoService {
   }
 
   selectFiles(page, teamId) {
-    this.chooser.getFile('image/jpg, image/jpeg, application/pdf').then(
+    this.chooser.getFile('image/jpg, image/jpeg, application/pdf, text/plain').then(
       (result) => {
         if(this.platform.is('ios')){
           this.file.resolveLocalFilesystemUrl(result.uri).then(
@@ -151,7 +151,6 @@ export class PhotoService {
               
               this.file.readAsArrayBuffer(dirPath, newURL.name).then(
                 (buffer) => {
-                  console.log("Leemos los datos del fichero -> "+buffer);
                   this.storage.uploadFileToStorage(buffer, newURL.name, page, teamId, result.mediaType);
                 },
                 (err) => {
@@ -179,8 +178,7 @@ export class PhotoService {
               );
             }
           )
-        }
-        
+        }        
       },
       (err) =>{
         alert(JSON.stringify(err));

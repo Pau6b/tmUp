@@ -80,14 +80,16 @@
     },
     "NORMATIVE": {
         "title": "Normativa",
-        "noFile": "No hay ningun fichero de normativas. Añade un fichero existente o redactalo ahora",
+        "noFile": "No hay ningun fichero de normativas. Añade un fichero existente o redactalo ahora.",
+        "noFilePlayer": "Tu equipo todavia no ha subido ningun fichero de normativa.",
         "normativeTitle": "Titulo normativa",
         "uploadFile": "Cargar documento",
         "deleteFile": "Eliminar documento",
         "fileTitle": "Titulo del fichero",
         "norm": "Normas",
         "insertNorm": "Introduce cualquier norma aqui...",
-        "createDoc": "Crear documento"
+        "createDoc": "Crear documento",
+        "replaceDoc": "Reemplazar documento"
     },
     "TACTICS": {
         "title": "Tácticas"

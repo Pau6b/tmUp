@@ -10,25 +10,32 @@
 <ion-content>
 
   
-  <ng-container *ngIf=" hasNormative ; else noNormative">
-    <ion-item lines="none">
-      <ion-img src="../../../assets/icon/img.png" slot="start" *ngIf="f?.name?.endsWith('jpg') || f?.name?.endsWith('jpeg') || f?.name?.endsWith('png')"></ion-img>
-        <ion-img src="../../../assets/icon/doc.png" slot="start" *ngIf="f?.name?.endsWith('.txt') ||  f?.name?.endsWith('.doc') ||  f?.name?.endsWith('.docx')"></ion-img>
-        <ion-img src="../../../assets/icon/pdf.png" slot="start" *ngIf="f?.name?.endsWith('.pdf')"></ion-img>
-      <ion-label>{{ f?.name }}</ion-label>
-      <ion-row>
-        <ion-button expand="block" color="danger" (click)="deleteFile()">{{ 'NORMATIVE.deleteFile' | translate }}</ion-button>
-        <ion-button expand="block" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
-      </ion-row>
-    </ion-item>
+  <ng-container *ngIf="isPlayer ; else staff">
+    <div class="filePlayer">
+      <div *ngIf="hasNormative" (click)="openFile()">
+        <ion-img src="../../../assets/icon/img128.png" *ngIf="f?.name?.endsWith('jpg') || f?.name?.endsWith('jpeg') || f?.name?.endsWith('png')"></ion-img>
+        <ion-img src="../../../assets/icon/doc128.png" *ngIf="f?.name?.endsWith('.txt') ||  f?.name?.endsWith('.doc') ||  f?.name?.endsWith('.docx')"></ion-img>
+        <ion-img src="../../../assets/icon/pdf128.png" *ngIf="f?.name?.endsWith('.pdf')"></ion-img>
+        <ion-label class="mediumText">{{f?.name}}</ion-label>
+      </div>
+      <ion-label *ngIf="!hasNormative" class="danger">{{ 'NORMATIVE.noFilePlayer' | translate }}</ion-label>
+    </div> 
   </ng-container>
 
   
-  <ng-template #noNormative> 
-    <div class="file">  
-      <ion-label class="danger">{{ 'NORMATIVE.noFile' | translate }}</ion-label>
-    
-      <ion-button expand="block" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
+  <ng-template #staff> 
+    <div class="file">
+      <ion-item *ngIf="hasNormative" lines="none" (click)="openFile()">
+        <ion-img src="../../../assets/icon/img.png" slot="start" *ngIf="f?.name?.endsWith('jpg') || f?.name?.endsWith('jpeg') || f?.name?.endsWith('png')"></ion-img>
+        <ion-img src="../../../assets/icon/doc.png" slot="start" *ngIf="f?.name?.endsWith('.txt') ||  f?.name?.endsWith('.doc') ||  f?.name?.endsWith('.docx')"></ion-img>
+        <ion-img src="../../../assets/icon/pdf.png" slot="start" *ngIf="f?.name?.endsWith('.pdf')"></ion-img>
+        <ion-label>{{ f?.name }}</ion-label>
+      </ion-item>
+      <ion-label *ngIf="!hasNormative" class="danger">{{ 'NORMATIVE.noFile' | translate }}</ion-label>
+      <ion-button *ngIf="!hasNormative" expand="block" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
+      <ion-button *ngIf="hasNormative" expand="block" color="danger" (click)="deleteFile()">{{ 'NORMATIVE.deleteFile' | translate }}</ion-button>
+      <ion-button *ngIf="hasNormative" expand="block" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
+      
     </div> 
 
     <form [formGroup]="createPdfForm" (ngSubmit)="createPdf()">
@@ -42,7 +49,8 @@
         <ion-textarea rows="7" placeholder="{{ 'NORMATIVE.insertNorm' | translate }}" formControlName="content"></ion-textarea>
       </ion-item>
 
-      <ion-button expand="block" color="primary" type="submit" [disabled]="!createPdfForm.valid">{{ 'NORMATIVE.createDoc' | translate }}</ion-button>
+      <ion-button *ngIf="!hasNormative" expand="block" color="primary" type="submit" [disabled]="!createPdfForm.valid">{{ 'NORMATIVE.createDoc' | translate }}</ion-button>
+      <ion-button *ngIf="hasNormative" expand="block" color="primary" type="submit" [disabled]="!createPdfForm.valid">{{ 'NORMATIVE.replaceDoc' | translate }}</ion-button>
     </form>
   </ng-template>
 </ion-content>

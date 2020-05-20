@@ -17,13 +17,15 @@ export class NormativePage implements OnInit {
   });
 
   hasNormative = true;
+  isPlayer= true;
   f;
 
   public constructor(
     private photoService: PhotoService,
     private storage: StorageService,
     private formBuilder: FormBuilder,
-    private apiRestProv:  apiRestProvider
+    private apiRestProv:  apiRestProvider,
+    private iab: InAppBrowser
     ) {}
 
   public ngOnInit() {
@@ -34,15 +36,35 @@ export class NormativePage implements OnInit {
     this.storage.createPdf(this.createPdfForm.get('title').value, this.createPdfForm.get('content').value, this.apiRestProv.getTeamId());
   }
 
-  async uploadFile(){
+  uploadFile(){
     this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId());
     this.getFile();
   }
 
+  deleteFile(){
+    this.storage.deleteFile(this.f.full);
+    this.hasNormative = false;
+  }
+
+  openFile(){
+    this.photoService.openFile(this.f);
+  }
+
   getFile(){
-    this.f = this.photoService.getFiles('normatives', this.apiRestProv.getTeamId());
-    console.log(this.f);
-    if(this.f.forEach.length > 0) this.hasNormative = true;
-    else this.hasNormative = false
+    this.hasNormative = false;
+    this.storage.getAFile('normatives', this.apiRestProv.getTeamId()).then(
+      result => {
+        result.items.forEach(ref => {
+          this.f = {
+            name: ref.name,
+            full: ref.fullPath,
+            url: ref.getDownloadURL(),
+            ref: ref
+          };
+          this.hasNormative = true;
+        });
+        
+      }
+    );
   }
 }

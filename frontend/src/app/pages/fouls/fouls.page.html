@@ -44,7 +44,7 @@
     </ion-segment>
   </div>
   
-  <div [ngSwitch]="foulsSegment" value="total">
+  <div [ngSwitch]="foulsSegment">
     <ion-list *ngSwitchCase="'total'" lines="none">
       <ion-item-sliding *ngFor="let f of total">
         <ion-item class="smallText" (click)="openModal(f)">
@@ -64,11 +64,11 @@
         
         <ion-item-options side="start">
           <ion-item-option color="success">
-            <ion-icon name="cash" slot="icon-only"></ion-icon>
+            <ion-icon name="cash" slot="icon-only" (click)="payFine(f)"></ion-icon>
           </ion-item-option>
         </ion-item-options>
         <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="payFine(f)">
+          <ion-item-option color="danger" >
             <ion-icon name="trash" slot="icon-only"></ion-icon>
           </ion-item-option>
         </ion-item-options>
@@ -80,24 +80,29 @@
     <ion-list *ngSwitchCase="'paid'">
       <ion-item-sliding *ngFor="let f of paids">
         <ion-item class="smallText" (click)="openModal(f)">
-        <ion-col size="2">
-          <ion-icon *ngIf="f.money > 0" name="arrow-forward-circle-outline" color="success"></ion-icon>
-          <ion-icon *ngIf="f.money < 0" name="arrow-back-circle-outline" color="danger"></ion-icon>
-        </ion-col>
-        <ion-col size="7" class="ion-text-left">
-          <ion-label class="mediumText">{{ f.userId }}</ion-label>
-          <ion-label class="date">{{ f.date }}</ion-label>
-        </ion-col>
-        <ion-col size="3" class="ion-text-right">
-          <ion-label *ngIf="f.money > 0" class="positive">+{{f.money}} €</ion-label>
-          <ion-label *ngIf="f.money < 0" class="negative">{{f.money}} €</ion-label>
-        </ion-col>
-      </ion-item>
-      <ion-item-options side="start">
-        <ion-item-option color="danger">
-          <ion-icon name="trash" slot="icon-only"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
+          <ion-col size="2">
+            <ion-icon *ngIf="f.money > 0" name="arrow-forward-circle-outline" color="success"></ion-icon>
+            <ion-icon *ngIf="f.money < 0" name="arrow-back-circle-outline" color="danger"></ion-icon>
+          </ion-col>
+          <ion-col size="7" class="ion-text-left">
+            <ion-label class="mediumText">{{ f.userId }}</ion-label>
+            <ion-label class="date">{{ f.date }}</ion-label>
+          </ion-col>
+          <ion-col size="3" class="ion-text-right">
+            <ion-label *ngIf="f.money > 0" class="positive">+{{f.money}} €</ion-label>
+            <ion-label *ngIf="f.money < 0" class="negative">{{f.money}} €</ion-label>
+          </ion-col>
+        </ion-item>
+        <ion-item-options side="start">
+          <ion-item-option color="success">
+            <ion-icon name="cash" slot="icon-only" (click)="payFine(f)"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" >
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
       </ion-item-sliding>
     </ion-list>
 
@@ -120,9 +125,11 @@
 
       <ion-item-options side="start">
         <ion-item-option color="success">
-          <ion-icon name="trash" slot="icon-only"></ion-icon>
+          <ion-icon name="cash" slot="icon-only" (click)="payFine(f)"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="danger">
+      </ion-item-options>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" >
           <ion-icon name="trash" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>
