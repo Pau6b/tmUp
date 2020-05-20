@@ -102,6 +102,10 @@ app.put('/updatePhysioUrl', (req, res) => {
             const jsonContent = JSON.parse(req.body);
             let errores = [];
             let hayErrores = false;
+            if (!jsonContent.hasOwnProperty("urlPhysio")) {
+                hayErrores = true;
+                errores.push("To update a url you must indicate the url");
+            }
             let equipoExiste = true;
             let usuarioExiste = true;
             let miembroExiste = true;
@@ -307,7 +311,7 @@ app.get('/getByTeam/:teamId', (req, res) => {
                     else if (req.query.type === "all") {
                         selectedItem = {
                             userId: doc.data().userId,
-                            rol: doc.data().rol
+                            type: doc.data().type
                         };
                         response.push(selectedItem);
                     }
