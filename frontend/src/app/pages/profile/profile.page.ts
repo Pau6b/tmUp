@@ -4,7 +4,7 @@ import { FormBuilder, Validators} from '@angular/forms';
 import { ActionSheetController, MenuController } from '@ionic/angular';
 
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { PhotoService } from 'src/app/services/photo.service';
@@ -37,6 +37,7 @@ export class ProfilePage implements OnInit {
         this.profileInfo = data;
         this.updateForm.patchValue({userName: this.profileInfo.userName});
         this.updateForm.patchValue({email: this.profileInfo.email});
+        this.updateForm.controls['email'].disable();
       });
   }
 
@@ -73,6 +74,9 @@ export class ProfilePage implements OnInit {
 
   //submit update form
   public updateProfileUser() {
+    console.log("entra a update");
+    console.log(this.updateForm.get('userName').value);
+    console.log(this.updateForm.get('email').value);
     this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
   }
 
@@ -92,7 +96,7 @@ export class ProfilePage implements OnInit {
 
   public async presentConfirm() {
     const alert = await this.alertCtrl.create({
-      message: 'Recibirá un correo electrónico en (correo electronico) para realizar el cambio de contraseña. ',
+      message: 'Recibirá un correo electrónico en ' + this.profileInfo.email + ' para realizar el cambio de contraseña. ',
       buttons: [
         {
           text: 'Cancelar',

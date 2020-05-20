@@ -100,7 +100,9 @@
 
     </div>
     <div *ngIf="noticies == null">
-      <ion-text> {{ 'MAIN.no_news' | translate }} </ion-text>
+      <ion-item lines="none">
+        <ion-text> {{ 'MAIN.no_news' | translate }} </ion-text>
+      </ion-item>
     </div>
     <div *ngFor="let new of News;">
       <ion-card class="cardNews" [routerLink]="[new.url]" routerDirection="root">
