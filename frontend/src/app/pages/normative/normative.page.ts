@@ -24,8 +24,7 @@ export class NormativePage implements OnInit {
     private photoService: PhotoService,
     private storage: StorageService,
     private formBuilder: FormBuilder,
-    private apiRestProv:  apiRestProvider,
-    private iab: InAppBrowser
+    private apiRestProv:  apiRestProvider
     ) {}
 
   public ngOnInit() {

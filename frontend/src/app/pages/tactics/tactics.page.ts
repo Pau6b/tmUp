@@ -27,7 +27,7 @@ export class TacticsPage implements OnInit {
 
   ngOnInit() {
     this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
-    console.log(this.files);
+    console.log(this.apiProv.getTeamId());
   }
 
   doRefresh(event) {
