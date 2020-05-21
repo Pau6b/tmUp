@@ -5,15 +5,13 @@ If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment
 
 Dev App Server is now running.
 
-<<<<<<< HEAD
 May 20, 2020 7:54:49 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
-=======
 May 18, 2020 4:50:24 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
 May 18, 2020 4:51:46 PM io.netty.channel.DefaultChannelPipeline onUnhandledInboundException
 WARNING: An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
-java.io.IOException: Se ha forzado la interrupción de una conexión existente por el host remoto
+java.io.IOException: Se ha forzado la interrupciï¿½n de una conexiï¿½n existente por el host remoto
 	at java.base/sun.nio.ch.SocketDispatcher.read0(Native Method)
 	at java.base/sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
 	at java.base/sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:276)
@@ -37,7 +35,7 @@ May 18, 2020 4:51:59 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channe
 INFO: Detected HTTP/2 connection.
 May 18, 2020 4:53:06 PM io.netty.channel.DefaultChannelPipeline onUnhandledInboundException
 WARNING: An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
-java.io.IOException: Se ha forzado la interrupción de una conexión existente por el host remoto
+java.io.IOException: Se ha forzado la interrupciï¿½n de una conexiï¿½n existente por el host remoto
 	at java.base/sun.nio.ch.SocketDispatcher.read0(Native Method)
 	at java.base/sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
 	at java.base/sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:276)
@@ -59,6 +57,3 @@ java.io.IOException: Se ha forzado la interrupción de una conexión existente por
 
 May 18, 2020 4:53:08 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
->>>>>>> b21efc1cc8902da47281a7e1a1860820029a9e3d
-*** shutting down gRPC server since JVM is shutting down
-*** server shut down

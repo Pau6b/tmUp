@@ -20,9 +20,9 @@ app.post('/create', (req, res) => {
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     email = user.email
             });
-            
-            let errors: string[] = [];
-            let hasErrors: boolean = false;
+            */
+            let errors = [];
+            let hasErrors = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
                 errors.push("TC2");
                 hasErrors = true;
@@ -37,7 +37,7 @@ app.post('/create', (req, res) => {
             }
             if (hasErrors) {
                 return res.status(400).send(errors);
-            }*/
+            }
             //No errors, we proceed to creation
             let id = "invalid";
             await db.collection('teams').add({
@@ -49,7 +49,7 @@ app.post('/create', (req, res) => {
             });
             /*await db.collection('memberships').add({
                 teamId: id,
-                userId: email,
+                userId: "ivan@ivan.com",
                 type: "staff"
             })*/
             return res.status(200).send(id);

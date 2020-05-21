@@ -74,22 +74,86 @@ app.post('/create', (req, res) => {
             if (hayErrores){
                 return res.status(400).send(errores);
             }
-
-            const membershipData :any = {
+            let membershipData :any = {
                 teamId: jsonContent.teamId,
                 type: jsonContent.type,
                 userId: jsonContent.userId
             }
-
+            
             if (jsonContent.type === "player") {
                 membershipData.stats = GetMembershipStatsBySport(teamSport);
                 membershipData.state =  GetDefaultPlayerState();
+            }
+            else if (jsonContent.type === "physio") {
+                if (!jsonContent.hasOwnProperty("urlPhysio")) {
+                    membershipData.urlPhysio = "";
+                }
+                else {
+                    membershipData.urlPhysio = jsonContent.urlPhysio;
+                }
+
             }
 
             //Todo correcto, creamos la membership
             await db.collection('memberships').add(membershipData);
             return res.status(200).send(); 
                 
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error);
+        }
+
+    })().then().catch();
+});
+app.put('/updatePhysioUrl', (req, res) => {
+    (async () => {
+        try {
+            const jsonContent = JSON.parse(req.body);
+            let errores: string[] = [];
+            let hayErrores: boolean = false;
+            if (!jsonContent.hasOwnProperty("urlPhysio")){
+                hayErrores = true;
+                errores.push("To update a url you must indicate the url");
+            }
+            let equipoExiste: boolean = true;
+            let usuarioExiste: boolean = true;
+            let miembroExiste: boolean = true;
+            const team = db.collection('teams').doc(req.query.teamId);
+            await team.get().then((teamDoc:any) => {
+                if (!teamDoc.exists) equipoExiste=false;
+                
+            })
+            const user = db.collection('users').doc(req.query.userId);
+            await user.get().then((userDoc:any) => {
+                if (!userDoc.exists) usuarioExiste=false;
+            })
+            const membership = db.collection('memberships').where('userId', '==', req.query.userId).where('teamId', '==', req.query.teamId);
+            await membership.get().then((snapshot:any) => {
+                if (snapshot.empty) miembroExiste = false;
+            })
+
+            if (miembroExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + req.query.userId + "] already has a membership in the team: [" + req.query.teamId + "]");
+            }
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with id : [" + req.query.teamId + "] does not exist");
+            }
+            if (!usuarioExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + req.query.userId + "] does not exist");
+            }
+
+            if (hayErrores){
+                return res.status(400).send(errores);
+            }
+
+            await membership.update({
+                urlPhysio: jsonContent.urlPhysio
+            });
+            return res.status(200).send(errores);
         }
         catch(error){
             console.log(error);
@@ -258,12 +322,30 @@ app.get('/getByTeam/:teamId', (req, res) => {
                 const docs = querySnapshot.docs;
 
                 for (const doc of docs) {
-                    const selectedItem = {
-                        userId: doc.data().userId,
-                        type: doc.data().type
+                
+                    let selectedItem;
+                    if (req.query.type === doc.data().type) {
+                        if (req.query.type === "physio") {
+                            selectedItem = {
+                                userId: doc.data().userId,
+                                urlPhysio: doc.data().urlPhysio
+                            }
+                        }
+                        else {
+                            selectedItem = {
+                                userId: doc.data().userId,
+                                urlPhysio: doc.data().urlPhysio
+                            }
+                        }
+                        response.push(selectedItem);
                     }
-                    if (req.query.type === selectedItem.type) response.push(selectedItem);
-                    else if (req.query.type === "all") response.push(selectedItem);
+                    else if (req.query.type === "all") {
+                        selectedItem = {
+                            userId: doc.data().userId,
+                            type: doc.data().type
+                        }
+                        response.push(selectedItem);
+                    }
                 }
                 return response;
             })
