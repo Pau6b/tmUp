@@ -1,0 +1,30 @@
+ion-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+ion-col {
+    display: block;
+    align-items: flex-start;
+    justify-content: left;
+    text-align: left;
+}
+
+h2 {
+    font-size: 3em;
+}
+
+img {
+    background-color: white;
+    max-width: 100%;
+    height: auto;
+    padding: 0.2em;
+}
+
+.number {
+    flex: 0.8 0 5px;
+}
+
+.titulo {
+    color: var(--ion-color-dark);
+}

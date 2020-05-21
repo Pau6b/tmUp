@@ -21,7 +21,15 @@ app.post('/match/create', (req, res) => {
             await team.get().then((teamDoc) => {
                 teamSport = teamDoc.data().sport;
             });
-            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            var timestamp = new Date().getTime();
+            var todate = new Date(timestamp).getDate();
+            var tomonth = new Date(timestamp).getMonth() + 1;
+            var toyear = new Date(timestamp).getFullYear();
+            var tohour = "0" + new Date(timestamp).getHours();
+            var tominutes = "0" + new Date(timestamp).getMinutes();
+            var toseconds = "0" + new Date(timestamp).getSeconds();
+            var dateNoticia = todate + '/' + tomonth + '/' + toyear + ' ' + tohour.substr(-2) + ':' + tominutes.substr(-2) + ':' + toseconds.substr(-2);
+            //var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             const stadistics = Statistics_1.GetMatchStatsBySport(teamSport);
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "match",
@@ -61,7 +69,15 @@ app.post('/training/create', (req, res) => {
             const existsTeam = await comprobarEquipo(jsonContent);
             if (!existsTeam)
                 return res.status(400).send("no existe el equipo");
-            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            var timestamp = new Date().getTime();
+            var todate = new Date(timestamp).getDate();
+            var tomonth = new Date(timestamp).getMonth() + 1;
+            var toyear = new Date(timestamp).getFullYear();
+            var tohour = "0" + new Date(timestamp).getHours();
+            var tominutes = "0" + new Date(timestamp).getMinutes();
+            var toseconds = "0" + new Date(timestamp).getSeconds();
+            var dateNoticia = todate + '/' + tomonth + '/' + toyear + ' ' + tohour.substr(-2) + ':' + tominutes.substr(-2) + ':' + toseconds.substr(-2);
+            //var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             await db.collection('teams').doc(jsonContent.teamId).collection("events").add({
                 type: "training",
                 title: jsonContent.title,
@@ -197,7 +213,9 @@ app.get('/nextevent/match/:teamId', (req, res) => {
                 return res.status(400).send("nOO existe el equipo");
             const query = db.collection('teams').doc(req.params.teamId).collection('events');
             const response = [];
+            const responseaux = [];
             let selectedData = [];
+            let selectedDataAux = [];
             let d1 = new Date();
             let dateAct = d1.getTime();
             let boolPrimero = 1;
@@ -206,22 +224,43 @@ app.get('/nextevent/match/:teamId', (req, res) => {
                 setTimeout(() => {
                     query.onSnapshot((snapshot) => {
                         snapshot.forEach(snap => {
-                            const d2 = new Date(snap.data().startTime);
+                            //const d2 = new Date(snap.data().startTime);
                             if (snap.data().type === "match") {
-                                if (boolPrimero == 1) {
+                                selectedData = matchData(snap);
+                                responseaux.push(selectedData);
+                                /*if (boolPrimero == 1) {
+                                    console.log("entro b1");
                                     dateProx = d2.getTime();
                                     selectedData = matchData(snap);
                                     boolPrimero = 0;
                                 }
                                 else {
-                                    if (dateAct < d2.getTime() && dateProx >= d2.getTime()) {
-                                        dateProx = d2.getTime();
-                                        selectedData = matchData(snap);
+                                    if(dateAct > d2.getTime() && dateProx < d2.getTime() ) {
+                                        console.log("entro b2");
+                                            dateProx = d2.getTime();
+                                            selectedData = matchData(snap);
                                     }
-                                }
+                                } */
                             }
                         });
-                        response.push(selectedData);
+                        //fem el for per veure quin es el next match
+                        for (let i = 0; i < responseaux.length; i++) {
+                            const dataAnalisi = new Date(responseaux[i].startTime);
+                            if (boolPrimero == 1) {
+                                if (dateAct < dataAnalisi.getTime()) {
+                                    selectedDataAux = responseaux[i];
+                                    dateProx = dataAnalisi.getTime();
+                                    boolPrimero = 0;
+                                }
+                            }
+                            else {
+                                if (dateAct < dataAnalisi.getTime() && dateProx > dataAnalisi.getTime()) {
+                                    selectedDataAux = responseaux[i];
+                                    dateProx = dataAnalisi.getTime();
+                                }
+                            }
+                        }
+                        response.push(selectedDataAux);
                         resolve({ msg: "It works", response });
                         return res.status(200).send(response);
                     });
@@ -245,10 +284,12 @@ app.get('/nextevent/training/:teamId', (req, res) => {
         try {
             const existsTeam = await comprobarEquipo(req.params);
             if (!existsTeam)
-                return res.status(400).send("no existe el equipo");
+                return res.status(400).send("nOO existe el equipo");
             const query = db.collection('teams').doc(req.params.teamId).collection('events');
             const response = [];
+            const responseaux = [];
             let selectedData = [];
+            let selectedDataAux = [];
             let d1 = new Date();
             let dateAct = d1.getTime();
             let boolPrimero = 1;
@@ -257,22 +298,43 @@ app.get('/nextevent/training/:teamId', (req, res) => {
                 setTimeout(() => {
                     query.onSnapshot((snapshot) => {
                         snapshot.forEach(snap => {
-                            const d2 = new Date(snap.data().startTime);
+                            //const d2 = new Date(snap.data().startTime);
                             if (snap.data().type === "training") {
-                                if (boolPrimero == 1) {
+                                selectedData = matchData(snap);
+                                responseaux.push(selectedData);
+                                /*if (boolPrimero == 1) {
+                                    console.log("entro b1");
                                     dateProx = d2.getTime();
-                                    selectedData = trainingData(snap);
+                                    selectedData = matchData(snap);
                                     boolPrimero = 0;
                                 }
                                 else {
-                                    if (dateAct < d2.getTime() && dateProx >= d2.getTime()) {
-                                        dateProx = d2.getTime();
-                                        selectedData = trainingData(snap);
+                                    if(dateAct > d2.getTime() && dateProx < d2.getTime() ) {
+                                        console.log("entro b2");
+                                            dateProx = d2.getTime();
+                                            selectedData = matchData(snap);
                                     }
-                                }
+                                } */
                             }
                         });
-                        response.push(selectedData);
+                        //fem el for per veure quin es el next match
+                        for (let i = 0; i < responseaux.length; i++) {
+                            const dataAnalisi = new Date(responseaux[i].startTime);
+                            if (boolPrimero == 1) {
+                                if (dateAct < dataAnalisi.getTime()) {
+                                    selectedDataAux = responseaux[i];
+                                    dateProx = dataAnalisi.getTime();
+                                    boolPrimero = 0;
+                                }
+                            }
+                            else {
+                                if (dateAct < dataAnalisi.getTime() && dateProx > dataAnalisi.getTime()) {
+                                    selectedDataAux = responseaux[i];
+                                    dateProx = dataAnalisi.getTime();
+                                }
+                            }
+                        }
+                        response.push(selectedDataAux);
                         resolve({ msg: "It works", response });
                         return res.status(200).send(response);
                     });
@@ -302,7 +364,15 @@ app.delete('/delete/:teamId/:eventId', (req, res) => {
             const existeevento = await comprobarEvento(req.params);
             if (!existeevento)
                 return res.status(400).send("no existe el evento");
-            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            var timestamp = new Date().getTime();
+            var todate = new Date(timestamp).getDate();
+            var tomonth = new Date(timestamp).getMonth() + 1;
+            var toyear = new Date(timestamp).getFullYear();
+            var tohour = "0" + new Date(timestamp).getHours();
+            var tominutes = "0" + new Date(timestamp).getMinutes();
+            var toseconds = "0" + new Date(timestamp).getSeconds();
+            var dateNoticia = todate + '/' + tomonth + '/' + toyear + ' ' + tohour.substr(-2) + ':' + tominutes.substr(-2) + ':' + toseconds.substr(-2);
+            //var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             const eventData = await db.collection('teams').doc(req.params.teamId).collection('events').doc(req.params.eventId).get().then((doc) => {
                 return doc.data();
             });
@@ -353,7 +423,15 @@ app.put('/training/update', (req, res) => {
             const existeevento = await comprobarEvento(jsonContent);
             if (!existeevento)
                 return res.status(400).send("no existe el evento");
-            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            var timestamp = new Date().getTime();
+            var todate = new Date(timestamp).getDate();
+            var tomonth = new Date(timestamp).getMonth() + 1;
+            var toyear = new Date(timestamp).getFullYear();
+            var tohour = "0" + new Date(timestamp).getHours();
+            var tominutes = "0" + new Date(timestamp).getMinutes();
+            var toseconds = "0" + new Date(timestamp).getSeconds();
+            var dateNoticia = todate + '/' + tomonth + '/' + toyear + ' ' + tohour.substr(-2) + ':' + tominutes.substr(-2) + ':' + toseconds.substr(-2);
+            //var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(jsonContent.eventId).set({
                 type: "training",
                 title: jsonContent.title,
@@ -392,7 +470,15 @@ app.put('/match/update', (req, res) => {
             const existeevento = await comprobarEvento(jsonContent);
             if (!existeevento)
                 return res.status(400).send("no existe el evento");
-            var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            var timestamp = new Date().getTime();
+            var todate = new Date(timestamp).getDate();
+            var tomonth = new Date(timestamp).getMonth() + 1;
+            var toyear = new Date(timestamp).getFullYear();
+            var tohour = "0" + new Date(timestamp).getHours();
+            var tominutes = "0" + new Date(timestamp).getMinutes();
+            var toseconds = "0" + new Date(timestamp).getSeconds();
+            var dateNoticia = todate + '/' + tomonth + '/' + toyear + ' ' + tohour.substr(-2) + ':' + tominutes.substr(-2) + ':' + toseconds.substr(-2);
+            //var dateNoticia = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
             await db.collection('teams').doc(jsonContent.teamId).collection("events").doc(jsonContent.eventId).set({
                 type: "match",
                 title: jsonContent.title,
