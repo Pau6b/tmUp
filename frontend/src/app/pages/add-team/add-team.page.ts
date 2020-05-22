@@ -102,6 +102,7 @@ export class AddTeamPage implements OnInit {
                   text: 'Copiar',
                   handler: () => {
                     this.clipboard.copy(teamID.toString());
+                    return false;
                   }
                 },
                 {

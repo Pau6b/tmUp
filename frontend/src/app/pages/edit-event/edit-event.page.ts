@@ -6,6 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { LocationSelectPage } from '../location-select/location-select.page';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { DeleteAlertService } from 'src/app/services/delete-alert.service';
 
 @Component({
   selector: 'app-edit-event',
@@ -48,7 +49,8 @@ export class EditEventPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private alertCtrl: AlertController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private deleteAlert: DeleteAlertService
   ) { 
     this.route.queryParams.subscribe(params => {
       this.evId = this.router.getCurrentNavigation().extras.state.evId;
@@ -92,12 +94,16 @@ export class EditEventPage implements OnInit {
     return modal.present();
   }
 
-  deleteEvent() {
-    console.log(this.evId);
-    this.apiProv.deleteEvent(this.evId)
-    .then(() => {
-      this.router.navigate(['/calendar']);
+  async deleteEvent() {
+    this.deleteAlert.showConfirm(this.event.type, this.event.title).then((res) => {
+      if(res) {
+        this.apiProv.deleteEvent(this.evId)
+        .then(() => {
+          this.router.navigate(['/calendar']);
+        });
+      }
     });
+    
   }
 
   onDone() {

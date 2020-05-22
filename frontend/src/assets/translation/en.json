@@ -227,6 +227,11 @@
             "yes": "Yes",
             "no": "No"
         },
+        "deleteText": {
+            "delete": "Delete ",
+            "irreversible": "This action is irreversible. Enter ",
+            "permanent": " below to confirm you want to permanently delete it:"
+        },
         "verbs": {
             "from": "From",
             "to": "To",
