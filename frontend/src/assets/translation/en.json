@@ -225,7 +225,8 @@
             "here": "Here",
             "delete": "Delete",
             "yes": "Yes",
-            "no": "No"
+            "no": "No",
+            "deleteTeam": "Delete team"
         },
         "deleteText": {
             "delete": "Delete ",

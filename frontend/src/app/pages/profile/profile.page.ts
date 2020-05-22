@@ -8,6 +8,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { PhotoService } from 'src/app/services/photo.service';
+import { DeleteAlertService } from 'src/app/services/delete-alert.service';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +28,8 @@ export class ProfilePage implements OnInit {
     public actionSheetCtrl: ActionSheetController,
     public alertCtrl: AlertController,
     public authService: AuthService,
-    private photoServ: PhotoService
+    private photoServ: PhotoService,
+    private deleteAlert: DeleteAlertService
   ) { }
 
   public ngOnInit() {
@@ -108,4 +110,14 @@ export class ProfilePage implements OnInit {
     });
     await alert.present(); 
   }
+
+  deleteUser() {
+    this.deleteAlert.showConfirm("user", this.profileInfo.userName).then((res) => {
+      if(res) {
+        //delete User, logout, redirect to login
+        console.log("eliminado")
+      }
+    })
+  }
+
 }
