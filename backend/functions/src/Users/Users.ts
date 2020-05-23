@@ -263,7 +263,7 @@ app.delete('/:userEmail', (req, res) => {
             //eliminar totes les memberships del usuari
             const query = db.collectionGroup('memberships').where('userId',"==",req.params.userEmail);
             const response: any = [];
-            await query.get().then((querySnapshot: any) => {
+            if(query != undefined) await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
                      doc.delete();
