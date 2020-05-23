@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LanguageService } from 'src/providers/language/language.service';
 import { DeleteAlertService } from 'src/app/services/delete-alert.service';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -17,7 +18,8 @@ export class SettingsPage implements OnInit {
   constructor(
     private languageService: LanguageService,
     private deleteAlert: DeleteAlertService,
-    private apiProv: apiRestProvider
+    private apiProv: apiRestProvider,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -36,7 +38,9 @@ export class SettingsPage implements OnInit {
     this.deleteAlert.showConfirm("team", this.team.teamName).then((res) => {
       if(res) {
         //delete team & redirect to team-list
-        console.log("eliminando");
+        this.apiProv.deleteTeam().then(() => {
+          this.router.navigate(['team-list']);
+        })
       }
     })
   }

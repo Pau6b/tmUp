@@ -104,6 +104,16 @@ export class apiRestProvider {
     })
   }
 
+  public deleteTeam() {
+    this.setHeader;
+    return new Promise(resolve => {
+      this.http.delete(this.url+'teams/'+ this.currentTeam , { headers: this.headers, responseType:'text'})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
   // CHAT
 
   public createChat(chatInfo){
