@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { sports } from '../Core/Core'
 import { GetTeamStatsBySport, GetMembershipStatsBySport } from '../Core/Templates/Statistics'
-import { UserRecord } from 'firebase-functions/lib/providers/auth';
+//import { UserRecord } from 'firebase-functions/lib/providers/auth';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 const admin = require("firebase-admin");
 const db = admin.firestore();
@@ -18,12 +18,12 @@ app.post('/create', (req, res) => {
             if (req.session!.user === null) {
                 res.status(400).send("T1");
             }
-            
+            /*
             let email: any ="";  
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     email = user.email
             });  
-            
+            */
             let errors: string[] = [];
             let hasErrors: boolean = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
@@ -54,7 +54,7 @@ app.post('/create', (req, res) => {
 
             await db.collection('memberships').add({
                 teamId: id,
-                userId: email,
+                userId: "ivan@ivan.com",
                 type: "staff"
             })
             return res.status(200).send(id);
@@ -339,12 +339,12 @@ app.put('/:teamId', (req, res) => {
 
 
 //Delete => Delete
-/*
-app.delete('/:teamName', (req, res) => {
+
+app.delete('/:teamId', (req, res) => {
     (async () => {
         try {
             let teamExists: boolean = true;
-            const team = db.collection('teams').doc(req.params.teamName).get().then((doc: any) => {
+            await db.collection('teams').doc(req.params.teamId).get().then((doc: any) => {
                 if(!doc.exists) {
                     teamExists = false;
                 }
@@ -352,13 +352,13 @@ app.delete('/:teamName', (req, res) => {
             if (!teamExists) {
                 return res.status(400).send("teamId is incorrect");
             }
-            await team.delete();
-            const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamName);
+            await db.collection('teams').doc(req.params.teamId).delete();
+            const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamId);
             const response: any = [];
-            await query.get().then((querySnapshot: any) => {
+            if(query != undefined) await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
-                     doc.delete();
+                    db.collection('memberships').doc(doc.id).delete();
                 }
                 return response;
             })
@@ -370,5 +370,5 @@ app.delete('/:teamName', (req, res) => {
         }
     })().then().catch();
 });
-*/
+
 module.exports = app;
