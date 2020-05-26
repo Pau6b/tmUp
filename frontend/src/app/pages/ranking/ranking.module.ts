@@ -10,6 +10,7 @@ import { RankingPage } from './ranking.page';
 import { BasketballRankingComponent } from './basketball-ranking/basketball-ranking.component';
 import { FootballRankingComponent } from './football-ranking/football-ranking.component';
 import { HandballRankingComponent } from './handball-ranking/handball-ranking.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const RankingPageComponents = [
   BasketballRankingComponent,
@@ -22,7 +23,8 @@ const RankingPageComponents = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RankingPageRoutingModule
+    RankingPageRoutingModule,
+    TranslateModule
   ],
   declarations: [
     RankingPage,

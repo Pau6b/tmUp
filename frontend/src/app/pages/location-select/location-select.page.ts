@@ -1,8 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 
-import { NavController, ModalController } from '@ionic/angular'
+import { ModalController } from '@ionic/angular'
 
 import { googleMaps } from '../../../providers/googleMaps/google-maps'
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 declare var google;
 
 @Component({
@@ -26,22 +27,30 @@ export class LocationSelectPage implements OnInit {
   constructor(
     private maps: googleMaps,
     private modalCtrl: ModalController,
-    private zone: NgZone
+    private zone: NgZone,
+    private geoloc: Geolocation
   ) {
     this.searchDisabled = true;
     this.saveDisabled = true;
   }
 
   ngOnInit() {
-    this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement).then(() => {
-      this.autocompleteService = new google.maps.places.AutocompleteService();
-      this.placesService = new google.maps.places.PlacesService(this.maps.map);
-      this.searchDisabled = false;
-    }); 
+    this.geoloc.getCurrentPosition().then((position) => {
+      let coords = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+      this.maps.initMap(this.mapElement.nativeElement, coords).then(() => {
+        this.autocompleteService = new google.maps.places.AutocompleteService();
+        this.placesService = new google.maps.places.PlacesService(this.maps.map);
+        this.searchDisabled = false;
+      }); 
+    });
   }
 
   selectPlace(place) {
     this.places = [];
+    this.query = place.name;
     let location = {
       latitude: null,
       longitude: null,
@@ -54,6 +63,7 @@ export class LocationSelectPage implements OnInit {
         location.longitude = details.geometry.location.lng();
         this.saveDisabled = false;
         this.maps.map.setCenter({lat: location.latitude, lng: location.longitude}); 
+        this.maps.addMarker({lat: location.latitude, lng: location.longitude});
         this.location = location;
       });
     });
