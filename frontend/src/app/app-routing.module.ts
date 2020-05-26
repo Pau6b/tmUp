@@ -91,7 +91,12 @@ const routes: Routes = [
   {
     path: 'statistics',
     loadChildren: () => import('./pages/statistics/statistics.module').then( m => m.StatisticsPageModule)
-  },  {
+  },
+  {
+    path: 'physiotherapist',
+    loadChildren: () => import('./pages/physiotherapist/physiotherapist.module').then( m => m.PhysiotherapistPageModule)
+  },
+  {
     path: 'ranking',
     loadChildren: () => import('./pages/ranking/ranking.module').then( m => m.RankingPageModule)
   }

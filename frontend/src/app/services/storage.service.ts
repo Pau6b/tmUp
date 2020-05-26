@@ -54,6 +54,18 @@ export class StorageService {
     ref.delete();
   }
 
+  deleteTeamFiles(teamId) {
+    const normativesPath = "/normatives/"+teamId;
+    const tacticsPath = "/tactics/"+teamId;
+    const eventsPath = "/events/"+teamId; 
+    let ref = this.storage.ref(normativesPath);
+    ref.delete();
+    ref = this.storage.ref(tacticsPath);
+    ref.delete();
+    ref = this.storage.ref(eventsPath);
+    ref.delete();
+    }
+
   createPdf(title: string, content: string, teamId: string){
     let path = "/normatives/"+teamId+'/'+title;
     const ref = this.storage.ref;
