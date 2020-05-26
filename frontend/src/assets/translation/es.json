@@ -28,7 +28,8 @@
         "title": "Configuración",
         "help": "Ayuda",
         "about": "Sobre nosotros",
-        "changeLanguage": "Cambiar idioma"
+        "changeLanguage": "Cambiar idioma",
+        "teamID": "ID del equipo: "
     },
     "CHAT": {
         "title": "Chat",
