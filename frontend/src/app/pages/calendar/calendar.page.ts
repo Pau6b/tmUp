@@ -28,6 +28,8 @@ export class CalendarPage implements OnInit {
 
   eventSource = [];
 
+  isPlayer;
+
   constructor(
     private apiProv: apiRestProvider,
     private datePipe: DatePipe,
@@ -36,6 +38,8 @@ export class CalendarPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    //call to api to know if user is player on current team
+    this.isPlayer = true;
   }
 
   ionViewWillEnter() {

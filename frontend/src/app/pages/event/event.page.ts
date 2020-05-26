@@ -30,6 +30,7 @@ export class EventPage implements OnInit {
   img;
   file: File = new File();
   promise: Promise<string>; 
+  isPlayer;
 
   constructor(
     private geolocation: Geolocation,
@@ -45,6 +46,8 @@ export class EventPage implements OnInit {
   }
 
   ngOnInit() { 
+    //call to apiRest to know if user is player on current Team
+    this.isPlayer = true;
     this.getEventInfo();
   }
 

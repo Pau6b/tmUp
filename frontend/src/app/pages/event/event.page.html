@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>{{ event?.title }}</ion-title>
     <!--Mirar si el usuari es cos tecnic amb *ngIf-->
-    <ion-buttons *ngIf="(segmentModel !== 'analisi')" slot="end">
+    <ion-buttons *ngIf="(segmentModel !== 'analisi') && !isPlayer" slot="end">
       <ion-button (click)="editEvent()">{{ 'CORE.actions.edit' | translate }}</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -71,7 +71,7 @@
           <p>{{ 'EVENT.message_no_convocados' | translate }}</p>
         </div>
         <!--Mirar si el usuari és cos tecnic amb *ngIf-->
-        <div class="centerButton">
+        <div *ngIf="!isPlayer" class="centerButton">
           <ion-button (click)="editEvent()">{{ 'EVENT.new_list' | translate }}</ion-button>
         </div>
       </div>
@@ -86,7 +86,7 @@
         <ion-label> {{ file_name }}</ion-label>
       </ion-item>
 
-      <ion-fab class="buttons" vertical="bottom" slot="fixed" color="primary">
+      <ion-fab *ngIf="!isPlayer" class="buttons" vertical="bottom" slot="fixed" color="primary">
         <ion-button (click)="updateFile()">{{ 'CORE.actions.edit' | translate }}</ion-button>
         <ion-button (click)="deleteFile()" class="separation">{{ 'CORE.actions.delete' | translate }}</ion-button>
       </ion-fab>
@@ -98,7 +98,7 @@
         <p> {{ 'EVENT.no_inform' | translate }}</p>
       </div>
       <!--Mirar si el usuari és cos tecnic amb *ngIf-->
-      <div class="centerButton">
+      <div *ngIf="!isPlayer" class="centerButton">
         <ion-button (click)="uploadFile()"> {{ 'EVENT.uploadfile' | translate }} </ion-button>
       </div>
     </div>
@@ -116,7 +116,7 @@
       </ion-row>
     </ion-grid>
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
+    <ion-fab *ngIf="!isPlayer" vertical="bottom" horizontal="end" slot="fixed" color="primary">
       <ion-fab-button (click)="goToaddTactic(img)">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
