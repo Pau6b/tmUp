@@ -49,6 +49,7 @@ export class SettingsPage implements OnInit {
       if(res) {
         //delete team & redirect to team-list
         this.apiProv.deleteTeam().then(() => {
+          this.storageServ.deleteTeamFiles(this.teamID);
           this.router.navigate(['team-list']);
         })
       }
