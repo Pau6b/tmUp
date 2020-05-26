@@ -66,6 +66,19 @@ export class StorageService {
     ref.delete();
     }
 
+    prubaDelete() {
+      console.log("entro prueba");
+      const eventsPath = "/tactics/A4lctdJBIQE234MHDHm2/Fitxer_notes_PES_2019_20P_notes_sprint2.pdf";
+      let ref = this.storage.ref(eventsPath);
+      ref.delete();
+    }
+
+    deleteEventFiles(teamId, eventId) {
+      const eventsPath = "/events/"+teamId+'/'+eventId;
+      let ref = this.storage.ref(eventsPath);
+      ref.delete();
+      }
+
   createPdf(title: string, content: string, teamId: string){
     let path = "/normatives/"+teamId+'/'+title;
     const ref = this.storage.ref;
