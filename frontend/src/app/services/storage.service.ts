@@ -66,12 +66,12 @@ export class StorageService {
     ref.delete();
     }
 
-    prubaDelete() {
-      console.log("entro prueba");
-      const eventsPath = "/tactics/A4lctdJBIQE234MHDHm2/Fitxer_notes_PES_2019_20P_notes_sprint2.pdf";
-      let ref = this.storage.ref(eventsPath);
+    deleteUserFiles(userId) {
+      const userPath = "/profile_images/"+userId;
+      let ref = this.storage.ref(userPath);
       ref.delete();
     }
+
 
     deleteEventFiles(teamId, eventId) {
       const eventsPath = "/events/"+teamId+'/'+eventId;
