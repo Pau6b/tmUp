@@ -26,7 +26,7 @@ export class EventPage implements OnInit {
   currentLoc: any;
   segmentModel = "info";
   file_name = "Rival1";
-  ListConv: any;
+  ListConv: any = [];
   img;
   file: File = new File();
   promise: Promise<string>; 
@@ -47,7 +47,7 @@ export class EventPage implements OnInit {
 
   ngOnInit() { 
     //call to apiRest to know if user is player on current Team
-    this.isPlayer = true;
+    this.isPlayer = false;
     this.getEventInfo();
   }
 
@@ -83,8 +83,17 @@ export class EventPage implements OnInit {
   getEventCall() {
     this.apiProv.getCall(this.eventId)
     .subscribe ( (data) => {
-      this.ListConv = data;
-      if ( this.ListConv.length == 0) this.ListConv = null;
+      let tmp: any;
+      tmp = data;
+      tmp.forEach((element: any) => {
+        this.apiProv.getUser(element).subscribe( (info: any) => {
+          let player = {
+            id: element,
+            name: info.userName
+          }
+          this.ListConv.push(player);
+        })
+      });
     });
   }
 

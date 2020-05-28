@@ -22,7 +22,7 @@ export class EditEventPage implements OnInit {
   ListConv: any[];
   numConv = 0;
   convocats = [];
-  membershipTeam;
+  membershipTeam = [];
 
   locationForm = this.formBuilder.group({
     latitude: [null, [Validators.required]],
@@ -110,13 +110,13 @@ export class EditEventPage implements OnInit {
     if(this.event.type == "match") {
       this.apiProv.editMatch(this.editEventForm.value)
       .then(() => {
-        this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
+        this.router.navigate(['/event', this.evId]);
       });
     }
     else {
       this.apiProv.editTraining(this.editEventForm.value)
       .then(() => {
-        this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
+        this.router.navigate(['/event', this.evId]);
       });
     }
   }
@@ -153,7 +153,7 @@ export class EditEventPage implements OnInit {
               handler : () => {
                 this.apiProv.createCall(this.evId, this.convocats)
                 .then(() => {
-                  this.router.navigate(['/event', this.editEventForm.get('eventId').value]);
+                  this.router.navigate(['/event', this.evId]);
                 });
               }
             }
@@ -168,7 +168,7 @@ export class EditEventPage implements OnInit {
     for (let member of this.membershipTeam) {
       if (member.isChecked) {
         ++this.numConv;
-        this.convocats.push(member.userId);
+        this.convocats.push(member.id);
       }
     }
     this.presentAlert();
@@ -177,20 +177,26 @@ export class EditEventPage implements OnInit {
   getMembersTeam() {
     this.apiProv.getMembers()
       .then((data) => {
-        this.membershipTeam = data;
-        if (this.membershipTeam.length == 0) this.membershipTeam = null;
-        else {
-          for ( let mem of this.membershipTeam ) {
-            mem.isChecked = false;
+      let tmp: any = data;
+        tmp.forEach(element => {
+          if(element.type == 'player') {
+            this.apiProv.getUser(element.userId).subscribe((info: any) => {
+              let player = {
+                id: element.userId,
+                name: info.userName,
+                isChecked: false
+              }
+              this.membershipTeam.push(player);
+            })
           }
-        }
-      }); 
+        });
+    }); 
   }
 
   listPlayers() {
     this.getMembersTeam();
-    if ( this.membershipTeam != null ) {
-      if ( this.ListConv != null ) {
+    if ( this.membershipTeam.length != 0 ) {
+      if ( this.ListConv.length != 0 ) {
         this.anySelected = true;
         for ( let mem of this.membershipTeam ) {
           for ( let conv of this.ListConv ) {
