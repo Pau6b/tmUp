@@ -59,9 +59,6 @@
         "no_inform": "Todavía no hay ningún Informe de Análisis Rival",
         "uploadfile": "Subir fichero"
     },
-    "LOCATION-SELECT": {
-        "connectToInternet": "Parece que no tienes conexion..."
-    },
     "LOGIN": {
         "wrongCombination": "Usuario i/o contraseña incorrecto",
         "user": "Usuario",
@@ -198,6 +195,21 @@
             "stopsPerMatch": "paradas/partido",
             "ballsPerMatch": "pelotas/partido"
         }
+    },
+    "RANKING" : {
+        "mostAssists": "Most assists",
+        "mostPointsScored": "Most points scored",
+        "mostRebounds": "Most rebounds",
+        "mostThreePointShots": "Most three point shots",
+        "mostTwoPointShots": "Most two point shots",
+        "mostGoalsScored": "Most goals scored",
+        "mostMinutesPlayed": "Most minutes played",
+        "mostRedCards": "Most red cards",
+        "mostYellowCars": "Most yellow cards",
+        "lostBalls": "Most lost balls",
+        "mostSevenMeters": "Most seven meter goals",
+        "mostStops": "Most stops",
+        "mostTwoMinutes": "Most two minutes"
     },
     "CORE" : {
         "result": {

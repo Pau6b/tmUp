@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {NavController} from '@ionic/angular';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -9,12 +8,12 @@ import { LoadingController} from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { File } from '@ionic-native/file/ngx';
 
-import { Chooser } from '@ionic-native/chooser/ngx';
 //import { PhotoViewer } from '@ionic-native/photo-viewer';
-import { PhotoService } from 'src/app/services/photo.service';
 import { StorageService } from 'src/app/services/storage.service';
 
 declare var google;
+import { PhotoService } from '../../../app/services/photo.service';
+import { googleMaps } from '../../../providers/googleMaps/google-maps';
 
 @Component({
   selector: 'app-event',
@@ -22,6 +21,8 @@ declare var google;
   styleUrls: ['./event.page.scss'],
 })
 export class EventPage implements OnInit {
+
+  @ViewChild('map', {static: true}) mapElement: ElementRef;
 
   eventId: string;
   event: any;
@@ -41,19 +42,34 @@ export class EventPage implements OnInit {
     private apiProv: apiRestProvider,
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
+    private maps: googleMaps,
     //private photoViewer: PhotoViewer,
+<<<<<<< HEAD
     private navCtrl: NavController,
     private storage: StorageService
+=======
+>>>>>>> 267bc55f096e1e54d40ae8c8d65f5651f1be9c9a
   ) { 
   }
 
   ngOnInit() { 
-    this.getEventInfo()
-    setTimeout(() => {
+    this.getEventInfo();
+  }
+
+  onInfoSegment() {
+    if(this.event.location.name!="") {
       this.loadMap();
+<<<<<<< HEAD
     }, 1000);
     this.getFile();
     this.files = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'event_images');    
+=======
+    }
+  }
+
+  onCallSegment() {
+    this.getEventCall();
+>>>>>>> 267bc55f096e1e54d40ae8c8d65f5651f1be9c9a
   }
 
   async getEventInfo() {
@@ -65,15 +81,21 @@ export class EventPage implements OnInit {
         this.apiProv.getEventById(this.eventId)
         .subscribe( (data) => {
           this.event = data;
-          loading.dismiss();
+          if(this.event.location.name!="") {
+            this.loadMap();
+          }
         })
-        this.apiProv.getCall(this.eventId)
-        .subscribe ( (data) => {
-          console.log(data);
-          this.ListConv = data;
-          if ( this.ListConv.length == 0) this.ListConv = null;
-        });
+        this.getEventCall();
+        loading.dismiss();
       }
+    });
+  }
+
+  getEventCall() {
+    this.apiProv.getCall(this.eventId)
+    .subscribe ( (data) => {
+      this.ListConv = data;
+      if ( this.ListConv.length == 0) this.ListConv = null;
     });
   }
 
@@ -96,30 +118,19 @@ export class EventPage implements OnInit {
       currLat: currentLoc.coords.latitude,
       currLng: currentLoc.coords.longitude
     };
-    this.iab.create('https://www.google.com/maps/dir/?api=1&origin='+currentLatLng.currLat+
+    let browser = this.iab.create('https://www.google.com/maps/dir/?api=1&origin='+currentLatLng.currLat+
       ','+currentLatLng.currLng+'&destination='+this.event.location.latitude+','+this.event.location.longitude);
+    browser.show();
   }
 
   loadMap() {
-    const myLatLng = {
+    let myLatLng = {
       lat: this.event.location.latitude,
       lng: this.event.location.longitude
     };
-    const mapEle: HTMLElement = document.getElementById('map');
-    const map = new google.maps.Map(mapEle, {
-      center: myLatLng,
-      zoom: 12
-    });
-    google.maps.event
-    .addListenerOnce(map, 'idle', () => {
-      let marker = new google.maps.Marker({
-        position: {
-          lat: myLatLng.lat,
-          lng: myLatLng.lng
-        },
-        map: map
-      });
-    });
+    let mapEl: HTMLElement = document.getElementById('map');
+    this.maps.initMap(mapEl, myLatLng);
+
   }
 
   //INFORME RIVAL

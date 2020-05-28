@@ -6,6 +6,7 @@ import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
 import { sports, rols } from '../../Core/Arrays';
 import { TranslateService } from '@ngx-translate/core';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 @Component({
   selector: 'app-add-team',
@@ -55,7 +56,8 @@ export class AddTeamPage implements OnInit {
     private photoServ: PhotoService,
     private router: Router,
     private alertCtrl: AlertController,
-    private translService: TranslateService
+    private translService: TranslateService,
+    private clipboard: Clipboard
     ) { }
 
   ngOnInit() {
@@ -96,6 +98,12 @@ export class AddTeamPage implements OnInit {
             let alert = await this.alertCtrl.create({
               message: value + teamID,
               buttons: [
+                {
+                  text: 'Copiar',
+                  handler: () => {
+                    this.clipboard.copy(teamID.toString());
+                  }
+                },
                 {
                   text: 'OK',
                   handler: () => {

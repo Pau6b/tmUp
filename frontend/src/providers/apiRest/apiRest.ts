@@ -26,7 +26,7 @@ export class apiRestProvider {
 
   public setToken(token: string) {
     this.token = token;
-    //console.log(token);
+    console.log(token);
   }
 
   public setTeam(team: string){
@@ -291,6 +291,11 @@ export class apiRestProvider {
   public getCurrentTeamStatistics() {
     this.setHeader();
     return this.http.get(this.url+"teams/"+this.currentTeam+"/stadistics", {headers: this.headers})
+  }
+
+  public getCurrentTeamRanking() {
+    this.setHeader();
+    return this.http.get(this.url+"teams/"+this.currentTeam+"/ranking", { headers: this.headers });
   }
 
   //Fines

@@ -16,6 +16,9 @@ export class StatisticsPage implements OnInit {
   public userStats;
   public teamStats;
   public playedMatches = "";
+  public selected = "";
+  public teamPlayers;
+
   @ViewChild('TeamFootball', {static: false}) footballChild:TeamFootballComponent;
 
   constructor(private apiProv: apiRestProvider,
@@ -33,10 +36,12 @@ export class StatisticsPage implements OnInit {
     this.apiProv.getCurrentUserStatistics().subscribe((data: any) => {
       this.userStats = data;
     });
+
+    this.apiProv.getMembers().then((data) => { console.log(data); });
   }
 
   public goToRanking() {
-    this.router.navigate["ranking"]
+    this.router.navigate(["ranking"]);
   }
 
   public onPageChanged(value: any) {

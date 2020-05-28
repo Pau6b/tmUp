@@ -1,0 +1,165 @@
+<div *ngIf='stats.assists.id != 0'>
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/basketball/assists.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostAssists" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/basketball/assists.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.assists.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.assists.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.pointsScored.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/basketball/1point.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostPointsScored" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/basketball/1point.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.pointsScored.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.pointsScored.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.rebounds.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo" >
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/basketball/rebound.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostRebounds" | RANKING }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/basketball/rebound.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.rebounds.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.rebounds.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.threePointShots.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/basketball/3points.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{"RANKING.mostThreePointShots" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/basketball/3points.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.threePointShots.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.threePointShots.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.twoPointShots.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/basketball/2points.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostTwoPointShots" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/basketball/2points.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.twoPointShots.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.twoPointShots.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>

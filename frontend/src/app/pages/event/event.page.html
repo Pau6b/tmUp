@@ -10,11 +10,11 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-segment value="info" [(ngModel)]="segmentModel">
-      <ion-segment-button value="info">
+    <ion-segment value="info" [(ngModel)]="segmentModel" >
+      <ion-segment-button value="info" (click)="onInfoSegment()">
         <ion-label> {{ 'EVENT.info' | translate }} </ion-label>
       </ion-segment-button>
-      <ion-segment-button *ngIf="event?.type === 'match'" value="players">
+      <ion-segment-button *ngIf="event?.type === 'match'" value="players" (click)="onCallSegment()">
         <ion-label>{{ 'EVENT.convocados' | translate }}</ion-label>
       </ion-segment-button>
       <ion-segment-button *ngIf="event?.type === 'match'" value="analisi">
@@ -32,7 +32,6 @@
   <!--Event information-->
 
   <div *ngIf="segmentModel === 'info'">
-    <ion-text class="title">Información evento</ion-text>
     <div class="ion-padding">
       <ion-item *ngIf="event?.type === 'match'" class="rivalInfo">
         <ion-label>Rival: {{ event?.rival }}</ion-label>
@@ -55,8 +54,8 @@
       </ion-item>
     </div>
 
-    <div id="map"></div>
-    <ion-button class="directionsButton" (click)="GoogleDirections()" color="primary" expand="block">{{ 'EVENT.howToGet' | translate }}</ion-button>
+    <ion-button *ngIf="this.event?.location?.name!=''" class="directionsButton" (click)="GoogleDirections()" color="primary" expand="block">{{ 'EVENT.howToGet' | translate }}</ion-button>
+    <div *ngIf="this.event?.location?.name!=''" #map id="map"></div>
   </div>
 
 
@@ -90,7 +89,6 @@
   <!--Rival Inform-->
 
   <div *ngIf="segmentModel === 'analisi'">
-    <ion-text class="title">{{ 'EVENT.inform' | translate }}</ion-text>
 
     <div *ngIf="hasInform">
       <ion-item lines="none">
