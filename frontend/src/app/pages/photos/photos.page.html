@@ -20,9 +20,9 @@
         <ion-slide *ngFor="let img of d.photos">
           <div *ngIf="d.expanded">
             <ion-card>
-              <ion-img [src]=""></ion-img>
+              <ion-img [src]="img.url"></ion-img>
             </ion-card>
-            <ion-text>Imagen {{img.img}}</ion-text>
+            <ion-text>Imagen {{img.name}}</ion-text>
           </div>
         </ion-slide>
       </ion-slides>

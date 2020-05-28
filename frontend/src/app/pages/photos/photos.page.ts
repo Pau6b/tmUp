@@ -12,7 +12,7 @@ export class PhotosPage implements OnInit {
   events = [];
   files = [];
   hasEvents;
-  public data = [
+  /*public data = [
     {
       category: 'Partido Espanyol vs Barça',
       expanded: true,
@@ -67,7 +67,7 @@ export class PhotosPage implements OnInit {
         }
       ]
     }
-  ];
+  ];*/
 
   sliderConfig = {
     slidesPerView: 1.6,
