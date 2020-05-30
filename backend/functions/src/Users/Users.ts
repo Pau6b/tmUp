@@ -13,7 +13,7 @@ app.post('/create', (req, res) => {
             await db.collection('users').doc('/' + jsonContent.email + '/')
             .create({
                 email: jsonContent.email,
-                userName: jsonContent.userName,
+                userName: jsonContent.userName
             });
             req.session!["userName"] = jsonContent.userName;
             console.log(req.session!["userName"]);
