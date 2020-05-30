@@ -27,7 +27,6 @@ app.post('/create', (req, res) => {
     })().then().catch();
 });
 
-
 app.get('/me', (req, res) => {
     console.log(req.path);
     (async() => {
@@ -216,9 +215,16 @@ app.put('/update', (req, res) => {
                 return res.status(400).send("UGM1");
             }
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    user.email = jsonContent.email
+                    //user.email = jsonContent.email
                     user.displayName = jsonContent.userName
             });
+
+            //Update a bd
+            /*await db.collection('users').doc(jsonContent.email).update({
+                //email: jsonContent.newEmail,
+                userName: jsonContent.userName
+            })*/
+            //
 
             return res.status(200).send();
         }

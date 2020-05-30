@@ -24,12 +24,12 @@ app.post('/create', (req, res) => {
         }
     })().then().catch();
 });
-/////////////PROVA GET USER LOCAL///////////////////////
+//////GET DE PROVA///// /getprova/:email
 app.get('/getprova/:email', (req, res) => {
     (async () => {
         try {
             let existeUser = true;
-            const userData = await db.collection('users').doc('/' + req.params.email + '/').get().then((doc) => {
+            const userData = await db.collection('users').doc(req.params.email).get().then((doc) => {
                 if (!doc.exists) {
                     existeUser = false;
                     return;
@@ -40,7 +40,7 @@ app.get('/getprova/:email', (req, res) => {
             });
             //Check that the event exists
             if (!existeUser) {
-                return res.status(400).send("no existe evento");
+                return res.status(400).send("no existe user");
             }
             //return correct data
             return res.status(200).send(userData);
@@ -50,7 +50,7 @@ app.get('/getprova/:email', (req, res) => {
         }
     })().then().catch();
 });
-/////////////PROVA GET USER LOCAL///////////////////////
+//////GET DE PROVA/////
 app.get('/me', (req, res) => {
     console.log(req.path);
     (async () => {
@@ -203,6 +203,32 @@ app.get('/', (req, res) => {
         }
     })().then().catch();
 });
+///////////////UPDTATE///////////////
+app.put('/update', (req, res) => {
+    (async () => {
+        try {
+            const jsonContent = JSON.parse(req.body);
+            /*if(!req.session!.user) {
+                return res.status(400).send("UGM1");
+            }
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    user.email = jsonContent.email
+                    user.displayName = jsonContent.userName
+            });*/
+            //Update a bd
+            await db.collection('users').doc(jsonContent.oldEmail).update({
+                email: jsonContent.newEmail,
+                userName: jsonContent.userName
+            });
+            //
+            return res.status(200).send();
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+///////////////UPDTATE///////////////
 // Falta determinar que hay que cambiar
 //Update => Put
 app.put('/:userEmail', (req, res) => {
