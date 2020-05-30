@@ -12,10 +12,10 @@ app.post('/create', (req, res) => {
             await db.collection('users').doc('/' + jsonContent.email + '/')
                 .create({
                 email: jsonContent.email,
-                userName: jsonContent.userName,
+                userName: jsonContent.userName
             });
-            req.session["userName"] = jsonContent.userName;
-            console.log(req.session["userName"]);
+            /*req.session!["userName"] = jsonContent.userName;
+            console.log(req.session!["userName"]);*/
             return res.status(200).send();
         }
         catch (error) {
@@ -24,6 +24,33 @@ app.post('/create', (req, res) => {
         }
     })().then().catch();
 });
+/////////////PROVA GET USER LOCAL///////////////////////
+app.get('/getprova/:email', (req, res) => {
+    (async () => {
+        try {
+            let existeUser = true;
+            const userData = await db.collection('users').doc('/' + req.params.email + '/').get().then((doc) => {
+                if (!doc.exists) {
+                    existeUser = false;
+                    return;
+                }
+                else {
+                    return doc.data();
+                }
+            });
+            //Check that the event exists
+            if (!existeUser) {
+                return res.status(400).send("no existe evento");
+            }
+            //return correct data
+            return res.status(200).send(userData);
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+/////////////PROVA GET USER LOCAL///////////////////////
 app.get('/me', (req, res) => {
     console.log(req.path);
     (async () => {
@@ -222,13 +249,14 @@ app.delete('/:userEmail', (req, res) => {
             //eliminar totes les memberships del usuari
             const query = db.collectionGroup('memberships').where('userId', "==", req.params.userEmail);
             const response = [];
-            await query.get().then((querySnapshot) => {
-                const docs = querySnapshot.docs;
-                for (const doc of docs) {
-                    doc.delete();
-                }
-                return response;
-            });
+            if (query != undefined)
+                await query.get().then((querySnapshot) => {
+                    const docs = querySnapshot.docs;
+                    for (const doc of docs) {
+                        doc.delete();
+                    }
+                    return response;
+                });
             return res.status(200).send();
         }
         catch (error) {
