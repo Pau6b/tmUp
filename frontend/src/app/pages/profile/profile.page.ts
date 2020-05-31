@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 
-import { ActionSheetController, MenuController } from '@ionic/angular';
-
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { PhotoService } from 'src/app/services/photo.service';
 import { DeleteAlertService } from 'src/app/services/delete-alert.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,14 +20,14 @@ export class ProfilePage implements OnInit {
   profileInfo;
 
   public  constructor(
-    public formBuilder: FormBuilder,
-    public apiProv: apiRestProvider,
-    public camera: Camera,
-    public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController,
-    public authService: AuthService,
+    private formBuilder: FormBuilder,
+    private apiProv: apiRestProvider,
+    private alertCtrl: AlertController,
+    private authService: AuthService,
     private photoServ: PhotoService,
-    private deleteAlert: DeleteAlertService
+    private deleteAlert: DeleteAlertService,
+    private storageServ: StorageService,
+    private authServ: AuthService
   ) { }
 
   public ngOnInit() {
@@ -115,7 +113,10 @@ export class ProfilePage implements OnInit {
     this.deleteAlert.showConfirm("user", this.profileInfo.userName).then((res) => {
       if(res) {
         //delete User, logout, redirect to login
-        console.log("eliminado")
+        this.apiProv.deleteUser(this.profileInfo.email).then(() => {
+          this.storageServ.deleteUserFiles(this.profileInfo.email);
+          this.authServ.logOut();
+        })
       }
     })
   }

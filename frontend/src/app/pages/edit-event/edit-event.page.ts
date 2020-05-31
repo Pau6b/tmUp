@@ -7,6 +7,7 @@ import { LocationSelectPage } from '../location-select/location-select.page';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { DeleteAlertService } from 'src/app/services/delete-alert.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-edit-event',
@@ -50,7 +51,8 @@ export class EditEventPage implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private translateService: TranslateService,
-    private deleteAlert: DeleteAlertService
+    private deleteAlert: DeleteAlertService,
+    private storageServ: StorageService
   ) { 
     this.route.queryParams.subscribe(params => {
       this.evId = this.router.getCurrentNavigation().extras.state.evId;
@@ -99,8 +101,13 @@ export class EditEventPage implements OnInit {
       if(res) {
         this.apiProv.deleteEvent(this.evId)
         .then(() => {
+          if(this.event.type == 'match') {
+            let teamId = this.apiProv.getTeamId();
+            this.storageServ.deleteEventFiles(teamId, this.evId);
+          }
           this.router.navigate(['/calendar']);
         });
+        
       }
     });
     

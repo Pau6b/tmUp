@@ -69,6 +69,16 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+'users/me/teams', { headers: this.headers });
   }
+
+  public deleteUser(email) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.delete(this.url+'users/'+ email , { headers: this.headers, responseType:'text'})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
   
 
   //TEAMS
