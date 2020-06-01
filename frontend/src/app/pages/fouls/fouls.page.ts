@@ -24,6 +24,7 @@ export class FoulsPage implements OnInit {
   noPaids;
   segment="total";
   radioButton="team";
+  iniciado=false;
   role;
 
   constructor(
