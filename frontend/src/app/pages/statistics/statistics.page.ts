@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { Router } from '@angular/router';
 import { TeamFootballComponent } from './components/team-football/team-football.component';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-statistics',
@@ -17,14 +18,23 @@ export class StatisticsPage implements OnInit {
   public teamStats;
   public playedMatches = "";
   public selected = "";
-  public teamPlayers;
+  public teamPlayers = [];
+  public teamPlayersKeys = [];
+  public selectedUser;
 
   @ViewChild('TeamFootball', {static: false}) footballChild:TeamFootballComponent;
 
   constructor(private apiProv: apiRestProvider,
-              private router: Router) { }
+              private router: Router,
+              public loadCtrl: LoadingController) { }
 
   ngOnInit() {
+    this.Init();
+  }
+
+  async Init() {
+    const loading = await this.loadCtrl.create();
+    loading.present();
     this.apiProv.getCurrentTeam().subscribe((data: any) => {
       this.sport = data.sport.toLowerCase();
     });
@@ -37,17 +47,27 @@ export class StatisticsPage implements OnInit {
       this.userStats = data;
     });
 
-    this.apiProv.getMembers().then((data) => { console.log(data); });
+    
+    this.apiProv.getUserTeamMemberships("player").subscribe((data:any) => { 
+      for (let i = 0; i < data.length; ++i) {
+        this.apiProv.getUser(data[i].userId).subscribe((userData:any) => {
+          this.teamPlayers[userData.userName] = userData.email;
+          this.teamPlayersKeys.push(userData.userName);
+          loading.dismiss();
+        });
+      }
+    });
   }
 
   public goToRanking() {
     this.router.navigate(["ranking"]);
   }
 
-  public onPageChanged(value: any) {
-    console.log(value);
+  public onPlayerChanged() {
+    this.apiProv.getUserStatistics(this.teamPlayers[this.selectedUser]).subscribe((stats) => {
+      this.userStats = stats;
+    })
   }
-
 
 
 }

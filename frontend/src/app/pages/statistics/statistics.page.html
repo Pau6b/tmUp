@@ -8,7 +8,7 @@
 </ion-header>
 <ion-toolbar>
   <ion-segment value="self" [(ngModel)]="statisticsType">
-    <ion-segment-button (ionChange)="onPageChanged(value)" value="self">
+    <ion-segment-button value="self">
       <ion-label>{{ "STATISTICS.selfStatistics" | translate }}</ion-label>
     </ion-segment-button>
     <ion-segment-button value="team">
@@ -18,9 +18,9 @@
 </ion-toolbar>
 <ion-content>
     <div *ngIf="statisticsType === 'self'">
-      <ion-select placeholder="{{userName}}">
-        <ion-select-option *ngFor="let player of teamPlayers">
-          {{jugador.userName}}
+      <ion-select (ionChange)="onPlayerChanged()" placeholder="{{userName}}" [(ngModel)]="selectedUser" >
+        <ion-select-option *ngFor="let player of teamPlayersKeys" value ={{player}}>
+          {{player}}
         </ion-select-option>
       </ion-select>
 

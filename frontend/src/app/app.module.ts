@@ -35,7 +35,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 
 import { FilePath } from '@ionic-native/file-path/ngx';
-
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -78,6 +78,7 @@ export function createTranslateLoader(http: HttpClient) {
     FilePath,
     InAppBrowser,
     NavParams,
+    Clipboard,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],
