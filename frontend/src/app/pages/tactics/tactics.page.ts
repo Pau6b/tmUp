@@ -7,8 +7,6 @@ import { Router } from '@angular/router';
 
 import { File } from '@ionic-native/file/ngx';
 
-const MEDIA_FOLDER_NAME = "my_tactics";
-
 @Component({
   selector: 'app-tactics',
   templateUrl: './tactics.page.html',
