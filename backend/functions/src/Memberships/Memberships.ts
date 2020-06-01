@@ -413,6 +413,14 @@ app.get('/getByUser/:userId', (req, res) => {
     })().then().catch();
 });
 
+app.get('/', (req, res) => {
+    (async () => {
+        const query = db.collection('memberships').doc(req.query.userId);
+        await query.get().then((querySnapshot: any) => {
+            
+        })
+    })
+})
 
 /*
 app.put('/:id', (req, res) => {
