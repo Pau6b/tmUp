@@ -66,7 +66,7 @@ app.get('/:teamId', (req, res) => {
                     const selectedItem  = {
                         chatId: doc.data().chatId,
                         email: doc.data().email,
-                        //userName: doc.data().userName,
+                        userName: doc.data().userName,
                         bodyMessage: doc.data().bodyMessage,
                         date: doc.data().date
                     };
