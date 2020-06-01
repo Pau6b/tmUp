@@ -16,7 +16,7 @@
         <ion-img src="../../../assets/icon/doc.png" slot="start" *ngIf="f?.name?.endsWith('.txt') ||  f?.name?.endsWith('.doc') ||  f?.name?.endsWith('.docx')"></ion-img>
         <ion-img src="../../../assets/icon/pdf.png" slot="start" *ngIf="f?.name?.endsWith('.pdf')"></ion-img>
       <ion-label>{{ f?.name }}</ion-label>
-      <ion-row>
+      <ion-row *ngIf="role == 'staff'">
         <ion-button expand="block" color="danger" (click)="deleteFile()">{{ 'NORMATIVE.deleteFile' | translate }}</ion-button>
         <ion-button expand="block" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
       </ion-row>
@@ -28,10 +28,10 @@
     <div class="file">  
       <ion-label class="danger">{{ 'NORMATIVE.noFile' | translate }}</ion-label>
     
-      <ion-button expand="block" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
+      <ion-button expand="block" *ngIf="role == 'staff'" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
     </div> 
 
-    <form [formGroup]="createPdfForm" (ngSubmit)="createPdf()">
+    <form *ngIf="role == 'staff'" [formGroup]="createPdfForm" (ngSubmit)="createPdf()">
       <ion-item style="white-space:nowrap">
         <ion-label position="floating">{{ 'NORMATIVE.fileTitle' | translate }}</ion-label>
         <ion-input type="text" formControlName="title"></ion-input>

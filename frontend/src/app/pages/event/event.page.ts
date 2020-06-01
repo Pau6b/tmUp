@@ -11,6 +11,7 @@ import { File } from '@ionic-native/file/ngx';
 //import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { PhotoService } from '../../../app/services/photo.service';
 import { googleMaps } from '../../../providers/googleMaps/google-maps';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-event',
@@ -41,13 +42,15 @@ export class EventPage implements OnInit {
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
     private maps: googleMaps,
+    private principalPage: AppComponent
     //private photoViewer: PhotoViewer,
   ) { 
   }
 
   ngOnInit() { 
     //call to apiRest to know if user is player on current Team
-    this.isPlayer = false;
+    if(this.principalPage.role == 'player') this.isPlayer = true;
+    else this.isPlayer = false;
     this.getEventInfo();
   }
 

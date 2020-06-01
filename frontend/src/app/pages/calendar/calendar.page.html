@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>{{'CALENDAR.title' | translate }}</ion-title>
-    <ion-buttons *ngIf="!isPlayer" slot="end">
+    <ion-buttons slot="end" *ngIf="role == 'staff'">
       <ion-button (click)="addEvent()">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
