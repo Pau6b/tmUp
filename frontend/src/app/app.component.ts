@@ -25,47 +25,56 @@ export class AppComponent implements OnInit {
     {
       title: 'main',
       url: 'main',
-      icon: 'home'
+      icon: 'home',
+      roles: ["player","staff","physiotherapist"]
     },
     {
       title: 'normative',
       url: 'normative',
-      icon: 'document-text'
+      icon: 'document-text',
+      roles: ["player","staff"]
     },
     {
       title: 'tactics',
       url: 'tactics',
-      icon: 'easel'
+      icon: 'easel',
+      roles: ["player","staff"]
     },
     {
       title: 'statistics',
       url: 'statistics',
-      icon: 'bar-chart'
+      icon: 'bar-chart',
+      roles: ["player"]
     },
     {
       title: 'chat',
       url: 'chat',
-      icon: 'chatbubble-ellipses'
+      icon: 'chatbubble-ellipses',
+      roles: ["player","staff","physiotherapist"]
     },
     {
       title: 'calendar',
       url: 'calendar',
-      icon: 'calendar'
+      icon: 'calendar',
+      roles: ["player","staff","physiotherapist"]
     },
     {
       title: 'physiotherapist',
       url: 'physiotherapist',
-      icon: 'medkit'
+      icon: 'medkit',
+      roles: ["player","staff","physiotherapist"]
     },
     {
       title: 'photos',
       url: 'photos',
-      icon: 'images'
+      icon: 'images',
+      roles: ["player","staff","physiotherapist"]
     },
     {
       title: 'fines',
       url: 'fouls',
-      icon: 'cash'
+      icon: 'cash',
+      roles: ["player","staff","physiotherapist"]
     }
   ];
 
@@ -111,6 +120,7 @@ export class AppComponent implements OnInit {
 
   public setRole(role: string) {
     this.role = role;
+    console.log(role);
   }
 
   gotoMatch() {

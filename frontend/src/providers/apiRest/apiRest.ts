@@ -125,13 +125,13 @@ export class apiRestProvider {
     this.setHeader();
       return this.db.collection("teams/"+teamId+"/messages", ref => ref.orderBy("dateOrd", "asc")).snapshotChanges().pipe(map(mensajes => {
         return mensajes.map(m => {
-            const data = m.payload.doc.data() as message;
-            data.id = m.payload.doc.id;
+          const data = m.payload.doc.data() as message;
+          data.id = m.payload.doc.id;
             return data;
         })
-    }));
+      }));
   }
-
+  
   public createMessage(messageInfo){
     this.setHeader();
     return new Promise(resolve => {
@@ -141,25 +141,25 @@ export class apiRestProvider {
       })
     })
   }
-
+  
   //CALENDAR AND EVENTS METHODS
   
   public getEventsOfMonth(month) {
     this.setHeader();
     return this.http.get(this.url+'teams/events/bymonth/'+ this.currentTeam +'/'+ month, { headers: this.headers });
   } 
-
+  
   public getEventById(eId) {
     this.setHeader();
     return this.http.get(this.url+'teams/events/'+ this.currentTeam +'/'+ eId, { headers: this.headers });
   }
-
+  
   public createMatch(matchInfo) { 
     this.setHeader();
     return new Promise(resolve => {
       this.http.post(this.url+'teams/events/match/create', JSON.stringify(matchInfo), { headers: this.headers })
       .subscribe(data => {
-          resolve(data);
+        resolve(data);
       })
     });
   }
@@ -170,7 +170,7 @@ export class apiRestProvider {
       this.http.post(this.url+'teams/events/training/create', JSON.stringify(trainingInfo), { headers: this.headers })
       .subscribe(data => {
           resolve(data);
-      })
+        })
     });
   }
 
@@ -180,27 +180,27 @@ export class apiRestProvider {
       this.http.put(this.url+'teams/events/match/update', JSON.stringify(matchInfo), { headers: this.headers })
       .subscribe(data => {
           resolve(data);
-      })
-    });
-  }
-
+        })
+      });
+    }
+    
   public editTraining(trainingInfo) {
     this.setHeader();
     return new Promise(resolve => {
       this.http.put(this.url+'teams/events/training/update', JSON.stringify(trainingInfo), { headers: this.headers })
       .subscribe(data => {
-          resolve(data);
+        resolve(data);
       })
     });
   }
-
+  
   public deleteEvent(eId) {
     this.setHeader();
     return new Promise(resolve => {
       this.http.delete(this.url+'teams/events/delete/'+ this.currentTeam + '/' + eId, { headers: this.headers, responseType:'text'})
       .subscribe(data => {
           resolve(data);
-      })
+        })
     });
   }
 
@@ -213,7 +213,7 @@ export class apiRestProvider {
       })
     });
   }
-
+  
   public getMembers() {
     this.setHeader();
     return new Promise(resolve => {
@@ -228,7 +228,7 @@ export class apiRestProvider {
   public getTactics(){
     return this.http.get(this.url+'teams/tactics/download');
   }
-
+  
   //News
   public getNextMatch() {
     this.setHeader();
@@ -236,7 +236,7 @@ export class apiRestProvider {
       this.http.get(this.url+'teams/events/nextevent/match/' + this.currentTeam, {headers: this.headers})
       .subscribe(data => {
           resolve(data);
-      })
+        })
     });
   }
 
@@ -245,60 +245,65 @@ export class apiRestProvider {
     return new Promise(resolve => {
       this.http.get(this.url+'teams/events/nextevent/training/' + this.currentTeam, {headers: this.headers})
       .subscribe(data => {
-          resolve(data);
+        resolve(data);
       })
     });
   }
-
+  
   public getNews() {
     this.setHeader();
     return new Promise(resolve => {
       this.http.get(this.url+'teams/noticies/all/' + this.currentTeam, {headers: this.headers})
       .subscribe(data => {
-          resolve(data);
+        resolve(data);
       })
     });
   }
-
+  
   //LIVE-MATCH
   public getCall(eventId) {
     this.setHeader();
     return this.http.get(this.url+'teams/events/'+this.currentTeam+'/match/'+eventId+'/getCall', {headers: this.headers});
   }
-
+  
   public sendStatistics(eventId, statsLog) {
     this.setHeader();
     return new Promise(resolve => {
       this.http.put(this.url+'teams/events/statistics/'+this.currentTeam+'/'+eventId, JSON.stringify(statsLog), { headers: this.headers })
       .subscribe(data => {
-          resolve(data);
+        resolve(data);
       })
     });
   }
-
+  
   //Statistics
   public getCurrentUserStatistics() {
     this.setHeader();
     return this.http.get(this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId, {headers: this.headers});
+  }
+  
+  public getUserStatistics(userId) {
+    this.setHeader();
+    return this.http.get(this.url+"memberships/getStats/"+this.currentTeam+"/"+userId, {headers: this.headers});
   }
 
   public getCurrentTeamStatistics() {
     this.setHeader();
     return this.http.get(this.url+"teams/"+this.currentTeam+"/stadistics", {headers: this.headers})
   }
-
+  
   public getCurrentTeamRanking() {
     this.setHeader();
     return this.http.get(this.url+"teams/"+this.currentTeam+"/ranking", { headers: this.headers });
   }
-
+  
   //Fines
   public createFine(fineInfo) {
     this.setHeader();
     console.log(fineInfo)
     return this.http.post(this.url+'memberships/fines/create',JSON.stringify(fineInfo),{headers: this.headers} );
   }
-
+  
   public payFine(fineInfo) {
     this.setHeader();
     return this.http.put(this.url+'memberships/fines/payFine', JSON.stringify(fineInfo), {headers: this.headers});
@@ -311,7 +316,7 @@ export class apiRestProvider {
       fineState: fineState
     }});
   }
-
+  
   public getTeamFines(fineState){
     this.setHeader();
     return this.http.get(this.url+'memberships/fines/teamFines', {headers: this.headers, params: {
@@ -333,5 +338,25 @@ export class apiRestProvider {
     }});
   }
   
+  public getUserTeamMemberships(tipo){
+    this.setHeader();
+    return this.http.get(this.url+"memberships/getByTeam/"+this.currentTeam, {headers: this.headers, params: { 
+      type: tipo 
+    }});
+  }
 
+  public async getCurrentUserRole() {
+    this.setHeader();
+    console.log(this.currentTeam);
+    console.log(this.currentUserId);
+    return this.http.get(this.url+"memberships/type", {
+      headers: this.headers, 
+      params: {
+        userId: this.currentUserId,
+        teamId: this.currentTeam
+      },
+      responseType: 'text'
+    })
+  }
+  
 }
