@@ -12,7 +12,7 @@ app.post('/create', (req, res) => {
             await db.collection('users').doc('/' + jsonContent.email + '/')
                 .create({
                 email: jsonContent.email,
-                userName: jsonContent.userName,
+                userName: jsonContent.userName
             });
             req.session["userName"] = jsonContent.userName;
             console.log(req.session["userName"]);
@@ -222,13 +222,14 @@ app.delete('/:userEmail', (req, res) => {
             //eliminar totes les memberships del usuari
             const query = db.collectionGroup('memberships').where('userId', "==", req.params.userEmail);
             const response = [];
-            await query.get().then((querySnapshot) => {
-                const docs = querySnapshot.docs;
-                for (const doc of docs) {
-                    doc.delete();
-                }
-                return response;
-            });
+            if (query != undefined)
+                await query.get().then((querySnapshot) => {
+                    const docs = querySnapshot.docs;
+                    for (const doc of docs) {
+                        doc.delete();
+                    }
+                    return response;
+                });
             return res.status(200).send();
         }
         catch (error) {
