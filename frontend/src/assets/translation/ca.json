@@ -74,7 +74,11 @@
         "registerWithEmail": "Registre amb correu",
         "emailAreadyInUse": "El correu ja està associat a un altre compte",
         "register": "Registrar-me",
-        "alreadyHaveAnAccount": "Ya tengo un compte"
+        "alreadyHaveAnAccount": "Ya tengo un compte",
+        "registered": {
+            "congrats": "Felicitats!",
+            "message": "Per gaudir de tmUp, valida el teu correu i crea o uneix-te a un equip."
+        }
     },
     "NORMATIVE": {
         "title": "Normativa",

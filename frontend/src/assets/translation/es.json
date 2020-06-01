@@ -74,7 +74,11 @@
         "registerWithEmail": "Registro con correo",
         "emailAreadyInUse": "Email ya está asociado a otra cuenta",
         "register": "Registrarme",
-        "alreadyHaveAnAccount": "Ya tengo una cuenta"
+        "alreadyHaveAnAccount": "Ya tengo una cuenta",
+        "registered": {
+            "congrats": "¡Felicidades!",
+            "message": "Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo."
+        }
     },
     "NORMATIVE": {
         "title": "Normativa",
