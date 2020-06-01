@@ -5,6 +5,7 @@ import { ModalComponent } from '../components/modal/modal.component';
 import * as Chart from 'chart.js';
 import { Router } from '@angular/router';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-fouls',
@@ -23,17 +24,20 @@ export class FoulsPage implements OnInit {
   noPaids;
   segment="total";
   radioButton="team";
+  role;
 
   constructor(
     private modalController: ModalController,
     private router: Router,
     private apiProv: apiRestProvider,
-    public loadCtrl: LoadingController) 
+    public loadCtrl: LoadingController,
+    private principalPage: AppComponent) 
   {
     
   }
 
   ngOnInit() {
+    this.role = this.principalPage.role;
     setTimeout( () => {
       this.initialize();
     }, 1000);

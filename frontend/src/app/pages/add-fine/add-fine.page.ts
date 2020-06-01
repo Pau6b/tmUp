@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-add-fine',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AddFinePage implements OnInit {
 
+  role;
   members;
 
   constructor(

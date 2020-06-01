@@ -35,6 +35,7 @@ export class TeamListPage implements OnInit {
     
     this.apiProv.getUserTeams()
     .subscribe( (data) => { 
+      console.log(data);
       this.teamList = data;
       loading.dismiss();
     });
@@ -44,12 +45,13 @@ export class TeamListPage implements OnInit {
     this.router.navigate(['add-team']);
   }
 
-  goToHomePage(team: any){
+  async goToHomePage(team: any){
     this.apiProv.setTeam(team.id);
-    console.log(team)
-    this.appComponent.setRole("player");
-    this.appComponent.updateTeam();
-    this.router.navigate(['/main']);
+    (await this.apiProv.getCurrentUserRole()).subscribe((role) => {
+      this.appComponent.setRole(role);
+      this.appComponent.updateTeam();
+      this.router.navigate(['/main']);
+    })
   }
 
 }
