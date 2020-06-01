@@ -208,8 +208,27 @@ app.put('/:userEmail', (req, res) => {
 app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('users').doc(req.params.userEmail);
-            await document.delete();
+            let userExists = true;
+            const user = db.collection('users').doc(req.params.userEmail).get().then((doc) => {
+                if (!doc.exists) {
+                    userExists = false;
+                }
+            });
+            if (!userExists) {
+                return res.status(400).send("userEmail is incorrect");
+            }
+            //const document = db.collection('users').doc(req.params.userEmail);
+            await user.delete();
+            //eliminar totes les memberships del usuari
+            const query = db.collectionGroup('memberships').where('userId', "==", req.params.userEmail);
+            const response = [];
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    doc.delete();
+                }
+                return response;
+            });
             return res.status(200).send();
         }
         catch (error) {
