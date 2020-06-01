@@ -20,6 +20,15 @@
         "role": "Role",
         "IDInform": "Team created. This is your team's ID: "
     },
+    "ADD-FINE": {
+        "title": "Add fine",
+        "members": "Members",
+        "selectDate": "Select a date",
+        "date": "Date",
+        "select": "Select the members to be fined",
+        "concept": "Concept",
+        "price": "Price"
+    },
     "CALENDAR" : {
         "title": "Calendar",
         "noEvents" : "There are no events"
