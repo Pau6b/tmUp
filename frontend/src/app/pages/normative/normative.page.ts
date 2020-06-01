@@ -3,6 +3,7 @@ import { StorageService } from 'src/app/services/storage.service';
 import { FormBuilder, Validators} from '@angular/forms';
 import { PhotoService } from 'src/app/services/photo.service';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-normative',
@@ -19,15 +20,18 @@ export class NormativePage implements OnInit {
   hasNormative = true;
   isPlayer= true;
   f;
+  role;
 
   public constructor(
     private photoService: PhotoService,
     private storage: StorageService,
     private formBuilder: FormBuilder,
-    private apiRestProv:  apiRestProvider
+    private apiRestProv:  apiRestProvider,
+    private principalPage: AppComponent
     ) {}
 
   public ngOnInit() {
+    this.role = this.principalPage.role;
     this.getFile();
   }
 

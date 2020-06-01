@@ -28,7 +28,8 @@
         "title": "Configuración",
         "help": "Ayuda",
         "about": "Sobre nosotros",
-        "changeLanguage": "Cambiar idioma"
+        "changeLanguage": "Cambiar idioma",
+        "teamID": "ID del equipo: "
     },
     "CHAT": {
         "title": "Chat",
@@ -59,9 +60,6 @@
         "no_inform": "Todavía no hay ningún Informe de Análisis Rival",
         "uploadfile": "Subir fichero"
     },
-    "LOCATION-SELECT": {
-        "connectToInternet": "Parece que no tienes conexion..."
-    },
     "LOGIN": {
         "wrongCombination": "Usuario i/o contraseña incorrecto",
         "user": "Usuario",
@@ -76,7 +74,11 @@
         "registerWithEmail": "Registro con correo",
         "emailAreadyInUse": "Email ya está asociado a otra cuenta",
         "register": "Registrarme",
-        "alreadyHaveAnAccount": "Ya tengo una cuenta"
+        "alreadyHaveAnAccount": "Ya tengo una cuenta",
+        "registered": {
+            "congrats": "¡Felicidades!",
+            "message": "Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo."
+        }
     },
     "NORMATIVE": {
         "title": "Normativa",
@@ -201,6 +203,21 @@
             "ballsPerMatch": "pelotas/partido"
         }
     },
+    "RANKING" : {
+        "mostAssists": "Most assists",
+        "mostPointsScored": "Most points scored",
+        "mostRebounds": "Most rebounds",
+        "mostThreePointShots": "Most three point shots",
+        "mostTwoPointShots": "Most two point shots",
+        "mostGoalsScored": "Most goals scored",
+        "mostMinutesPlayed": "Most minutes played",
+        "mostRedCards": "Most red cards",
+        "mostYellowCars": "Most yellow cards",
+        "lostBalls": "Most lost balls",
+        "mostSevenMeters": "Most seven meter goals",
+        "mostStops": "Most stops",
+        "mostTwoMinutes": "Most two minutes"
+    },
     "CORE" : {
         "result": {
             "won": "Ganados",
@@ -230,7 +247,13 @@
             "here": "aquí",
             "delete": "Eliminar",
             "yes": "Si",
-            "no": "No"
+            "no": "No",
+            "deleteTeam": "Eliminar equipo"
+        },
+        "deleteText": {
+            "delete": "Eliminar ",
+            "irreversible": "Esta acción es irreversible. Introduce ",
+            "permanent": " abajo para confirmar que lo quieres eliminar permanentemente: "
         },
         "verbs": {
             "from": "desde",

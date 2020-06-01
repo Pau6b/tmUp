@@ -28,7 +28,8 @@
         "title": "Configuration",
         "help": "Help",
         "about": "About us",
-        "changeLanguage": "Change language"
+        "changeLanguage": "Change language",
+        "teamID": "Team's ID: "
     },
     "CHAT": {
         "title": "Chat",
@@ -59,9 +60,6 @@
         "no_inform": "You don't have a Rival Analysis Report",
         "uploadfile": "Upload file"
     },
-    "LOCATION-SELECT": {
-        "connectToInternet": "It seems that you have no Interent connection..."
-    },
     "LOGIN": {
         "wrongCombination": "Wrong user and/or passowrd",
         "user": "User",
@@ -76,7 +74,11 @@
         "registerWithEmail": "Register with email",
         "emailAreadyInUse": "The email is already in use",
         "register": "Resgister",
-        "alreadyHaveAnAccount": "I already have an account"
+        "alreadyHaveAnAccount": "I already have an account",
+        "registered": {
+            "congrats": "Congratulations!",
+            "message": "To enjoy tmUp, validate your email and create or join a team."
+        }
     },
     "NORMATIVE": {
         "title": "Normative",
@@ -230,7 +232,13 @@
             "here": "Here",
             "delete": "Delete",
             "yes": "Yes",
-            "no": "No"
+            "no": "No",
+            "deleteTeam": "Delete team"
+        },
+        "deleteText": {
+            "delete": "Delete ",
+            "irreversible": "This action is irreversible. Enter ",
+            "permanent": " below to confirm you want to permanently delete it:"
         },
         "verbs": {
             "from": "From",

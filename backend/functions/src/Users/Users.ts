@@ -13,7 +13,7 @@ app.post('/create', (req, res) => {
             await db.collection('users').doc('/' + jsonContent.email + '/')
             .create({
                 email: jsonContent.email,
-                userName: jsonContent.userName,
+                userName: jsonContent.userName
             });
             req.session!["userName"] = jsonContent.userName;
             console.log(req.session!["userName"]);
@@ -206,6 +206,33 @@ app.get('/', (req, res) => {
     })().then().catch();
 });
 
+///////////////UPDTATE///////////////
+app.put('/update', (req, res) => {
+    (async() => {
+        try{
+            const jsonContent = JSON.parse(req.body);
+            if(!req.session!.user) {
+                return res.status(400).send("UGM1");
+            }
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    //user.email = jsonContent.email
+                    user.displayName = jsonContent.userName
+            });
+
+            //Update a bd
+            /*await db.collection('users').doc(jsonContent.email).update({
+                userName: jsonContent.userName
+            })*/
+            
+
+            return res.status(200).send();
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch()
+});
+///////////////UPDTATE///////////////
 
 // Falta determinar que hay que cambiar
 //Update => Put
@@ -249,9 +276,27 @@ app.put('/:userEmail', (req, res) => {
 app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
-            const document = db.collection('users').doc(req.params.userEmail);
-
-            await document.delete();
+            let userExists: boolean = true;
+            const user = db.collection('users').doc(req.params.userEmail).get().then((doc: any) => {
+                if(!doc.exists) {
+                    userExists = false;
+                }
+            });
+            if (!userExists) {
+                return res.status(400).send("userEmail is incorrect");
+            }
+            //const document = db.collection('users').doc(req.params.userEmail);
+            await user.delete();
+            //eliminar totes les memberships del usuari
+            const query = db.collectionGroup('memberships').where('userId',"==",req.params.userEmail);
+            const response: any = [];
+            if(query != undefined) await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                     doc.delete();
+                }
+                return response;
+            })
             
             return res.status(200).send();
         }

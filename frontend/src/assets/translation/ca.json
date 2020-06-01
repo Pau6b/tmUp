@@ -28,7 +28,8 @@
         "title": "Configuració",
         "help": "Ajuda",
         "about": "Sobre nosaltres",
-        "changeLanguage": "Canviar idioma"
+        "changeLanguage": "Canviar idioma",
+        "teamID": "ID de l'equip: "
     },
     "CHAT": {
         "title": "Xat",
@@ -59,9 +60,6 @@
         "no_inform": "Encara no ens cap Informe d'Anàlisi Rival",
         "uploadfile": "Pujar fitxer"
     },
-    "LOCATION-SELECT": {
-        "connectToInternet": "Sembla que no tens connexió..."
-    },
     "LOGIN": {
         "wrongCombination": "Usuari i/o contrassenya incorrecte",
         "user": "Usuari",
@@ -76,7 +74,11 @@
         "registerWithEmail": "Registre amb correu",
         "emailAreadyInUse": "El correu ja està associat a un altre compte",
         "register": "Registrar-me",
-        "alreadyHaveAnAccount": "Ya tengo un compte"
+        "alreadyHaveAnAccount": "Ya tengo un compte",
+        "registered": {
+            "congrats": "Felicitats!",
+            "message": "Per gaudir de tmUp, valida el teu correu i crea o uneix-te a un equip."
+        }
     },
     "NORMATIVE": {
         "title": "Normativa",
@@ -230,7 +232,13 @@
             "here": "aqui",
             "delete": "Eliminar",
             "yes": "Si",
-            "no": "No"
+            "no": "No",
+            "deleteTeam": "Eliminar equip"
+        }, 
+        "deleteText": {
+            "delete": "Eliminar ",
+            "irreversible": "Aquesta acció és irreversible. Introdueix ",
+            "permanent": " a sota per confirmar que ho vols eliminar permanentment: "
         },
         "verbs": {
             "from": "des de",

@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-row> 
-    <ion-radio-group value="selected" mode="md" (ionChange)=radioGroupChange($event)>
+    <ion-radio-group value="selected" mode="md" (ionChange)=radioGroupChange($event) [(ngModel)]="radioButton">
       <ion-col>
         <ion-radio value="team"></ion-radio>
         <ion-label>{{'FOULS.team' | translate}}</ion-label>
@@ -31,7 +31,7 @@
   </ion-card>
 
   <div class="margins">
-    <ion-segment mode="ios" value="'total'" [(ngModel)]="foulsSegment">
+    <ion-segment mode="ios" value="'total'" [(ngModel)]="segment">
       <ion-segment-button value="total">
         <ion-label>{{'FOULS.total' | translate}}</ion-label>
       </ion-segment-button>
@@ -138,7 +138,7 @@
   </div>
 
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary" *ngIf="role == 'staff'">
     <ion-fab-button (click)="goToAddFoul()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

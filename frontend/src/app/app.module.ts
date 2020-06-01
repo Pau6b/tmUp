@@ -25,8 +25,6 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { Network } from '@ionic-native/network/ngx';
-import { Connectivity } from '../providers/connectivity/connectivity-service';
 import { googleMaps } from '../providers/googleMaps/google-maps';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -37,7 +35,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 
 import { FilePath } from '@ionic-native/file-path/ngx';
-
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -72,8 +70,6 @@ export function createTranslateLoader(http: HttpClient) {
     Chooser,
     Geolocation,
     InAppBrowser,
-    Network,
-    Connectivity,
     googleMaps,
     AngularFirestore,
     AngularFireStorage,
@@ -82,6 +78,7 @@ export function createTranslateLoader(http: HttpClient) {
     FilePath,
     InAppBrowser,
     NavParams,
+    Clipboard,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     apiRestProvider
   ],

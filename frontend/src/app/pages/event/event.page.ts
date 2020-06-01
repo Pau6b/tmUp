@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {NavController} from '@ionic/angular';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router'
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -9,11 +8,10 @@ import { LoadingController} from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { File } from '@ionic-native/file/ngx';
 
-import { Chooser } from '@ionic-native/chooser/ngx';
 //import { PhotoViewer } from '@ionic-native/photo-viewer';
-import { PhotoService } from 'src/app/services/photo.service';
-
-declare var google;
+import { PhotoService } from '../../../app/services/photo.service';
+import { googleMaps } from '../../../providers/googleMaps/google-maps';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-event',
@@ -22,15 +20,18 @@ declare var google;
 })
 export class EventPage implements OnInit {
 
+  @ViewChild('map', {static: true}) mapElement: ElementRef;
+
   eventId: string;
   event: any;
   currentLoc: any;
   segmentModel = "info";
   file_name = "Rival1";
-  ListConv: any;
+  ListConv: any = [];
   img;
   file: File = new File();
   promise: Promise<string>; 
+  isPlayer;
 
   constructor(
     private geolocation: Geolocation,
@@ -40,16 +41,27 @@ export class EventPage implements OnInit {
     private apiProv: apiRestProvider,
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
+    private maps: googleMaps,
+    private principalPage: AppComponent
     //private photoViewer: PhotoViewer,
-    private navCtrl: NavController
   ) { 
   }
 
   ngOnInit() { 
-    this.getEventInfo()
-    setTimeout(() => {
+    //call to apiRest to know if user is player on current Team
+    if(this.principalPage.role == 'player') this.isPlayer = true;
+    else this.isPlayer = false;
+    this.getEventInfo();
+  }
+
+  onInfoSegment() {
+    if(this.event.location.name!="") {
       this.loadMap();
-    }, 1000);    
+    }
+  }
+
+  onCallSegment() {
+    this.getEventCall();
   }
 
   async getEventInfo() {
@@ -61,15 +73,30 @@ export class EventPage implements OnInit {
         this.apiProv.getEventById(this.eventId)
         .subscribe( (data) => {
           this.event = data;
-          loading.dismiss();
+          if(this.event.location.name!="") {
+            this.loadMap();
+          }
         })
-        this.apiProv.getCall(this.eventId)
-        .subscribe ( (data) => {
-          console.log(data);
-          this.ListConv = data;
-          if ( this.ListConv.length == 0) this.ListConv = null;
-        });
+        this.getEventCall();
+        loading.dismiss();
       }
+    });
+  }
+
+  getEventCall() {
+    this.apiProv.getCall(this.eventId)
+    .subscribe ( (data) => {
+      let tmp: any;
+      tmp = data;
+      tmp.forEach((element: any) => {
+        this.apiProv.getUser(element).subscribe( (info: any) => {
+          let player = {
+            id: element,
+            name: info.userName
+          }
+          this.ListConv.push(player);
+        })
+      });
     });
   }
 
@@ -92,30 +119,19 @@ export class EventPage implements OnInit {
       currLat: currentLoc.coords.latitude,
       currLng: currentLoc.coords.longitude
     };
-    this.iab.create('https://www.google.com/maps/dir/?api=1&origin='+currentLatLng.currLat+
+    let browser = this.iab.create('https://www.google.com/maps/dir/?api=1&origin='+currentLatLng.currLat+
       ','+currentLatLng.currLng+'&destination='+this.event.location.latitude+','+this.event.location.longitude);
+    browser.show();
   }
 
   loadMap() {
-    const myLatLng = {
+    let myLatLng = {
       lat: this.event.location.latitude,
       lng: this.event.location.longitude
     };
-    const mapEle: HTMLElement = document.getElementById('map');
-    const map = new google.maps.Map(mapEle, {
-      center: myLatLng,
-      zoom: 12
-    });
-    google.maps.event
-    .addListenerOnce(map, 'idle', () => {
-      let marker = new google.maps.Marker({
-        position: {
-          lat: myLatLng.lat,
-          lng: myLatLng.lng
-        },
-        map: map
-      });
-    });
+    let mapEl: HTMLElement = document.getElementById('map');
+    this.maps.initMap(mapEl, myLatLng);
+
   }
 
   async uploadFile(){
