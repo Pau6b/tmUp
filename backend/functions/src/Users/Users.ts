@@ -206,6 +206,33 @@ app.get('/', (req, res) => {
     })().then().catch();
 });
 
+///////////////UPDTATE///////////////
+app.put('/update', (req, res) => {
+    (async() => {
+        try{
+            const jsonContent = JSON.parse(req.body);
+            if(!req.session!.user) {
+                return res.status(400).send("UGM1");
+            }
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    //user.email = jsonContent.email
+                    user.displayName = jsonContent.userName
+            });
+
+            //Update a bd
+            /*await db.collection('users').doc(jsonContent.email).update({
+                userName: jsonContent.userName
+            })*/
+            
+
+            return res.status(200).send();
+        }
+        catch (error) {
+            return res.status(500).send(error);
+        }
+    })().then().catch()
+});
+///////////////UPDTATE///////////////
 
 // Falta determinar que hay que cambiar
 //Update => Put

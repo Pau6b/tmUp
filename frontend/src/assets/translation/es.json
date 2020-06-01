@@ -28,7 +28,8 @@
         "title": "Configuración",
         "help": "Ayuda",
         "about": "Sobre nosotros",
-        "changeLanguage": "Cambiar idioma"
+        "changeLanguage": "Cambiar idioma",
+        "teamID": "ID del equipo: "
     },
     "CHAT": {
         "title": "Chat",
@@ -73,7 +74,11 @@
         "registerWithEmail": "Registro con correo",
         "emailAreadyInUse": "Email ya está asociado a otra cuenta",
         "register": "Registrarme",
-        "alreadyHaveAnAccount": "Ya tengo una cuenta"
+        "alreadyHaveAnAccount": "Ya tengo una cuenta",
+        "registered": {
+            "congrats": "¡Felicidades!",
+            "message": "Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo."
+        }
     },
     "NORMATIVE": {
         "title": "Normativa",
@@ -240,7 +245,13 @@
             "here": "aquí",
             "delete": "Eliminar",
             "yes": "Si",
-            "no": "No"
+            "no": "No",
+            "deleteTeam": "Eliminar equipo"
+        },
+        "deleteText": {
+            "delete": "Eliminar ",
+            "irreversible": "Esta acción es irreversible. Introduce ",
+            "permanent": " abajo para confirmar que lo quieres eliminar permanentemente: "
         },
         "verbs": {
             "from": "desde",

@@ -11,6 +11,7 @@ import { File } from '@ionic-native/file/ngx';
 //import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { PhotoService } from '../../../app/services/photo.service';
 import { googleMaps } from '../../../providers/googleMaps/google-maps';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-event',
@@ -26,10 +27,11 @@ export class EventPage implements OnInit {
   currentLoc: any;
   segmentModel = "info";
   file_name = "Rival1";
-  ListConv: any;
+  ListConv: any = [];
   img;
   file: File = new File();
   promise: Promise<string>; 
+  isPlayer;
 
   constructor(
     private geolocation: Geolocation,
@@ -40,11 +42,15 @@ export class EventPage implements OnInit {
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
     private maps: googleMaps,
+    private principalPage: AppComponent
     //private photoViewer: PhotoViewer,
   ) { 
   }
 
   ngOnInit() { 
+    //call to apiRest to know if user is player on current Team
+    if(this.principalPage.role == 'player') this.isPlayer = true;
+    else this.isPlayer = false;
     this.getEventInfo();
   }
 
@@ -80,8 +86,17 @@ export class EventPage implements OnInit {
   getEventCall() {
     this.apiProv.getCall(this.eventId)
     .subscribe ( (data) => {
-      this.ListConv = data;
-      if ( this.ListConv.length == 0) this.ListConv = null;
+      let tmp: any;
+      tmp = data;
+      tmp.forEach((element: any) => {
+        this.apiProv.getUser(element).subscribe( (info: any) => {
+          let player = {
+            id: element,
+            name: info.userName
+          }
+          this.ListConv.push(player);
+        })
+      });
     });
   }
 

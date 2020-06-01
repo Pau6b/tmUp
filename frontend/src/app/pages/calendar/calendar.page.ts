@@ -6,6 +6,7 @@ import { LoadingController } from '@ionic/angular';
 
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 import { DatePipe } from '@angular/common';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-calendar',
@@ -25,17 +26,22 @@ export class CalendarPage implements OnInit {
 
   selectedDate = new Date();
   currentMonth = this.datePipe.transform(new Date(), 'MMMM yyyy');
+  role;
 
   eventSource = [];
+
+  isPlayer;
 
   constructor(
     private apiProv: apiRestProvider,
     private datePipe: DatePipe,
     private loadingCtrl: LoadingController,
-    private router: Router
-  ) { }
+    private router: Router,
+    private principalPage: AppComponent
+  ) {}
 
   ngOnInit() {
+    this.role = this.principalPage.role;
   }
 
   ionViewWillEnter() {
