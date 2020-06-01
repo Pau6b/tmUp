@@ -128,7 +128,7 @@ export class AppComponent implements OnInit {
     this.apiProv.getNextMatch().then( (data) => {
       let event = data[0];
       event.startTime = new Date(event.startTime);
-      if( (event.startTime.getTime()-new Date().getTime()) > 3600000 ) {
+      if( this.role == 'player' || (event.startTime.getTime()-new Date().getTime()) > 3600000 ) {
         //if >1h to match, redirect event page
         this.router.navigate(['event', event.id]);
       }

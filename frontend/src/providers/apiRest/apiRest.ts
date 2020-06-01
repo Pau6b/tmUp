@@ -26,7 +26,7 @@ export class apiRestProvider {
 
   public setToken(token: string) {
     this.token = token;
-    console.log(token);
+    //console.log(token);
   }
 
   public setTeam(team: string){
@@ -69,6 +69,16 @@ export class apiRestProvider {
     this.setHeader();
     return this.http.get(this.url+'users/me/teams', { headers: this.headers });
   }
+
+  public deleteUser(email) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.delete(this.url+'users/'+ email , { headers: this.headers, responseType:'text'})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
   
 
   //TEAMS
@@ -102,6 +112,16 @@ export class apiRestProvider {
           resolve(data);
       });
     })
+  }
+
+  public deleteTeam() {
+    this.setHeader;
+    return new Promise(resolve => {
+      this.http.delete(this.url+'teams/'+ this.currentTeam , { headers: this.headers, responseType:'text'})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
   }
 
   // CHAT

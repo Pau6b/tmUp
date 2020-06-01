@@ -30,6 +30,8 @@ export class CalendarPage implements OnInit {
 
   eventSource = [];
 
+  isPlayer;
+
   constructor(
     private apiProv: apiRestProvider,
     private datePipe: DatePipe,
