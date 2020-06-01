@@ -6,7 +6,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding button *ngFor="let team of teamList" (click)="goToHomePage(team.id)">
+    <ion-item-sliding button *ngFor="let team of teamList" (click)="goToHomePage(team)">
       <ion-item>
           <ion-img slot="start" src="../../../assets/icon/shield.png"></ion-img>
         <ion-col>

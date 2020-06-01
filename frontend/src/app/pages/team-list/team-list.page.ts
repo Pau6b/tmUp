@@ -44,8 +44,9 @@ export class TeamListPage implements OnInit {
     this.router.navigate(['add-team']);
   }
 
-  goToHomePage(team: string){
-    this.apiProv.setTeam(team);
+  goToHomePage(team: any){
+    this.apiProv.setTeam(team.id);
+    console.log(team)
     this.appComponent.setRole("player");
     this.appComponent.updateTeam();
     this.router.navigate(['/main']);

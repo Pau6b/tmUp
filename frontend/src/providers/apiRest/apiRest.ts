@@ -282,6 +282,11 @@ export class apiRestProvider {
     return this.http.get(this.url+"memberships/getStats/"+this.currentTeam+'/'+this.currentUserId, {headers: this.headers});
   }
 
+  public getUserStatistics(userId) {
+    this.setHeader();
+    return this.http.get(this.url+"memberships/getStats/"+this.currentTeam+"/"+userId, {headers: this.headers});
+  }
+
   public getCurrentTeamStatistics() {
     this.setHeader();
     return this.http.get(this.url+"teams/"+this.currentTeam+"/stadistics", {headers: this.headers})
@@ -333,5 +338,11 @@ export class apiRestProvider {
     }});
   }
   
+  public getUserTeamMemberships(tipo){
+    this.setHeader();
+    return this.http.get(this.url+"memberships/getByTeam/"+this.currentTeam, {headers: this.headers, params: { 
+      type: tipo 
+    }});
+  }
 
 }
