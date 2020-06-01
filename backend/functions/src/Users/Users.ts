@@ -221,10 +221,9 @@ app.put('/update', (req, res) => {
 
             //Update a bd
             /*await db.collection('users').doc(jsonContent.email).update({
-                //email: jsonContent.newEmail,
                 userName: jsonContent.userName
             })*/
-            //
+            
 
             return res.status(200).send();
         }
