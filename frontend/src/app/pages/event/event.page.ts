@@ -14,6 +14,7 @@ import { StorageService } from 'src/app/services/storage.service';
 declare var google;
 import { PhotoService } from '../../../app/services/photo.service';
 import { googleMaps } from '../../../providers/googleMaps/google-maps';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-event',
@@ -28,11 +29,16 @@ export class EventPage implements OnInit {
   event: any;
   currentLoc: any;
   segmentModel = "info";
-  ListConv: any;
 
   hasInform = false;
   f;
   files = [];
+  file_name = "Rival1";
+  ListConv: any = [];
+  img;
+  file: File = new File();
+  promise: Promise<string>; 
+  isPlayer;
 
   constructor(
     private geolocation: Geolocation,
@@ -43,33 +49,28 @@ export class EventPage implements OnInit {
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
     private maps: googleMaps,
+    private principalPage: AppComponent
     //private photoViewer: PhotoViewer,
-<<<<<<< HEAD
-    private navCtrl: NavController,
-    private storage: StorageService
-=======
->>>>>>> 267bc55f096e1e54d40ae8c8d65f5651f1be9c9a
   ) { 
   }
 
   ngOnInit() { 
+    //call to apiRest to know if user is player on current Team
+    if(this.principalPage.role == 'player') this.isPlayer = true;
+    else this.isPlayer = false;
     this.getEventInfo();
+    this.getFile();
+    this.files = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'event_images');
   }
 
   onInfoSegment() {
     if(this.event.location.name!="") {
       this.loadMap();
-<<<<<<< HEAD
-    }, 1000);
-    this.getFile();
-    this.files = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'event_images');    
-=======
     }
   }
 
   onCallSegment() {
     this.getEventCall();
->>>>>>> 267bc55f096e1e54d40ae8c8d65f5651f1be9c9a
   }
 
   async getEventInfo() {
@@ -94,8 +95,17 @@ export class EventPage implements OnInit {
   getEventCall() {
     this.apiProv.getCall(this.eventId)
     .subscribe ( (data) => {
-      this.ListConv = data;
-      if ( this.ListConv.length == 0) this.ListConv = null;
+      let tmp: any;
+      tmp = data;
+      tmp.forEach((element: any) => {
+        this.apiProv.getUser(element).subscribe( (info: any) => {
+          let player = {
+            id: element,
+            name: info.userName
+          }
+          this.ListConv.push(player);
+        })
+      });
     });
   }
 

@@ -131,7 +131,7 @@
   </div>
 
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary" *ngIf="role == 'staff'">
     <ion-fab-button (click)="goToAddFoul()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

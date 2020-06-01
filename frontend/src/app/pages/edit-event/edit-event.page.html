@@ -9,7 +9,7 @@
     </ion-buttons>
     <ion-title *ngIf="segmentModel === 'players'">{{ 'EDIT-EVENT.list' | translate }}</ion-title>
     <ion-buttons *ngIf="segmentModel === 'players'" slot="end">
-      <ion-button [disabled]="!anySelected" (click)="onDoneList()">{{'CORE.actions.done' | translate}}</ion-button>
+      <ion-button (click)="onDoneList()">{{'CORE.actions.done' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -54,14 +54,14 @@
 
   <div *ngIf="segmentModel === 'players'">
     <ion-list>
-      <div *ngIf="membershipTeam == null">
+      <div *ngIf="membershipTeam.length == 0">
         <div class="centerText">
           <p> {{ 'EDIT-EVENT.no_players' | translate }}</p>
         </div>
       </div>
-      <div *ngIf="membershipTeam != null">
+      <div *ngIf="membershipTeam.length != 0">
         <ion-item *ngFor="let member of membershipTeam">
-          <ion-label>{{member.userId}}</ion-label>
+          <ion-label>{{ member.name }}</ion-label>
           <ion-checkbox slot="end" [(ngModel)]="member.isChecked" (click)="anySelectedItem()"></ion-checkbox>
         </ion-item>
       </div>

@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>{{ event?.title }}</ion-title>
     <!--Mirar si el usuari es cos tecnic amb *ngIf-->
-    <ion-buttons *ngIf="(ListConv != null && segmentModel !== 'analisi')" slot="end">
+    <ion-buttons *ngIf="(segmentModel !== 'analisi' && segmentModel !== 'fotos') && !isPlayer" slot="end">
       <ion-button (click)="editEvent()">{{ 'CORE.actions.edit' | translate }}</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -68,16 +68,18 @@
       <div *ngIf="ListConv != null">
         <ion-list>
           <ion-item *ngFor="let conv of ListConv">
-            <ion-label> {{ conv }} </ion-label>
+            <ion-label> {{ conv.name }} </ion-label>
           </ion-item>
         </ion-list>
       </div>
-      <div *ngIf="ListConv == null">
+
+
+      <div *ngIf="ListConv.length == 0">
         <div class="centerText">
           <p>{{ 'EVENT.message_no_convocados' | translate }}</p>
         </div>
-        <!--Mirar si l'usuari és cos tecnic-->
-        <div class="centerButton">
+        <!--Mirar si el usuari és cos tecnic amb *ngIf-->
+        <div *ngIf="!isPlayer" class="centerButton">
           <ion-button (click)="editEvent()">{{ 'EVENT.new_list' | translate }}</ion-button>
         </div>
       </div>
@@ -97,12 +99,10 @@
           <ion-img src="../../../assets/icon/pdf.png" slot="start" *ngIf="f?.name?.endsWith('.pdf')"></ion-img>
         <ion-label>{{ f?.name }}</ion-label>
       </ion-item>
-      <!--Mirar si l'usuari es cos tecnic-->
-      <ion-fab class="buttons" vertical="bottom" horizontal="start" slot="fixed" color="primary">
-        <ion-button expand="block" (click)="uploadFile()">{{ 'CORE.actions.edit' | translate }}</ion-button>
-      </ion-fab>
-      <ion-fab class="buttons" vertical="bottom" horizontal="end" slot="fixed" color="danger">
-        <ion-button expand="block" (click)="deleteFile(f)">{{ 'CORE.actions.delete' | translate }}</ion-button>
+
+      <ion-fab *ngIf="!isPlayer" class="buttons" vertical="bottom" slot="fixed" color="primary">
+        <ion-button (click)="updateFile()">{{ 'CORE.actions.edit' | translate }}</ion-button>
+        <ion-button (click)="deleteFile()" class="separation">{{ 'CORE.actions.delete' | translate }}</ion-button>
       </ion-fab>
     </div>
     <div *ngIf="!hasInform">
@@ -110,7 +110,7 @@
         <p> {{ 'EVENT.no_inform' | translate }}</p>
       </div>
       <!--Mirar si el usuari és cos tecnic amb *ngIf-->
-      <div class="centerButton">
+      <div *ngIf="!isPlayer" class="centerButton">
         <ion-button (click)="uploadFile()"> {{ 'EVENT.uploadfile' | translate }} </ion-button>
       </div>
     </div>
@@ -139,6 +139,8 @@
     </ion-list> 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
       <ion-fab-button (click)="addEventImage()">
+    <ion-fab *ngIf="!isPlayer" vertical="bottom" horizontal="end" slot="fixed" color="primary">
+      <ion-fab-button (click)="goToaddTactic(img)">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
