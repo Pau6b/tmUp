@@ -48,10 +48,9 @@ export class SettingsPage implements OnInit {
     this.deleteAlert.showConfirm("team", this.team.teamName).then((res) => {
       if(res) {
         //delete team & redirect to team-list
-        this.apiProv.deleteTeam().then(() => {
-          this.storageServ.deleteTeamFiles(this.teamID);
-          this.router.navigate(['team-list']);
-        })
+        this.storageServ.deleteTeamFiles(this.teamID);
+        this.apiProv.deleteTeam();
+        this.router.navigate(['team-list']);
       }
     })
   }

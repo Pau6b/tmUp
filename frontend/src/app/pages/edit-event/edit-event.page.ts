@@ -99,12 +99,12 @@ export class EditEventPage implements OnInit {
   async deleteEvent() {
     this.deleteAlert.showConfirm(this.event.type, this.event.title).then((res) => {
       if(res) {
+        if(this.event.type == 'match') {
+          let teamId = this.apiProv.getTeamId();
+          this.storageServ.deleteEventFiles(teamId, this.evId);
+        }
         this.apiProv.deleteEvent(this.evId)
         .then(() => {
-          if(this.event.type == 'match') {
-            let teamId = this.apiProv.getTeamId();
-            this.storageServ.deleteEventFiles(teamId, this.evId);
-          }
           this.router.navigate(['/calendar']);
         });
         
