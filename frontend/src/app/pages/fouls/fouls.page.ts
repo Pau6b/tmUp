@@ -22,7 +22,7 @@ export class FoulsPage implements OnInit {
   register: any;
   paids;
   noPaids;
-  segment="total";
+  foulsSegment="total";
   radioButton="team";
   iniciado=false;
   role;
@@ -147,7 +147,7 @@ export class FoulsPage implements OnInit {
 
 
   refresh(){
-    this.segment="total";
+    this.foulsSegment="total";
     this.radioButton="team";
     setTimeout( () => {
       this.initialize();
