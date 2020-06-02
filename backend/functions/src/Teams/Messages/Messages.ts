@@ -18,16 +18,17 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //var today = new Date(jsonContent.date); 
-            var today = new Date(); 
+            var today = new Date(jsonContent.date); 
+            //const event = new Date(snap.data().startTime);
             //let userName;
-            var timestamp=new Date().getTime();
+            /*var timestamp=new Date().getTime();
             var todate= new Date(timestamp).getDate();
             var tomonth= new Date(timestamp).getMonth()+1;
             var toyear= new Date(timestamp).getFullYear();
             var tohour= "0" + new Date(timestamp).getHours();
             var tominutes= "0" + new Date(timestamp).getMinutes();
             var toseconds= "0" + new Date(timestamp).getSeconds();
-            var date=todate+'/'+tomonth+'/'+toyear+' '+tohour.substr(-2)+':'+tominutes.substr(-2)+':'+toseconds.substr(-2);
+            var date=todate+'/'+tomonth+'/'+toyear+' '+tohour.substr(-2)+':'+tominutes.substr(-2)+':'+toseconds.substr(-2);*/
             //let userExists: boolean = true;
             //let userData : any = "";
             /*await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
@@ -41,7 +42,7 @@ app.post('/create', (req, res) => {
             await db.collection('teams').doc(jsonContent.teamId).collection('messages').add({
                 email: jsonContent.email,
                 bodyMessage: jsonContent.bodyMessage,
-                date: date,
+                date: jsonContent.date,
                 dateOrd: today
                 //userName: userData.userName
             })

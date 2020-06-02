@@ -15,7 +15,7 @@ app.post('/create', (req, res) => {
                 email: jsonContent.email,
                 userName: jsonContent.userName
             });
-            req.session!["userName"] = jsonContent.userName;
+            //req.session!["userName"] = jsonContent.userName;
             //console.log(req.session!["userName"]);
             return res.status(200).send();
         }
@@ -342,6 +342,8 @@ app.delete('/:userEmail', (req, res) => {
             })
             //await user.delete();
             await db.collection('users').doc(req.params.userEmail).delete();
+
+            //DELETE FROM AUTH SERVE
             await admin.auth().deleteUser(req.params.userEmail).then(function() {
                 console.log('Successfully deleted user');
             })
@@ -349,6 +351,7 @@ app.delete('/:userEmail', (req, res) => {
                 console.log(error);
                 return error;
             })
+            //DELETE FROM AUTH SERVE
             
             return res.status(200).send();
         }
