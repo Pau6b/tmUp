@@ -103,7 +103,9 @@ export class RegisterPage implements OnInit {
   }
   
   public cameraOptions() {
-    this.photoService.alertSheetPictureOptions();
+    this.photoService.selectMedia("profile_images", this.registerForm.get('email').value).then( (urlImage) => {
+      this.myPhoto = urlImage;
+    });
   }
 
   public async presentAlert(header, message) {

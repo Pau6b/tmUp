@@ -129,11 +129,13 @@ export class AddTeamPage implements OnInit {
 
   }
 
+  /*
   cameraOptions() {
-    this.photoServ.alertSheetPictureOptions()
+    this.photoServ.selectMedia("team_profile_image", )
     .then( (photo) => {
       this.createTeamForm.patchValue({teamPhoto: photo});
     });
   }
+  */
 
 }

@@ -154,7 +154,8 @@ export class EventPage implements OnInit {
 
 
   goToaddTactic(img){
-    this.photoService.alertSheetPictureOptions();
+    let teamID = this.apiProv.getTeamId();
+    this.photoService.selectMedia("tactics", teamID);
   }
 
   seeImage(img){

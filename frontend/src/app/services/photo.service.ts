@@ -32,50 +32,6 @@ export class PhotoService {
   ) { 
   }
 
-
-  async alertSheetPictureOptions(){
-    let actionSheet = await this.actionSheetCtrl.create({
-        header: 'Add picture with',
-        buttons: [
-        {
-          text: 'Take picture',
-          icon: 'camera',
-          handler: () => {
-            return this.takePicture(this.camera.PictureSourceType.CAMERA);
-          }
-        },{
-          text: 'Gallery',
-          icon: 'images',
-          handler: () => {
-            return this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-          }
-        },{
-          text: 'Cancel',
-          role: 'cancel',
-        }
-        ]
-    });
-    await actionSheet.present();
-  }
-
-  private takePicture(pictureSource:number){
-    this.camera.getPicture({
-        destinationType: this.camera.DestinationType.DATA_URL,
-        quality: 100,
-        correctOrientation: true,
-        sourceType: pictureSource
-    })
-    .then((imageData) => {
-      // imageData is a base64 encoded string
-      let base64Image = "data:image/jpeg;base64," + imageData;
-      // Variable to select the last picture taken by the ID
-      let cameraImageSelector = document.getElementById('camera-image');
-      cameraImageSelector.setAttribute('src', base64Image);
-      
-      return base64Image;
-    });
-  }
-
   //-------------------------------------------------------------------------------------
   //                                    PRUEBA
   //-------------------------------------------------------------------------------------
@@ -95,10 +51,17 @@ export class PhotoService {
           }
         },
         {
+          text: 'Load Image',
+          icon: 'image',
+          handler: () => {
+            this.selectFiles(page, teamId, "image/jpg, image/jpeg");
+          }
+        },
+        {
           text: 'Load File',
           icon: 'document',
           handler: () => {
-            this.selectFiles(page, teamId);
+            this.selectFiles(page, teamId, "application/pdf, text/plain, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
           }
         },
         {
@@ -136,8 +99,8 @@ export class PhotoService {
     );
   }
 
-  selectFiles(page, teamId) {
-    this.chooser.getFile('image/jpg, image/jpeg, application/pdf').then(
+  selectFiles(page, teamId, type) {
+    this.chooser.getFile(type).then(
       (result) => {
         if(this.platform.is('ios')){
           this.file.resolveLocalFilesystemUrl(result.uri).then(
