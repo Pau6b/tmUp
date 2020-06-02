@@ -114,7 +114,6 @@ export class PhotoService {
               
               this.file.readAsArrayBuffer(dirPath, newURL.name).then(
                 (buffer) => {
-                  console.log("Leemos los datos del fichero -> "+buffer);
                   this.storage.uploadFileToStorage(buffer, newURL.name, page, teamId, result.mediaType);
                 },
                 (err) => {
@@ -142,8 +141,7 @@ export class PhotoService {
               );
             }
           )
-        }
-        
+        }        
       },
       (err) =>{
         alert(JSON.stringify(err));

@@ -20,6 +20,15 @@
         "role": "Rol",
         "IDInform": "Equipo creado. Este es tu ID de equipo: "
     },
+    "ADD-FINE": {
+        "title": "Añadir multa",
+        "members": "Miembros",
+        "selectDate": "Selecciona una fecha",
+        "date": "Fecha",
+        "select": "Selecciona los miembros implicados",
+        "concept": "Concepto",
+        "price": "Precio"
+    },
     "CALENDAR" : {
         "title": "Calendario",
         "noEvents" : "No hay eventos"
@@ -82,14 +91,16 @@
     },
     "NORMATIVE": {
         "title": "Normativa",
-        "noFile": "No hay ningun fichero de normativas. Añade un fichero existente o redactalo ahora",
+        "noFile": "No hay ningun fichero de normativas. Añade un fichero existente o redactalo ahora.",
+        "noFilePlayer": "Tu equipo todavia no ha subido ningun fichero de normativa.",
         "normativeTitle": "Titulo normativa",
         "uploadFile": "Cargar documento",
         "deleteFile": "Eliminar documento",
         "fileTitle": "Titulo del fichero",
         "norm": "Normas",
         "insertNorm": "Introduce cualquier norma aqui...",
-        "createDoc": "Crear documento"
+        "createDoc": "Crear documento",
+        "replaceDoc": "Reemplazar documento"
     },
     "TACTICS": {
         "title": "Tácticas"
@@ -216,6 +227,14 @@
         "mostStops": "Most stops",
         "mostTwoMinutes": "Most two minutes"
     },
+    "PHYSIO": {
+        "title": "Fisioterapeutas",
+        "noRegister": "Aún no tienes ningún calendario asociado, registrate e introduce la URL de tu calendario en nuestra aplicación",
+        "addInfo": "Actualiza tu URL",
+        "register": "Registrate",
+        "url": "Introduce URL",
+        "redirectTo": "Configura tu calendario"
+    },
     "CORE" : {
         "result": {
             "won": "Ganados",
@@ -229,7 +248,7 @@
             "football": "Fútbol"
         },
         "roles" : {
-            "physiotherapist": "Fisioterapeuta",
+            "physio": "Fisioterapeuta",
             "player": "Jugador",
             "staff": "Cuerpo técnico",
             "admin": "Admin"

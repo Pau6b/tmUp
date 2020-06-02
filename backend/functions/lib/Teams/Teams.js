@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
-const Core_1 = require("../Core/Core");
+//import { sports } from '../Core/Core'
 const Statistics_1 = require("../Core/Templates/Statistics");
 const admin = require("firebase-admin");
 const db = admin.firestore();
@@ -12,17 +12,17 @@ app.post('/create', (req, res) => {
         try {
             const jsonContent = JSON.parse(req.body);
             //Check if the params are correct
-            if (req.session.user === null) {
+            /*if (req.session!.user === null) {
                 res.status(400).send("T1");
-            }
+            }*/
             /*
             let email: any ="";
             await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     email = user.email
             });
             */
-            let errors = [];
-            let hasErrors = false;
+            /*let errors: string[] = [];
+            let hasErrors: boolean = false;
             if (!jsonContent.hasOwnProperty("teamName")) {
                 errors.push("TC2");
                 hasErrors = true;
@@ -31,13 +31,13 @@ app.post('/create', (req, res) => {
                 errors.push("TC3");
                 hasErrors = true;
             }
-            if (!Core_1.sports.includes(jsonContent.sport)) {
+            if (!sports.includes(jsonContent.sport)) {
                 errors.push("TC4");
                 hasErrors = true;
             }
             if (hasErrors) {
                 return res.status(400).send(errors);
-            }
+            }*/
             //No errors, we proceed to creation
             let id = "invalid";
             await db.collection('teams').add({
@@ -47,11 +47,11 @@ app.post('/create', (req, res) => {
             }).then((ref) => {
                 id = ref.id;
             });
-            await db.collection('memberships').add({
+            /*await db.collection('memberships').add({
                 teamId: id,
                 userId: "ivan@ivan.com",
                 type: "staff"
-            });
+            })*/
             return res.status(200).send(id);
         }
         catch (error) {
@@ -303,16 +303,18 @@ app.delete('/:teamId', (req, res) => {
                 return res.status(400).send("teamId is incorrect");
             }
             await db.collection('teams').doc(req.params.teamId).delete();
-            const query = db.collectionGroup('memberships').where('teamId', "==", req.params.teamId);
-            const response = [];
-            if (query != undefined)
-                await query.get().then((querySnapshot) => {
-                    const docs = querySnapshot.docs;
-                    for (const doc of docs) {
-                        db.collection('memberships').doc(doc.id).delete();
-                    }
-                    return response;
-                });
+            //const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamId);
+            //const response: any = [];
+            await db.collectionGroup('memberships').where('teamId', "==", req.params.teamId).get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    db.collection('memberships').doc(doc.id).delete();
+                }
+                //return response;
+            }).catch((error) => {
+                console.log(error);
+                return error;
+            });
             return res.status(200).send();
         }
         catch (error) {

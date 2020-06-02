@@ -6,10 +6,10 @@ If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment
 Dev App Server is now running.
 
 <<<<<<< HEAD
-May 23, 2020 4:40:25 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Jun 02, 2020 5:37:55 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 =======
-May 23, 2020 12:52:42 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
->>>>>>> 267bc55f096e1e54d40ae8c8d65f5651f1be9c9a
+Jun 02, 2020 11:44:07 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+>>>>>>> 734199e8c784b504ce3e268434f1d06e46436689
 INFO: Detected HTTP/2 connection.
 *** shutting down gRPC server since JVM is shutting down
 *** server shut down

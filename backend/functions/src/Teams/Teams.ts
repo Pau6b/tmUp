@@ -353,14 +353,17 @@ app.delete('/:teamId', (req, res) => {
                 return res.status(400).send("teamId is incorrect");
             }
             await db.collection('teams').doc(req.params.teamId).delete();
-            const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamId);
-            const response: any = [];
-            if(query != undefined) await query.get().then((querySnapshot: any) => {
+            //const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamId);
+            //const response: any = [];
+            await db.collectionGroup('memberships').where('teamId',"==",req.params.teamId).get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
                     db.collection('memberships').doc(doc.id).delete();
                 }
-                return response;
+                //return response;
+            }).catch((error: any)=>{
+                console.log(error);
+                return error;
             })
             return res.status(200).send();
         }
