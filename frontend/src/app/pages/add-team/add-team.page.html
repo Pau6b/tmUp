@@ -24,12 +24,14 @@
     <div *ngIf="segmentModel === 'create'">
       <form [formGroup]="createTeamForm">
         <ion-list>
+          <!--
           <ion-avatar class="avatarIcon" (click)="cameraOptions()">
             <img src="{{ createTeamForm.get('teamPhoto').value }}" onerror="src='../../../assets/icon/avatar.svg'">
           </ion-avatar>
           <ion-item  lines="none" class="ion-text-center">
             <ion-label (click)="cameraOptions()" class="smallText">{{'ADD-TEAM.editImage' | translate}}</ion-label>
           </ion-item>
+          -->
 
           <ion-item>
             <ion-label position="floating">{{'ADD-TEAM.teamName' | translate}}</ion-label>
