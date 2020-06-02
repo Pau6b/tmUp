@@ -37,6 +37,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { ModalComponent } from './pages/components/modal/modal.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -44,7 +45,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ModalComponent],
   entryComponents: [],
   imports: [
     BrowserModule,

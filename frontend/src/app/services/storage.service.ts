@@ -13,12 +13,12 @@ export class StorageService {
     private file: File,
     private storage: AngularFireStorage) { }
 
-  getAFile(page, teamId): Promise<any>{
-    const storageRef = firebase.storage().ref(page+'/'+teamId);
+  getAFile(page, Id): Promise<any>{
+    const storageRef = firebase.storage().ref(page+'/'+Id);
     return storageRef.listAll();
   }
-  getFiles(page, teamId){
-    const storageRef = firebase.storage().ref(page+'/'+teamId);
+  getFiles(page, Id){
+    const storageRef = firebase.storage().ref(page+'/'+Id);
     let files = [];
     storageRef.listAll().then(result => {
       result.items.forEach(async ref => {
@@ -36,8 +36,9 @@ export class StorageService {
     );
     return files;
   }
-  async uploadFileToStorage(buffer, name, page, teamId, _type){
-    let path = '/'+page+'/'+teamId+'/'+name;
+
+  async uploadFileToStorage(buffer, name, page, Id, _type){
+    let path = '/'+page+'/'+Id+'/'+name;
     const ref = this.storage.ref;
     let data = new Blob([buffer], {type: _type});
     const task = this.storage.upload(path,data);

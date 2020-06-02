@@ -16,7 +16,7 @@ app.post('/create', (req, res) => {
                 userName: jsonContent.userName
             });
             req.session!["userName"] = jsonContent.userName;
-            console.log(req.session!["userName"]);
+            //console.log(req.session!["userName"]);
             return res.status(200).send();
         }
         catch(error){
@@ -276,6 +276,39 @@ app.put('/:userEmail', (req, res) => {
 app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
+            let teamExists: boolean = true;
+            await db.collection('users').doc(req.params.userEmail).get().then((doc: any) => {
+                if(!doc.exists) {
+                    teamExists = false;
+                }
+            });
+            if (!teamExists) {
+                return res.status(400).send("userEmail is incorrect");
+            }
+            await db.collection('users').doc(req.params.userEmail).delete();
+            //const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamId);
+            //const response: any = [];
+            await db.collectionGroup('memberships').where('userId',"==",req.params.userEmail).get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    db.collection('memberships').doc(doc.id).delete();
+                }
+                //return response;
+            }).catch((error: any)=>{
+                console.log(error);
+                return error;
+            })
+            return res.status(200).send();
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+    })().then().catch();
+});
+/*app.delete('/:userEmail', (req, res) => {
+    (async () => {
+        try {
             let userExists: boolean = true;
             await db.collection('users').doc(req.params.userEmail).get().then((doc: any) => {
                 if(!doc.exists) {
@@ -297,7 +330,7 @@ app.delete('/:userEmail', (req, res) => {
                 }
                 return response;
             })*/
-            await db.collectionGroup('memberships').where('userId',"==",req.params.userEmail).get().then((querySnapshot: any) => {
+            /*await db.collectionGroup('memberships').where('userId',"==",req.params.userEmail).get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
                     db.collection('memberships').doc(doc.id).delete();
@@ -312,8 +345,10 @@ app.delete('/:userEmail', (req, res) => {
             await admin.auth().deleteUser(req.params.userEmail).then(function() {
                 console.log('Successfully deleted user');
             })
-            .catch(() => {
-            });
+            .catch((error: any)=>{
+                console.log(error);
+                return error;
+            })
             
             return res.status(200).send();
         }
@@ -323,6 +358,6 @@ app.delete('/:userEmail', (req, res) => {
         }
 
     })().then().catch();
-});
+});*/
 
 module.exports = app;

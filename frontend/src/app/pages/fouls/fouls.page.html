@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-row> 
-    <ion-radio-group value="selected" mode="md" (ionChange)=radioGroupChange($event) [(ngModel)]="radioButton">
+    <ion-radio-group value="selected" mode="md" [(ngModel)]="radioButton">
       <ion-col>
         <ion-radio value="team"></ion-radio>
         <ion-label>{{'FOULS.team' | translate}}</ion-label>
@@ -31,7 +31,7 @@
   </ion-card>
 
   <div class="margins">
-    <ion-segment mode="ios" value="'total'" [(ngModel)]="segment">
+    <ion-segment mode="ios" value="'total'" [(ngModel)]="foulsSegment">
       <ion-segment-button value="total">
         <ion-label>{{'FOULS.total' | translate}}</ion-label>
       </ion-segment-button>

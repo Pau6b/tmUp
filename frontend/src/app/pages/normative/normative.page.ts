@@ -17,8 +17,8 @@ export class NormativePage implements OnInit {
     content: ['', [Validators.required] ]
   });
 
-  hasNormative = true;
-  isPlayer= true;
+  hasNormative;
+  isPlayer;
   f;
   role;
 
@@ -39,8 +39,8 @@ export class NormativePage implements OnInit {
     this.storage.createPdf(this.createPdfForm.get('title').value, this.createPdfForm.get('content').value, this.apiRestProv.getTeamId());
   }
 
-  async uploadFile(){
-    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId(), "application/pdf, text/plainapplication/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+  uploadFile(){
+    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId(), "application/pdf, text/plain, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     this.getFile();
   }
 
@@ -64,6 +64,7 @@ export class NormativePage implements OnInit {
             url: ref.getDownloadURL(),
             ref: ref
           };
+          console.log("F --> "+this.f)
           this.hasNormative = true;
         });
         

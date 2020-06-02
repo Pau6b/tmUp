@@ -35,8 +35,8 @@ export class PhotoService {
   //-------------------------------------------------------------------------------------
   //                                    PRUEBA
   //-------------------------------------------------------------------------------------
-  getFiles(page, teamId){
-    return this.storage.getFiles(page, teamId);
+  getFiles(page, Id){
+    return this.storage.getFiles(page, Id);
   }
 
   async selectMedia(page, teamId) {
