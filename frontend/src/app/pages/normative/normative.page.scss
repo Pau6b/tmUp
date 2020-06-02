@@ -6,18 +6,42 @@
 ------------------------------ */
 .file{
     border-bottom: solid lightgrey 0.1rem;
-    padding: 1rem;
+    padding: 0.5rem;
     text-align: center;
 
     ion-item{
         --background: lightgrey;
         border-radius: 0.5rem;
-        border: solid grey 0.1rem;
+        border: solid black 0.1rem;
         cursor: pointer;
-        margin: 1rem 1rem;
+        margin: 1rem;
 
         ion-label{
             margin-left: 1rem;
+        }
+    }
+}
+
+.filePlayer{
+    
+    padding: 2rem;
+    margin: 0 auto;
+    text-align: center;
+
+    div{
+        background: lightgrey;
+        border-radius: 0.5rem;
+        border: solid black 0.1rem;
+        cursor: pointer;
+        padding: 1rem 0.5rem;
+        text-align: center;
+        ion-label{
+            font-weight: bold;
+        }
+        ion-img{
+            height: 75px;
+            margin-top: 1rem;
+            margin-bottom: 1rem
         }
     }
 }
@@ -29,7 +53,7 @@
 ion-button{
     margin-left: 2rem;
     margin-right: 2rem;
-    margin-top: 1rem
+    margin-top: 0.5rem
 }
 
 ion-textarea{
@@ -40,6 +64,11 @@ ion-textarea{
 
 .danger{
     color: var(--ion-color-danger);
+}
+
+ng-container > div{
+    background-color: lightgrey;
+    border-radius: 5px;
 }
 /* ------------------------------
           FOOTER

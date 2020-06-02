@@ -1,9 +1,37 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Physiotherapist</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>FISIO</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list *ngIf="role != 'physio'">
+    <ion-item-sliding *ngFor="let fisio of fisios" (click)="redirect(fisio)">
+      <ion-avatar slot="start">
+        <img src="../../../assets/icon/avatar.svg">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{fisio.userId}}</h3>
+        <h3>{{fisio.urlPhysio}}</h3>
+      </ion-label>
+    </ion-item-sliding>
+  </ion-list>
 
+  <form [formGroup]="physioForm" *ngIf="role == 'physio'" (ngSubmit)="addInfo()">
+    <ion-list class="form">
+      <ion-item>
+        <ion-label position="floating">{{ 'PHYSIO.url' | translate }}</ion-label>
+        <ion-input type="text" formControlName="url"></ion-input>
+      </ion-item>
+      
+      <div class="cardFooter">
+        <ion-button [disabled]="!physioForm.valid" type="submit" expand="block">{{ 'PHYSIO.addInfo' | translate }}</ion-button>
+      </div>
+    </ion-list>
+  </form>
+
+  <ion-button [disabled]="pagina==false" *ngIf="role == 'physio'" expand="block">{{ 'PHYSIO.redirectTo' | translate }}</ion-button>
 </ion-content>

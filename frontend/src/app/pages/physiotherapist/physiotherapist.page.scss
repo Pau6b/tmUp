@@ -1,0 +1,38 @@
+.form {
+    margin: 0;
+    padding: 0em 1.5em;
+}
+
+ion-list {
+    background: transparent;
+    text-align: center;
+}
+
+ion-item {
+    --background: transparent;
+    --color: white;
+    padding: 0;
+}
+
+.avatarIcon {
+    display: flex;
+    justify-self: center;
+}
+
+ion-avatar {
+    cursor: pointer;
+    height: 100% !important;
+    margin: 0 auto;
+    max-height: 4em !important;
+    max-width: 4em !important;
+    width: 100% !important;
+}
+
+ion-input {
+    --color: white;
+    padding: 0;
+}
+
+.cardFooter {
+    padding: 1em 0em 0em;
+}

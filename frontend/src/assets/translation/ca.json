@@ -82,14 +82,16 @@
     },
     "NORMATIVE": {
         "title": "Normativa",
-        "noFile": "No hi ha cap fitxer de normatives. Puja un fitxer o crea'n un de noy",
+        "noFile": "No hi ha cap fitxer de normatives. Puja un fitxer o crea'n un de nou.",
+        "noFilePlayer": "El teu equip encara no ha pujat cap fitxer de normativa.",
         "normativeTitle": "Títol",
         "uploadFile": "Pujar document",
         "deleteFile": "Eliminar document",
         "fileTitle": "Títol del fitxer",
         "norm": "Normes",
         "insertNorm": "Introdueix normes aqui...",
-        "createDoc": "Crear fitxer"
+        "createDoc": "Crear fitxer",
+        "replaceDoc": "Substituir document"
     },
     "TACTICS": {
         "title": "Tàctiques"
@@ -214,7 +216,7 @@
             "football": "Futbol"
         },
         "roles" : {
-            "physiotherapist": "Fisioterapeuta",
+            "physio": "Fisioterapeuta",
             "player": "Jugador",
             "staff": "Equip técnico",
             "admin": "Admin"

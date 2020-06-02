@@ -438,6 +438,32 @@ app.get('/type', (req, res) => {
 
     })().then().catch();
 });
+
+app.get('/', (req, res) => {
+    (async () => {
+        try {
+            const query = await db.collection('memberships').where('teamId','==',req.query.teamId).where('userId', "==", req.query.userId);
+            const response: any = [];
+
+            await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+
+                for (const doc of docs) {
+                    const selectedItem = doc.data();
+                    response.push(selectedItem);
+                }
+                return response;
+            });
+
+            return res.status(200).send(response[0]);
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).send(error) 
+        }
+
+    })().then().catch();
+});
         
 
 /*
