@@ -27,8 +27,7 @@ app.post('/create', (req, res) => {
             var tominutes= "0" + new Date(timestamp).getMinutes();
             var toseconds= "0" + new Date(timestamp).getSeconds();
             var date=todate+'/'+tomonth+'/'+toyear+' '+tohour.substr(-2)+':'+tominutes.substr(-2)+':'+toseconds.substr(-2);
-            let userExists = true;
-            print(userExists);
+            //let userExists: boolean = true;
             let userData : any = "";
             await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
                 userData = {
@@ -36,7 +35,7 @@ app.post('/create', (req, res) => {
                     userName: user.displayName
                 }
             }).catch(() => {
-                userExists = false;
+                //userExists = false;
             });
             await db.collection('teams').doc(jsonContent.teamId).collection('messages').add({
                 email: jsonContent.email,

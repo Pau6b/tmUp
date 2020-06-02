@@ -8,8 +8,6 @@ import { Router } from '@angular/router';
 import { File } from '@ionic-native/file/ngx';
 import { AppComponent } from 'src/app/app.component';
 
-const MEDIA_FOLDER_NAME = "my_tactics";
-
 @Component({
   selector: 'app-tactics',
   templateUrl: './tactics.page.html',
@@ -32,7 +30,7 @@ export class TacticsPage implements OnInit {
   ngOnInit() {
     this.role = this.principalPage.role;
     this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
-    console.log(this.files);
+    console.log(this.apiProv.getTeamId());
   }
 
   doRefresh(event) {
@@ -43,10 +41,10 @@ export class TacticsPage implements OnInit {
   }
 
   goToaddTactic(){
-    this.photoService.selectMedia('tactics', '6hd6Bdym8CXKW0Sm3hDb').finally(()=>{
+    this.photoService.selectMedia('tactics', this.apiProv.getTeamId()).finally(()=>{
       setTimeout(() => {}, 10000);
     });
-    this.files = this.photoService.getFiles('tactics', '6hd6Bdym8CXKW0Sm3hDb');
+    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
   }
 
   deleteFile(file){
@@ -55,6 +53,10 @@ export class TacticsPage implements OnInit {
     setTimeout(() => {
       this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
     }, 500);
+  }
+
+  openFile(f){
+    this.photoService.openFile(f);
   }
 
 }
