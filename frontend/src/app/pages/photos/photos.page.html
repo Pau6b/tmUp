@@ -12,7 +12,7 @@
     <div *ngFor="let d of events" class="category-block">
       <ion-row no-padding class="category-banner">
         <ion-col text-left button tappable (click)="d.expanded = !d.expanded" align-self-center>
-          {{ d.category }}
+          {{ d?.category }}
         </ion-col>
       </ion-row>
    
@@ -22,7 +22,6 @@
             <ion-card>
               <ion-img [src]="img.url"></ion-img>
             </ion-card>
-            <ion-text>Imagen {{img.name}}</ion-text>
           </div>
         </ion-slide>
       </ion-slides>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { PhotoService } from 'src/app/services/photo.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-photos',
@@ -22,18 +23,26 @@ export class PhotosPage implements OnInit {
 
   constructor(
     private apiProv: apiRestProvider,
-    private storage: StorageService
+    private storage: StorageService,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
-    this.getEvents();
-    this.getFiles();
+    this.getInfo();
   }
 
-  getEvents() {
+  private async getInfo() {
+    const loading = await this.loadingCtrl.create();
+    loading.present();
+    this.getEvents();
+    loading.dismiss();
+  }
+
+  async getEvents() {
+    const loading = await this.loadingCtrl.create();
+    loading.present();
     this.apiProv.getEventsOfMonth( new Date().getMonth() )
     .subscribe( (events) => {
-      this.events = [];
       let tmp: any;
       tmp = events;
       tmp.forEach(element => {
@@ -45,18 +54,28 @@ export class PhotosPage implements OnInit {
         }
         this.events.push(aux);
       });
+      if ( this.events.length == 0 ) this.hasEvents = false;
+      else this.hasEvents = true;
+      for ( let ev of this.events ) {
+        var path = "events/" + this.apiProv.getTeamId() + "/" + ev.id;
+        var p = this.storage.getFiles(path, 'event_images');
+        console.log(p.length);
+        ev.photos = p;
+        console.log(ev);
+        p.forEach(pp => {
+          console.log("hola");
+          console.log(pp.url);
+          ev.photos.push(pp.url);
+        }) 
+          
+        console.log(p);
+        //if ( p.length != 0 ) ev.photos.push(p);
+      }
+      console.log(this.events);
     });
-    if ( this.events.length == 0 ) this.hasEvents = false;
-    else this.hasEvents = true;
-    console.log(this.events);
+    
+    loading.dismiss();
   }
 
-  getFiles() {
-    for ( let ev of this.events ) {
-      var path = "events/" + this.apiProv.getTeamId() + "/" + ev.id;
-      var p = this.storage.getFiles(path, 'event_images');
-      if ( p.length != 0 ) ev.photos = p;
-    }
-  }
 
 }

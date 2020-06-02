@@ -28,30 +28,30 @@ export class TacticsPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId(), null, null);
+    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
     this.role = this.principalPage.role;
     console.log(this.apiProv.getTeamId());
   }
 
   doRefresh(event) {
     setTimeout(() => {
-      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId(), null, null);
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
       event.target.complete();
     }, 2000);
   }
 
   goToaddTactic() {
-    this.photoService.selectMedia('tactics', this.apiProv.getTeamId(), null, null).finally(()=>{
+    this.photoService.selectMedia('tactics', this.apiProv.getTeamId()).finally(()=>{
       setTimeout(() => {}, 10000);
     });
-    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId(), null, null);
+    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
   }
 
   deleteFile(file){
     //console.log(file);
     this.storage.deleteFile(file.full);
     setTimeout(() => {
-      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId(), null, null);
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
     }, 500);
   }
 
