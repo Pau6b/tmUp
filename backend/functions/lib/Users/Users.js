@@ -14,8 +14,8 @@ app.post('/create', (req, res) => {
                 email: jsonContent.email,
                 userName: jsonContent.userName
             });
-            /*req.session!["userName"] = jsonContent.userName;
-            console.log(req.session!["userName"]);*/
+            //req.session!["userName"] = jsonContent.userName;
+            //console.log(req.session!["userName"]);
             return res.status(200).send();
         }
         catch (error) {
@@ -24,33 +24,6 @@ app.post('/create', (req, res) => {
         }
     })().then().catch();
 });
-//////GET DE PROVA///// /getprova/:email
-app.get('/getprova/:email', (req, res) => {
-    (async () => {
-        try {
-            let existeUser = true;
-            const userData = await db.collection('users').doc(req.params.email).get().then((doc) => {
-                if (!doc.exists) {
-                    existeUser = false;
-                    return;
-                }
-                else {
-                    return doc.data();
-                }
-            });
-            //Check that the event exists
-            if (!existeUser) {
-                return res.status(400).send("no existe user");
-            }
-            //return correct data
-            return res.status(200).send(userData);
-        }
-        catch (error) {
-            return res.status(500).send(error);
-        }
-    })().then().catch();
-});
-//////GET DE PROVA/////
 app.get('/me', (req, res) => {
     console.log(req.path);
     (async () => {
@@ -208,19 +181,17 @@ app.put('/update', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            /*if(!req.session!.user) {
+            if (!req.session.user) {
                 return res.status(400).send("UGM1");
             }
-            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    user.email = jsonContent.email
-                    user.displayName = jsonContent.userName
-            });*/
-            //Update a bd
-            await db.collection('users').doc(jsonContent.oldEmail).update({
-                email: jsonContent.newEmail,
-                userName: jsonContent.userName
+            await admin.auth().getUser(req.session.user).then((user) => {
+                //user.email = jsonContent.email
+                user.displayName = jsonContent.userName;
             });
-            //
+            //Update a bd
+            /*await db.collection('users').doc(jsonContent.email).update({
+                userName: jsonContent.userName
+            })*/
             return res.status(200).send();
         }
         catch (error) {
@@ -262,7 +233,7 @@ app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
             let userExists = true;
-            const user = db.collection('users').doc(req.params.userEmail).get().then((doc) => {
+            await db.collection('users').doc(req.params.userEmail).get().then((doc) => {
                 if (!doc.exists) {
                     userExists = false;
                 }
@@ -271,18 +242,33 @@ app.delete('/:userEmail', (req, res) => {
                 return res.status(400).send("userEmail is incorrect");
             }
             //const document = db.collection('users').doc(req.params.userEmail);
-            await user.delete();
-            //eliminar totes les memberships del usuari
-            const query = db.collectionGroup('memberships').where('userId', "==", req.params.userEmail);
-            const response = [];
-            if (query != undefined)
-                await query.get().then((querySnapshot) => {
-                    const docs = querySnapshot.docs;
-                    for (const doc of docs) {
-                        doc.delete();
-                    }
-                    return response;
-                });
+            //eliminar todas les memberships del usuario
+            /*const query = db.collectionGroup('memberships').where('userId',"==",req.params.userEmail);
+            const response: any = [];
+            if(query != undefined) await query.get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                     doc.delete();
+                }
+                return response;
+            })*/
+            await db.collectionGroup('memberships').where('userId', "==", req.params.userEmail).get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    db.collection('memberships').doc(doc.id).delete();
+                }
+                //return response;
+            }).catch((error) => {
+                console.log(error);
+                return error;
+            });
+            //await user.delete();
+            await db.collection('users').doc(req.params.userEmail).delete();
+            await admin.auth().deleteUser(req.params.userEmail).then(function () {
+                console.log('Successfully deleted user');
+            })
+                .catch(() => {
+            });
             return res.status(200).send();
         }
         catch (error) {

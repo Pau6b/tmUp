@@ -277,7 +277,7 @@ app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
             let userExists: boolean = true;
-            const user = db.collection('users').doc(req.params.userEmail).get().then((doc: any) => {
+            await db.collection('users').doc(req.params.userEmail).get().then((doc: any) => {
                 if(!doc.exists) {
                     userExists = false;
                 }
@@ -286,9 +286,9 @@ app.delete('/:userEmail', (req, res) => {
                 return res.status(400).send("userEmail is incorrect");
             }
             //const document = db.collection('users').doc(req.params.userEmail);
-            await user.delete();
-            //eliminar totes les memberships del usuari
-            const query = db.collectionGroup('memberships').where('userId',"==",req.params.userEmail);
+            
+            //eliminar todas les memberships del usuario
+            /*const query = db.collectionGroup('memberships').where('userId',"==",req.params.userEmail);
             const response: any = [];
             if(query != undefined) await query.get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
@@ -296,7 +296,24 @@ app.delete('/:userEmail', (req, res) => {
                      doc.delete();
                 }
                 return response;
+            })*/
+            await db.collectionGroup('memberships').where('userId',"==",req.params.userEmail).get().then((querySnapshot: any) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    db.collection('memberships').doc(doc.id).delete();
+                }
+                //return response;
+            }).catch((error: any)=>{
+                console.log(error);
+                return error;
             })
+            //await user.delete();
+            await db.collection('users').doc(req.params.userEmail).delete();
+            await admin.auth().deleteUser(req.params.userEmail).then(function() {
+                console.log('Successfully deleted user');
+            })
+            .catch(() => {
+            });
             
             return res.status(200).send();
         }
