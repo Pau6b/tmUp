@@ -13,7 +13,7 @@ export class PhysiotherapistPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    window.open('https://www.mundodeportivo.com/', '_system');
+    window.open('https://calendly.com/cfarre', '_system');
   }
 
 }
