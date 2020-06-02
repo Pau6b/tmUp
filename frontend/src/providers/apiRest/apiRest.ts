@@ -396,4 +396,17 @@ export class apiRestProvider {
     })
   }
   
+  //Physiotherapy
+  public addURL(url) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.put(this.url+'memberships/updatePhysioUrl', JSON.stringify(url), { headers: this.headers, params: {
+        userId: this.currentUserId,
+        teamId: this.currentTeam
+      } })
+      .subscribe(data => {
+        resolve(data);
+      })
+    });
+  }
 }

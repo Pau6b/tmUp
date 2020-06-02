@@ -212,6 +212,14 @@
             "ballsPerMatch": "stops/match"
         }
     },
+    "PHYSIO": {
+        "title": "Physiotherapists",
+        "noRegister": "There aren't any calendar asociated, sign In and introduce yourl calendar's URL in our APP",
+        "addInfo": "Update your URL",
+        "register": "SIGN IN",
+        "url": "Add a URL",
+        "redirectTo": "Manage your calendar"
+    },
     "CORE" : {
         "result": {
             "won": "Won",

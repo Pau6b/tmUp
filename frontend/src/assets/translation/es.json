@@ -227,6 +227,14 @@
         "mostStops": "Most stops",
         "mostTwoMinutes": "Most two minutes"
     },
+    "PHYSIO": {
+        "title": "Fisioterapeutas",
+        "noRegister": "Aún no tienes ningún calendario asociado, registrate e introduce la URL de tu calendario en nuestra aplicación",
+        "addInfo": "Actualiza tu URL",
+        "register": "Registrate",
+        "url": "Introduce URL",
+        "redirectTo": "Configura tu calendario"
+    },
     "CORE" : {
         "result": {
             "won": "Ganados",
