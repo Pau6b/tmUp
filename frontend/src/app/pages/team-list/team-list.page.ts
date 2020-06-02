@@ -38,6 +38,10 @@ export class TeamListPage implements OnInit {
     .subscribe( (data) => { 
       console.log(data);
       this.teamList = data;
+    },
+    (error) => {
+      console.log("ERROR --> "+error)
+      this.teamList = [];
     });
   }
 

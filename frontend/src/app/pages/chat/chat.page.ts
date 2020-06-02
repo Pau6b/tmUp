@@ -33,8 +33,10 @@ export class ChatPage implements OnInit {
     .subscribe(
       (data) => { 
         this.msgList = data; 
-        this.msgList.dateOrd = new Date(this.msgList.dateOrd)
         this.msgList.forEach(element => {
+          this.apiProv.getUser(element.email).subscribe((data) => {
+            element['userName'] = data['userName'];
+          })
           this.storage.getAFile("profile_images", element.email).then(result => {
             result.items.forEach(async ref => {
               element.url = await ref.getDownloadURL();
