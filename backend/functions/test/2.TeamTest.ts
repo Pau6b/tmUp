@@ -107,5 +107,18 @@ describe('Update teams: ',()=>{
         expect(response).to.have.status(200);
 
     });
+
+    it('Update unexisting team', async() => {
+        var team = {
+            "teamName": "levante"
+        };
+        const response = await chaiT.request(url)
+        .put('/teams/xxxxxx')
+        .set('content-type', 'application/raw')
+        .set('authorization', token)
+        .send(JSON.stringify(team));
+        expect(response).to.have.status(400);
+
+    });
     
 });
