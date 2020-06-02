@@ -14,8 +14,13 @@ app.post('/create', (req, res) => {
                 email: jsonContent.email,
                 userName: jsonContent.userName
             });
+<<<<<<< HEAD
             //req.session!["userName"] = jsonContent.userName;
             //console.log(req.session!["userName"]);
+=======
+            req.session["userName"] = jsonContent.userName;
+            console.log(req.session["userName"]);
+>>>>>>> 734199e8c784b504ce3e268434f1d06e46436689
             return res.status(200).send();
         }
         catch (error) {
