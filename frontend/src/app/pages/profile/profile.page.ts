@@ -37,7 +37,11 @@ export class ProfilePage implements OnInit {
         this.profileInfo = data;
         this.updateForm.patchValue({userName: this.profileInfo.userName});
         this.updateForm.patchValue({email: this.profileInfo.email});
-        
+        this.storageServ.getAFile("profile_images", this.profileInfo.email).then(result => {
+          result.items.forEach(async ref => {
+            this.myPhoto = await ref.getDownloadURL();
+          });
+        })
         /*
         let photo: any[] = [];
         photo = this.photoServ.getFiles("profile_images", this.profileInfo.email);
