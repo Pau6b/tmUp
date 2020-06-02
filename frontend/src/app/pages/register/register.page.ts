@@ -104,7 +104,7 @@ export class RegisterPage implements OnInit {
   
   public cameraOptions() {
     this.photoService.selectMedia("profile_images", this.registerForm.get('email').value).then( (urlImage) => {
-      this.myPhoto = urlImage;
+      this.myPhoto = urlImage[0].url;
     });
   }
 

@@ -37,8 +37,15 @@ export class ProfilePage implements OnInit {
         this.profileInfo = data;
         this.updateForm.patchValue({userName: this.profileInfo.userName});
         this.updateForm.patchValue({email: this.profileInfo.email});
+        
+        /*
+        let photo: any[] = [];
+        photo = this.photoServ.getFiles("profile_images", this.profileInfo.email);
+        console.log(photo[0])
+        this.myPhoto = photo[0].url
+        console.log(this.myPhoto)
+        */
       });
-    this.myPhoto = this.photoServ.getFiles("profile_images", this.profileInfo.email);
   }
 
   //declarar formulario this.profileInfo.displayname this.profileInfo.email
@@ -80,7 +87,7 @@ export class ProfilePage implements OnInit {
   //Camera options
   public async cameraOptions() {
     this.photoServ.selectMedia("profile_images", this.profileInfo.email).then( (urlImage) => {
-      this.myPhoto = urlImage;
+      this.myPhoto = urlImage[0].url;
     });
   }
 

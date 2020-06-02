@@ -40,7 +40,7 @@ export class NormativePage implements OnInit {
   }
 
   async uploadFile(){
-    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId(), 'image/jpg, image/jpeg, application/pdf, text/plainapplication/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId(), "application/pdf, text/plainapplication/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     this.getFile();
   }
 
