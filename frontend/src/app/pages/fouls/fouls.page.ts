@@ -137,7 +137,6 @@ export class FoulsPage implements OnInit {
         animation: { animateScale: true, animateRotate: true }
       }
     });
-
   }
 
   payFine(f){

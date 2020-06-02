@@ -79,11 +79,11 @@ export class PhotoService {
   //-------------------------------------------------------------------------------------
   //                                    PRUEBA
   //-------------------------------------------------------------------------------------
-  getFiles(page, teamId, eventId, page_event){
-    return this.storage.getFiles(page, teamId, eventId, page_event);
+  getFiles(page, Id){
+    return this.storage.getFiles(page, Id);
   }
 
-  async selectMedia(page, teamId, eventId, page_event) {
+  async selectMedia(page, teamId) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'What would you like to add?',
       buttons: [
@@ -91,14 +91,21 @@ export class PhotoService {
           text: 'Capture Image',
           icon: 'camera',
           handler: () => {
-            this.captureImage(page, teamId, eventId, page_event);
+            this.captureImage(page, teamId);
+          }
+        },
+        {
+          text: 'Load Image',
+          icon: 'image',
+          handler: () => {
+            this.selectFiles(page, teamId, "image/jpg, image/jpeg");
           }
         },
         {
           text: 'Load File',
           icon: 'document',
           handler: () => {
-            this.selectFiles(page, teamId, eventId, page_event);
+            this.selectFiles(page, teamId, "application/pdf, text/plain, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
           }
         },
         {
@@ -108,10 +115,10 @@ export class PhotoService {
       ]
     });
     await actionSheet.present();
-    return this.getFiles(page, teamId, eventId, page_event);
+    return this.getFiles(page, teamId);
   }
  
-  captureImage(page, teamId, eventId, page_event) {
+  captureImage(page, teamId) {
     this.mediaCapture.captureImage().then(
       (data: MediaFile[]) => {
         if (data.length > 0) {
@@ -124,7 +131,7 @@ export class PhotoService {
           
           this.file.readAsArrayBuffer(dirPath, data[0].name).then(
             (buffer) => {
-              this.storage.uploadFileToStorage(buffer, data[0].name, page, teamId, eventId, page_event, data[0].type);
+              this.storage.uploadFileToStorage(buffer, data[0].name, page, teamId, data[0].type);
             },
             (err) => {
               console.log(err);
@@ -136,8 +143,8 @@ export class PhotoService {
     );
   }
 
-  selectFiles(page, teamId, eventId, event_page) {
-    this.chooser.getFile('image/jpg, image/jpeg, application/pdf').then(
+  selectFiles(page, teamId, type) {
+    this.chooser.getFile(type).then(
       (result) => {
         if(this.platform.is('ios')){
           this.file.resolveLocalFilesystemUrl(result.uri).then(
@@ -151,7 +158,7 @@ export class PhotoService {
               
               this.file.readAsArrayBuffer(dirPath, newURL.name).then(
                 (buffer) => {
-                  this.storage.uploadFileToStorage(buffer, newURL.name, page, teamId, eventId, event_page, result.mediaType);
+                  this.storage.uploadFileToStorage(buffer, newURL.name, page, teamId, result.mediaType);
                 },
                 (err) => {
                   console.log(err);
@@ -170,7 +177,7 @@ export class PhotoService {
               
               this.file.readAsArrayBuffer(dirPath, result.name).then(
                 (buffer) => {
-                  this.storage.uploadFileToStorage(buffer, result.name, page, teamId, eventId, event_page, result.mediaType);
+                  this.storage.uploadFileToStorage(buffer, result.name, page, teamId, result.mediaType);
                 },
                 (err) => {
                   console.log(err);

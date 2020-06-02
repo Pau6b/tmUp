@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent } from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-chat',
@@ -18,7 +18,8 @@ export class ChatPage implements OnInit {
   teamId;
 
   constructor(
-    private apiProv: apiRestProvider
+    private apiProv: apiRestProvider,
+    private storage: StorageService
   ) {  }
 
   
@@ -32,6 +33,13 @@ export class ChatPage implements OnInit {
     .subscribe(
       (data) => { 
         this.msgList = data; 
+        this.msgList.forEach(element => {
+          this.storage.getAFile("profile_images", element.email).then(result => {
+            result.items.forEach(async ref => {
+              element.url = await ref.getDownloadURL();
+            });
+          });
+        });
       });
   }
 

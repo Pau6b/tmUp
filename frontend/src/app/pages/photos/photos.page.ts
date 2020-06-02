@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { PhotoService } from 'src/app/services/photo.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-photos',
@@ -12,62 +13,6 @@ export class PhotosPage implements OnInit {
   events = [];
   files = [];
   hasEvents;
-  /*public data = [
-    {
-      category: 'Partido Espanyol vs Barça',
-      expanded: true,
-      photos: [
-        {
-          img: 1
-        },
-        {
-          img: 2
-        },
-        {
-          img: 3
-        },
-        {
-          img: 4
-        }
-      ]
-    },
-    {
-      category: 'Partido Real Madrid vs Espanyol',
-      expanded: true,
-      photos: [
-        {
-          img: 1
-        },
-        {
-          img: 2
-        },
-        {
-          img: 3
-        },
-        {
-          img: 4
-        }
-      ]
-    },
-    {
-    category: 'Partido Espanyol vs Real Madrid',
-      expanded: true,
-      photos: [
-        {
-          img: 1
-        },
-        {
-          img: 2
-        },
-        {
-          img: 3
-        },
-        {
-          img: 4
-        }
-      ]
-    }
-  ];*/
 
   sliderConfig = {
     slidesPerView: 1.6,
@@ -77,7 +22,7 @@ export class PhotosPage implements OnInit {
 
   constructor(
     private apiProv: apiRestProvider,
-    private photoService: PhotoService
+    private storage: StorageService
   ) { }
 
   ngOnInit() {
@@ -108,7 +53,8 @@ export class PhotosPage implements OnInit {
 
   getFiles() {
     for ( let ev of this.events ) {
-      var p = this.photoService.getFiles('events', this.apiProv.getTeamId(), ev.id, 'event_images');
+      var path = "events/" + this.apiProv.getTeamId() + "/" + ev.id;
+      var p = this.storage.getFiles(path, 'event_images');
       if ( p.length != 0 ) ev.photos = p;
     }
   }

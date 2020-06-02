@@ -49,7 +49,8 @@ export class EventPage implements OnInit {
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
     private maps: googleMaps,
-    private principalPage: AppComponent
+    private principalPage: AppComponent,
+    private storage: StorageService
     //private photoViewer: PhotoViewer,
   ) { 
   }
@@ -60,7 +61,8 @@ export class EventPage implements OnInit {
     else this.isPlayer = false;
     this.getEventInfo();
     this.getFile();
-    this.files = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'event_images');
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.files = this.storage.getFiles(path, 'event_images');
   }
 
   onInfoSegment() {
@@ -146,12 +148,14 @@ export class EventPage implements OnInit {
   //INFORME RIVAL
 
   async uploadFile() {
-    this.photoService.selectFiles('events', this.apiProv.getTeamId(), this.eventId, 'rivalInform');
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.photoService.selectMedia(path, 'informeRival');
     this.getFile();
   }
 
   getFile() {
-    this.f = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'rivalInform');
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.f = this.storage.getFiles(path, 'informeRival');
     console.log(this.f);
     if(this.f.length > 0) this.hasInform = true;
     else this.hasInform = true;
@@ -160,17 +164,19 @@ export class EventPage implements OnInit {
   deleteFile(file) {
     this.storage.deleteFile(file.full);
     setTimeout(() => {
-      this.files = this.photoService.getFiles('events',this.apiProv.getTeamId(), this.eventId, 'rivalInform');
+      var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+      this.f = this.storage.getFiles(path, 'informeRival');
     }, 500);
   }
 
   //EVENT IMAGES
 
   addEventImage(){
-    this.photoService.selectMedia('events', this.apiProv.getTeamId(), this.eventId, 'event_images').finally(()=>{
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.photoService.selectMedia(path, 'event_images').finally(()=>{
       setTimeout(() => {}, 10000);
     });
-    this.files = this.photoService.getFiles('events', this.apiProv.getTeamId(), this.eventId, 'event_images');
+    this.files = this.storage.getFiles(path, 'event_images');
   }
 
 
