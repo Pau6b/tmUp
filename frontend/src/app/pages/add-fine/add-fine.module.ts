@@ -8,6 +8,7 @@ import { AddFinePageRoutingModule } from './add-fine-routing.module';
 
 import { AddFinePage } from './add-fine.page';
 import { ReactiveFormsModule } from '@angular/forms'
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms'
     FormsModule,
     IonicModule,
     AddFinePageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   declarations: [AddFinePage]
 })

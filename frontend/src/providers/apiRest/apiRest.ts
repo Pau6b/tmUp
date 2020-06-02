@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, resolveForwardRef } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators'; 
 
@@ -26,7 +26,7 @@ export class apiRestProvider {
 
   public setToken(token: string) {
     this.token = token;
-    //console.log(token);
+    console.log(token);
   }
 
   public setTeam(team: string){
@@ -332,7 +332,13 @@ export class apiRestProvider {
   
   public payFine(fineInfo) {
     this.setHeader();
-    return this.http.put(this.url+'memberships/fines/payFine', JSON.stringify(fineInfo), {headers: this.headers});
+    fineInfo.teamId = this.currentTeam;
+    return new Promise(resolve => {
+      this.http.put(this.url+'memberships/fines/payFine', JSON.stringify(fineInfo), {headers: this.headers})
+      .subscribe(data => {
+        resolve(data);
+      })
+    });
   }
   public getMemberFines(fineState){
     this.setHeader();
@@ -371,6 +377,17 @@ export class apiRestProvider {
     }});
   }
 
+  public getMembership() {
+    this.setHeader();
+    return this.http.get(this.url+"memberships/", {
+      headers: this.headers, 
+      params: {
+        userId: this.currentUserId,
+        teamId: this.currentTeam
+      },
+    })
+  }
+
   public async getCurrentUserRole() {
     this.setHeader();
     console.log(this.currentTeam);
@@ -385,4 +402,17 @@ export class apiRestProvider {
     })
   }
   
+  //Physiotherapy
+  public addURL(url) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.put(this.url+'memberships/updatePhysioUrl', JSON.stringify(url), { headers: this.headers, params: {
+        userId: this.currentUserId,
+        teamId: this.currentTeam
+      } })
+      .subscribe(data => {
+        resolve(data);
+      })
+    });
+  }
 }

@@ -20,6 +20,15 @@
         "role": "Role",
         "IDInform": "Team created. This is your team's ID: "
     },
+    "ADD-FINE": {
+        "title": "Add fine",
+        "members": "Members",
+        "selectDate": "Select a date",
+        "date": "Date",
+        "select": "Select the members to be fined",
+        "concept": "Concept",
+        "price": "Price"
+    },
     "CALENDAR" : {
         "title": "Calendar",
         "noEvents" : "There are no events"
@@ -82,14 +91,16 @@
     },
     "NORMATIVE": {
         "title": "Normative",
-        "noFile": "There are no normative filew. Add an existing file or write it down",
+        "noFile": "There are no normative files. Add an existing file or write it down",
+        "noFilePlayer": "Your team has not upload any normative file yet.",
         "normativeTitle": "Normative title",
         "uploadFile": "Upload a file",
         "deleteFile": "Delete document",
         "fileTitle": "File title",
         "norm": "Rules",
         "insertNorm": "Insert rules here...",
-        "createDoc": "Create document"
+        "createDoc": "Create document",
+        "replaceDoc": "Replace document"
     },
     "TACTICS": {
         "title": "Tactics"
@@ -201,6 +212,14 @@
             "ballsPerMatch": "stops/match"
         }
     },
+    "PHYSIO": {
+        "title": "Physiotherapists",
+        "noRegister": "There aren't any calendar asociated, sign In and introduce yourl calendar's URL in our APP",
+        "addInfo": "Update your URL",
+        "register": "SIGN IN",
+        "url": "Add a URL",
+        "redirectTo": "Manage your calendar"
+    },
     "CORE" : {
         "result": {
             "won": "Won",
@@ -214,7 +233,7 @@
             "football": "Football"
         },
         "roles" : {
-            "physiotherapist": "Physiotherapist",
+            "physio": "Physiotherapist",
             "player": "Player",
             "staff": "Staff",
             "admin": "Admin"

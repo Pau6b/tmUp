@@ -22,8 +22,9 @@ export class FoulsPage implements OnInit {
   register: any;
   paids;
   noPaids;
-  segment="total";
+  foulsSegment="total";
   radioButton="team";
+  iniciado=false;
   role;
 
   constructor(
@@ -49,16 +50,13 @@ export class FoulsPage implements OnInit {
     );
   }
   
+  ionViewDidLeave(){
+    this.iniciado=false;
+  }
+
   ionViewDidEnter(){
-    setTimeout( () => {
-      this.initialize();
-    }, 1000);
-    this.register = this.apiProv.getTeamRegister().subscribe(
-      (value) => {
-        this.register = value;
-        this.createSemicircleChart();
-      }
-    );
+    this.iniciado=true;
+    this.refresh();
   }
 
   async initialize(){
@@ -144,10 +142,21 @@ export class FoulsPage implements OnInit {
 
   payFine(f){
     this.apiProv.payFine(f);
+    this.refresh();
   }
 
 
-  radioGroupChange(event){
-    
+  refresh(){
+    this.foulsSegment="total";
+    this.radioButton="team";
+    setTimeout( () => {
+      this.initialize();
+    }, 1000);
+    this.register = this.apiProv.getTeamRegister().subscribe(
+      (value) => {
+        this.register = value;
+        this.createSemicircleChart();
+      }
+    );
   }
 }

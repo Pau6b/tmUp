@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       title: 'main',
       url: 'main',
       icon: 'home',
-      roles: ["player","staff","physiotherapist"]
+      roles: ["player","staff","physio"]
     },
     {
       title: 'normative',
@@ -50,31 +50,31 @@ export class AppComponent implements OnInit {
       title: 'chat',
       url: 'chat',
       icon: 'chatbubble-ellipses',
-      roles: ["player","staff","physiotherapist"]
+      roles: ["player","staff","physio"]
     },
     {
       title: 'calendar',
       url: 'calendar',
       icon: 'calendar',
-      roles: ["player","staff","physiotherapist"]
+      roles: ["player","staff","physio"]
     },
     {
       title: 'physiotherapist',
       url: 'physiotherapist',
       icon: 'medkit',
-      roles: ["player","staff","physiotherapist"]
+      roles: ["player","staff","physio"]
     },
     {
       title: 'photos',
       url: 'photos',
       icon: 'images',
-      roles: ["player","staff","physiotherapist"]
+      roles: ["player","staff","physio"]
     },
     {
       title: 'fines',
       url: 'fouls',
       icon: 'cash',
-      roles: ["player","staff","physiotherapist"]
+      roles: ["player","staff"]
     }
   ];
 

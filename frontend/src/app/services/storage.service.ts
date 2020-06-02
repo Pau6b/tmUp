@@ -54,6 +54,12 @@ export class StorageService {
     }
     
   }
+
+  getAFile(page, teamId): Promise<any>{
+    const storageRef = firebase.storage().ref(page+'/'+teamId);
+    return storageRef.listAll();
+  }
+  
   async uploadFileToStorage(buffer, name, page, teamId, eventId, event_page, _type){
     if ( eventId != null && event_page != null) {
       let path = '/'+page+'/'+teamId+'/'+eventId+'/'+event_page+'/'+name;
