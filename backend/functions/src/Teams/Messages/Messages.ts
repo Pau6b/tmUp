@@ -1,6 +1,6 @@
 import * as express from 'express';
 const admin = require("firebase-admin");
-import { UserRecord } from 'firebase-functions/lib/providers/auth';
+//import { UserRecord } from 'firebase-functions/lib/providers/auth';
 import {Observable} from 'rxjs';
 import { firestore } from 'firebase-admin';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
@@ -11,7 +11,7 @@ import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 //import {Observable} from 'rxjs';
 const db = admin.firestore();
 const app = express();
-
+/*
 //Create => Post
 app.post('/create', (req, res) => {
     (async () => {
@@ -52,7 +52,7 @@ app.post('/create', (req, res) => {
         }
     })().then().catch();
 });
-
+*/
 app.get('/:teamId', (req, res) => {
     (async () => {
         try {
