@@ -26,7 +26,7 @@ export class apiRestProvider {
 
   public setToken(token: string) {
     this.token = token;
-    //console.log(token);
+    console.log(token);
   }
 
   public setTeam(team: string){

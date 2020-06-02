@@ -1,3 +1,5 @@
+//import { isMainThread } from "worker_threads";
+
 let chaiT = require("chai");
 let chaiHttp = require("chai-http");
 const expect = require('chai').expect;
@@ -7,7 +9,7 @@ var should = chaiT.should();
 chaiT.use(chaiHttp);
 
 const url = 'https://us-central1-tmup-908e4.cloudfunctions.net/app';
-const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1YzlhZWJlMjM0ZGE2MDE2YmQ3Yjk0OTE2OGI4Y2Q1YjRlYzllZWIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdCIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS90bXVwLTkwOGU0IiwiYXVkIjoidG11cC05MDhlNCIsImF1dGhfdGltZSI6MTU4OTk3NDg2NCwidXNlcl9pZCI6Inc3WnNhWlZmRVNRajdjME1rdW5Vd2VBVjR5aDEiLCJzdWIiOiJ3N1pzYVpWZkVTUWo3YzBNa3VuVXdlQVY0eWgxIiwiaWF0IjoxNTg5OTc0ODY0LCJleHAiOjE1ODk5Nzg0NjQsImVtYWlsIjoidGVzdEB0bXVwLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJ0ZXN0QHRtdXAuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.PDdNivByl-AHSxFbv0r02AFF89-_8TqSU6N4MFv7BbkFtg7zQRz2j2dipJ0JwQpZD67Eiy8zjq2rFc6hNI2WIZ5-B4ALEj9e_bkayzoPx0dJp1I43qzsT-6fDtX5Z-Olw1q3QIBMBc0swlAm8vlrWCr9n1a7472nKcgJCfPqb3ion5f3KmoTTYIZ8rrjeyvmqx_TbvbnKCTLh06J_ynzndHf3KSdXmaKZVE64LrLEtvn-RawKte8g8lbeudrjf1ZRXt5T5Xm6U8tKX-ibY04pdXfqo9BZD37qbla-2ef_HpD1vJhQ1EVwxEihxb1u_QJxowmNLaif1YZ_2b37RLhuQ"
+const token = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc0Mzg3ZGUyMDUxMWNkNDgzYTIwZDIyOGQ5OTI4ZTU0YjNlZTBlMDgiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdCIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS90bXVwLTkwOGU0IiwiYXVkIjoidG11cC05MDhlNCIsImF1dGhfdGltZSI6MTU5MTA5MDMwNCwidXNlcl9pZCI6Inc3WnNhWlZmRVNRajdjME1rdW5Vd2VBVjR5aDEiLCJzdWIiOiJ3N1pzYVpWZkVTUWo3YzBNa3VuVXdlQVY0eWgxIiwiaWF0IjoxNTkxMDkwMzA0LCJleHAiOjE1OTEwOTM5MDQsImVtYWlsIjoidGVzdEB0bXVwLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJ0ZXN0QHRtdXAuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.gAC5E4KgvUHkLq4jMCEJmyHX-KNgaDd5YRXdjTvlZFA3qOo_zmgRELb9N-3Qoo4HMfCaTxZc89U_97GoG3Apn_encW4xIDfep09nsLB142z-2mRzmaJP7ticAlpxdlKmmPmhUH8aKlZyQSlITzgQ1CmmYBXKKaiISKDcOzcQy45VL7p1ngJem_KsOo4504IDyPcgHXGN4gUj9nHxhbJFN5MQtM4CAFujVfp__7Fi32ZzUZdtdkXLl5elDfCfwWJGPVGs18uhb4Gdmqe5TV3wokZSJU6BcEEU1_pdTTE-jIdF22r1Oygfm_fKSfuc6FVQx4wl0qHu6lSB1-wXAJeP6g"
 
 
 describe('Get users: ',()=> {
@@ -17,7 +19,7 @@ describe('Get users: ',()=> {
         .get('/users')
         .set('authorization', token);
         expect(response).to.have.status(200);
-        expect(response.body.length).to.equals( 3 );
+        //expect(response.body.length).to.equals( 3 );
         //expect(response.body.userName).equals("b");
             //expect(body).should.include("CM1");
 
@@ -36,6 +38,18 @@ describe('Get users: ',()=> {
         .get('/users/unexistingUser@tmup.com')
         .set('authorization', token);
         expect(response).to.have.status(400);
+    });
+
+    it('Get user teams', async() => {
+        const response = await chaiT.request(url)
+        .get('/users/test@tmup.com/teams')
+        .set('authorization', token);
+        expect(response).to.have.status(200);
+        //expect(response.body.userName).equals("b");
+            //expect(body).should.include("CM1");
 
     });
+
 });
+
+
