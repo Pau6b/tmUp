@@ -43,8 +43,8 @@ app.post('/create', (req, res) => {
                 email: jsonContent.email,
                 bodyMessage: jsonContent.bodyMessage,
                 date: jsonContent.date,
-                dateOrd: today
-                //userName: userData.userName
+                dateOrd: today,
+                //userName: jsonContent.bodyMessage
             })
             return res.status(200).send();
         }
