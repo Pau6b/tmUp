@@ -8,12 +8,17 @@ import { PhysiotherapistPageRoutingModule } from './physiotherapist-routing.modu
 
 import { PhysiotherapistPage } from './physiotherapist.page';
 
+import { TranslateModule } from '@ngx-translate/core';
+import { ReactiveFormsModule } from '@angular/forms'
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PhysiotherapistPageRoutingModule
+    PhysiotherapistPageRoutingModule,
+    TranslateModule,
+    ReactiveFormsModule
   ],
   declarations: [PhysiotherapistPage]
 })

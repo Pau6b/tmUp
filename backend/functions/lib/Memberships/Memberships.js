@@ -119,14 +119,21 @@ app.put('/updatePhysioUrl', (req, res) => {
                 if (!userDoc.exists)
                     usuarioExiste = false;
             });
-            const membership = db.collection('memberships').where('userId', '==', req.query.userId).where('teamId', '==', req.query.teamId);
-            await membership.get().then((snapshot) => {
-                if (snapshot.empty)
-                    miembroExiste = false;
-            });
-            if (miembroExiste) {
+            let idMembership = "";
+            const query = db.collection('memberships').where('userId', '==', req.query.userId).where('teamId', '==', req.query.teamId);
+            if (query != undefined) {
+                await query.get().then((querySnapshot) => {
+                    const docs = querySnapshot.docs;
+                    for (const doc of docs) {
+                        idMembership = doc.id;
+                    }
+                });
+            }
+            else
+                miembroExiste = false;
+            if (!miembroExiste) {
                 hayErrores = true;
-                errores.push("The user with email: [" + req.query.userId + "] already has a membership in the team: [" + req.query.teamId + "]");
+                errores.push("The user with email: [" + req.query.userId + "] is not member of the team: [" + req.query.teamId + "]");
             }
             if (!equipoExiste) {
                 hayErrores = true;
@@ -139,7 +146,7 @@ app.put('/updatePhysioUrl', (req, res) => {
             if (hayErrores) {
                 return res.status(400).send(errores);
             }
-            await membership.update({
+            await db.collection('memberships').doc(idMembership).update({
                 urlPhysio: jsonContent.urlPhysio
             });
             return res.status(200).send(errores);
@@ -361,6 +368,48 @@ app.get('/getByUser/:userId', (req, res) => {
                 return response;
             });
             return res.status(200).send(response);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.get('/type', (req, res) => {
+    (async () => {
+        try {
+            const query = await db.collection('memberships').where('teamId', '==', req.query.teamId).where('userId', "==", req.query.userId);
+            const response = [];
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    const selectedItem = doc.data();
+                    response.push(selectedItem);
+                }
+                return response;
+            });
+            return res.status(200).send(response[0].type);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.get('/', (req, res) => {
+    (async () => {
+        try {
+            const query = await db.collection('memberships').where('teamId', '==', req.query.teamId).where('userId', "==", req.query.userId);
+            const response = [];
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    const selectedItem = doc.data();
+                    response.push(selectedItem);
+                }
+                return response;
+            });
+            return res.status(200).send(response[0]);
         }
         catch (error) {
             console.log(error);

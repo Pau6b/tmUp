@@ -91,14 +91,16 @@
     },
     "NORMATIVE": {
         "title": "Normativa",
-        "noFile": "No hi ha cap fitxer de normatives. Puja un fitxer o crea'n un de noy",
+        "noFile": "No hi ha cap fitxer de normatives. Puja un fitxer o crea'n un de nou.",
+        "noFilePlayer": "El teu equip encara no ha pujat cap fitxer de normativa.",
         "normativeTitle": "Títol",
         "uploadFile": "Pujar document",
         "deleteFile": "Eliminar document",
         "fileTitle": "Títol del fitxer",
         "norm": "Normes",
         "insertNorm": "Introdueix normes aqui...",
-        "createDoc": "Crear fitxer"
+        "createDoc": "Crear fitxer",
+        "replaceDoc": "Substituir document"
     },
     "TACTICS": {
         "title": "Tàctiques"
@@ -210,6 +212,14 @@
             "ballsPerMatch": "pilotes/partit"
         }
     },
+    "PHYSIO": {
+        "title": "Fisioterapeutes",
+        "noRegister": "Encara no tens cap calendari associat, registrat i introdueix la URL del teu calendari a la nostra aplicació",
+        "addInfo": "Actualitza URL",
+        "register": "Registra't",
+        "url": "Introdueix URL",
+        "redirectTo": "Configura el teu calendari"
+    },
     "CORE" : {
         "result": {
             "won": "Guanyats",
@@ -223,7 +233,7 @@
             "football": "Futbol"
         },
         "roles" : {
-            "physiotherapist": "Fisioterapeuta",
+            "physio": "Fisioterapeuta",
             "player": "Jugador",
             "staff": "Equip técnico",
             "admin": "Admin"
