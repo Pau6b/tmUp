@@ -11,7 +11,7 @@
         "addExercises": "Afegeix els exercicis aqui..."
     },
     "ADD-TEAM" : {
-        "addTeam": "Afegit equip",
+        "addTeam": "Afegir equip",
         "createTeam": "Crear equip",
         "joinTeam": "Unirse a un equip",
         "editImage": "Editar imatge",
@@ -19,6 +19,15 @@
         "enterTeamId": "Introdueix el ID de l'equip",
         "role": "Rol",
         "IDInform": "Equip creat. Aquest és el teu ID d'equip: "
+    },
+    "ADD-FINE": {
+        "title": "Afegir multa",
+        "members": "Membres",
+        "selectDate": "Selecciona una data",
+        "date": "Data",
+        "select": "Selecciona els membres implicats",
+        "concept": "Concepte",
+        "price": "Preu"
     },
     "CALENDAR" : {
         "title": "Calendari",

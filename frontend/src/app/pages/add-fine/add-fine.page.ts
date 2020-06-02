@@ -21,7 +21,7 @@ export class AddFinePage implements OnInit {
 
     addFineForm = this.formBuilder.group({
       date: [new Date(), [Validators.required]],
-      userId: ['jugador@jugador.com', [Validators.required]],
+      userId: ['', [Validators.required]],
       money: ['', [Validators.required]],
       issue: ['', [Validators.required]],
       teamId: [this.apiProv.getTeamId()]
@@ -31,7 +31,7 @@ export class AddFinePage implements OnInit {
     this.apiProv.getMembers().then(
       (data) => {
         this.members = data;
-        console.log("---->"+this.members);
+        console.log(this.members);
       }
     );
   }

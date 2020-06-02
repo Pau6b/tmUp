@@ -20,6 +20,15 @@
         "role": "Rol",
         "IDInform": "Equipo creado. Este es tu ID de equipo: "
     },
+    "ADD-FINE": {
+        "title": "Añadir multa",
+        "members": "Miembros",
+        "selectDate": "Selecciona una fecha",
+        "date": "Fecha",
+        "select": "Selecciona los miembros implicados",
+        "concept": "Concepto",
+        "price": "Precio"
+    },
     "CALENDAR" : {
         "title": "Calendario",
         "noEvents" : "No hay eventos"

@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
       title: 'fines',
       url: 'fouls',
       icon: 'cash',
-      roles: ["player","staff","physio"]
+      roles: ["player","staff"]
     }
   ];
 
