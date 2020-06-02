@@ -42,13 +42,6 @@ export class ProfilePage implements OnInit {
             this.myPhoto = await ref.getDownloadURL();
           });
         })
-        /*
-        let photo: any[] = [];
-        photo = this.photoServ.getFiles("profile_images", this.profileInfo.email);
-        console.log(photo[0])
-        this.myPhoto = photo[0].url
-        console.log(this.myPhoto)
-        */
       });
   }
 
@@ -85,7 +78,7 @@ export class ProfilePage implements OnInit {
 
   //submit update form
   public updateProfileUser() {
-    this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
+    this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.profileInfo.email)
   }
 
   //Camera options
