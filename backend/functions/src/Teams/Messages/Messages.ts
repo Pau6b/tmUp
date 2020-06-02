@@ -29,25 +29,15 @@ app.post('/create', (req, res) => {
             var toseconds= "0" + new Date(timestamp).getSeconds();
             var date=todate+'/'+tomonth+'/'+toyear+' '+tohour.substr(-2)+':'+tominutes.substr(-2)+':'+toseconds.substr(-2);
             //let userExists: boolean = true;
-<<<<<<< HEAD
             //let userData : any = "";
             /*await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
-=======
-            let userData : any = "";
-            await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
->>>>>>> 734199e8c784b504ce3e268434f1d06e46436689
                 userData = {
                     //email: user.email,
                     userName: user.displayName
                 }
             }).catch(() => {
-<<<<<<< HEAD
                 userExists = false;
             });*/
-=======
-                //userExists = false;
-            });
->>>>>>> 734199e8c784b504ce3e268434f1d06e46436689
             await db.collection('teams').doc(jsonContent.teamId).collection('messages').add({
                 email: jsonContent.email,
                 bodyMessage: jsonContent.bodyMessage,
