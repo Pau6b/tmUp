@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, LoadingController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
@@ -18,26 +18,26 @@ export class TeamListPage implements OnInit {
     public apiProv: apiRestProvider,
     public router: Router,
     public menuCtrl: MenuController,
-    public loadCtrl: LoadingController,
     public appComponent: AppComponent
     ) { }
 
   ngOnInit() {
+    
+   }
+  
+  ionViewWillEnter(){
     setTimeout( () => {
       this.initialize();
     }, 1000);
-   }
+  }
    
   async initialize() {
-    const loading = await this.loadCtrl.create();
 
-    loading.present();
     
     this.apiProv.getUserTeams()
     .subscribe( (data) => { 
       console.log(data);
       this.teamList = data;
-      loading.dismiss();
     });
   }
 

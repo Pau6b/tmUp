@@ -33,6 +33,7 @@ export class ChatPage implements OnInit {
     .subscribe(
       (data) => { 
         this.msgList = data; 
+        this.msgList.dateOrd = new Date(this.msgList.dateOrd)
         this.msgList.forEach(element => {
           this.storage.getAFile("profile_images", element.email).then(result => {
             result.items.forEach(async ref => {
@@ -40,6 +41,7 @@ export class ChatPage implements OnInit {
             });
           });
         });
+        console.log(this.msgList)
       });
   }
 
