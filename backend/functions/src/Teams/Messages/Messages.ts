@@ -11,13 +11,14 @@ import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 //import {Observable} from 'rxjs';
 const db = admin.firestore();
 const app = express();
-/*
+
 //Create => Post
 app.post('/create', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            var today = new Date(jsonContent.date); 
+            //var today = new Date(jsonContent.date); 
+            var today = new Date(); 
             //let userName;
             var timestamp=new Date().getTime();
             var todate= new Date(timestamp).getDate();
@@ -28,21 +29,21 @@ app.post('/create', (req, res) => {
             var toseconds= "0" + new Date(timestamp).getSeconds();
             var date=todate+'/'+tomonth+'/'+toyear+' '+tohour.substr(-2)+':'+tominutes.substr(-2)+':'+toseconds.substr(-2);
             //let userExists: boolean = true;
-            let userData : any = "";
-            await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
+            //let userData : any = "";
+            /*await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
                 userData = {
                     //email: user.email,
                     userName: user.displayName
                 }
             }).catch(() => {
-                //userExists = false;
-            });
+                userExists = false;
+            });*/
             await db.collection('teams').doc(jsonContent.teamId).collection('messages').add({
                 email: jsonContent.email,
                 bodyMessage: jsonContent.bodyMessage,
                 date: date,
-                dateOrd: today,
-                userName: userData.userName
+                dateOrd: today
+                //userName: userData.userName
             })
             return res.status(200).send();
         }
@@ -52,7 +53,7 @@ app.post('/create', (req, res) => {
         }
     })().then().catch();
 });
-*/
+
 app.get('/:teamId', (req, res) => {
     (async () => {
         try {
