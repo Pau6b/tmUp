@@ -46,9 +46,9 @@ export class PhysiotherapistPage implements OnInit {
     this.role = this.principalPage.role;
     if(this.role == 'physio'){
       this.apiProv.getMembership().subscribe( (data) => { 
+        console.log(data);
         this.fisios = data;
-        if (this.fisios[0].urlPhysio != "") this.pagina = true;
-        console.log(this.fisios[0].urlPhysio);
+        if (this.fisios.urlPhysio != "") this.pagina = true;
       })
       loading.dismiss();
     }else{
