@@ -79,8 +79,8 @@ export class PhotoService {
   //-------------------------------------------------------------------------------------
   //                                    PRUEBA
   //-------------------------------------------------------------------------------------
-  getFiles(page, teamId){
-    return this.storage.getFiles(page, teamId);
+  getFiles(page, Id){
+    return this.storage.getFiles(page, Id);
   }
 
   async selectMedia(page, teamId) {
@@ -95,10 +95,17 @@ export class PhotoService {
           }
         },
         {
+          text: 'Load Image',
+          icon: 'image',
+          handler: () => {
+            this.selectFiles(page, teamId, "image/jpg, image/jpeg");
+          }
+        },
+        {
           text: 'Load File',
           icon: 'document',
           handler: () => {
-            this.selectFiles(page, teamId);
+            this.selectFiles(page, teamId, "application/pdf, text/plain, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
           }
         },
         {
@@ -136,8 +143,8 @@ export class PhotoService {
     );
   }
 
-  selectFiles(page, teamId) {
-    this.chooser.getFile('image/jpg, image/jpeg, application/pdf, text/plain').then(
+  selectFiles(page, teamId, type) {
+    this.chooser.getFile(type).then(
       (result) => {
         if(this.platform.is('ios')){
           this.file.resolveLocalFilesystemUrl(result.uri).then(
