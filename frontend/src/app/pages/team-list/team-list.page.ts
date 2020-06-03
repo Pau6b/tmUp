@@ -15,10 +15,9 @@ export class TeamListPage implements OnInit {
   me;
 
   constructor(
-    public apiProv: apiRestProvider,
-    public router: Router,
-    public menuCtrl: MenuController,
-    public appComponent: AppComponent
+    private apiProv: apiRestProvider,
+    private router: Router,
+    private appComponent: AppComponent,
     ) { }
 
   ngOnInit() {
@@ -32,8 +31,6 @@ export class TeamListPage implements OnInit {
   }
    
   async initialize() {
-
-    
     this.apiProv.getUserTeams()
     .subscribe( (data) => { 
       console.log(data);
@@ -55,6 +52,16 @@ export class TeamListPage implements OnInit {
       this.appComponent.setRole(role);
       this.appComponent.updateTeam();
       this.router.navigate(['/main']);
+    })
+  }
+
+  logOut() {
+    this.appComponent.presentConfirm();
+  }
+
+  deleteMembership(team: any) {
+    this.apiProv.deleteMembership(team.id).then(() => {
+      this.initialize();
     })
   }
 
