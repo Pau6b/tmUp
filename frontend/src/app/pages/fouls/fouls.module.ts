@@ -17,9 +17,11 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     FoulsPageRoutingModule,
-    ModalComponent,
     TranslateModule
   ],
-  declarations: [FoulsPage]
+  declarations: [
+    ModalComponent,
+    FoulsPage
+  ]
 })
 export class FoulsPageModule {}

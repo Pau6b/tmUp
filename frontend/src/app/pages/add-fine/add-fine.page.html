@@ -13,10 +13,8 @@
       <ion-list>
         <ion-item class="ion-margin">
           <ion-label>{{ 'ADD-FINE.members' | translate }}</ion-label>
-          <ion-select placeholder="{{ 'ADD-FINE.select' | translate }}">
-            <ion-select-option *ngFor="let m of members" [value]="m.id" >
-              {{m.userId}}
-            </ion-select-option>
+          <ion-select placeholder="{{ 'ADD-FINE.select' | translate }}" formControlName="userId">
+            <ion-select-option *ngFor="let m of members" [value]="m.id" >{{m.userId}}</ion-select-option>
           </ion-select>
 
         </ion-item>
