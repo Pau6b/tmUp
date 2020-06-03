@@ -47,23 +47,24 @@ export class ChatPage implements OnInit {
   }
 
   sendMessage() {
-    var msg = 
+    if(this.newMessage != "") {
+      var msg = 
       {
       "email": this.user,
       "teamId": this.teamId,
       "bodyMessage": this.newMessage,
       "date": new Date().toString(),
       };
-    this.apiProv.createMessage(msg)
-    .then( () => {
-    })
-    .catch(() => {
-    });
-    
-    this.newMessage = '';
-    setTimeout(() => {
-      this.content.scrollToBottom();
-    })
+      this.apiProv.createMessage(msg)
+      .then( () => {
+      })
+      .catch(() => {
+      });
+      this.newMessage = '';
+      setTimeout(() => {
+        this.content.scrollToBottom();
+      })
+    }
   }
 
   scrollDown() {
