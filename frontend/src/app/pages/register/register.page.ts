@@ -86,7 +86,6 @@ export class RegisterPage implements OnInit {
       user.user.updateProfile ({
         displayName: this.registerForm.get('userName').value
       });
-      console.log(user)
       this.apiProv.setUser(this.registerForm.get('email').value);
       //xa is the token
       this.apiProv.setToken(user.user.xa);

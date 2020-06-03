@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastController, LoadingController, AlertController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { apiRestProvider } from '../../providers/apiRest/apiRest';
 
@@ -49,9 +48,16 @@ export class AuthService {
   loginGoogle() {
     firebase.auth().signInWithPopup(this.provider).then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      let token = (<any>result).credential.accessToken;
+      let token: any = result.user.getIdToken();
       this.apiProv.setToken(token);
       this.apiProv.setUser(result.user.email);
+      // if new user save display name
+      if(result.additionalUserInfo.isNewUser) {
+        result.user.updateProfile({
+          displayName: result.user.displayName
+        })
+      }
+      
       //xa is the token
       // The signed-in user info.
       this.currentUser = result.user;

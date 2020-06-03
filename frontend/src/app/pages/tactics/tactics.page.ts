@@ -30,7 +30,6 @@ export class TacticsPage implements OnInit {
   ngOnInit() {
     this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
     this.role = this.principalPage.role;
-    console.log(this.apiProv.getTeamId());
   }
 
   doRefresh(event) {
@@ -48,7 +47,6 @@ export class TacticsPage implements OnInit {
   }
 
   deleteFile(file){
-    //console.log(file);
     this.storage.deleteFile(file.full);
     setTimeout(() => {
       this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());

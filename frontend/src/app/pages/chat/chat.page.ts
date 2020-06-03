@@ -43,29 +43,28 @@ export class ChatPage implements OnInit {
             });
           });
         });
-        console.log(this.msgList)
       });
   }
 
   sendMessage() {
-    var msg = 
+    if(this.newMessage != "") {
+      var msg = 
       {
       "email": this.user,
       "teamId": this.teamId,
       "bodyMessage": this.newMessage,
       "date": new Date().toString(),
       };
-      console.log(msg);
-    this.apiProv.createMessage(msg)
-    .then( () => {
-    })
-    .catch(() => {
-    });
-    
-    this.newMessage = '';
-    setTimeout(() => {
-      this.content.scrollToBottom();
-    })
+      this.apiProv.createMessage(msg)
+      .then( () => {
+      })
+      .catch(() => {
+      });
+      this.newMessage = '';
+      setTimeout(() => {
+        this.content.scrollToBottom();
+      })
+    }
   }
 
   scrollDown() {

@@ -120,7 +120,6 @@ export class AppComponent implements OnInit {
 
   public setRole(role: string) {
     this.role = role;
-    console.log(role);
   }
 
   gotoMatch() {
