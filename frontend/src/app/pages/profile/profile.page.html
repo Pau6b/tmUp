@@ -32,7 +32,7 @@
         <br>
         <ion-item>
           <ion-label position="floating">{{ 'PROFILE.email' | translate }}</ion-label>
-          <ion-input type="email" formControlName="email" (click)="onInputClick()"></ion-input>
+          <ion-input type="email" formControlName="email" ></ion-input>
         </ion-item>
         <div *ngFor="let err of errorMessages.email">
           <ng-container *ngIf="email.hasError(err.type) && email.touched">
@@ -44,8 +44,8 @@
           <ion-label class="textPWD" (click)="presentConfirm()">{{ 'PROFILE.changePassword' | translate }}</ion-label>
         </ion-item>
         <br>
-        <div >
-          <ion-button *ngIf="InputClick" type="submit" expand="block">{{ 'PROFILE.updateProfile' | translate }}</ion-button>
+        <div>
+          <ion-button (click)="updateProfileUser()" disabled = "{{!InputClick}}" type="submit" expand="block">{{ 'PROFILE.updateProfile' | translate }}</ion-button>
         </div>
         <br>
         <br>

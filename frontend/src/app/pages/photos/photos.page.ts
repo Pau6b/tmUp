@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { PhotoService } from 'src/app/services/photo.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-photos',
@@ -7,62 +11,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PhotosPage implements OnInit {
 
-  public data = [
-    {
-      category: 'Partido Espanyol vs Barça',
-      expanded: true,
-      photos: [
-        {
-          img: 1
-        },
-        {
-          img: 2
-        },
-        {
-          img: 3
-        },
-        {
-          img: 4
-        }
-      ]
-    },
-    {
-      category: 'Partido Real Madrid vs Espanyol',
-      expanded: true,
-      photos: [
-        {
-          img: 1
-        },
-        {
-          img: 2
-        },
-        {
-          img: 3
-        },
-        {
-          img: 4
-        }
-      ]
-    },
-    {
-    category: 'Partido Espanyol vs Real Madrid',
-      expanded: true,
-      photos: [
-        {
-          img: 1
-        },
-        {
-          img: 2
-        },
-        {
-          img: 3
-        },
-        {
-          img: 4
-        }
-      ]
-    }
-  ];
+  events = [];
+  files = [];
+  hasEvents;
 
   sliderConfig = {
     slidesPerView: 1.6,
@@ -70,9 +21,60 @@ export class PhotosPage implements OnInit {
     centeredSlides: true
   };
 
-  constructor() { }
+  constructor(
+    private apiProv: apiRestProvider,
+    private storage: StorageService,
+    private loadingCtrl: LoadingController
+  ) { }
 
   ngOnInit() {
+    this.getInfo();
+  }
+
+  private async getInfo() {
+    const loading = await this.loadingCtrl.create();
+    loading.present();
+    this.getEvents();
+    loading.dismiss();
+  }
+
+  async getEvents() {
+    const loading = await this.loadingCtrl.create();
+    loading.present();
+    this.apiProv.getEventsOfMonth( new Date().getMonth() )
+    .subscribe( (events) => {
+      let tmp: any;
+      tmp = events;
+      tmp.forEach(element => {
+        let aux = {
+          id: element.id,
+          category: element.title,
+          expanded: true,
+          photos: []
+        }
+        this.events.push(aux);
+      });
+      if ( this.events.length == 0 ) this.hasEvents = false;
+      else this.hasEvents = true;
+      for ( let ev of this.events ) {
+        var path = "events/" + this.apiProv.getTeamId() + "/" + ev.id;
+        var p = this.storage.getFiles(path, 'event_images');
+        console.log(p.length);
+        ev.photos = p;
+        console.log(ev);
+        p.forEach(pp => {
+          console.log("hola");
+          console.log(pp.url);
+          ev.photos.push(pp.url);
+        }) 
+          
+        console.log(p);
+        //if ( p.length != 0 ) ev.photos.push(p);
+      }
+      console.log(this.events);
+    });
+    
+    loading.dismiss();
   }
 
 
