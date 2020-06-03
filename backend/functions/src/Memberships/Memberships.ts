@@ -507,8 +507,6 @@ app.delete('/delete', (req, res) => {
                     ++miembros;
                     if(doc.data().type === 'staff') ++staffEnEquipo;
                     if (doc.data().userId === jsonContent.userId) {
-                        console.log("entro");
-                        console.log(doc.id);
                         id = doc.id;
                         if (doc.data().type === "staff") esStaff = true;
                     }
