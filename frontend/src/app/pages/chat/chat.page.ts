@@ -34,12 +34,16 @@ export class ChatPage implements OnInit {
       (data) => { 
         this.msgList = data; 
         this.msgList.forEach(element => {
+          this.apiProv.getUser(element.email).subscribe((data) => {
+            element['userName'] = data['userName'];
+          })
           this.storage.getAFile("profile_images", element.email).then(result => {
             result.items.forEach(async ref => {
               element.url = await ref.getDownloadURL();
             });
           });
         });
+        console.log(this.msgList)
       });
   }
 

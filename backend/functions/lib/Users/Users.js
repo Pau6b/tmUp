@@ -14,7 +14,7 @@ app.post('/create', (req, res) => {
                 email: jsonContent.email,
                 userName: jsonContent.userName
             });
-            //req.session!["userName"] = jsonContent.userName;
+            req.session["userName"] = jsonContent.userName;
             //console.log(req.session!["userName"]);
             return res.status(200).send();
         }
@@ -176,22 +176,22 @@ app.get('/', (req, res) => {
         }
     })().then().catch();
 });
-///////////////UPDTATE///////////////
+///////////////UPDTATE ALT 1///////////////
 app.put('/update', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
-            if (!req.session.user) {
-                return res.status(400).send("UGM1");
-            }
-            await admin.auth().getUser(req.session.user).then((user) => {
-                //user.email = jsonContent.email
-                user.displayName = jsonContent.userName;
+            let userExists = true;
+            await admin.auth().getUserByEmail(jsonContent.email).then((user) => {
+                admin.auth().updateUser(user.uid, { displayName: jsonContent.displayName })
+                    .then(() => { console.log("Success"); })
+                    .catch(() => { console.log("Failure"); });
+            }).catch(() => {
+                userExists = false;
             });
-            //Update a bd
-            /*await db.collection('users').doc(jsonContent.email).update({
-                userName: jsonContent.userName
-            })*/
+            if (!userExists) {
+                return res.status(400).send("UG1");
+            }
             return res.status(200).send();
         }
         catch (error) {
@@ -199,35 +199,44 @@ app.put('/update', (req, res) => {
         }
     })().then().catch();
 });
-///////////////UPDTATE///////////////
+///////////////UPDTATE ALT 1///////////////
 // Falta determinar que hay que cambiar
 //Update => Put
-app.put('/:userEmail', (req, res) => {
+/*app.put('/:userEmail', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
+
             if (!jsonContent.hasOwnProperty("userName")) {
                 return res.status(400).send("UU1");
             }
+
             const document = db.collection('users').doc(req.params.userEmail);
-            let userExists = false;
-            await document.get().then((doc) => {
+
+            let userExists : boolean = false;
+
+            await document.get().then((doc : DocumentSnapshot) => {
                 userExists = doc.exists;
             });
+
             if (!userExists) {
                 return res.status(400).send("UU2");
             }
+
             await document.update({
                 userName: jsonContent.userName
             }).then();
+            
+
             return res.status(200).send();
         }
-        catch (error) {
+        catch(error){
             console.log(error);
-            return res.status(500).send(error);
+            return res.status(500).send(error)
         }
+
     })().then().catch();
-});
+});*/
 //Delete => Delete
 app.delete('/:userEmail', (req, res) => {
     (async () => {
@@ -298,6 +307,8 @@ app.delete('/:userEmail', (req, res) => {
 })
 //await user.delete();
 await db.collection('users').doc(req.params.userEmail).delete();
+
+//DELETE FROM AUTH SERVE
 await admin.auth().deleteUser(req.params.userEmail).then(function() {
     console.log('Successfully deleted user');
 })
@@ -305,6 +316,7 @@ await admin.auth().deleteUser(req.params.userEmail).then(function() {
     console.log(error);
     return error;
 })
+//DELETE FROM AUTH SERVE
 
 return res.status(200).send();
 }

@@ -28,8 +28,8 @@ export class TacticsPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.role = this.principalPage.role;
     this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
+    this.role = this.principalPage.role;
     console.log(this.apiProv.getTeamId());
   }
 
@@ -40,7 +40,7 @@ export class TacticsPage implements OnInit {
     }, 2000);
   }
 
-  goToaddTactic(){
+  goToaddTactic() {
     this.photoService.selectMedia('tactics', this.apiProv.getTeamId()).finally(()=>{
       setTimeout(() => {}, 10000);
     });

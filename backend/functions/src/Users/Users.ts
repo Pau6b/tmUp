@@ -206,25 +206,24 @@ app.get('/', (req, res) => {
     })().then().catch();
 });
 
-///////////////UPDTATE///////////////
+///////////////UPDTATE ALT 1///////////////
 app.put('/update', (req, res) => {
     (async() => {
         try{
             const jsonContent = JSON.parse(req.body);
-            if(!req.session!.user) {
-                return res.status(400).send("UGM1");
-            }
-            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    //user.email = jsonContent.email
-                    user.displayName = jsonContent.userName
+            let userExists: boolean = true;
+            await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
+                admin.auth().updateUser(user.uid ,{ displayName: jsonContent.displayName})
+                    .then(() => { console.log("Success") })
+                    .catch(() => { console.log("Failure") })
+                    
+                }).catch(() => {
+                userExists = false;
             });
 
-            //Update a bd
-            /*await db.collection('users').doc(jsonContent.email).update({
-                userName: jsonContent.userName
-            })*/
-            
-
+            if (!userExists) {
+                return res.status(400).send("UG1");
+            }
             return res.status(200).send();
         }
         catch (error) {
@@ -232,11 +231,11 @@ app.put('/update', (req, res) => {
         }
     })().then().catch()
 });
-///////////////UPDTATE///////////////
+///////////////UPDTATE ALT 1///////////////
 
 // Falta determinar que hay que cambiar
 //Update => Put
-app.put('/:userEmail', (req, res) => {
+/*app.put('/:userEmail', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
@@ -270,7 +269,7 @@ app.put('/:userEmail', (req, res) => {
         }
 
     })().then().catch();
-});
+});*/
 
 //Delete => Delete
 app.delete('/:userEmail', (req, res) => {
@@ -342,6 +341,8 @@ app.delete('/:userEmail', (req, res) => {
             })
             //await user.delete();
             await db.collection('users').doc(req.params.userEmail).delete();
+
+            //DELETE FROM AUTH SERVE
             await admin.auth().deleteUser(req.params.userEmail).then(function() {
                 console.log('Successfully deleted user');
             })
@@ -349,6 +350,7 @@ app.delete('/:userEmail', (req, res) => {
                 console.log(error);
                 return error;
             })
+            //DELETE FROM AUTH SERVE
             
             return res.status(200).send();
         }

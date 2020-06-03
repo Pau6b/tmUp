@@ -31,6 +31,9 @@ export class NormativePage implements OnInit {
     ) {}
 
   public ngOnInit() {
+  }
+
+  ionViewWillEnter(){
     this.role = this.principalPage.role;
     this.getFile();
   }
@@ -64,7 +67,6 @@ export class NormativePage implements OnInit {
             url: ref.getDownloadURL(),
             ref: ref
           };
-          console.log("F --> "+this.f)
           this.hasNormative = true;
         });
         

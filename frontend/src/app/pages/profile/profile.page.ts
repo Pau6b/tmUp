@@ -37,6 +37,8 @@ export class ProfilePage implements OnInit {
         this.profileInfo = data;
         this.updateForm.patchValue({userName: this.profileInfo.userName});
         this.updateForm.patchValue({email: this.profileInfo.email});
+        this.updateForm.controls['email'].disable();
+
         this.storageServ.getAFile("profile_images", this.profileInfo.email).then(result => {
           result.items.forEach(async ref => {
             this.myPhoto = await ref.getDownloadURL();
@@ -96,7 +98,7 @@ export class ProfilePage implements OnInit {
 
   public async presentConfirm() {
     const alert = await this.alertCtrl.create({
-      message: 'Recibirá un correo electrónico en (correo electronico) para realizar el cambio de contraseña. ',
+      message: 'Recibirá un correo electrónico en ' + this.profileInfo.email + ' para realizar el cambio de contraseña. ',
       buttons: [
         {
           text: 'Cancelar',

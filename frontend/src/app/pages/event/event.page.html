@@ -28,6 +28,9 @@
 </ion-header>
 
 <ion-content>
+
+  <!--Event information-->
+
   <div *ngIf="segmentModel === 'info'">
     <div class="ion-padding">
       <ion-item *ngIf="event?.type === 'match'" class="rivalInfo">
@@ -55,7 +58,12 @@
     <div *ngIf="this.event?.location?.name!=''" #map id="map"></div>
   </div>
 
+
+  <!--Called Players-->
+
   <div *ngIf="segmentModel === 'players'">
+
+    <ion-text class="title">Lista Convocados</ion-text>
     <div class="ion-padding">
       <div *ngIf="ListConv != null">
         <ion-list>
@@ -76,24 +84,28 @@
         </div>
       </div>
     </div>
+
   </div> 
+
+
+  <!--Rival Inform-->
 
   <div *ngIf="segmentModel === 'analisi'">
 
-    <div *ngIf="file">
-      <ion-item class="paddingLabel">
-        <ion-img src="../../../assets/icon/pdf.png"></ion-img>
-        <ion-label> {{ file_name }}</ion-label>
+    <div *ngIf="hasInform">
+      <ion-item lines="none">
+        <ion-img src="../../../assets/icon/img.png" slot="start" *ngIf="f?.name?.endsWith('jpg') || f?.name?.endsWith('jpeg') || f?.name?.endsWith('png')"></ion-img>
+          <ion-img src="../../../assets/icon/doc.png" slot="start" *ngIf="f?.name?.endsWith('.txt') ||  f?.name?.endsWith('.doc') ||  f?.name?.endsWith('.docx')"></ion-img>
+          <ion-img src="../../../assets/icon/pdf.png" slot="start" *ngIf="f?.name?.endsWith('.pdf')"></ion-img>
+        <ion-label>{{ f?.name }}</ion-label>
       </ion-item>
 
       <ion-fab *ngIf="!isPlayer" class="buttons" vertical="bottom" slot="fixed" color="primary">
         <ion-button (click)="updateFile()">{{ 'CORE.actions.edit' | translate }}</ion-button>
         <ion-button (click)="deleteFile()" class="separation">{{ 'CORE.actions.delete' | translate }}</ion-button>
       </ion-fab>
-
     </div>
-
-    <div *ngIf="!file">
+    <div *ngIf="!hasInform">
       <div class="centerText">
         <p> {{ 'EVENT.no_inform' | translate }}</p>
       </div>
@@ -105,17 +117,28 @@
 
   </div> 
 
-  <div *ngIf="segmentModel === 'fotos'">
-    <ion-grid>
-      <ion-row>
-        <ion-col *ngFor="let img of [1,2,3,4]; let i=index;">
-            <ion-thumbnail item-center (click)="seeImage(img)"> 
-              <ion-img [src]="'../assets/match_images/'+img+'.jpg'"></ion-img>
-            </ion-thumbnail>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
+  <!--Event Photos-->
+
+  <div *ngIf="segmentModel === 'fotos'">
+
+    <ion-list padding>
+      <ion-item-sliding *ngFor="let f of files">
+        <ion-item (click)="openFile(f)">
+          <ion-img src="../../../assets/icon/img.png" slot="start" *ngIf="f.name.endsWith('jpg') || f.name.endsWith('jpeg') || f.name.endsWith('png')"></ion-img>
+          <ion-label class="ion-text-wrap">
+            {{ f.name }}
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="start">
+          <ion-item-option (click)="deleteFile(f)" color="danger">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list> 
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="primary">
+      <ion-fab-button (click)="addEventImage()">
     <ion-fab *ngIf="!isPlayer" vertical="bottom" horizontal="end" slot="fixed" color="primary">
       <ion-fab-button (click)="goToaddTactic(img)">
         <ion-icon name="add"></ion-icon>
@@ -123,4 +146,5 @@
     </ion-fab>
 
   </div> 
+
 </ion-content>

@@ -89,8 +89,11 @@ export class MainPage implements OnInit {
   ngOnInit() {
     //call api to get notifications
     this.getWelcome();
-    this.getReminders();
-    this.getNoticies();
+    setTimeout ( () => {
+      this.getReminders();
+      this.getNoticies();
+    }, 1000);
+    
   }
 
   ionViewWillEnter(){
@@ -107,12 +110,15 @@ export class MainPage implements OnInit {
   }
 
   async getReminders() {
+    const loading1 = await this.loadCtrl.create();
+    const loading2 = await this.loadCtrl.create();
+    loading1.present();
+    loading2.present();
     this.translateService.get('MAIN').subscribe(
       async value => {
         let val1 = value.title_next_match;
         let val2 = value.title_next_training;
-        const loading = await this.loadCtrl.create();
-        loading.present();
+        
         this.apiProv.getNextMatch().then( (data) => {
           this.Reminders[0].title = val1;
           if ( data[0].length == 0 ) this.Reminders[0].day = null;
@@ -120,6 +126,7 @@ export class MainPage implements OnInit {
             this.Reminders[0].id = data[0].id;
             this.Reminders[0].day = data[0].startTime;
           }
+          loading1.dismiss();
         })
         this.apiProv.getNextTraining().then( (data) => {
           this.Reminders[1].title = val2;
@@ -128,10 +135,13 @@ export class MainPage implements OnInit {
             this.Reminders[1].id = data[0].id;
             this.Reminders[1].day = data[0].startTime;
           }
+          loading2.dismiss();
         })
-        loading.dismiss();
+        
       }
     );
+
+    
   }
 
   getNoticies() {

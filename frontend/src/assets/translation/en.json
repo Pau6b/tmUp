@@ -212,6 +212,21 @@
             "ballsPerMatch": "stops/match"
         }
     },
+    "RANKING" : {
+        "mostAssists": "Most assists",
+        "mostPointsScored": "Most points scored",
+        "mostRebounds": "Most rebounds",
+        "mostThreePointShots": "Most three point shots",
+        "mostTwoPointShots": "Most two point shots",
+        "mostGoalsScored": "Most goals scored",
+        "mostMinutesPlayed": "Most minutes played",
+        "mostRedCards": "Most red cards",
+        "mostYellowCars": "Most yellow cards",
+        "lostBalls": "Most lost balls",
+        "mostSevenMeters": "Most seven meter goals",
+        "mostStops": "Most stops",
+        "mostTwoMinutes": "Most two minutes"
+    },
     "PHYSIO": {
         "title": "Physiotherapists",
         "noRegister": "There aren't any calendar asociated, sign In and introduce yourl calendar's URL in our APP",
