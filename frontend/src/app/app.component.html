@@ -25,14 +25,12 @@
           </ion-menu-toggle>
         </ion-list>
         <ion-list id="inbox-list">
-          <ion-menu-toggle auto-hide="false">
-            <ion-item  (click)="gotoMatch()" lines="none" detail="false" [class.selected]="selectedIndex == -15">
-              <ion-icon slot="start" (click)="gotoMatch()" name="stopwatch"></ion-icon>
-              <ion-label>{{ 'CORE.pages.nextMatch' | translate }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
+          <ion-item  (click)="gotoMatch()" lines="none" detail="false" [class.selected]="selectedIndex == -15">
+            <ion-icon slot="start" (click)="gotoMatch()" name="stopwatch"></ion-icon>
+            <ion-label>{{ 'CORE.pages.nextMatch' | translate }}</ion-label>
+          </ion-item>
         </ion-list>
-          <br>
+        <br>
         <ion-list-header>
           <ion-menu-toggle auto-hide="false">
             <ion-item (click)="selectedIndex = -12" routerLink="profile" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -12">
@@ -45,7 +43,7 @@
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false">
-            <ion-item  (click)="selectedIndex = -14" routerLink="main" routerDirection="main" lines="none" detail="false" [class.selected]="selectedIndex == -14">
+            <ion-item  (click)="selectedIndex = -14" lines="none" detail="false" [class.selected]="selectedIndex == -14">
               <ion-icon slot="end" name="log-out" (click)="presentConfirm()" ></ion-icon>
             </ion-item>
           </ion-menu-toggle>
