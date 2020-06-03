@@ -6,7 +6,7 @@
           <ion-list-header>
             <ion-item (click)="selectedIndex = -10" routerLink="/main" routerDirection="root" lines="none" detail="false" [class.selected]="selectedIndex == -10">
               <ion-avatar slot="start">
-                <ion-img src="../../../assets/sports/Football.png"></ion-img>
+                <ion-img src="../../../assets/sports/{{team?.sport}}.png"></ion-img>
               </ion-avatar>
               <ion-label *ngIf="team != null" >{{team.teamName}}</ion-label>
             </ion-item>

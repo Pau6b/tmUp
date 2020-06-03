@@ -121,6 +121,20 @@ export class apiRestProvider {
     })
   }
 
+  public deleteMembership(teamID) {
+    this.setHeader;
+    return new Promise(resolve => {
+      this.http.delete(this.url+'memberships/delete' , { headers: this.headers, params: {
+        userId: this.currentUserId,
+        teamId: teamID
+      },
+      responseType:'text'})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
+  }
+
   public deleteTeam() {
     this.setHeader;
     return new Promise(resolve => {

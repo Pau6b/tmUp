@@ -170,9 +170,9 @@ export class EventPage implements OnInit {
     }, 500);
   }
 
-  goToaddTactic(img){
-    let teamID = this.apiProv.getTeamId();
-    this.photoService.selectMedia("tactics", teamID);
+  updateFile() {
+    this.photoService.selectFiles('informeRival', this.apiProv.getTeamId(), "application/pdf, text/plain, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+    this.getFile();
   }
 
   //EVENT IMAGES
