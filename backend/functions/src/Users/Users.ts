@@ -206,15 +206,17 @@ app.get('/', (req, res) => {
     })().then().catch();
 });
 
-///////////////UPDTATE///////////////
+///////////////UPDTATE ALT 1///////////////
 app.put('/update', (req, res) => {
     (async() => {
         try{
             const jsonContent = JSON.parse(req.body);
             let userExists: boolean = true;
-
             await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
-                    user.displayName = jsonContent.userName
+                admin.auth().updateUser(user.uid ,{ displayName: jsonContent.displayName})
+                    .then(() => { console.log("Success") })
+                    .catch(() => { console.log("Failure") })
+                    
                 }).catch(() => {
                 userExists = false;
             });
@@ -222,32 +224,6 @@ app.put('/update', (req, res) => {
             if (!userExists) {
                 return res.status(400).send("UG1");
             }
-            /*await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    //user.email = jsonContent.email
-                    user.displayName = jsonContent.userName
-            });*/
-
-            /*
-            let userExists: boolean = true;
-
-            await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {
-                    user.displayName: jsonContent.userName
-                }
-            }).catch(() => {
-                userExists = false;
-            });
-
-            if (!userExists) {
-                return res.status(400).send("UG1");
-            }
-            */
-
-            //Update a bd
-            /*await db.collection('users').doc(jsonContent.email).update({
-                userName: jsonContent.userName
-            })*/
-            
-
             return res.status(200).send();
         }
         catch (error) {
@@ -255,11 +231,11 @@ app.put('/update', (req, res) => {
         }
     })().then().catch()
 });
-///////////////UPDTATE///////////////
+///////////////UPDTATE ALT 1///////////////
 
 // Falta determinar que hay que cambiar
 //Update => Put
-app.put('/:userEmail', (req, res) => {
+/*app.put('/:userEmail', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
@@ -293,24 +269,31 @@ app.put('/:userEmail', (req, res) => {
         }
 
     })().then().catch();
-});
+});*/
 
 //Delete => Delete
 app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
-            let teamExists: boolean = true;
+            let userExists: boolean = true;
             await db.collection('users').doc(req.params.userEmail).get().then((doc: any) => {
                 if(!doc.exists) {
-                    teamExists = false;
+                    userExists = false;
                 }
             });
-            if (!teamExists) {
+            //DELETE FROM AUTH SERVE
+            await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {
+                admin.auth().deleteUser(user.uid)
+                    .then(() => { console.log("Successfully deleted user") })
+                    .catch(() => { console.log("Error deleting user") })
+                                
+            }).catch(() => {
+                userExists = false;
+                });
+            //DELETE FROM AUTH SERVE
+            if (!userExists) {
                 return res.status(400).send("userEmail is incorrect");
             }
-            await db.collection('users').doc(req.params.userEmail).delete();
-            //const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamId);
-            //const response: any = [];
             await db.collectionGroup('memberships').where('userId',"==",req.params.userEmail).get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
@@ -321,6 +304,8 @@ app.delete('/:userEmail', (req, res) => {
                 console.log(error);
                 return error;
             })
+            await db.collection('users').doc(req.params.userEmail).delete();
+
             return res.status(200).send();
         }
         catch(error){

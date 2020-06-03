@@ -139,23 +139,26 @@ export class AppComponent implements OnInit {
     })
   }
 
-  async presentConfirm() {
-    this.data = this.apiProv.getMe();
-    const alert = await this.alertCtrl.create({
-      message: 'Log out of' +  this.data.name +'?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Log Out',
-          handler: () => {
-            this.auth.logOut();
+  presentConfirm() {
+    this.apiProv.getMe().subscribe(async (info) => {
+      this.data = info;
+      const alert = await this.alertCtrl.create({
+        message: 'Log out of ' +  this.data.userName +' ?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+          },
+          {
+            text: 'Log Out',
+            handler: () => {
+              this.auth.logOut();
+            }
           }
-        }
-      ]
+        ]
+      });
+      await alert.present(); 
     });
-    await alert.present(); 
   }  
+
 }
