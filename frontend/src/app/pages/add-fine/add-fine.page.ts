@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-add-fine',
