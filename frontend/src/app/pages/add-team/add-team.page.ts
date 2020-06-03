@@ -112,6 +112,7 @@ export class AddTeamPage implements OnInit {
                   handler: () => {
                     this.apiProv.setTeam(teamID.toString());
                     this.principalPage.setRole('staff');
+                    this.principalPage.updateTeam();
                     this.router.navigate(['/main']);
                   }
                 }
@@ -126,7 +127,8 @@ export class AddTeamPage implements OnInit {
       this.apiProv.createMembership(this.joinTeamForm.value)
       .then( () => {
         this.apiProv.setTeam(this.joinTeamForm.get('teamId').value);
-        this.principalPage.setRole(this.joinTeamForm.get('type').value)
+        this.principalPage.setRole(this.joinTeamForm.get('type').value);
+        this.principalPage.updateTeam();
         this.router.navigate(['/main']);
       })
     }
