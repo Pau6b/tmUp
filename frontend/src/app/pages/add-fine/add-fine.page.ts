@@ -31,7 +31,6 @@ export class AddFinePage implements OnInit {
     this.apiProv.getMembers().then(
       (data) => {
         this.members = data;
-        console.log(this.members);
       }
     );
   }

@@ -43,7 +43,6 @@ export class ChatPage implements OnInit {
             });
           });
         });
-        console.log(this.msgList)
       });
   }
 
@@ -55,7 +54,6 @@ export class ChatPage implements OnInit {
       "bodyMessage": this.newMessage,
       "date": new Date().toString(),
       };
-      console.log(msg);
     this.apiProv.createMessage(msg)
     .then( () => {
     })

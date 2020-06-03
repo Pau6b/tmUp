@@ -59,19 +59,12 @@ export class PhotosPage implements OnInit {
       for ( let ev of this.events ) {
         var path = "events/" + this.apiProv.getTeamId() + "/" + ev.id;
         var p = this.storage.getFiles(path, 'event_images');
-        console.log(p.length);
         ev.photos = p;
-        console.log(ev);
         p.forEach(pp => {
-          console.log("hola");
-          console.log(pp.url);
           ev.photos.push(pp.url);
         }) 
-          
-        console.log(p);
         //if ( p.length != 0 ) ev.photos.push(p);
       }
-      console.log(this.events);
     });
     
     loading.dismiss();
