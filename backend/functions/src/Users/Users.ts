@@ -206,15 +206,17 @@ app.get('/', (req, res) => {
     })().then().catch();
 });
 
-///////////////UPDTATE///////////////
+///////////////UPDTATE ALT 1///////////////
 app.put('/update', (req, res) => {
     (async() => {
         try{
             const jsonContent = JSON.parse(req.body);
             let userExists: boolean = true;
-
             await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
-                    user.displayName = jsonContent.userName
+                admin.auth().updateUser(user.uid ,{ displayName: jsonContent.displayName})
+                    .then(() => { console.log("Success") })
+                    .catch(() => { console.log("Failure") })
+                    
                 }).catch(() => {
                 userExists = false;
             });
@@ -222,32 +224,6 @@ app.put('/update', (req, res) => {
             if (!userExists) {
                 return res.status(400).send("UG1");
             }
-            /*await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
-                    //user.email = jsonContent.email
-                    user.displayName = jsonContent.userName
-            });*/
-
-            /*
-            let userExists: boolean = true;
-
-            await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {
-                    user.displayName: jsonContent.userName
-                }
-            }).catch(() => {
-                userExists = false;
-            });
-
-            if (!userExists) {
-                return res.status(400).send("UG1");
-            }
-            */
-
-            //Update a bd
-            /*await db.collection('users').doc(jsonContent.email).update({
-                userName: jsonContent.userName
-            })*/
-            
-
             return res.status(200).send();
         }
         catch (error) {
@@ -255,11 +231,11 @@ app.put('/update', (req, res) => {
         }
     })().then().catch()
 });
-///////////////UPDTATE///////////////
+///////////////UPDTATE ALT 1///////////////
 
 // Falta determinar que hay que cambiar
 //Update => Put
-app.put('/:userEmail', (req, res) => {
+/*app.put('/:userEmail', (req, res) => {
     (async () => {
         try {
             const jsonContent = JSON.parse(req.body);
@@ -293,7 +269,7 @@ app.put('/:userEmail', (req, res) => {
         }
 
     })().then().catch();
-});
+});*/
 
 //Delete => Delete
 app.delete('/:userEmail', (req, res) => {
