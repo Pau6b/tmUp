@@ -275,18 +275,25 @@ app.put('/update', (req, res) => {
 app.delete('/:userEmail', (req, res) => {
     (async () => {
         try {
-            let teamExists: boolean = true;
+            let userExists: boolean = true;
             await db.collection('users').doc(req.params.userEmail).get().then((doc: any) => {
                 if(!doc.exists) {
-                    teamExists = false;
+                    userExists = false;
                 }
             });
-            if (!teamExists) {
+            //DELETE FROM AUTH SERVE
+            await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {
+                admin.auth().deleteUser(user.uid)
+                    .then(() => { console.log("Successfully deleted user") })
+                    .catch(() => { console.log("Error deleting user") })
+                                
+            }).catch(() => {
+                userExists = false;
+                });
+            //DELETE FROM AUTH SERVE
+            if (!userExists) {
                 return res.status(400).send("userEmail is incorrect");
             }
-            await db.collection('users').doc(req.params.userEmail).delete();
-            //const query = db.collectionGroup('memberships').where('teamId',"==",req.params.teamId);
-            //const response: any = [];
             await db.collectionGroup('memberships').where('userId',"==",req.params.userEmail).get().then((querySnapshot: any) => {
                 const docs = querySnapshot.docs;
                 for (const doc of docs) {
@@ -297,6 +304,8 @@ app.delete('/:userEmail', (req, res) => {
                 console.log(error);
                 return error;
             })
+            await db.collection('users').doc(req.params.userEmail).delete();
+
             return res.status(200).send();
         }
         catch(error){
