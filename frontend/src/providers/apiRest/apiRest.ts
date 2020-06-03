@@ -61,8 +61,15 @@ export class apiRestProvider {
     return this.http.get(this.url+'users/me', { headers: this.headers });
   }
 
-  public updateProfileInfo(name, email) {
-    this.setHeader();      
+  public updateProfileInfo(newName, mail) {
+    this.setHeader();
+    return new Promise(resolve => {
+      this.http.put(this.url+'users/update', JSON.stringify({displayName: newName, email: mail}), { headers: this.headers, responseType:'text' })
+      .subscribe(data => {
+          resolve(data);
+        })
+      });
+    
   }
 
   public getUserTeams(){
@@ -112,6 +119,20 @@ export class apiRestProvider {
           resolve(data);
       });
     })
+  }
+
+  public deleteMembership(teamID) {
+    this.setHeader;
+    return new Promise(resolve => {
+      this.http.delete(this.url+'memberships/delete' , { headers: this.headers, params: {
+        userId: this.currentUserId,
+        teamId: teamID
+      },
+      responseType:'text'})
+      .subscribe(data => {
+          resolve(data);
+      })
+    });
   }
 
   public deleteTeam() {

@@ -37,18 +37,13 @@ export class ProfilePage implements OnInit {
         this.profileInfo = data;
         this.updateForm.patchValue({userName: this.profileInfo.userName});
         this.updateForm.patchValue({email: this.profileInfo.email});
+        this.updateForm.controls['email'].disable();
+
         this.storageServ.getAFile("profile_images", this.profileInfo.email).then(result => {
           result.items.forEach(async ref => {
             this.myPhoto = await ref.getDownloadURL();
           });
         })
-        /*
-        let photo: any[] = [];
-        photo = this.photoServ.getFiles("profile_images", this.profileInfo.email);
-        console.log(photo[0])
-        this.myPhoto = photo[0].url
-        console.log(this.myPhoto)
-        */
       });
   }
 
@@ -85,7 +80,7 @@ export class ProfilePage implements OnInit {
 
   //submit update form
   public updateProfileUser() {
-    this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
+    this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.profileInfo.email)
   }
 
   //Camera options
@@ -103,7 +98,7 @@ export class ProfilePage implements OnInit {
 
   public async presentConfirm() {
     const alert = await this.alertCtrl.create({
-      message: 'Recibirá un correo electrónico en (correo electronico) para realizar el cambio de contraseña. ',
+      message: 'Recibirá un correo electrónico en ' + this.profileInfo.email + ' para realizar el cambio de contraseña. ',
       buttons: [
         {
           text: 'Cancelar',
