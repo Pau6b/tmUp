@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list *ngIf="role != 'physio'">
-      <ion-label *ngIf="skelleton != null && fisios == ''">{{ 'PHYSIO.noFisio' | translate }</ion-label>
+      <ion-label *ngIf="skelleton != null && fisios == ''">{{ 'PHYSIO.noFisio' | translate }}</ion-label>
     <ion-item *ngFor="let fisio of fisios" (click)="redirect(fisio)">
       <ion-avatar slot="start">
         <img src="../../../assets/icon/avatar.svg">
