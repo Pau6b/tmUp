@@ -28,14 +28,9 @@ export class PhotosPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getInfo();
-  }
-
-  private async getInfo() {
-    const loading = await this.loadingCtrl.create();
-    loading.present();
-    this.getEvents();
-    loading.dismiss();
+    setTimeout( () => {
+      this.getEvents();
+    }, 1000);
   }
 
   async getEvents() {
@@ -67,7 +62,6 @@ export class PhotosPage implements OnInit {
       }
     });
     
-    loading.dismiss();
   }
 
 
