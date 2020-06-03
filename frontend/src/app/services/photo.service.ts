@@ -88,9 +88,6 @@ export class PhotoService {
           this.file.readAsArrayBuffer(dirPath, data[0].name).then(
             (buffer) => {
               this.storage.uploadFileToStorage(buffer, data[0].name, page, teamId, data[0].type);
-            },
-            (err) => {
-              console.log(err);
             }
           );
         }
@@ -115,9 +112,6 @@ export class PhotoService {
               this.file.readAsArrayBuffer(dirPath, newURL.name).then(
                 (buffer) => {
                   this.storage.uploadFileToStorage(buffer, newURL.name, page, teamId, result.mediaType);
-                },
-                (err) => {
-                  console.log(err);
                 }
               );
             }
@@ -134,9 +128,6 @@ export class PhotoService {
               this.file.readAsArrayBuffer(dirPath, result.name).then(
                 (buffer) => {
                   this.storage.uploadFileToStorage(buffer, result.name, page, teamId, result.mediaType);
-                },
-                (err) => {
-                  console.log(err);
                 }
               );
             }

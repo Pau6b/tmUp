@@ -33,11 +33,9 @@ export class TeamListPage implements OnInit {
   async initialize() {
     this.apiProv.getUserTeams()
     .subscribe( (data) => { 
-      console.log(data);
       this.teamList = data;
     },
     (error) => {
-      console.log("ERROR --> "+error)
       this.teamList = [];
     });
   }

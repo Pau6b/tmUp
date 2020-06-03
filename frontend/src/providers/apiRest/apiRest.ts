@@ -26,7 +26,6 @@ export class apiRestProvider {
 
   public setToken(token: string) {
     this.token = token;
-    console.log(token);
   }
 
   public setTeam(team: string){
@@ -341,7 +340,6 @@ export class apiRestProvider {
   //Fines
   public createFine(fineInfo) {
     this.setHeader();
-    console.log(fineInfo)
     return this.http.post(this.url+'memberships/fines/create',JSON.stringify(fineInfo),{headers: this.headers} );
   }
   
@@ -405,8 +403,6 @@ export class apiRestProvider {
 
   public async getCurrentUserRole() {
     this.setHeader();
-    console.log(this.currentTeam);
-    console.log(this.currentUserId);
     return this.http.get(this.url+"memberships/type", {
       headers: this.headers, 
       params: {
