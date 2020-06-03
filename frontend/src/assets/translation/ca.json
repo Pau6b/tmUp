@@ -233,7 +233,8 @@
         "addInfo": "Actualitza URL",
         "register": "Registra't",
         "url": "Introdueix URL",
-        "redirectTo": "Configura el teu calendari"
+        "redirectTo": "Configura el teu calendari",
+        "noFisios": "Encara no hi ha cap fisio registrat a aquest equip."
     },
     "CORE" : {
         "result": {

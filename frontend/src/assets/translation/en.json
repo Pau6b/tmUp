@@ -233,7 +233,8 @@
         "addInfo": "Update your URL",
         "register": "SIGN IN",
         "url": "Add a URL",
-        "redirectTo": "Manage your calendar"
+        "redirectTo": "Manage your calendar",
+        "noFisios": "Now there aren't any physio registed in this team"
     },
     "CORE" : {
         "result": {

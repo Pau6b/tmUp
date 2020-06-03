@@ -13,7 +13,7 @@ interface message {
 @Injectable()
 export class apiRestProvider { 
 
-  private url: string = 'https://us-central1-tmup-908e4.cloudfunctions.net/app/';
+  private url: string = 'https://europe-west1-tmup-908e4.cloudfunctions.net/app/';
   private headers;
   private token: string;
   private currentTeam: string = "";
