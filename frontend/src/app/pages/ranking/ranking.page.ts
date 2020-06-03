@@ -20,11 +20,9 @@ export class RankingPage implements OnInit {
 
     this.apiProv.getCurrentTeamRanking().subscribe((data: any) => { 
       this.stats = data;
-      console.log(data);
       for (let key in this.stats) {
         if (this.stats.hasOwnProperty(key) && this.stats[key].id != 0) {
           this.apiProv.getUser(this.stats[key].id).subscribe((userInfo: any) => {
-            console.log(userInfo)
             this.stats[key].userName = userInfo.userName;
           });
         }

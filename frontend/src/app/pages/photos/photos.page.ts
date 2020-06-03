@@ -56,8 +56,6 @@ export class PhotosPage implements OnInit {
         var p = this.storage.getFiles(path, 'event_images');
         ev.photos = p;
         p.forEach(pp => {
-          console.log("hola");
-          console.log(pp.url);
           ev.photos.push(pp.url);
         }) 
       }
