@@ -15,7 +15,7 @@
           <div class="imageAvatarRight">
             <div class="imageAvatarBottom">
               <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == message.email)?'hidden':''">
-                <ion-img [src]="'../assets/images/1.jpg'"></ion-img>
+                <ion-img [src]="message.url"></ion-img>
               </ion-avatar>
             </div>
             <ion-label color="light">
@@ -49,7 +49,7 @@
             </ion-label>
             <div class="imageAvatarBottom">
               <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == message.email)?'hidden':''">
-                <ion-img [src]="'../assets/images/7.jpg'"></ion-img>
+                <ion-img [src]="message.url"></ion-img>
               </ion-avatar>
             </div>
           </div>
@@ -57,7 +57,7 @@
       </ion-row>
       <ion-row *ngIf="((msgList[i+1] && msgList[i+1].email != message.email)|| !msgList[i+1])">
         <ion-col>
-          <ion-text>{{ message.date | date:"dd/MM HH:mm" }}  {{ message.email }}</ion-text>
+          <ion-text>{{ message.date | date:"dd/MM HH:mm" }}  {{ message.userName }}</ion-text>
         </ion-col>
       </ion-row>
     </div>

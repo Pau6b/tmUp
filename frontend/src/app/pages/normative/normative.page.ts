@@ -17,8 +17,8 @@ export class NormativePage implements OnInit {
     content: ['', [Validators.required] ]
   });
 
-  hasNormative = true;
-  isPlayer= true;
+  hasNormative;
+  isPlayer;
   f;
   role;
 
@@ -31,6 +31,9 @@ export class NormativePage implements OnInit {
     ) {}
 
   public ngOnInit() {
+  }
+
+  ionViewWillEnter(){
     this.role = this.principalPage.role;
     this.getFile();
   }
@@ -40,7 +43,7 @@ export class NormativePage implements OnInit {
   }
 
   uploadFile(){
-    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId());
+    this.photoService.selectFiles('normatives', this.apiRestProv.getTeamId(), "application/pdf, text/plain, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document");
     this.getFile();
   }
 

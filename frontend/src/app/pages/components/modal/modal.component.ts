@@ -10,9 +10,6 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 
 @NgModule({
-  declarations: [
-      ModalComponent
-  ],
   imports: [
     IonicModule,
     CommonModule,
@@ -30,7 +27,7 @@ export class ModalComponent implements OnInit {
   price: number;
   concept: String;
 
-  constructor(private navParams: NavParams) { }
+  constructor(public navParams: NavParams) { }
 
   ngOnInit() {
 

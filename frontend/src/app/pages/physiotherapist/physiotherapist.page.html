@@ -1,37 +1,55 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+<ion-header [translucent]="true" >
+  <ion-toolbar color="primary" mode="ios">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>FISIO</ion-title>
+    <ion-title>{{ 'PHYSIO.title' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list *ngIf="role != 'physio'">
-    <ion-item-sliding *ngFor="let fisio of fisios" (click)="redirect(fisio)">
+    <ion-item *ngFor="let fisio of fisios" (click)="redirect(fisio)">
       <ion-avatar slot="start">
         <img src="../../../assets/icon/avatar.svg">
       </ion-avatar>
       <ion-label>
-        <h3>{{fisio.userId}}</h3>
-        <h3>{{fisio.urlPhysio}}</h3>
+        <h3>{{fisio.userName}}</h3>
+        <p>{{fisio.userId}}</p>
       </ion-label>
-    </ion-item-sliding>
+    </ion-item>
   </ion-list>
-
-  <form [formGroup]="physioForm" *ngIf="role == 'physio'" (ngSubmit)="addInfo()">
+  
+    <ion-list *ngIf="skelleton == null">
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  
+  <ion-label *ngIf="fisios.urlPhysio == ''">{{ 'PHYSIO.noRegister' | translate }}</ion-label>
+  
+  <form [formGroup]="physioForm" *ngIf="role == 'physio'" (ngSubmit)="addInfo()" class="position">
     <ion-list class="form">
       <ion-item>
-        <ion-label position="floating">{{ 'PHYSIO.url' | translate }}</ion-label>
-        <ion-input type="text" formControlName="url"></ion-input>
+        <ion-label position="stacked">{{ 'PHYSIO.url' | translate }}</ion-label>
+        <ion-input type="text" formControlName="urlPhysio" clearOnEdit="true" placeholder="{{ fisios?.urlPhysio }}"></ion-input>
       </ion-item>
       
-      <div class="cardFooter">
-        <ion-button [disabled]="!physioForm.valid" type="submit" expand="block">{{ 'PHYSIO.addInfo' | translate }}</ion-button>
-      </div>
+      <ion-button [disabled]="!physioForm.valid" type="submit" expand="block" class="buttonForm">{{ 'PHYSIO.addInfo' | translate }}</ion-button>
+
     </ion-list>
   </form>
 
-  <ion-button [disabled]="pagina==false" *ngIf="role == 'physio'" expand="block">{{ 'PHYSIO.redirectTo' | translate }}</ion-button>
+  <ion-button (click)="redirect(fisios)" [disabled]="pagina==false" *ngIf="role == 'physio' && fisios?.urlPhysio != ''" expand="block" class="position">{{ 'PHYSIO.redirectTo' | translate }}</ion-button>
+  <ion-button (click)="redirectToRegister()" *ngIf="role == 'physio' && fisios?.urlPhysio == ''" expand="block" class="position">{{ 'PHYSIO.register' | translate }}</ion-button>
 </ion-content>

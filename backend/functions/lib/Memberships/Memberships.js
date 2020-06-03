@@ -440,8 +440,8 @@ app.put('/:id', (req, res) => {
 app.delete('/delete', (req, res) => {
     (async () => {
         try {
-            const jsonContent = JSON.parse(req.body);
-            const comprobarRoles = db.collection('memberships').where('teamId', '==', jsonContent.teamId);
+            //const jsonContent = JSON.parse(req.body);
+            const comprobarRoles = db.collection('memberships').where('teamId', '==', req.query.teamId);
             let staffEnEquipo = 0;
             let miembros = 0;
             let esStaff = false;
@@ -452,9 +452,7 @@ app.delete('/delete', (req, res) => {
                     ++miembros;
                     if (doc.data().type === 'staff')
                         ++staffEnEquipo;
-                    if (doc.data().userId === jsonContent.userId) {
-                        console.log("entro");
-                        console.log(doc.id);
+                    if (doc.data().userId === req.query.userId) {
                         id = doc.id;
                         if (doc.data().type === "staff")
                             esStaff = true;
@@ -462,7 +460,7 @@ app.delete('/delete', (req, res) => {
                 }
             });
             if (miembros > 1 && staffEnEquipo === 1 && esStaff)
-                return res.status(200).send("eres el ultimo entrenador que queda");
+                return res.status(400).send("eres el ultimo entrenador que queda");
             else {
                 console.log(id);
                 await db.collection('memberships').doc(id).delete();

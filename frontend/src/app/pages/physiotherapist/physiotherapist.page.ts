@@ -4,6 +4,8 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
 import { LoadingController } from '@ionic/angular';
 import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-physiotherapist',
@@ -12,19 +14,22 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 })
 export class PhysiotherapistPage implements OnInit {
 
-  role = "physio";
+  role;
   pagina = false
-  fisios;
+  fisios: any = "";
+  skelleton = null;
   constructor(
     private iab: InAppBrowser,
     private formBuilder: FormBuilder,
     private apiProv: apiRestProvider,
     public loadCtrl: LoadingController,
-    private principalPage: AppComponent
+    private principalPage: AppComponent,
+    private alertController: AlertController,
+    private router: Router
   ) { }
 
   physioForm = this.formBuilder.group({
-    url: [
+    urlPhysio: [
       '',
       [
         Validators.required,
@@ -34,34 +39,60 @@ export class PhysiotherapistPage implements OnInit {
   });
 
   ngOnInit() {
-    setTimeout( () => {
+  }
+
+  ionViewWillEnter() {
+    setTimeout(() => {
       this.initialize();
-    }, 1000);
-    
+    }, 5000);
   }
 
   async initialize() {
-    const loading = await this.loadCtrl.create();
-    loading.present();
     this.role = this.principalPage.role;
     if(this.role == 'physio'){
       this.apiProv.getMembership().subscribe( (data) => { 
-        console.log(data);
         this.fisios = data;
         if (this.fisios.urlPhysio != "") this.pagina = true;
+        this.skelleton = true;
       })
-      loading.dismiss();
     }else{
       this.apiProv.getUserTeamMemberships("physio").subscribe( (data) => { 
         this.fisios = data;
-        console.log(this.fisios[0].urlPhysio);
+        this.fisios.forEach(element => {
+          this.apiProv.getUser(element.userId).subscribe((data) => {
+            element['userName'] = data['userName'];
+          })
+        });
+        this.skelleton = true;
       })
-      loading.dismiss();
     }
+    
   }
 
   redirect(fisio){
-    if (fisio.urlPhysio != "") this.iab.create(fisio.urlPhysio)
+    if (fisio.urlPhysio != "") this.iab.create("https://"+fisio.urlPhysio)
+    else{
+      this.presentAlert();
+    }
   }
 
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'No tiene web',
+      message: 'La pagina web para solicitar hora aun no esta configurada.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  addInfo(){
+    this.apiProv.addURL(this.physioForm.value)
+    this.fisios.urlPhysio = this.physioForm.value.urlPhysio
+  }
+
+  redirectToRegister(){
+    this.iab.create("https://calendly.com/signup")
+  }
 }

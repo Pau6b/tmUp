@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { sports, rols } from '../../Core/Arrays';
 import { TranslateService } from '@ngx-translate/core';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-add-team',
@@ -57,7 +58,8 @@ export class AddTeamPage implements OnInit {
     private router: Router,
     private alertCtrl: AlertController,
     private translService: TranslateService,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    private principalPage: AppComponent
     ) { }
 
   ngOnInit() {
@@ -109,6 +111,7 @@ export class AddTeamPage implements OnInit {
                   text: 'OK',
                   handler: () => {
                     this.apiProv.setTeam(teamID.toString());
+                    this.principalPage.setRole('staff');
                     this.router.navigate(['/main']);
                   }
                 }
@@ -123,17 +126,20 @@ export class AddTeamPage implements OnInit {
       this.apiProv.createMembership(this.joinTeamForm.value)
       .then( () => {
         this.apiProv.setTeam(this.joinTeamForm.get('teamId').value);
+        this.principalPage.setRole(this.joinTeamForm.get('type').value)
         this.router.navigate(['/main']);
       })
     }
 
   }
 
+  /*
   cameraOptions() {
-    this.photoServ.alertSheetPictureOptions()
+    this.photoServ.selectMedia("team_profile_image", )
     .then( (photo) => {
       this.createTeamForm.patchValue({teamPhoto: photo});
     });
   }
+  */
 
 }

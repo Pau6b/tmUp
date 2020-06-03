@@ -9,6 +9,9 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { File } from '@ionic-native/file/ngx';
 
 //import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { StorageService } from 'src/app/services/storage.service';
+
+declare var google;
 import { PhotoService } from '../../../app/services/photo.service';
 import { googleMaps } from '../../../providers/googleMaps/google-maps';
 import { AppComponent } from 'src/app/app.component';
@@ -26,6 +29,10 @@ export class EventPage implements OnInit {
   event: any;
   currentLoc: any;
   segmentModel = "info";
+
+  hasInform = false;
+  f;
+  files = [];
   file_name = "Rival1";
   ListConv: any = [];
   img;
@@ -42,7 +49,8 @@ export class EventPage implements OnInit {
     private loadCtrl: LoadingController,
     private photoService: PhotoService,
     private maps: googleMaps,
-    private principalPage: AppComponent
+    private principalPage: AppComponent,
+    private storage: StorageService
     //private photoViewer: PhotoViewer,
   ) { 
   }
@@ -52,6 +60,9 @@ export class EventPage implements OnInit {
     if(this.principalPage.role == 'player') this.isPlayer = true;
     else this.isPlayer = false;
     this.getEventInfo();
+    this.getFile();
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.files = this.storage.getFiles(path, 'event_images');
   }
 
   onInfoSegment() {
@@ -134,31 +145,45 @@ export class EventPage implements OnInit {
 
   }
 
-  async uploadFile(){
-    console.log("Entro en uploadFile");
-    console.log("dataDirectory: "+ this.file.dataDirectory);
-    this.promise = this.file.readAsText(this.file.dataDirectory, "newFile");
-    console.log("He creado la promise => "+(await this.promise).toString);
-    await this.promise.then(value => {
-    console.log(value);
-    });
-}
+  //INFORME RIVAL
 
-  updateFile() {
-    //cridar api per modificar el fitxer
+  async uploadFile() {
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.photoService.selectMedia(path, 'informeRival');
+    this.getFile();
   }
 
-  deleteFile() {
-    //cridar api per eliminar el fitxer
+  getFile() {
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.f = this.storage.getFiles(path, 'informeRival');
+    console.log(this.f);
+    if(this.f.length > 0) this.hasInform = true;
+    else this.hasInform = true;
   }
 
+
+  deleteFile(file) {
+    this.storage.deleteFile(file.full);
+    setTimeout(() => {
+      var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+      this.f = this.storage.getFiles(path, 'informeRival');
+    }, 500);
+  }
 
   goToaddTactic(img){
-    this.photoService.alertSheetPictureOptions();
+    let teamID = this.apiProv.getTeamId();
+    this.photoService.selectMedia("tactics", teamID);
   }
 
-  seeImage(img){
-    //this.photoViewer.show('https://wallpaperplay.com/walls/full/3/b/4/268610.jpg');
+  //EVENT IMAGES
+
+  addEventImage(){
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.photoService.selectMedia(path, 'event_images').finally(()=>{
+      setTimeout(() => {}, 10000);
+    });
+    this.files = this.storage.getFiles(path, 'event_images');
   }
+
 
 }
