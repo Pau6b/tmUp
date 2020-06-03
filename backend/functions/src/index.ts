@@ -107,10 +107,10 @@ app.use('/teams/messages', messagesHandler);
 const noticiesHandler = require('./Teams/Noticies/Noticies');
 app.use('/teams/noticies', noticiesHandler);
 
-exports.app = functions.https.onRequest(app);
+exports.app = functions.region('europe-west1').https.onRequest(app);
 
 const db = admin.firestore();
-exports.onUserCreate = functions.auth.user().onCreate((user) => {
+exports.onUserCreate = functions.region('europe-west1').auth.user().onCreate((user) => {
   (async () => {
     try {
         await db.collection('users').doc('/' + user.email + '/')
