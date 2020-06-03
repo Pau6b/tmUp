@@ -233,7 +233,8 @@
         "addInfo": "Actualiza tu URL",
         "register": "Registrate",
         "url": "Introduce URL",
-        "redirectTo": "Configura tu calendario"
+        "redirectTo": "Configura tu calendario",
+        "noFisios": "No hay ningun fisio registrado en este equipo todavia."
     },
     "CORE" : {
         "result": {
