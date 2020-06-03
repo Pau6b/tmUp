@@ -29,11 +29,7 @@ export class StorageService {
           ref: ref
         });
       });
-    },
-      (err) => {
-        console.log(err);
-      }
-    );
+    });
     return files;
   }
 
@@ -91,10 +87,11 @@ export class StorageService {
     let arrayOfBlob = new Array<Blob>();
     arrayOfBlob.push(data);
     const task = this.storage.upload(path,data);
-
+    /*
     task.percentageChanges().subscribe( changes => {
       console.log("percentatge= "+changes);
     })
+    */
 
   }
 

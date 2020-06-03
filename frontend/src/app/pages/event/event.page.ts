@@ -156,7 +156,6 @@ export class EventPage implements OnInit {
   getFile() {
     var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
     this.f = this.storage.getFiles(path, 'informeRival');
-    console.log(this.f);
     if(this.f.length > 0) this.hasInform = true;
     else this.hasInform = true;
   }
