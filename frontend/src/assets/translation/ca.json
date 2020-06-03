@@ -212,6 +212,21 @@
             "ballsPerMatch": "pilotes/partit"
         }
     },
+    "RANKING" : {
+        "mostAssists": "Més assistencies",
+        "mostPointsScored": "Màxim anotador",
+        "mostRebounds": "Més rebots",
+        "mostThreePointShots": "Més triples",
+        "mostTwoPointShots": "Més punts de dos",
+        "mostGoalsScored": "Més gols marcats",
+        "mostMinutesPlayed": "Més minuts jugats",
+        "mostRedCards": "Més targetes vermelles",
+        "mostYellowCars": "Més targetes grogues",
+        "lostBalls": "Més pilotes perdudes",
+        "mostSevenMeters": "Més gols de set metres",
+        "mostStops": "Més parades",
+        "mostTwoMinutes": "Més dos minuts"
+    },
     "PHYSIO": {
         "title": "Fisioterapeutes",
         "noRegister": "Encara no tens cap calendari associat, registrat i introdueix la URL del teu calendari a la nostra aplicació",

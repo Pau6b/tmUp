@@ -211,13 +211,36 @@ app.put('/update', (req, res) => {
     (async() => {
         try{
             const jsonContent = JSON.parse(req.body);
-            if(!req.session!.user) {
-                return res.status(400).send("UGM1");
+            let userExists: boolean = true;
+
+            await admin.auth().getUserByEmail(jsonContent.email).then((user: UserRecord) => {
+                    user.displayName = jsonContent.userName
+                }).catch(() => {
+                userExists = false;
+            });
+
+            if (!userExists) {
+                return res.status(400).send("UG1");
             }
-            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+            /*await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
                     //user.email = jsonContent.email
                     user.displayName = jsonContent.userName
+            });*/
+
+            /*
+            let userExists: boolean = true;
+
+            await admin.auth().getUserByEmail(req.params.userEmail).then((user: UserRecord) => {
+                    user.displayName: jsonContent.userName
+                }
+            }).catch(() => {
+                userExists = false;
             });
+
+            if (!userExists) {
+                return res.status(400).send("UG1");
+            }
+            */
 
             //Update a bd
             /*await db.collection('users').doc(jsonContent.email).update({
@@ -342,6 +365,8 @@ app.delete('/:userEmail', (req, res) => {
             })
             //await user.delete();
             await db.collection('users').doc(req.params.userEmail).delete();
+
+            //DELETE FROM AUTH SERVE
             await admin.auth().deleteUser(req.params.userEmail).then(function() {
                 console.log('Successfully deleted user');
             })
@@ -349,6 +374,7 @@ app.delete('/:userEmail', (req, res) => {
                 console.log(error);
                 return error;
             })
+            //DELETE FROM AUTH SERVE
             
             return res.status(200).send();
         }

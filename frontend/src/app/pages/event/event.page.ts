@@ -161,12 +161,18 @@ export class EventPage implements OnInit {
     else this.hasInform = true;
   }
 
+
   deleteFile(file) {
     this.storage.deleteFile(file.full);
     setTimeout(() => {
       var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
       this.f = this.storage.getFiles(path, 'informeRival');
     }, 500);
+  }
+
+  goToaddTactic(img){
+    let teamID = this.apiProv.getTeamId();
+    this.photoService.selectMedia("tactics", teamID);
   }
 
   //EVENT IMAGES

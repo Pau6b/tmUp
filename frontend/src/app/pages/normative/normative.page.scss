@@ -23,26 +23,22 @@
 }
 
 .filePlayer{
-    
     padding: 2rem;
-    margin: 0 auto;
+    margin: 1rem 2rem;
     text-align: center;
-
-    div{
-        background: lightgrey;
-        border-radius: 0.5rem;
-        border: solid black 0.1rem;
-        cursor: pointer;
-        padding: 1rem 0.5rem;
-        text-align: center;
-        ion-label{
-            font-weight: bold;
-        }
-        ion-img{
-            height: 75px;
-            margin-top: 1rem;
-            margin-bottom: 1rem
-        }
+    background: lightgrey;
+    border-radius: 0.5rem;
+    border: solid black 0.1rem;
+    cursor: pointer;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    ion-label{
+        font-weight: bold;
+    }
+    ion-img{
+        height: 75px;
+        margin-top: 1rem;
+        margin-bottom: 1rem
     }
 }
 
