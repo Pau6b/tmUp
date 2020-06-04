@@ -40,7 +40,6 @@ export class ChatPage implements OnInit {
           this.storage.getAFile("profile_images", element.email).then(result => {
             result.items.forEach(async ref => {
               element.url = await ref.getDownloadURL();
-              console.log("el --> "+await ref.getDownloadURL())
             });
           });
         });
