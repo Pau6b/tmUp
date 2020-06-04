@@ -94,12 +94,15 @@ export class EventPage implements OnInit {
     });
   }
 
-  getEventCall() {
+  async getEventCall() {
+    this.ListConv = [];
+    const loading = await this.loadCtrl.create();
     this.apiProv.getCall(this.eventId)
     .subscribe ( (data) => {
       let tmp: any;
       tmp = data;
       tmp.forEach((element: any) => {
+        loading.present();
         this.apiProv.getUser(element).subscribe( (info: any) => {
           let player = {
             id: element,
@@ -107,6 +110,7 @@ export class EventPage implements OnInit {
           }
           this.ListConv.push(player);
         })
+        loading.dismiss();
       });
     });
   }

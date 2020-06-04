@@ -383,7 +383,7 @@ export class apiRestProvider {
     }});
   }
   
-  public getUserTeamMemberships(tipo){
+  public getUserTeamMemberships(tipo) {
     this.setHeader();
     return this.http.get(this.url+"memberships/getByTeam/"+this.currentTeam, {headers: this.headers, params: { 
       type: tipo 

@@ -148,7 +148,7 @@ export class EditEventPage implements OnInit {
         let val4 = value.confirmation;
         const alert = await this.alertCtrl.create({
           header: val1,
-          subHeader: val2 + this.numConv + val3,
+          subHeader: val2 + this.numConv + " " + val3,
           message: val4,
           buttons: [
             {
