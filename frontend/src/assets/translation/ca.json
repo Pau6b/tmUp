@@ -69,6 +69,7 @@
         "new_list": "Crear llista",
         "inform": "Informe Anàlisi Rival",
         "no_inform": "Encara no ens cap Informe d'Anàlisi Rival",
+        "lista_convocados": "Llista de convocats",
         "uploadfile": "Pujar fitxer"
     },
     "LOGIN": {
