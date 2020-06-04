@@ -45,6 +45,7 @@ export class FoulsPage implements OnInit {
     this.register = this.apiProv.getTeamRegister().subscribe(
       (value) => {
         this.register = value;
+        this.doughnutChart = null;
         this.createSemicircleChart();
       }
     );
@@ -63,22 +64,8 @@ export class FoulsPage implements OnInit {
     const loading = await this.loadCtrl.create();
 
     loading.present();
-    this.apiProv.getTeamFines('all').subscribe(
-      (data) => {
-        this.total = data;
-        loading.dismiss();
-      }
-    );
-    this.apiProv.getTeamFines('paid').subscribe(
-      (data) => {
-        this.paids = data;
-      }
-    );
-    this.apiProv.getTeamFines('noPaid').subscribe(
-      (data) => {
-        this.noPaids = data;
-      }
-    );
+    await this.getFines(this.radioButton)
+    loading.dismiss();
   }
 
   async openModal(f) {
@@ -133,8 +120,7 @@ export class FoulsPage implements OnInit {
           labels: {
             fontColor: '#ffffff'
           }
-        },
-        animation: { animateScale: true, animateRotate: true }
+        }
       }
     });
   }
@@ -147,15 +133,66 @@ export class FoulsPage implements OnInit {
 
   refresh(){
     this.foulsSegment="total";
-    this.radioButton="team";
     setTimeout( () => {
-      this.initialize();
+      this.getFines(this.radioButton);
     }, 1000);
-    this.register = this.apiProv.getTeamRegister().subscribe(
-      (value) => {
-        this.register = value;
-        this.createSemicircleChart();
-      }
-    );
+    
+  }
+
+  getFines(type){
+    if(type=="team"){
+      this.apiProv.getTeamFines('all').subscribe(
+        (data) => {
+          this.total = data;
+        }
+      );
+      this.apiProv.getTeamFines('paid').subscribe(
+        (data) => {
+          this.paids = data;
+        }
+      );
+      this.apiProv.getTeamFines('noPaid').subscribe(
+        (data) => {
+          this.noPaids = data;
+        }
+      );
+      this.register = this.apiProv.getTeamRegister().subscribe(
+        async value => {
+          this.register = value;
+          this.doughnutChart = null;
+          await this.createSemicircleChart();
+        }
+      );
+    }else if(type == "player"){
+      this.apiProv.getMemberFines('all').subscribe(
+        (data) => {
+          this.total = data;
+        }
+      );
+      this.apiProv.getMemberFines('paid').subscribe(
+        (data) => {
+          this.paids = data;
+        }
+      );
+      this.apiProv.getMemberFines('noPaid').subscribe(
+        (data) => {
+          this.noPaids = data;
+        }
+      );
+      this.register = this.apiProv.getMemberRegister().subscribe(
+        async value => {
+          this.register = value;
+          this.doughnutChart = null;
+          await this.createSemicircleChart();
+        }
+      );
+    }
+  }
+  async cambio($event){
+    const loading = await this.loadCtrl.create();
+
+    loading.present();
+    await this.getFines($event.target.value)
+    loading.dismiss()
   }
 }
