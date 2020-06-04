@@ -48,7 +48,8 @@ export class AuthService {
   loginGoogle() {
     firebase.auth().signInWithPopup(this.provider).then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
-      let token: any = result.user.getIdToken();
+      //xa is the token
+      let token = (<any>result).user.xa;
       this.apiProv.setToken(token);
       this.apiProv.setUser(result.user.email);
       // if new user save display name
@@ -58,7 +59,6 @@ export class AuthService {
         })
       }
       
-      //xa is the token
       // The signed-in user info.
       this.currentUser = result.user;
       this.router.navigate(['/team-list']);
