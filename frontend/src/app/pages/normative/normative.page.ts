@@ -60,11 +60,11 @@ export class NormativePage implements OnInit {
     this.hasNormative = false;
     this.storage.getAFile('normatives', this.apiRestProv.getTeamId()).then(
       result => {
-        result.items.forEach(ref => {
+        result.items.forEach(async ref => {
           this.f = {
             name: ref.name,
             full: ref.fullPath,
-            url: ref.getDownloadURL(),
+            url: await ref.getDownloadURL(),
             ref: ref
           };
           this.hasNormative = true;
