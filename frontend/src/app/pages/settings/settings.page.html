@@ -41,6 +41,6 @@
   
 </ion-content>
 
-<div class="bottomButton">
+<div *ngIf="role == 'staff' || role == 'admin'" class="bottomButton">
   <ion-button (click)="deleteTeam()" color="danger" expand="block"> {{ 'CORE.actions.deleteTeam' | translate }}</ion-button>
 </div>

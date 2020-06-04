@@ -5,6 +5,7 @@ import { apiRestProvider } from 'src/providers/apiRest/apiRest';
 import { Router } from '@angular/router';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { StorageService } from 'src/app/services/storage.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-settings',
@@ -17,6 +18,7 @@ export class SettingsPage implements OnInit {
   public selected = '';
   team;
   teamID;
+  role;
 
   constructor(
     private languageService: LanguageService,
@@ -24,7 +26,8 @@ export class SettingsPage implements OnInit {
     private apiProv: apiRestProvider,
     private router: Router,
     private clipboard: Clipboard,
-    private storageServ: StorageService
+    private storageServ: StorageService,
+    private appComp: AppComponent
     ) { }
 
   ngOnInit() {
@@ -34,6 +37,7 @@ export class SettingsPage implements OnInit {
       this.team = data;
     });
     this.teamID = this.apiProv.getTeamId();
+    this.role = this.appComp.role;
   }
 
   public select(lng: string) {
