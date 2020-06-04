@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
       title: 'statistics',
       url: 'statistics',
       icon: 'bar-chart',
-      roles: ["player"]
+      roles: ["player","staff"]
     },
     {
       title: 'chat',
