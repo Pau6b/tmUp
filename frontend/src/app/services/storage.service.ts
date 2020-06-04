@@ -17,7 +17,7 @@ export class StorageService {
     const storageRef = firebase.storage().ref(page+'/'+Id);
     return storageRef.listAll();
   }
-  getFiles(page, Id){
+  getFiles(page, Id) {
     const storageRef = firebase.storage().ref(page+'/'+Id);
     let files = [];
     storageRef.listAll().then(result => {

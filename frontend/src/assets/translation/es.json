@@ -18,6 +18,8 @@
         "teamName": "Nombre de equipo",
         "enterTeamId": "Introduce el ID de equipo",
         "role": "Rol",
+        "done": "HECHO",
+        "cancel": "CANCELAR",
         "IDInform": "Equipo creado. Este es tu ID de equipo: "
     },
     "ADD-FINE": {

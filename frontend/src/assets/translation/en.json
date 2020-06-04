@@ -18,6 +18,8 @@
         "teamName": "Team name",
         "enterTeamId": "Insert team ID",
         "role": "Role",
+        "done": "DONE",
+        "cancel": "CANCEL",
         "IDInform": "Team created. This is your team's ID: "
     },
     "ADD-FINE": {

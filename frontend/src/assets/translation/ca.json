@@ -18,6 +18,8 @@
         "teamName": "Nom de l'equip",
         "enterTeamId": "Introdueix el ID de l'equip",
         "role": "Rol",
+        "done": "FET",
+        "cancel": "CANCELAR",
         "IDInform": "Equip creat. Aquest és el teu ID d'equip: "
     },
     "ADD-FINE": {

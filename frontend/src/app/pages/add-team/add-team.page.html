@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button routerLink="/team-list">Cancel</ion-button>
+      <ion-button routerLink="/team-list">{{ 'ADD-TEAM.cancel' | translate}}</ion-button>
     </ion-buttons>
     <ion-title>{{ 'ADD-TEAM.addTeam' | translate}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button [disabled]="(!createTeamForm.valid&&!joinTeamForm.valid)" (click)="onDone()">Done</ion-button>
+      <ion-button [disabled]="(!createTeamForm.valid&&!joinTeamForm.valid)" (click)="onDone()">{{ 'ADD-TEAM.done' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
