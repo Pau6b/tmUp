@@ -40,7 +40,7 @@ export class FoulsPage implements OnInit {
   ngOnInit() {
     this.role = this.principalPage.role;
     setTimeout( () => {
-      this.initialize();
+      this.getFines(this.radioButton);
     }, 1000);
     this.register = this.apiProv.getTeamRegister().subscribe(
       (value) => {
@@ -58,29 +58,7 @@ export class FoulsPage implements OnInit {
     this.iniciado=true;
     this.refresh();
   }
-
-  async initialize(){
-    const loading = await this.loadCtrl.create();
-
-    loading.present();
-    this.apiProv.getTeamFines('all').subscribe(
-      (data) => {
-        this.total = data;
-        loading.dismiss();
-      }
-    );
-    this.apiProv.getTeamFines('paid').subscribe(
-      (data) => {
-        this.paids = data;
-      }
-    );
-    this.apiProv.getTeamFines('noPaid').subscribe(
-      (data) => {
-        this.noPaids = data;
-      }
-    );
-  }
-
+  
   async openModal(f) {
     const myModal = await this.modalController.create({
       component: ModalComponent,
@@ -146,16 +124,65 @@ export class FoulsPage implements OnInit {
 
 
   refresh(){
-    this.foulsSegment="total";
-    this.radioButton="team";
     setTimeout( () => {
-      this.initialize();
+      this.getFines(this.radioButton);
     }, 1000);
-    this.register = this.apiProv.getTeamRegister().subscribe(
-      (value) => {
-        this.register = value;
-        this.createSemicircleChart();
-      }
-    );
+  }
+
+  async getFines(type){
+    const loading = await this.loadCtrl.create();
+
+    loading.present();
+    if(type=="team"){
+      this.apiProv.getTeamFines('all').subscribe(
+        (data) => {
+          this.total = data;
+        }
+      );
+      this.apiProv.getTeamFines('paid').subscribe(
+        (data) => {
+          this.paids = data;
+        }
+      );
+      this.apiProv.getTeamFines('noPaid').subscribe(
+        (data) => {
+          this.noPaids = data;
+        }
+      );
+      this.register = this.apiProv.getTeamRegister().subscribe(
+        async value => {
+          this.register = value;
+          this.doughnutChart = null;
+          await this.createSemicircleChart();
+        }
+      );
+    }else if(type == "player"){
+      this.apiProv.getMemberFines('all').subscribe(
+        (data) => {
+          this.total = data;
+        }
+      );
+      this.apiProv.getMemberFines('paid').subscribe(
+        (data) => {
+          this.paids = data;
+        }
+      );
+      this.apiProv.getMemberFines('noPaid').subscribe(
+        (data) => {
+          this.noPaids = data;
+        }
+      );
+      this.register = this.apiProv.getMemberRegister().subscribe(
+        async value => {
+          this.register = value;
+          this.doughnutChart = null;
+          await this.createSemicircleChart();
+        }
+      );
+    }
+    loading.dismiss();
+  }
+  async cambio($event){
+    this.getFines($event.target.value)
   }
 }

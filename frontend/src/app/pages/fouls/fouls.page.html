@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-row> 
-    <ion-radio-group value="selected" mode="md" [(ngModel)]="radioButton">
+    <ion-radio-group value="selected" mode="md" (ionChange)="cambio($event)" [(ngModel)]="radioButton">
       <ion-col>
         <ion-radio value="team"></ion-radio>
         <ion-label>{{'FOULS.team' | translate}}</ion-label>
