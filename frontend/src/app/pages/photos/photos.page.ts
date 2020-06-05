@@ -30,7 +30,7 @@ export class PhotosPage implements OnInit {
   ngOnInit() {
     setTimeout( () => {
       this.getEvents();
-    }, 1000);
+    }, 100);
   }
 
   async getEvents() {

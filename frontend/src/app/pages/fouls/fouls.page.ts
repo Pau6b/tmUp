@@ -55,8 +55,8 @@ export class FoulsPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.iniciado=true;
     this.refresh();
+    this.iniciado=true;
   }
   
   async openModal(f) {

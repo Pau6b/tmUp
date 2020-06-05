@@ -27,7 +27,7 @@ export class TeamListPage implements OnInit {
   ionViewWillEnter(){
     setTimeout( () => {
       this.initialize();
-    }, 1000);
+    }, 100);
   }
    
   async initialize() {

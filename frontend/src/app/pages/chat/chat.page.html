@@ -15,8 +15,7 @@
           <div class="imageAvatarRight">
             <div class="imageAvatarBottom">
               <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == message.email)?'hidden':''">
-                <ion-img *ngIf="message.url!=undefined" [src]="message.url"></ion-img>
-                <ion-img *ngIf="message.url==undefined" src="../../assets/icon/usuario.png"></ion-img>
+                <img src="{{ message.url }}" onerror=" src = '../../../assets/icon/avatar.svg'">
               </ion-avatar>
             </div>
             <ion-label color="light">
@@ -50,8 +49,7 @@
             </ion-label>
             <div class="imageAvatarBottom">
               <ion-avatar class="avatar" [ngClass]="(msgList[i+1] && msgList[i+1].email == message.email)?'hidden':''">
-                <ion-img *ngIf="message.url!=undefined" [src]="message.url"></ion-img>
-                <ion-img *ngIf="message.url==undefined" src="../../assets/icon/usuario.png"></ion-img>
+                <img src="{{ message.url }}" onerror=" src = '../../../assets/icon/avatar.svg'">
               </ion-avatar>
             </div>
           </div>

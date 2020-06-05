@@ -35,6 +35,7 @@ export class StorageService {
 
   async uploadFileToStorage(buffer, name, page, Id, _type){
     let path = '/'+page+'/'+Id+'/'+name;
+    console.log(path)
     const ref = this.storage.ref;
     let data = new Blob([buffer], {type: _type});
     const task = this.storage.upload(path,data);

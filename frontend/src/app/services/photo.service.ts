@@ -141,7 +141,10 @@ export class PhotoService {
   }
 
   openFile(f) {
-    this.iab.create(f.url);
+    if(this.platform.is('ios')) this.iab.create(f.url);
+    else{
+      window.open(encodeURI("https://firebasestorage.googleapis.com/v0/b/tmup-908e4.appspot.com/o/normatives%2FBlfT4WQIvjC9wPRqlt2k%2FRG%201314.pdf"), "_system", "location=yes,enableViewportScale=yes");
+    }
   }
   
 }

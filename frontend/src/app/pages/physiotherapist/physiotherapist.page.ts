@@ -44,7 +44,7 @@ export class PhysiotherapistPage implements OnInit {
   ionViewWillEnter() {
     setTimeout(() => {
       this.initialize();
-    }, 5000);
+    }, 500);
   }
 
   async initialize() {

@@ -92,7 +92,7 @@ export class MainPage implements OnInit {
     setTimeout ( () => {
       this.getReminders();
       this.getNoticies();
-    }, 1000);
+    }, 100);
     
   }
 

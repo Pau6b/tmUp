@@ -36,12 +36,12 @@ export class TacticsPage implements OnInit {
     setTimeout(() => {
       this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
       event.target.complete();
-    }, 2000);
+    }, 100);
   }
 
   goToaddTactic() {
     this.photoService.selectMedia('tactics', this.apiProv.getTeamId()).finally(()=>{
-      setTimeout(() => {}, 10000);
+      setTimeout(() => {}, 100);
     });
     this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
   }
@@ -50,7 +50,7 @@ export class TacticsPage implements OnInit {
     this.storage.deleteFile(file.full);
     setTimeout(() => {
       this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
-    }, 500);
+    }, 100);
   }
 
   openFile(f){

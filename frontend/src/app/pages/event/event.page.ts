@@ -39,6 +39,7 @@ export class EventPage implements OnInit {
   file: File = new File();
   promise: Promise<string>; 
   isPlayer;
+  images;
 
   constructor(
     private geolocation: Geolocation,
@@ -60,9 +61,8 @@ export class EventPage implements OnInit {
     if(this.principalPage.role == 'player') this.isPlayer = true;
     else this.isPlayer = false;
     this.getEventInfo();
-    this.getFile();
-    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
-    this.files = this.storage.getFiles(path, 'event_images');
+    this.getImages();
+    this.getFile();    
   }
 
   onInfoSegment() {
@@ -161,7 +161,7 @@ export class EventPage implements OnInit {
     var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
     this.f = this.storage.getFiles(path, 'informeRival');
     if(this.f.length > 0) this.hasInform = true;
-    else this.hasInform = true;
+    else this.hasInform = false;
   }
 
 
@@ -169,8 +169,8 @@ export class EventPage implements OnInit {
     this.storage.deleteFile(file.full);
     setTimeout(() => {
       var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
-      this.f = this.storage.getFiles(path, 'informeRival');
-    }, 500);
+      this.images = this.storage.getFiles(path, 'informeRival');
+    }, 100);
   }
 
   updateFile() {
@@ -183,9 +183,17 @@ export class EventPage implements OnInit {
   addEventImage(){
     var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
     this.photoService.selectMedia(path, 'event_images').finally(()=>{
-      setTimeout(() => {}, 10000);
+      setTimeout(() => {}, 100);
+      this.getImages();
     });
-    this.files = this.storage.getFiles(path, 'event_images');
+  }
+
+  getImages() {
+    var path = 'events/' + this.apiProv.getTeamId() + '/' + this.eventId;
+    this.images = this.photoService.getFiles(path,'event_images');
+    if(this.images.length > 0) this.hasInform = true;
+    else this.hasInform = false;
+    console.log(this.images)
   }
 
 
