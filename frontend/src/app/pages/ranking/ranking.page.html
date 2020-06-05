@@ -1,0 +1,14 @@
+<ion-header [translucent]="true" class="ion-text-center">
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Ranking</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-basketball-ranking *ngIf="sport == 'basketball'" [stats]="stats" ></app-basketball-ranking>
+  <app-football-ranking *ngIf="sport == 'football'"></app-football-ranking>
+  <app-handball-ranking *ngIf="sport == 'handball'"></app-handball-ranking>
+</ion-content>

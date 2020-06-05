@@ -69,7 +69,7 @@ app.post('/create', (req, res) => {
             if (hayErrores) {
                 return res.status(400).send(errores);
             }
-            const membershipData = {
+            let membershipData = {
                 teamId: jsonContent.teamId,
                 type: jsonContent.type,
                 userId: jsonContent.userId
@@ -78,9 +78,78 @@ app.post('/create', (req, res) => {
                 membershipData.stats = Statistics_1.GetMembershipStatsBySport(teamSport);
                 membershipData.state = States_1.GetDefaultPlayerState();
             }
+            else if (jsonContent.type === "physio") {
+                if (!jsonContent.hasOwnProperty("urlPhysio")) {
+                    membershipData.urlPhysio = "";
+                }
+                else {
+                    membershipData.urlPhysio = jsonContent.urlPhysio;
+                }
+            }
             //Todo correcto, creamos la membership
             await db.collection('memberships').add(membershipData);
             return res.status(200).send();
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.put('/updatePhysioUrl', (req, res) => {
+    (async () => {
+        try {
+            const jsonContent = JSON.parse(req.body);
+            let errores = [];
+            let hayErrores = false;
+            if (!jsonContent.hasOwnProperty("urlPhysio")) {
+                hayErrores = true;
+                errores.push("To update a url you must indicate the url");
+            }
+            let equipoExiste = true;
+            let usuarioExiste = true;
+            let miembroExiste = true;
+            const team = db.collection('teams').doc(req.query.teamId);
+            await team.get().then((teamDoc) => {
+                if (!teamDoc.exists)
+                    equipoExiste = false;
+            });
+            const user = db.collection('users').doc(req.query.userId);
+            await user.get().then((userDoc) => {
+                if (!userDoc.exists)
+                    usuarioExiste = false;
+            });
+            let idMembership = "";
+            const query = db.collection('memberships').where('userId', '==', req.query.userId).where('teamId', '==', req.query.teamId);
+            if (query != undefined) {
+                await query.get().then((querySnapshot) => {
+                    const docs = querySnapshot.docs;
+                    for (const doc of docs) {
+                        idMembership = doc.id;
+                    }
+                });
+            }
+            else
+                miembroExiste = false;
+            if (!miembroExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + req.query.userId + "] is not member of the team: [" + req.query.teamId + "]");
+            }
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with id : [" + req.query.teamId + "] does not exist");
+            }
+            if (!usuarioExiste) {
+                hayErrores = true;
+                errores.push("The user with email: [" + req.query.userId + "] does not exist");
+            }
+            if (hayErrores) {
+                return res.status(400).send(errores);
+            }
+            await db.collection('memberships').doc(idMembership).update({
+                urlPhysio: jsonContent.urlPhysio
+            });
+            return res.status(200).send(errores);
         }
         catch (error) {
             console.log(error);
@@ -98,7 +167,7 @@ app.put('/updatePlayerState/:teamId', (req, res) => {
             if (!States_1.playerStates.includes(jsonContent.state)) {
                 return res.status(400).send("UMS2");
             }
-            let email = "";
+            const email = "";
             admin.auth().getUser(req.session.user).then((user) => {
                 user.email = user.email;
             });
@@ -132,11 +201,142 @@ app.put('/updatePlayerState/:teamId', (req, res) => {
         }
     })().then().catch();
 });
+app.put('/updatePlayerStatistics/:teamId/:userId', (req, res) => {
+    (async () => {
+        try {
+            const jsonContent = JSON.parse(req.body);
+            //tratar errores
+            let errores = [];
+            let hayErrores = false;
+            let equipoExiste = true;
+            let teamSport = "";
+            const team = db.collection('teams').doc(req.params.teamId);
+            await team.get().then((teamDoc) => {
+                if (!teamDoc.exists)
+                    equipoExiste = false;
+                else {
+                    teamSport = teamDoc.data().sport;
+                }
+            });
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with id : [" + req.params.teamId + "] does not exist");
+            }
+            if (hayErrores) {
+                return res.status(400).send(errores);
+            }
+            let Statistics = {};
+            Statistics = Statistics_1.GetMembershipStatsBySport(teamSport);
+            //comprovarEstadisticas(Statistics,jsonContent);
+            /*let email: string = "";
+            await admin.auth().getUser(req.session!.user).then((user: UserRecord) => {
+                    user.email = user.email;
+            })
+            //email = "ivan@email.com"*/
+            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId).where('userId', "==", req.params.userId);
+            let docExists = false;
+            let isPlayer = true;
+            let docid = "";
+            //let stadisticsPlayer;
+            await query.get().then(async (querySnapshot) => {
+                for (const doc of querySnapshot.docs) {
+                    docid = doc.id;
+                    docExists = true;
+                    Statistics = doc.data().stats;
+                    for (const key in jsonContent) {
+                        if (jsonContent.hasOwnProperty(key)) {
+                            for (const stat in Statistics) {
+                                if (Statistics.hasOwnProperty(key)) {
+                                    if (key === stat)
+                                        Statistics[stat] += jsonContent[key];
+                                }
+                            }
+                        }
+                    }
+                    if (doc.data().type !== "player") {
+                        isPlayer = false;
+                    }
+                }
+            });
+            if (!docExists) {
+                return res.status(400).send("UMS3");
+            }
+            if (!isPlayer) {
+                return res.status(400).send("UMS4");
+            }
+            await db.collection('memberships').doc(docid).update({
+                stats: Statistics,
+            });
+            return res.status(200).send(Statistics);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send();
+        }
+    })().then().catch();
+});
 //------------------------READ--------------------------------------
 app.get('/getByTeam/:teamId', (req, res) => {
     (async () => {
         try {
+            let equipoExiste = true;
+            const team = db.collection('teams').doc(req.params.teamId);
+            await team.get().then((teamDoc) => {
+                if (!teamDoc.exists)
+                    equipoExiste = false;
+            });
+            let errores = [];
+            let hayErrores = false;
+            if (!equipoExiste) {
+                hayErrores = true;
+                errores.push("The team with this teamId doesn't exists");
+            }
+            if (hayErrores) {
+                return res.status(400).send(errores);
+            }
             const query = db.collection('memberships').where('teamId', '==', req.params.teamId);
+            const response = [];
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    let selectedItem;
+                    if (req.query.type === doc.data().type) {
+                        if (req.query.type === "physio") {
+                            selectedItem = {
+                                userId: doc.data().userId,
+                                urlPhysio: doc.data().urlPhysio
+                            };
+                        }
+                        else {
+                            selectedItem = {
+                                userId: doc.data().userId,
+                                urlPhysio: doc.data().urlPhysio
+                            };
+                        }
+                        response.push(selectedItem);
+                    }
+                    else if (req.query.type === "all") {
+                        selectedItem = {
+                            userId: doc.data().userId,
+                            type: doc.data().type
+                        };
+                        response.push(selectedItem);
+                    }
+                }
+                return response;
+            });
+            return res.status(200).send(response);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.get('/getStats/:teamId/:userId', (req, res) => {
+    (async () => {
+        try {
+            const query = await db.collection('memberships').where('teamId', '==', req.params.teamId).where('userId', "==", req.params.userId);
             const response = [];
             await query.get().then((querySnapshot) => {
                 const docs = querySnapshot.docs;
@@ -146,7 +346,7 @@ app.get('/getByTeam/:teamId', (req, res) => {
                 }
                 return response;
             });
-            return res.status(200).send(response);
+            return res.status(200).send(response[0].stats);
         }
         catch (error) {
             console.log(error);
@@ -168,6 +368,48 @@ app.get('/getByUser/:userId', (req, res) => {
                 return response;
             });
             return res.status(200).send(response);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.get('/type', (req, res) => {
+    (async () => {
+        try {
+            const query = await db.collection('memberships').where('teamId', '==', req.query.teamId).where('userId', "==", req.query.userId);
+            const response = [];
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    const selectedItem = doc.data();
+                    response.push(selectedItem);
+                }
+                return response;
+            });
+            return res.status(200).send(response[0].type);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).send(error);
+        }
+    })().then().catch();
+});
+app.get('/', (req, res) => {
+    (async () => {
+        try {
+            const query = await db.collection('memberships').where('teamId', '==', req.query.teamId).where('userId', "==", req.query.userId);
+            const response = [];
+            await query.get().then((querySnapshot) => {
+                const docs = querySnapshot.docs;
+                for (const doc of docs) {
+                    const selectedItem = doc.data();
+                    response.push(selectedItem);
+                }
+                return response;
+            });
+            return res.status(200).send(response[0]);
         }
         catch (error) {
             console.log(error);
@@ -198,8 +440,8 @@ app.put('/:id', (req, res) => {
 app.delete('/delete', (req, res) => {
     (async () => {
         try {
-            const jsonContent = JSON.parse(req.body);
-            const comprobarRoles = db.collection('memberships').where('teamId', '==', jsonContent.teamId);
+            //const jsonContent = JSON.parse(req.body);
+            const comprobarRoles = db.collection('memberships').where('teamId', '==', req.query.teamId);
             let staffEnEquipo = 0;
             let miembros = 0;
             let esStaff = false;
@@ -210,9 +452,7 @@ app.delete('/delete', (req, res) => {
                     ++miembros;
                     if (doc.data().type === 'staff')
                         ++staffEnEquipo;
-                    if (doc.data().userId === jsonContent.userId) {
-                        console.log("entro");
-                        console.log(doc.id);
+                    if (doc.data().userId === req.query.userId) {
                         id = doc.id;
                         if (doc.data().type === "staff")
                             esStaff = true;
@@ -220,7 +460,7 @@ app.delete('/delete', (req, res) => {
                 }
             });
             if (miembros > 1 && staffEnEquipo === 1 && esStaff)
-                return res.status(200).send("eres el ultimo entrenador que queda");
+                return res.status(400).send("eres el ultimo entrenador que queda");
             else {
                 console.log(id);
                 await db.collection('memberships').doc(id).delete();

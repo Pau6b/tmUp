@@ -1,0 +1,58 @@
+
+/* ------------------------------
+              HEADER
+   ------------------------------ */
+
+/* ------------------------------
+            MAIN CONTENT
+   ------------------------------ */
+
+/* ------------------------------
+              GENERIC
+   ------------------------------ */
+img {
+    background-color: white;
+    max-width: 50%;
+    max-height: 50%;
+    height: auto;
+    padding: 0.2em;
+}
+
+ion-col {
+    text-align: center;
+    height : 80%;
+}
+
+ion-row {
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+}
+
+h5 {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+[cards] {
+    .grid-full ion-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0px 0;
+    }
+    ion-card {
+        margin: 2px;
+        padding: 3px;
+    }
+    .row {
+        padding: 0;
+    }
+    .col {
+        padding: 5px 0;
+    }
+    .card {
+        margin: 0 0 0 0px;
+        padding: 14px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10);
+        border-radius: 4px;
+    }
+}

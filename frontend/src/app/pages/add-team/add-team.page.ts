@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {  MenuController } from '@ionic/angular';
+import {  MenuController, AlertController } from '@ionic/angular';
 import { FormBuilder, Validators} from '@angular/forms'
 import { apiRestProvider } from '../../../providers/apiRest/apiRest'
 import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
 import { sports, rols } from '../../Core/Arrays';
+import { TranslateService } from '@ngx-translate/core';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-add-team',
@@ -27,7 +30,7 @@ export class AddTeamPage implements OnInit {
   joinTeamForm = this.formBuilder.group({
     teamId: ['', [Validators.required]],
     userId: [''],
-    role: ['', [Validators.required]]
+    type: ['', [Validators.required]]
   });
 
 
@@ -39,7 +42,7 @@ export class AddTeamPage implements OnInit {
     sport: [
       { type:'required', message: 'Deporte es necesario' }
     ],
-    role: [
+    type: [
       { type: 'required', message: 'Rol es necesario'}
     ],
     teamId: [
@@ -52,7 +55,11 @@ export class AddTeamPage implements OnInit {
     private formBuilder: FormBuilder,
     private menuCtrl: MenuController,
     private photoServ: PhotoService,
-    private router: Router
+    private router: Router,
+    private alertCtrl: AlertController,
+    private translService: TranslateService,
+    private clipboard: Clipboard,
+    private principalPage: AppComponent
     ) { }
 
   ngOnInit() {
@@ -63,46 +70,78 @@ export class AddTeamPage implements OnInit {
   }
 
   get teamName() {
-    return this.createTeamForm.get("teamName")
+    return this.createTeamForm.get("teamName");
   }
   get sport() {
-    return this.createTeamForm.get("sport")
+    return this.createTeamForm.get("sport");
   }
   get teamPhoto() {
-    return this.createTeamForm.get("teamPhoto")
+    return this.createTeamForm.get("teamPhoto");
   }
-  get role() {
-    return this.joinTeamForm.get("role")
+  get type() {
+    return this.joinTeamForm.get("type");
   }
   get teamId() {
-    return this.joinTeamForm.get("teamId")
+    return this.joinTeamForm.get("teamId");
   }
 
   onDone() {
     if(this.segmentModel == "create") {
-      this.apiProv.createTeam(this.createTeamForm.value)
+      let params = this.createTeamForm.value;
+      const capitalize =(str:string) => {
+        return str.charAt(0).toUpperCase() + str.slice(1)
+      }
+      params.sport = capitalize(params.sport);
+      this.apiProv.createTeam(params)
       .then( (data) => {
-        console.log(data);
-        this.router.navigate(['/main']);
-      },
-      (err) => {
-        console.log(err.message);
+        let teamID = data;
+        this.translService.get('ADD-TEAM.IDInform').subscribe(
+          async value => {
+            let alert = await this.alertCtrl.create({
+              message: value + teamID,
+              buttons: [
+                {
+                  text: 'Copiar',
+                  handler: () => {
+                    this.clipboard.copy(teamID.toString());
+                    return false;
+                  }
+                },
+                {
+                  text: 'OK',
+                  handler: () => {
+                    this.apiProv.setTeam(teamID.toString());
+                    this.principalPage.setRole('staff');
+                    this.principalPage.updateTeam();
+                    this.router.navigate(['/main']);
+                  }
+                }
+              ]
+            });
+            alert.present();
+          }
+        )
       })
     }
     else {
       this.apiProv.createMembership(this.joinTeamForm.value)
       .then( () => {
+        this.apiProv.setTeam(this.joinTeamForm.get('teamId').value);
+        this.principalPage.setRole(this.joinTeamForm.get('type').value);
+        this.principalPage.updateTeam();
         this.router.navigate(['/main']);
       })
     }
 
   }
 
+  /*
   cameraOptions() {
-    this.photoServ.alertSheetPictureOptions()
+    this.photoServ.selectMedia("team_profile_image", )
     .then( (photo) => {
       this.createTeamForm.patchValue({teamPhoto: photo});
     });
   }
+  */
 
 }

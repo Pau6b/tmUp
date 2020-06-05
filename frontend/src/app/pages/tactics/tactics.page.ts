@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { StorageService } from 'src/app/services/storage.service';
 
 import { PhotoService } from 'src/app/services/photo.service';
-import { File } from '@ionic-native/file/ngx';
 import { Router } from '@angular/router';
+
+import { File } from '@ionic-native/file/ngx';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-tactics',
@@ -10,35 +14,47 @@ import { Router } from '@angular/router';
   styleUrls: ['./tactics.page.scss'],
 })
 export class TacticsPage implements OnInit {
-
-  img;
-  tactics: File;
+  
+  files = [];
+  role;
 
   constructor(
     private router: Router,
-    private photoService: PhotoService) { }
+    private file: File,
+    private apiProv: apiRestProvider,
+    private storage: StorageService,
+    private photoService: PhotoService,
+    private principalPage: AppComponent
+    ) { }
 
   ngOnInit() {
-
+    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
+    this.role = this.principalPage.role;
   }
 
-  addImage(img){
-    this.router.navigate(["/add-tactic", {img: img}]);
+  doRefresh(event) {
+    setTimeout(() => {
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
+      event.target.complete();
+    }, 100);
   }
 
-  goToaddTactic(img){
-    this.photoService.alertSheetPictureOptions();
-  }
-  
-  seeImage(img){
+  goToaddTactic() {
+    this.photoService.selectMedia('tactics', this.apiProv.getTeamId()).finally(()=>{
+      setTimeout(() => {}, 100);
+    });
+    this.files = this.photoService.getFiles('tactics', this.apiProv.getTeamId());
   }
 
-  openPdf(){
-
+  deleteFile(file){
+    this.storage.deleteFile(file.full);
+    setTimeout(() => {
+      this.files = this.photoService.getFiles('tactics',this.apiProv.getTeamId());
+    }, 100);
   }
-  
-  downloadPdf(){
-    
+
+  openFile(f){
+    this.photoService.openFile(f);
   }
 
 }

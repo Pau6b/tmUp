@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
@@ -70,15 +71,44 @@ const routes: Routes = [
   {
     path: 'edit-event',
     loadChildren: () => import('./pages/edit-event/edit-event.module').then( m => m.EditEventPageModule)
+  },
+  {
+    path: 'live-match',
+    loadChildren: () => import('./pages/live-match/live-match.module').then( m => m.LiveMatchPageModule)
+  },
+  {
+    path: 'photos',
+    loadChildren: () => import('./pages/photos/photos.module').then( m => m.PhotosPageModule)
+  },
+  {
+    path: 'fouls',
+    loadChildren: () => import('./pages/fouls/fouls.module').then( m => m.FoulsPageModule)
+  },
+  {
+    path: 'add-fine',
+    loadChildren: () => import('./pages/add-fine/add-fine.module').then( m => m.AddFinePageModule)
+  },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./pages/statistics/statistics.module').then( m => m.StatisticsPageModule)
+  },
+  {
+    path: 'physiotherapist',
+    loadChildren: () => import('./pages/physiotherapist/physiotherapist.module').then( m => m.PhysiotherapistPageModule)
+  },
+  {
+    path: 'ranking',
+    loadChildren: () => import('./pages/ranking/ranking.module').then( m => m.RankingPageModule)
   }
-
-
 
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { 
+      preloadingStrategy: PreloadAllModules,
+      onSameUrlNavigation: 'reload'
+      }) 
   ],
   exports: [RouterModule]
 })

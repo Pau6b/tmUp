@@ -17,7 +17,19 @@
         "editImage": "Editar imagen",
         "teamName": "Nombre de equipo",
         "enterTeamId": "Introduce el ID de equipo",
-        "role": "Rol"
+        "role": "Rol",
+        "done": "HECHO",
+        "cancel": "CANCELAR",
+        "IDInform": "Equipo creado. Este es tu ID de equipo: "
+    },
+    "ADD-FINE": {
+        "title": "Añadir multa",
+        "members": "Miembros",
+        "selectDate": "Selecciona una fecha",
+        "date": "Fecha",
+        "select": "Selecciona los miembros implicados",
+        "concept": "Concepto",
+        "price": "Precio"
     },
     "CALENDAR" : {
         "title": "Calendario",
@@ -27,7 +39,8 @@
         "title": "Configuración",
         "help": "Ayuda",
         "about": "Sobre nosotros",
-        "changeLanguage": "Cambiar idioma"
+        "changeLanguage": "Cambiar idioma",
+        "teamID": "ID del equipo: "
     },
     "CHAT": {
         "title": "Chat",
@@ -36,13 +49,28 @@
     "EDIT-EVENT": {
         "pageName": "Modificar evento",
         "title": "Título",
-        "deleteEvent": "Eliminar evento"
+        "deleteEvent": "Eliminar evento",
+        "list": "Lista Convocados",
+        "start": "Empieza",
+        "end": "Acaba",
+        "called_players": "Jugadores convocados",
+        "selected": "Has seleccionado ",
+        "players": "jugadores",
+        "confirmation": "De acuerdo?",
+        "no_players": "No hay jugadores todavía en este equipo."
     },
     "EVENT": {
-        "howToGet": "Cómo llegar"
-    },
-    "LOCATION-SELECT": {
-        "connectToInternet": "Parece que no tienes conexion..."
+        "howToGet": "Cómo llegar",
+        "info": "Información",
+        "convocados":"Convocados",
+        "analisi": "Analisis",
+        "fotos": "Fotos",
+        "message_no_convocados": "No hay convocados todavía",
+        "new_list": "Crear lista",
+        "inform": "Informe Análisis Rival",
+        "no_inform": "Todavía no hay ningún Informe de Análisis Rival",
+        "lista_convocados": "Lista de convocados",
+        "uploadfile": "Subir fichero"
     },
     "LOGIN": {
         "wrongCombination": "Usuario i/o contraseña incorrecto",
@@ -58,17 +86,24 @@
         "registerWithEmail": "Registro con correo",
         "emailAreadyInUse": "Email ya está asociado a otra cuenta",
         "register": "Registrarme",
-        "alreadyHaveAnAccount": "Ya tengo una cuenta"
+        "alreadyHaveAnAccount": "Ya tengo una cuenta",
+        "registered": {
+            "congrats": "¡Felicidades!",
+            "message": "Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo."
+        }
     },
     "NORMATIVE": {
         "title": "Normativa",
-        "noFile": "No hay ningun fichero de normativas. Añade un fichero existente o redactalo ahora",
-        "normativeTitle": "Titulo normativa",
+        "noFile": "No hay ningun fichero de normativas. Añade un fichero existente o redáctalo ahora.",
+        "noFilePlayer": "Tu equipo todavia no ha subido ningun fichero de normativa.",
+        "normativeTitle": "Título normativa",
         "uploadFile": "Cargar documento",
+        "deleteFile": "Eliminar documento",
         "fileTitle": "Titulo del fichero",
         "norm": "Normas",
-        "insertNorm": "Introduce cualquier norma aqui...",
-        "createDoc": "Crear documento"
+        "insertNorm": "Introduce cualquier norma aquí...",
+        "createDoc": "Crear documento",
+        "replaceDoc": "Reemplazar documento"
     },
     "TACTICS": {
         "title": "Tácticas"
@@ -84,7 +119,132 @@
     "TEAM-LIST": {
         "title": "Lista de equipos"
     },
+    "MAIN" :{
+        "title": "Inicio",
+        "welcome": "¡Bienvenido!",
+        "info1": "Disfruta de nuestra aplicación para gestionar tu equipo.",
+        "info2": "Todavía no tienes eventos",
+        "info3": "¡¡Echa un vistazo de todo lo que puedes hacer con nuestra aplicación!!",
+        "title_calendar": "Añade y consulta eventos en tu calendario",
+        "description_calendar": "Crea un calendario con los partidos y entrenamientos de la temporada.",
+        "title_chat": "Chatea con tu equipo",
+        "description_chat": "Chatea con tu entrenador y compañeros de equipo para una mejor comunicacion.",
+        "title_tactics": "Tácticas equipo",
+        "description_tactics": "Estate informado de las tácticas de tu equipo.",
+        "title_stadistics": "Estadísticas de tu equipo y personales",
+        "description_stadistics": "Consulta las estadisticas de tu equipo y personales.",
+        "info4": "Entre muchas otras cosas...",
+        "info5": "¡DESCÚBERLO TÚ MISMO!",
+        "title_reminders": "Recordatorios",
+        "no_reminders": "Todavía no tienes nada programado...",
+        "title_next_match": "Próximo partido:",
+        "title_next_training": "Próximo Entrenamiento:",
+        "day": "Día:",
+        "hour": "Hora:",
+        "title_news": "Noticias",
+        "no_news": "No tienes ninguna notícia todavía",
+        "matchAdded": "Nuevo partido el día ",
+        "machDeleted": "Se ha eliminado el partido del día ",
+        "matchUpdated": "Se ha modificado el partido del día ",
+        "trainingAdded": "Se ha añadido un entrenamiento del día ",
+        "trainingDeleted": "Se ha eliminado el entrenamiento del día ",
+        "tacticaAdded": "Se ha añadido la táctica ", 
+        "tacticaDeleted" : "Se ha eliminado la táctica ", 
+        "normativaAdded": "Se ha añadido la normativa ",
+        "normativaDeleted": "Se ha eliminado la normativa ",
+        "at": " a las ", 
+        "location": "h. Localizacion: ",
+        "rival": " Rival: "
+    },
+    "FOULS":{
+        "title": "Multas",
+        "total": "Total",
+        "paid": "Pagadas",
+        "pendings": "Pendientes",
+        "team": "Equipo",
+        "personal": "Personales"
+    },
+    "MODAL":{
+        "email": "Email del usuario",
+        "date": "Fecha",
+        "concept": "Concepto especifico"
+    },
+    "LIVE-MATCH": {
+        "start": "Empieza",
+        "stop": "Para",
+        "finish": "Acaba",
+        "myTeam": "Mi Equipo",
+        "otherTeam": "Oponente",
+        "conv": "Jugadores Convocados",
+        "titu": "Jugadores Titulares",
+        "opponentGoal": "Gol de oponente",
+        "basketball": {
+            "opponentScored": "Anotación de opponente",
+            "points": "punto(s)"
+        },
+        "doneConfirm": "¿Seguro?",
+        "selecting": {
+            "selected1": "Has seleccionado ",
+            "selected2": " jugadores titulares. ¿Correcto?"
+        }
+    },
+    "STATISTICS": {
+        "ranking": "Ránking",
+        "title": "Estadísticas",
+        "selfStatistics": "Propias",
+        "teamStatistics": "Del equipo",
+        "basketballTeamStats": {
+            "scoredPoints": "Pts a favor: ",
+            "receivedPoints": "Pts en contra: ",
+            "threePointShots": "Triples: ",
+            "twoPointShots": "Puntos de dos: ",
+            "pointsPerMatch": "puntos/partido"
+        },
+        "footballTeamStats": {
+            "scoredGoals": "Gls a favor: ",
+            "receivedGoals": "Gls en contra: ",
+            "yellowCards": "Tjts amarillas: ",
+            "redCards": "Tjts rojas: ",
+            "goalsPerMatch": "goles/partido",
+            "cardsPerMatch": "tarjetas/partido"
+        },
+        "handballTeamStats": {
+            "stops": "Paradas: ",
+            "lostBalls": "Pelotas perdidas: ",
+            "stopsPerMatch": "paradas/partido",
+            "ballsPerMatch": "pelotas/partido"
+        }
+    },
+    "RANKING" : {
+        "mostAssists": "Más asistencias",
+        "mostPointsScored": "Más puntos",
+        "mostRebounds": "Más rebotes",
+        "mostThreePointShots": "Más triples",
+        "mostTwoPointShots": "Más puntos de dos",
+        "mostGoalsScored": "Más goles",
+        "mostMinutesPlayed": "Más minutos jugados",
+        "mostRedCards": "Más tarjetas rojas",
+        "mostYellowCars": "Más tarjetas amarillas",
+        "lostBalls": "Más pelotas perdidas",
+        "mostSevenMeters": "Más goles de siete metros",
+        "mostStops": "Más paradas",
+        "mostTwoMinutes": "Más dos minutos"
+    },
+    "PHYSIO": {
+        "title": "Fisioterapeutas",
+        "noRegister": "Aún no tienes ningún calendario asociado, registrate e introduce la URL de tu calendario en nuestra aplicación",
+        "addInfo": "Actualiza tu URL",
+        "register": "Registrate",
+        "url": "Introduce URL",
+        "redirectTo": "Configura tu calendario",
+        "noFisios": "No hay ningun fisio registrado en este equipo todavia."
+    },
     "CORE" : {
+        "result": {
+            "won": "Ganados",
+            "drawed": "Empatados",
+            "lost": "Perdidos"
+        },
         "sport": "Deporte",
         "sports": {
             "basketball": "Baloncesto",
@@ -92,7 +252,7 @@
             "football": "Fútbol"
         },
         "roles" : {
-            "physiotherapist": "Fisioterapeuta",
+            "physio": "Fisioterapeuta",
             "player": "Jugador",
             "staff": "Cuerpo técnico",
             "admin": "Admin"
@@ -106,7 +266,15 @@
             "done": "Acabar",
             "edit": "Editar",
             "here": "aquí",
-            "delete": "Eliminar"
+            "delete": "Eliminar",
+            "yes": "Si",
+            "no": "No",
+            "deleteTeam": "Eliminar equipo"
+        },
+        "deleteText": {
+            "delete": "Eliminar ",
+            "irreversible": "Esta acción es irreversible. Introduce ",
+            "permanent": " abajo para confirmar que lo quieres eliminar permanentemente: "
         },
         "verbs": {
             "from": "desde",
@@ -116,13 +284,15 @@
         "pages": {
             "main": "Inicio",
             "normative": "Normativa",
-            "tactics": "Tacticas",
+            "tactics": "Tácticas",
             "statistics": "Estadísticas",
             "chat": "Chat",
             "calendar": "Calendario",
             "physiotherapist": "Fisioterapeuta",
             "nextMatch": "Próximo partido",
-            "profile": "Perfil" 
+            "profile": "Perfil",
+            "photos": "Fotos",
+            "fouls": "Multas"
         }
     }
 }

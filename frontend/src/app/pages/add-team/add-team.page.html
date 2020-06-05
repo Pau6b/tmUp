@@ -1,11 +1,11 @@
 <ion-header>
-  <ion-toolbar >
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button routerLink="/team-list">Cancel</ion-button>
+      <ion-button routerLink="/team-list">{{ 'ADD-TEAM.cancel' | translate}}</ion-button>
     </ion-buttons>
     <ion-title>{{ 'ADD-TEAM.addTeam' | translate}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button [disabled]="(!createTeamForm.valid&&!joinTeamForm.valid)" (click)="onDone()">Done</ion-button>
+      <ion-button [disabled]="(!createTeamForm.valid&&!joinTeamForm.valid)" (click)="onDone()">{{ 'ADD-TEAM.done' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
@@ -24,12 +24,14 @@
     <div *ngIf="segmentModel === 'create'">
       <form [formGroup]="createTeamForm">
         <ion-list>
+          <!--
           <ion-avatar class="avatarIcon" (click)="cameraOptions()">
             <img src="{{ createTeamForm.get('teamPhoto').value }}" onerror="src='../../../assets/icon/avatar.svg'">
           </ion-avatar>
           <ion-item  lines="none" class="ion-text-center">
             <ion-label (click)="cameraOptions()" class="smallText">{{'ADD-TEAM.editImage' | translate}}</ion-label>
           </ion-item>
+          -->
 
           <ion-item>
             <ion-label position="floating">{{'ADD-TEAM.teamName' | translate}}</ion-label>
@@ -72,12 +74,12 @@
 
           <ion-item>
             <ion-label>{{'ADD-TEAM.role' | translate}}</ion-label>
-            <ion-select interface="popover" formControlName="role">
+            <ion-select interface="popover" formControlName="type">
               <ion-select-option *ngFor="let jr of roles;" [value]="jr" >{{ 'CORE.roles.'+jr | translate }}</ion-select-option>
             </ion-select>
           </ion-item>
-          <div *ngFor="let err of errorMessages.role">
-            <ng-container *ngIf="role.hasError(err.type) && role.touched">
+          <div *ngFor="let err of errorMessages.type">
+            <ng-container *ngIf="type.hasError(err.type) && type.touched">
               <small class="errorMessage">{{ err.message }}</small>
             </ng-container>
           </div>

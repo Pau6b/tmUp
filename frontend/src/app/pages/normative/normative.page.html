@@ -8,33 +8,40 @@
 </ion-header>
 
 <ion-content>
+  <ng-container *ngIf=" hasNormative == true ; else noNormative">
+    <div class="filePlayer" lines="none" (click)="openFile()">
+      <ion-img src="../../../assets/icon/img128.png" *ngIf="f.name.endsWith('jpg') || f.name.endsWith('jpeg') || f.name.endsWith('png')"></ion-img>
+        <ion-img src="../../../assets/icon/doc128.png" *ngIf="f.name.endsWith('.txt') ||  f.name.endsWith('.doc') ||  f.name.endsWith('.docx')"></ion-img>
+        <ion-img src="../../../assets/icon/pdf128.png" *ngIf="f.name.endsWith('.pdf')"></ion-img>
+      <ion-label>{{ f.name }}</ion-label>
+    </div>
+    <div *ngIf="role == 'staff'">
+      <ion-button expand="block" color="danger" (click)="deleteFile()">{{ 'NORMATIVE.deleteFile' | translate }}</ion-button>
+      <ion-button expand="block" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
+    </div>
+  </ng-container>
 
-  <div class="file">
-    <ng-container *ngIf=" isPDF===1 ; else noPDF">
-      <ion-label>{{ 'NORMATIVE.noFile' | translate }}
-      </ion-label>
-    </ng-container>
-
-    <ng-template #noPDF>    
-      <ion-item>
-          <ion-img src="../../../assets/icon/pdf.png"></ion-img>
-        <ion-label>{{ 'NORMATIVE.normativeTitle' | translate }}</ion-label>
-      </ion-item>
-    </ng-template> 
-
-    <ion-button expand="block" color="primary">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
-  </div>
-
-  <ion-item style="white-space:nowrap">
-    <ion-label position="floating">{{ 'NORMATIVE.fileTitle' | translate }}</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
-
-  <ion-item lines="none">
-    <ion-label position="stacked">{{ 'NORMATIVE.norm' | translate }}</ion-label>
-    <ion-textarea rows="7" placeholder="{{ 'NORMATIVE.insertNorm' | translate }}"></ion-textarea>
-  </ion-item>
-
-  <ion-button expand="block" color="primary">{{ 'NORMATIVE.createDoc' | translate }}</ion-button>
   
+  <ng-template #noNormative> 
+    <div class="file">  
+      <ion-label class="danger">{{ 'NORMATIVE.noFile' | translate }}</ion-label>
+    
+      <ion-button expand="block" *ngIf="role == 'staff'" color="primary" (click)="uploadFile()">{{ 'NORMATIVE.uploadFile' | translate }}</ion-button>
+    </div> 
+
+    <form *ngIf="role == 'staff'" [formGroup]="createPdfForm" (ngSubmit)="createPdf()">
+      <ion-item style="white-space:nowrap">
+        <ion-label position="floating">{{ 'NORMATIVE.fileTitle' | translate }}</ion-label>
+        <ion-input type="text" formControlName="title"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">{{ 'NORMATIVE.norm' | translate }}</ion-label>
+        <ion-textarea rows="7" placeholder="{{ 'NORMATIVE.insertNorm' | translate }}" formControlName="content"></ion-textarea>
+      </ion-item>
+
+      <ion-button *ngIf="!hasNormative" expand="block" color="primary" type="submit" [disabled]="!createPdfForm.valid">{{ 'NORMATIVE.createDoc' | translate }}</ion-button>
+      <ion-button *ngIf="hasNormative" expand="block" color="primary" type="submit" [disabled]="!createPdfForm.valid">{{ 'NORMATIVE.replaceDoc' | translate }}</ion-button>
+    </form>
+  </ng-template>
 </ion-content>

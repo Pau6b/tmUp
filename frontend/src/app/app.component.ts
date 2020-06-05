@@ -8,6 +8,7 @@ import { AlertController } from '@ionic/angular';
 
 import { apiRestProvider } from '../providers/apiRest/apiRest';
 import { LanguageService } from 'src/providers/language/language.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,43 +23,63 @@ export class AppComponent implements OnInit {
   data;
   public appPages = [
     {
-      title: 'Inicio',
+      title: 'main',
       url: 'main',
-      icon: 'home'
+      icon: 'home',
+      roles: ["player","staff","physio"]
     },
     {
-      title: 'Normativa',
+      title: 'normative',
       url: 'normative',
-      icon: 'document-text'
+      icon: 'document-text',
+      roles: ["player","staff"]
     },
     {
-      title: 'Tacticas',
+      title: 'tactics',
       url: 'tactics',
-      icon: 'easel'
+      icon: 'easel',
+      roles: ["player","staff"]
     },
     {
-      title: 'Estadísticas',
+      title: 'statistics',
       url: 'statistics',
-      icon: 'bar-chart'
+      icon: 'bar-chart',
+      roles: ["player","staff"]
     },
     {
-      title: 'Chat',
+      title: 'chat',
       url: 'chat',
-      icon: 'chatbubble-ellipses'
+      icon: 'chatbubble-ellipses',
+      roles: ["player","staff","physio"]
     },
     {
-      title: 'Calendario',
+      title: 'calendar',
       url: 'calendar',
-      icon: 'calendar'
+      icon: 'calendar',
+      roles: ["player","staff","physio"]
     },
     {
-      title: 'Fisioterapeuta',
+      title: 'physiotherapist',
       url: 'physiotherapist',
-      icon: 'medkit'
+      icon: 'medkit',
+      roles: ["player","staff","physio"]
+    },
+    {
+      title: 'photos',
+      url: 'photos',
+      icon: 'images',
+      roles: ["player","staff","physio"]
+    },
+    {
+      title: 'fines',
+      url: 'fouls',
+      icon: 'cash',
+      roles: ["player","staff"]
     }
   ];
 
   public team;
+  public role ="";
 
   constructor(
     private alertCtrl: AlertController,
@@ -67,7 +88,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private router: Router
   ) {
     this.initializeApp();
   }
@@ -96,23 +118,46 @@ export class AppComponent implements OnInit {
     }
   }
 
-  async presentConfirm() {
-    this.data = this.apiProv.getMe();
-    const alert = await this.alertCtrl.create({
-      message: 'Log out of' +  this.data.name +'?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Log Out',
-          handler: () => {
-            this.auth.logOut();
+  public setRole(role: string) {
+    this.role = role;
+  }
+
+  gotoMatch() {
+    this.selectedIndex = -15;
+    this.apiProv.getNextMatch().then( (data) => {
+      let event = data[0];
+      event.startTime = new Date(event.startTime);
+      if( this.role == 'player' || (event.startTime.getTime()-new Date().getTime()) > 3600000 ) {
+        //if >1h to match, redirect event page
+        this.router.navigate(['event', event.id]);
+      }
+      else {
+        //if <1h to match, redirect to LiveMatch
+        this.router.navigate(['live-match', {id: event.id, title: event.title}]);
+      }
+    })
+  }
+
+  presentConfirm() {
+    this.apiProv.getMe().subscribe(async (info) => {
+      this.data = info;
+      const alert = await this.alertCtrl.create({
+        message: 'Log out of ' +  this.data.userName +' ?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+          },
+          {
+            text: 'Log Out',
+            handler: () => {
+              this.auth.logOut();
+            }
           }
-        }
-      ]
+        ]
+      });
+      await alert.present(); 
     });
-    await alert.present(); 
   }  
+
 }

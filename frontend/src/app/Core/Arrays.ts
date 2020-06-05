@@ -1,2 +1,2 @@
 export const sports: Array<string> = ['football','basketball', 'handball'];
-export const rols: Array<string> = ['physiotherapist', 'player', 'staff', 'admin'];
+export const rols: Array<string> = ['physio', 'player', 'staff'];

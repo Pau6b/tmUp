@@ -28,6 +28,10 @@ ion-card-content{
   text-align: center;
 }
 
+ion-item {
+  text-align: center;
+}
+
 p {
   text-align: center;
 }
@@ -51,4 +55,74 @@ mark{
 
 .no_noticias {
   background-color: rgba(var(--ion-color-primary-rgb), 0.20);
+  padding: 1px;
+}
+
+.DescriptionText {
+  font-size: 14px;
+  text-align: left;
+}
+
+.RemindersText {
+  font-size: 18px;
+  text-align: left;
+  padding: 1px;
+}
+
+.boldTextLeft {
+  font-weight: bold;
+  text-align: left;
+}
+
+.LeftText{
+  text-align: left;
+  padding-left: 7px;
+}
+
+.spaceBetween{
+  padding: 5px;
+}
+
+.Titles{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.iconBigger{
+  font-size: 20px;
+}
+
+.PaddingButton{
+  padding-left: 20px;
+}
+
+.PaddingItem {
+  padding: 0px;
+  --background: rgba(var(--ion-color-primary-rgb), 0.20);
+}
+
+.PaddingItemHeader {
+  padding: 2px;
+  --background: rgba(var(--ion-color-primary-rgb), 0.20);
+}
+
+.cardNews {
+  padding: 2px;
+  text-align: left;
+  --background: rgb(223, 230, 231);
+}
+
+.newsHeader {
+  font-size: 13px;
+  padding: 3px;
+  text-align: left;
+}
+
+.infoNew{
+  text-align: left;
+  font-style: italic;
+}
+
+.contentNews {
+  padding: 4px;
 }

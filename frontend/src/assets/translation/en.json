@@ -17,7 +17,19 @@
         "editImage": "Edit image",
         "teamName": "Team name",
         "enterTeamId": "Insert team ID",
-        "role": "Role"
+        "role": "Role",
+        "done": "DONE",
+        "cancel": "CANCEL",
+        "IDInform": "Team created. This is your team's ID: "
+    },
+    "ADD-FINE": {
+        "title": "Add fine",
+        "members": "Members",
+        "selectDate": "Select a date",
+        "date": "Date",
+        "select": "Select the members to be fined",
+        "concept": "Concept",
+        "price": "Price"
     },
     "CALENDAR" : {
         "title": "Calendar",
@@ -27,7 +39,8 @@
         "title": "Configuration",
         "help": "Help",
         "about": "About us",
-        "changeLanguage": "Change language"
+        "changeLanguage": "Change language",
+        "teamID": "Team's ID: "
     },
     "CHAT": {
         "title": "Chat",
@@ -36,13 +49,28 @@
     "EDIT-EVENT": {
         "pageName": "Edit event",
         "title": "Title",
-        "deleteEvent": "Delete event"
+        "deleteEvent": "Delete event",
+        "list": "Players list",
+        "start": "Starts",
+        "end": "Finishes",
+        "called_players": "Players",
+        "selected": "You have selected ",
+        "players": "players",
+        "confirmation": "OK?",
+        "no_players": "There's any players in this team yet"
     },
     "EVENT": {
-        "howToGet": "How to get"
-    },
-    "LOCATION-SELECT": {
-        "connectToInternet": "It seems that you have no Interent connection..."
+        "howToGet": "How to get",
+        "info": "Information",
+        "convocados":"Players",
+        "analisi": "Analysis",
+        "fotos": "Photos",
+        "message_no_convocados": "No list created with players yet",
+        "new_list": "Create list",
+        "inform": "Rival Analysis Report",
+        "no_inform": "You don't have a Rival Analysis Report",
+        "lista_convocados": "Called list",
+        "uploadfile": "Upload file"
     },
     "LOGIN": {
         "wrongCombination": "Wrong user and/or passowrd",
@@ -58,17 +86,24 @@
         "registerWithEmail": "Register with email",
         "emailAreadyInUse": "The email is already in use",
         "register": "Resgister",
-        "alreadyHaveAnAccount": "I already have an account"
+        "alreadyHaveAnAccount": "I already have an account",
+        "registered": {
+            "congrats": "Congratulations!",
+            "message": "To enjoy tmUp, validate your email and create or join a team."
+        }
     },
     "NORMATIVE": {
         "title": "Normative",
-        "noFile": "There are no normative filew. Add an existing file or write it down",
+        "noFile": "There are no normative files. Add an existing file or write it down",
+        "noFilePlayer": "Your team has not upload any normative file yet.",
         "normativeTitle": "Normative title",
         "uploadFile": "Upload a file",
+        "deleteFile": "Delete document",
         "fileTitle": "File title",
         "norm": "Rules",
         "insertNorm": "Insert rules here...",
-        "createDoc": "Create document"
+        "createDoc": "Create document",
+        "replaceDoc": "Replace document"
     },
     "TACTICS": {
         "title": "Tactics"
@@ -84,7 +119,132 @@
     "TEAM-LIST": {
         "title": "Team list"
     },
+    "MAIN" :{
+        "title": "Home",
+        "welcome": "Welcome!",
+        "info1": "Enjoy our app for manage your team.",
+        "info2": "You don't have news yet",
+        "info3": "Take a look to the plenty of things you can do with our app!!",
+        "title_calendar": "Add and check events in your calendar",
+        "description_calendar": "Create a calendar with the matches and trainings for the season.",
+        "title_chat": "Chat with your team",
+        "description_chat": "Chat wih your coach and teamplayers to improve your communication.",
+        "title_tactics": "Team tactics",
+        "description_tactics": "Be informed about the tactics of your team.",
+        "title_stadistics": "Statistics of your team and personals",
+        "description_stadistics": "Check the statistics of your team and of yourself.",
+        "info4": "And more things you can do...",
+        "info5": "DISCOVER IT YOURSELF!",
+        "title_reminders": "Reminders",
+        "no_reminders": "You don't have anything programmed yet...",
+        "title_next_match": "Next Match:",
+        "title_next_training": "Next Training:",
+        "day": "Day:",
+        "hour": "Hour:",
+        "title_news": "News",
+        "no_news": "You don't have news yet",
+        "matchAdded": "New match on the day ",
+        "machDeleted": "A match has been removed on ",
+        "matchUpdated": "A match have been updated on ",
+        "trainingAdded": "A training has been added on ",
+        "trainingDeleted": "A training has been removed on ",
+        "tacticaAdded": "A new tactic has been added: ", 
+        "tacticaDeleted" : "A tactic has been removed: ", 
+        "normativaAdded": "A new normative has been added: ",
+        "normativaDeleted": "A normativa has been removed: ",
+        "at": " a les ", 
+        "location": "h. Location: ",
+        "rival": " Rival: "
+    },
+    "FOULS":{
+        "title": "Fines",
+        "total": "Total",
+        "paid": "Paids",
+        "pendings": "Pendings",
+        "team": "Team",
+        "personal": "Selfs"
+    },
+    "MODAL":{
+        "email": "User email",
+        "date": "Date",
+        "concept": "Specific concept"
+    },
+    "LIVE-MATCH": {
+        "start": "Start",
+        "stop": "Stop",
+        "finish": "Finish",
+        "myTeam": "My Team",
+        "otherTeam": "Opponent",
+        "conv": "Called Players",
+        "titu": "Starting line-up",
+        "opponentGoal": "Opponent's goal",
+        "basketball": {
+            "opponentScored": "Opponent scored",
+            "points": "point(s)"
+        },
+        "doneConfirm": "Are you sure?",
+        "selecting": {
+            "selected1": "You selected ",
+            "selected2": " players for starting line-up. Right?"
+        }
+    },
+    "STATISTICS": {
+        "ranking": "Ranking",
+        "title": "Statistics",
+        "selfStatistics": "self statistics",
+        "teamStatistics": "team statistcs",
+        "basketballTeamStats": {
+            "scoredPoints": "Pts scored: ",
+            "receivedPoints": "Pts received: ",
+            "threePointShots": "Three pts: ",
+            "twoPointShots": "Two pts: ",
+            "pointsPerMatch": "points/match"
+        },
+        "footballTeamStats": {
+            "scoredGoals": "Gls scored: ",
+            "receivedGoals": "Gls received: ",
+            "yellowCards": "Yellow cards: ",
+            "redCards": "Red cards: ",
+            "goalsPerMatch": "goals/match",
+            "cardsPerMatch": "cards/match"
+        },
+        "handballTeamStats": {
+            "stops": "Stops: ",
+            "lostBalls": "Lost balls: ",
+            "stopsPerMatch": "stops/match",
+            "ballsPerMatch": "stops/match"
+        }
+    },
+    "RANKING" : {
+        "mostAssists": "Most assists",
+        "mostPointsScored": "Most points scored",
+        "mostRebounds": "Most rebounds",
+        "mostThreePointShots": "Most three point shots",
+        "mostTwoPointShots": "Most two point shots",
+        "mostGoalsScored": "Most goals scored",
+        "mostMinutesPlayed": "Most minutes played",
+        "mostRedCards": "Most red cards",
+        "mostYellowCars": "Most yellow cards",
+        "lostBalls": "Most lost balls",
+        "mostSevenMeters": "Most seven meter goals",
+        "mostStops": "Most stops",
+        "mostTwoMinutes": "Most two minutes"
+    },
+    "PHYSIO": {
+        "title": "Physiotherapists",
+        "noRegister": "There aren't any calendar asociated, sign In and introduce yourl calendar's URL in our APP",
+        "addInfo": "Update your URL",
+        "register": "SIGN IN",
+        "url": "Add a URL",
+        "redirectTo": "Manage your calendar",
+        "noFisios": "Now there aren't any physio registed in this team"
+    },
     "CORE" : {
+        "result": {
+            "won": "Won",
+            "drawed": "Drawed",
+            "lost": "Lost"
+        },
         "sport": "Sport",
         "sports": {
             "basketball": "Basketball",
@@ -92,7 +252,7 @@
             "football": "Football"
         },
         "roles" : {
-            "physiotherapist": "Physiotherapist",
+            "physio": "Physiotherapist",
             "player": "Player",
             "staff": "Staff",
             "admin": "Admin"
@@ -106,7 +266,15 @@
             "done": "Done",
             "edit": "Edit",
             "here": "Here",
-            "delete": "Delete"
+            "delete": "Delete",
+            "yes": "Yes",
+            "no": "No",
+            "deleteTeam": "Delete team"
+        },
+        "deleteText": {
+            "delete": "Delete ",
+            "irreversible": "This action is irreversible. Enter ",
+            "permanent": " below to confirm you want to permanently delete it:"
         },
         "verbs": {
             "from": "From",
@@ -122,7 +290,9 @@
             "calendar": "Calendar",
             "physiotherapist": "Physiotherapist",
             "nextMatch": "Next match",
-            "profile": "Profile" 
+            "profile": "Profile" ,
+            "photos": "Pictures",
+            "fouls": "Fines"
         }
     }
 }

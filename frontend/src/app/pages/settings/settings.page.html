@@ -17,6 +17,7 @@
         </ion-select-option>
       </ion-select>
     </ion-item>
+    <!--
     <ion-item>
       <ion-icon name="help-circle" slot="end"></ion-icon>
       <ion-label>{{ 'SETTINGS.help' | translate }}</ion-label>
@@ -25,5 +26,21 @@
       <ion-icon name="information-circle" slot="end"></ion-icon>
       <ion-label>{{ 'SETTINGS.about' | translate }}</ion-label>
     </ion-item>
+    -->
+    <ion-item>
+      <ion-col>
+        <ion-label>{{ 'SETTINGS.teamID' | translate }}</ion-label>
+        <ion-row>
+          <ion-label>{{ teamID }}</ion-label>
+        </ion-row>
+      </ion-col>
+      <ion-icon slot="end" name="copy" (click)="copyID()"></ion-icon>
+    </ion-item>
+
   </ion-list>
+  
 </ion-content>
+
+<div *ngIf="role == 'staff' || role == 'admin'" class="bottomButton">
+  <ion-button (click)="deleteTeam()" color="danger" expand="block"> {{ 'CORE.actions.deleteTeam' | translate }}</ion-button>
+</div>

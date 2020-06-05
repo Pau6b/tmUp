@@ -7,6 +7,8 @@ import { FormBuilder, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service'
 import { PhotoService } from '../../services/photo.service'
 import { Router } from '@angular/router';
+import { apiRestProvider } from 'src/providers/apiRest/apiRest';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
@@ -19,13 +21,14 @@ export class RegisterPage implements OnInit {
   myPhoto: any;
 
   public constructor(
-    public navCtrl: NavController,
-    public menuCtrl: MenuController,
-    public formBuilder: FormBuilder,
-    public authService: AuthService,
-    public photoService: PhotoService,
+    private menuCtrl: MenuController,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private photoService: PhotoService,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    private apiProv: apiRestProvider,
+    private translateServ: TranslateService
     ) { }
  
   //declarar formulario
@@ -80,7 +83,18 @@ export class RegisterPage implements OnInit {
     this.authService.signUpUser(this.registerForm.value)
     .then((user) => {
       this.emailUsed = false;
-      this.presentAlert('¡Felicidades!', 'Para disfrutar de las ventajas de tmUp, valida tu cuenta con el correo que te hemos enviado y crea o únete a un equipo.')
+      user.user.updateProfile ({
+        displayName: this.registerForm.get('userName').value
+      });
+      this.apiProv.setUser(this.registerForm.get('email').value);
+      //xa is the token
+      this.apiProv.setToken(user.user.xa);
+      this.translateServ.get("REGISTER.registered").subscribe(
+        value => {
+          this.presentAlert( value.congrats, value.message);
+        }
+      )
+      
     },
     (error) => {
       this.emailUsed = true;
@@ -88,7 +102,9 @@ export class RegisterPage implements OnInit {
   }
   
   public cameraOptions() {
-    this.photoService.alertSheetPictureOptions();
+    this.photoService.selectMedia("profile_images", this.registerForm.get('email').value).then( (urlImage) => {
+      this.myPhoto = urlImage[0].url;
+    });
   }
 
   public async presentAlert(header, message) {

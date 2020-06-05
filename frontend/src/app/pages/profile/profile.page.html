@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary" mode="ios">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -14,9 +14,11 @@
         <ion-avatar class="avatarIcon">
           <img src="{{ myPhoto }}" onerror=" src = '../../../assets/icon/avatar.svg'">
         </ion-avatar>
+        <!-- para editar foto perfil
         <ion-item  lines="none" class="ion-text-center">
           <ion-label (click)="cameraOptions()" class="smallText">{{ 'PROFILE.editImage' | translate }}</ion-label>
         </ion-item>
+        -->
         <br>
         <ion-item>
           <ion-label position="floating">{{ 'PROFILE.name' | translate }}</ion-label>
@@ -30,7 +32,7 @@
         <br>
         <ion-item>
           <ion-label position="floating">{{ 'PROFILE.email' | translate }}</ion-label>
-          <ion-input type="email" formControlName="email" (click)="onInputClick()"></ion-input>
+          <ion-input type="email" formControlName="email" ></ion-input>
         </ion-item>
         <div *ngFor="let err of errorMessages.email">
           <ng-container *ngIf="email.hasError(err.type) && email.touched">
@@ -42,8 +44,8 @@
           <ion-label class="textPWD" (click)="presentConfirm()">{{ 'PROFILE.changePassword' | translate }}</ion-label>
         </ion-item>
         <br>
-        <div >
-          <ion-button *ngIf="InputClick" type="submit" expand="block">{{ 'PROFILE.updateProfile' | translate }}</ion-button>
+        <div>
+          <ion-button (click)="updateProfileUser()" disabled = "{{!InputClick}}" type="submit" expand="block">{{ 'PROFILE.updateProfile' | translate }}</ion-button>
         </div>
         <br>
         <br>
@@ -51,3 +53,7 @@
     </form>
   </ion-card>
 </ion-content>
+
+<div class="bottomButton">
+  <ion-button (click)="deleteUser()" color="danger" expand="block"> {{ 'CORE.actions.delete' | translate }}</ion-button>
+</div>

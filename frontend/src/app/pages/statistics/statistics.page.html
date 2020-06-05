@@ -1,0 +1,52 @@
+<ion-header [translucent]="true" class="ion-text-center">
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ "STATISTICS.title" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-toolbar>
+  <ion-segment value="self" [(ngModel)]="statisticsType">
+    <ion-segment-button value="self">
+      <ion-label>{{ "STATISTICS.selfStatistics" | translate }}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="team">
+      <ion-label>{{ "STATISTICS.teamStatistics" | translate }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+<ion-content>
+    <div *ngIf="statisticsType === 'self'">
+      <ion-label>
+        <ion-select (ionChange)="onPlayerChanged()" placeholder="{{userName}}" [(ngModel)]="selectedUser" >
+          <ion-select-option *ngFor="let player of teamPlayersKeys" value ={{player}}>
+            {{player}}
+          </ion-select-option>
+        </ion-select>
+      </ion-label>
+
+      <app-self-basketball *ngIf="sport === 'basketball'" [stats]="userStats">
+      </app-self-basketball>
+
+      <app-self-handball *ngIf="sport === 'handball'" [stats]="userStats">
+      </app-self-handball>
+
+      <app-self-football *ngIf="sport ==='football'" [stats]="userStats">
+      </app-self-football>
+      
+    </div>
+  <div *ngIf="statisticsType === 'team'">
+    <app-team-basketball *ngIf="sport === 'basketball'">
+    </app-team-basketball>
+
+    <app-team-handball *ngIf="sport === 'handball'">
+    </app-team-handball>
+
+    <app-team-football #TeamFootball *ngIf="sport ==='football'">
+    </app-team-football>
+    <div style="text-align: center; margin-top: 3px">
+      <ion-button (click)='goToRanking()' style="text-align: center;"> {{ "STATISTICS.ranking" | translate }} </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -47,7 +47,7 @@ ion-card-title {
 
 .form {
     margin: 0;
-    padding: 0em 1.5em;
+    padding: 1.5em 1.5em;
 }
 
 ion-list {
@@ -68,11 +68,9 @@ ion-item {
 
 ion-avatar {
     cursor: pointer;
-    height: 100% !important;
+    height: 4em !important;
     margin: 0 auto;
-    max-height: 4em !important;
-    max-width: 4em !important;
-    width: 100% !important;
+    width: 4em !important;
 }
 
 ion-input {

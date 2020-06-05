@@ -1,0 +1,165 @@
+<div *ngIf='stats.lostBalls.id != 0'>
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/handball/lostBalls.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.lostBalls" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/handball/lostBalls.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.lostBalls.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.lostBalls.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.goalsScored.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/handball/myTeamGoal.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostGoalsScored" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/handball/myTeamGoal.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.goalsScored.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.goalsScored.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.sevenMeters.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo" >
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/handball/7m.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostSevenMeters" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/handball/7m.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.sevenMeters.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.sevenMeters.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.stops.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/handball/stoppedGoal.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{"RANKING.mostStops" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/handball/stoppedGoal.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.stops.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.stops.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>
+<div *ngIf="stats.twoMinutes.id != 0">
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="titulo">
+        <ion-col size="2">
+          <img src="../../../../../assets/liveMatchIcons/handball/2min.png">
+        </ion-col>
+        <ion-col size="10">
+          <h1>
+            {{ "RANKING.mostTwoMinutes" | translate }}
+          </h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img src="../../../../../assets/liveMatchIcons/handball/2min.png">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="7" class="largeText">
+          <a>
+            {{stats.twoMinutes.userName}}
+          </a>
+        </ion-col>
+        <ion-col class="number largeText" size="2">
+          <a>
+            {{stats.twoMinutes.points}}
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</div>

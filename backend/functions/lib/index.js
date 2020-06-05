@@ -29,8 +29,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /* --- before all requests --- */
 app.use((req, res, next) => {
     (async () => {
-        if (req.path != '/login') {
-            if (req.headers.authorization == null) {
+        if (req.path !== '/login') {
+            if (req.headers.authorization === null) {
                 return res.status(401).send("You must send a token to authentificate");
             }
             let isLogged = false;
@@ -78,10 +78,11 @@ const chatsHandler = require('./Teams/Chats/Chats');
 app.use('/chats', chatsHandler);
 const messagesHandler = require('./Teams/Messages/Messages');
 app.use('/teams/messages', messagesHandler);
-/* --- end of routes --- */
-exports.app = functions.https.onRequest(app);
+const noticiesHandler = require('./Teams/Noticies/Noticies');
+app.use('/teams/noticies', noticiesHandler);
+exports.app = functions.region('europe-west1').https.onRequest(app);
 const db = admin.firestore();
-exports.onUserCreate = functions.auth.user().onCreate((user) => {
+exports.onUserCreate = functions.region('europe-west1').auth.user().onCreate((user) => {
     (async () => {
         try {
             await db.collection('users').doc('/' + user.email + '/')
@@ -97,5 +98,5 @@ exports.onUserCreate = functions.auth.user().onCreate((user) => {
 /*
 exports.onUserDelete = functions.auth.user().onDelete((user) => {
 });
-*/ 
+*/
 //# sourceMappingURL=index.js.map

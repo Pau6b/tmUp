@@ -1,0 +1,43 @@
+<ion-card>
+    <ion-card-content>
+        <canvas #stackCanvas></canvas>
+    </ion-card-content>
+</ion-card>
+<div *ngIf="show">
+<div cards>
+  <div class="grid-full">
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          {{ "STATISTICS.basketballTeamStats.scoredPoints" | translate }} {{stats.pointsScored}}
+        <h2>{{(stats.pointsScored / nmatches).toFixed(2)}}</h2>
+        {{ "STATISTICS.basketballTeamStats.pointsPerMatch" | translate }}
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          {{ "STATISTICS.basketballTeamStats.receivedPoints" | translate }} {{stats.pointsReceived}}
+        <h2>{{(stats.pointsReceived / nmatches).toFixed(2)}}</h2>
+        {{ "STATISTICS.basketballTeamStats.pointsPerMatch" | translate }}
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col >
+        <ion-card>
+          {{ "STATISTICS.basketballTeamStats.threePointShots" | translate }} {{stats.threePointShots}}
+        <h2>{{(stats.threePointShots / nmatches).toFixed(2)}}</h2>
+        {{ "STATISTICS.basketballTeamStats.pointsPerMatch" | translate }}
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          {{ "STATISTICS.basketballTeamStats.twoPointShots" | translate }} {{stats.twoPointShots}}
+        <h2>{{(stats.twoPointShots / nmatches).toFixed(2)}}</h2>
+        {{ "STATISTICS.basketballTeamStats.pointsPerMatch" | translate }}
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+  </div>
+</div>

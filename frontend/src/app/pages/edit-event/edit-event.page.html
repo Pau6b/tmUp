@@ -3,44 +3,75 @@
     <ion-buttons slot="start">
       <ion-back-button [icon]="null">{{'CORE.actions.cancel' | translate}}</ion-back-button>
     </ion-buttons>
-    <ion-title>{{'EDIT-EVENT.pageName' | translate}}</ion-title>
-    <ion-buttons slot="end">
+    <ion-title *ngIf="segmentModel === 'info'">{{'EDIT-EVENT.pageName' | translate}}</ion-title>
+    <ion-buttons *ngIf="segmentModel === 'info'" slot="end">
       <ion-button [disabled]="!editEventForm.valid" (click)="onDone()">{{'CORE.actions.done' | translate}}</ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="segmentModel === 'players'">{{ 'EDIT-EVENT.list' | translate }}</ion-title>
+    <ion-buttons *ngIf="segmentModel === 'players'" slot="end">
+      <ion-button (click)="onDoneList()">{{'CORE.actions.done' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="editEventForm">
+
+  <div *ngIf="segmentModel === 'info'">
+    <form [formGroup]="editEventForm">
+      <ion-list>
+        <ion-item>
+          <ion-input type="text" placeholder="{{'EDIT-EVENT.title' | translate}}" formControlName="title"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="event.type === 'match'">
+          <ion-input type="text" placeholder="{{'ADD-EVENT.otherTeam' | translate}}" formControlName="rival"></ion-input>
+        </ion-item>
+
+        <ion-item (click)="launchLocationPage()" formGroupName="location">
+          <ion-input type="search" placeholder="{{'ADD-EVENT.location' | translate}}" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ 'EDIT-EVENT.start' | translate }}</ion-label>
+          <ion-datetime displayFormat="D MMM H:mm" formControlName="startTime" minuteValues="0,15,30,45,50,55" (ionChange)="dateChanged($event)"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{ 'EDIT-EVENT.end' | translate }}</ion-label>
+          <ion-datetime displayFormat="H:mm" formControlName="endTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
+        </ion-item>
+
+        <ion-item *ngIf="event.type === 'training'">
+          <ion-textarea rows="6" placeholder="{{'ADD-EVENT.addExercises' | translate}}" formControlName="description"></ion-textarea>
+        </ion-item>
+
+      </ion-list>
+      
+      <ion-button class="bottomButton" expand="block" color="danger" (click)="deleteEvent()">{{'EDIT-EVENT.deleteEvent' | translate}}</ion-button>
+    </form>
+  </div>
+
+
+  <div *ngIf="segmentModel === 'players'">
     <ion-list>
-      <ion-item>
-        <ion-input type="text" placeholder="{{'EDIT-EVENT.title' | translate}}" formControlName="title"></ion-input>
-      </ion-item>
-
-      <ion-item *ngIf="event.type === 'match'">
-        <ion-input type="text" placeholder="{{'ADD-EVENT.otherTeam' | translate}}" formControlName="rival"></ion-input>
-      </ion-item>
-
-      <ion-item (click)="launchLocationPage()" formGroupName="location">
-        <ion-input type="search" placeholder="{{'ADD-EVENT.location' | translate}}" formControlName="name"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Empieza</ion-label>
-        <ion-datetime displayFormat="D MMM H:mm" formControlName="startTime" minuteValues="0,15,30,45,50,55" (ionChange)="dateChanged($event)"></ion-datetime>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>Acaba</ion-label>
-        <ion-datetime displayFormat="H:mm" formControlName="endTime" minuteValues="0,15,30,45,50,55"></ion-datetime>
-      </ion-item>
-
-      <ion-item *ngIf="event.type === 'training'">
-        <ion-textarea rows="6" placeholder="{{'ADD-EVENT.addExercises' | translate}}" formControlName="description"></ion-textarea>
-      </ion-item>
-
+      <div *ngIf="membershipTeam.length == 0">
+        <div class="centerText">
+          <p> {{ 'EDIT-EVENT.no_players' | translate }}</p>
+        </div>
+      </div>
+      <div *ngIf="membershipTeam.length != 0">
+        <ion-item *ngFor="let member of membershipTeam">
+          <ion-label>{{ member.name }}</ion-label>
+          <ion-checkbox slot="end" [(ngModel)]="member.isChecked" (click)="anySelectedItem()"></ion-checkbox>
+        </ion-item>
+      </div>
     </ion-list>
-    
-    <ion-button class="bottomButton" expand="block" color="danger" (click)="deleteEvent()">{{'EDIT-EVENT.deleteEvent' | translate}}</ion-button>
-  </form>
+  </div>
+
+
+  <div *ngIf="segmentModel === 'analisi'">
+
+  </div>
+
+  
 </ion-content>

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 
-import { ActionSheetController, MenuController } from '@ionic/angular';
-
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { PhotoService } from 'src/app/services/photo.service';
+import { DeleteAlertService } from 'src/app/services/delete-alert.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,13 +20,14 @@ export class ProfilePage implements OnInit {
   profileInfo;
 
   public  constructor(
-    public formBuilder: FormBuilder,
-    public apiProv: apiRestProvider,
-    public camera: Camera,
-    public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController,
-    public authService: AuthService,
-    private photoServ: PhotoService
+    private formBuilder: FormBuilder,
+    private apiProv: apiRestProvider,
+    private alertCtrl: AlertController,
+    private authService: AuthService,
+    private photoServ: PhotoService,
+    private deleteAlert: DeleteAlertService,
+    private storageServ: StorageService,
+    private authServ: AuthService
   ) { }
 
   public ngOnInit() {
@@ -37,6 +37,13 @@ export class ProfilePage implements OnInit {
         this.profileInfo = data;
         this.updateForm.patchValue({userName: this.profileInfo.userName});
         this.updateForm.patchValue({email: this.profileInfo.email});
+        this.updateForm.controls['email'].disable();
+
+        this.storageServ.getAFile("profile_images", this.profileInfo.email).then(result => {
+          result.items.forEach(async ref => {
+            this.myPhoto = await ref.getDownloadURL();
+          });
+        })
       });
   }
 
@@ -73,15 +80,14 @@ export class ProfilePage implements OnInit {
 
   //submit update form
   public updateProfileUser() {
-    this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.updateForm.get('email').value)
+    this.apiProv.updateProfileInfo(this.updateForm.get('userName').value, this.profileInfo.email)
   }
 
   //Camera options
   public async cameraOptions() {
-    this.photoServ.alertSheetPictureOptions()
-    .then( (photo) => {
-      this.myPhoto = photo;
-    })
+    this.photoServ.selectMedia("profile_images", this.profileInfo.email).then( (urlImage) => {
+      this.myPhoto = urlImage[0].url;
+    });
   }
 
   public onInputClick() {
@@ -92,7 +98,7 @@ export class ProfilePage implements OnInit {
 
   public async presentConfirm() {
     const alert = await this.alertCtrl.create({
-      message: 'Recibirá un correo electrónico en (correo electronico) para realizar el cambio de contraseña. ',
+      message: 'Recibirá un correo electrónico en ' + this.profileInfo.email + ' para realizar el cambio de contraseña. ',
       buttons: [
         {
           text: 'Cancelar',
@@ -108,4 +114,17 @@ export class ProfilePage implements OnInit {
     });
     await alert.present(); 
   }
+
+  deleteUser() {
+    this.deleteAlert.showConfirm("user", this.profileInfo.userName).then((res) => {
+      if(res) {
+        //delete User, logout, redirect to login
+        this.apiProv.deleteUser(this.profileInfo.email).then(() => {
+          this.storageServ.deleteUserFiles(this.profileInfo.email);
+          this.authServ.logOut();
+        })
+      }
+    })
+  }
+
 }

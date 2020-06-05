@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, LoadingController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { apiRestProvider } from '../../../providers/apiRest/apiRest';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
@@ -15,28 +15,28 @@ export class TeamListPage implements OnInit {
   me;
 
   constructor(
-    public apiProv: apiRestProvider,
-    public router: Router,
-    public menuCtrl: MenuController,
-    public loadCtrl: LoadingController,
-    public appComponent: AppComponent
+    private apiProv: apiRestProvider,
+    private router: Router,
+    private appComponent: AppComponent,
     ) { }
 
   ngOnInit() {
+    
+   }
+  
+  ionViewWillEnter(){
     setTimeout( () => {
       this.initialize();
-    }, 1000);
-   }
+    }, 100);
+  }
    
   async initialize() {
-    const loading = await this.loadCtrl.create();
-
-    loading.present();
-    
     this.apiProv.getUserTeams()
     .subscribe( (data) => { 
       this.teamList = data;
-      loading.dismiss();
+    },
+    (error) => {
+      this.teamList = [];
     });
   }
 
@@ -44,10 +44,23 @@ export class TeamListPage implements OnInit {
     this.router.navigate(['add-team']);
   }
 
-  goToHomePage(team: string){
-    this.apiProv.setTeam(team);
-    this.appComponent.updateTeam();
-    this.router.navigate(['/main']);
+  async goToHomePage(team: any){
+    this.apiProv.setTeam(team.id);
+    (await this.apiProv.getCurrentUserRole()).subscribe((role) => {
+      this.appComponent.setRole(role);
+      this.appComponent.updateTeam();
+      this.router.navigate(['/main']);
+    })
+  }
+
+  logOut() {
+    this.appComponent.presentConfirm();
+  }
+
+  deleteMembership(team: any) {
+    this.apiProv.deleteMembership(team.id).then(() => {
+      this.initialize();
+    })
   }
 
 }

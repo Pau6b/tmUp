@@ -1,0 +1,39 @@
+<ion-item [hidden]="true">
+  <ion-label>Points</ion-label>
+  <ion-select #pointsList [(ngModel)]="opPoints" (ionChange)="onOpponentPoints()">
+    <ion-select-option *ngFor="let p of pointsValue" [value]="p"> {{ p }}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item [hidden]="true">
+  <ion-label>{{ "LIVE-MATCH.titu" | translate }}</ion-label>
+  <ion-select #TitularsList [(ngModel)]="selectedPlayer" (ionChange)="onChange()">
+    <ion-select-option *ngFor="let titu of titulars" [value]="titu"> {{ titu.name }}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/basketball/1point.png" alt="1point" (click)="onePoint()">
+    </ion-col>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/basketball/assists.png" alt="assist" (click)="assist()">
+    </ion-col>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/basketball/opponentScored.png" alt="opponentScored" (click)="onOpScored()">
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/basketball/2points.png" alt="2points" (click)="twoPoints()">
+    </ion-col>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/basketball/3points.png" alt="3points" (click)="threePoints()">
+    </ion-col>
+    <ion-col>
+      <img src="../../../../../assets/liveMatchIcons/basketball/rebound.png" alt="rebound" (click)="rebound()">
+    </ion-col>
+  </ion-row>
+</ion-grid>
